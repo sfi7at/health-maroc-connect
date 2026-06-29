@@ -119,12 +119,16 @@ export const trackNotificationEvent = createServerFn({ method: "POST" })
       event_type: data.event_type,
       metadata: data.metadata ?? null,
     });
-    const patch: Record<string, unknown> = {};
+    const patch: {
+      opened_at?: string;
+      clicked_at?: string;
+      status?: "delivered" | "opened" | "clicked" | "failed";
+    } = {};
     if (data.event_type === "opened") { patch.opened_at = new Date().toISOString(); patch.status = "opened"; }
     if (data.event_type === "clicked") { patch.clicked_at = new Date().toISOString(); patch.status = "clicked"; }
     if (data.event_type === "delivered") patch.status = "delivered";
     if (data.event_type === "failed") patch.status = "failed";
-    if (Object.keys(patch).length) {
+    if (Object.keys(patch).length > 0) {
       await supabase.from("notifications").update(patch).eq("id", data.notification_id).eq("user_id", userId);
     }
     return { ok: true };
