@@ -92,6 +92,7 @@ import { Route as AuthenticatedAdminMasterDataRouteImport } from './routes/_auth
 import { Route as AuthenticatedAdminLogsRouteImport } from './routes/_authenticated/admin.logs'
 import { Route as AuthenticatedAdminImportsRouteImport } from './routes/_authenticated/admin.imports'
 import { Route as AuthenticatedAdminImportRouteImport } from './routes/_authenticated/admin.import'
+import { Route as AuthenticatedAdminFaqsRouteImport } from './routes/_authenticated/admin.faqs'
 import { Route as AuthenticatedAdminEditsRouteImport } from './routes/_authenticated/admin.edits'
 import { Route as AuthenticatedAdminClaimsRouteImport } from './routes/_authenticated/admin.claims'
 import { Route as AuthenticatedAdminCitiesRouteImport } from './routes/_authenticated/admin.cities'
@@ -554,6 +555,11 @@ const AuthenticatedAdminImportRoute =
     path: '/import',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminFaqsRoute = AuthenticatedAdminFaqsRouteImport.update({
+  id: '/faqs',
+  path: '/faqs',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const AuthenticatedAdminEditsRoute = AuthenticatedAdminEditsRouteImport.update({
   id: '/edits',
   path: '/edits',
@@ -683,6 +689,7 @@ export interface FileRoutesByFullPath {
   '/admin/cities': typeof AuthenticatedAdminCitiesRoute
   '/admin/claims': typeof AuthenticatedAdminClaimsRoute
   '/admin/edits': typeof AuthenticatedAdminEditsRoute
+  '/admin/faqs': typeof AuthenticatedAdminFaqsRoute
   '/admin/import': typeof AuthenticatedAdminImportRoute
   '/admin/imports': typeof AuthenticatedAdminImportsRoute
   '/admin/logs': typeof AuthenticatedAdminLogsRoute
@@ -777,6 +784,7 @@ export interface FileRoutesByTo {
   '/admin/cities': typeof AuthenticatedAdminCitiesRoute
   '/admin/claims': typeof AuthenticatedAdminClaimsRoute
   '/admin/edits': typeof AuthenticatedAdminEditsRoute
+  '/admin/faqs': typeof AuthenticatedAdminFaqsRoute
   '/admin/import': typeof AuthenticatedAdminImportRoute
   '/admin/imports': typeof AuthenticatedAdminImportsRoute
   '/admin/logs': typeof AuthenticatedAdminLogsRoute
@@ -875,6 +883,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/cities': typeof AuthenticatedAdminCitiesRoute
   '/_authenticated/admin/claims': typeof AuthenticatedAdminClaimsRoute
   '/_authenticated/admin/edits': typeof AuthenticatedAdminEditsRoute
+  '/_authenticated/admin/faqs': typeof AuthenticatedAdminFaqsRoute
   '/_authenticated/admin/import': typeof AuthenticatedAdminImportRoute
   '/_authenticated/admin/imports': typeof AuthenticatedAdminImportsRoute
   '/_authenticated/admin/logs': typeof AuthenticatedAdminLogsRoute
@@ -973,6 +982,7 @@ export interface FileRouteTypes {
     | '/admin/cities'
     | '/admin/claims'
     | '/admin/edits'
+    | '/admin/faqs'
     | '/admin/import'
     | '/admin/imports'
     | '/admin/logs'
@@ -1067,6 +1077,7 @@ export interface FileRouteTypes {
     | '/admin/cities'
     | '/admin/claims'
     | '/admin/edits'
+    | '/admin/faqs'
     | '/admin/import'
     | '/admin/imports'
     | '/admin/logs'
@@ -1164,6 +1175,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/cities'
     | '/_authenticated/admin/claims'
     | '/_authenticated/admin/edits'
+    | '/_authenticated/admin/faqs'
     | '/_authenticated/admin/import'
     | '/_authenticated/admin/imports'
     | '/_authenticated/admin/logs'
@@ -1808,6 +1820,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminImportRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/faqs': {
+      id: '/_authenticated/admin/faqs'
+      path: '/faqs'
+      fullPath: '/admin/faqs'
+      preLoaderRoute: typeof AuthenticatedAdminFaqsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/edits': {
       id: '/_authenticated/admin/edits'
       path: '/edits'
@@ -1904,6 +1923,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminCitiesRoute: typeof AuthenticatedAdminCitiesRoute
   AuthenticatedAdminClaimsRoute: typeof AuthenticatedAdminClaimsRoute
   AuthenticatedAdminEditsRoute: typeof AuthenticatedAdminEditsRoute
+  AuthenticatedAdminFaqsRoute: typeof AuthenticatedAdminFaqsRoute
   AuthenticatedAdminImportRoute: typeof AuthenticatedAdminImportRoute
   AuthenticatedAdminImportsRoute: typeof AuthenticatedAdminImportsRoute
   AuthenticatedAdminLogsRoute: typeof AuthenticatedAdminLogsRoute
@@ -1929,6 +1949,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminCitiesRoute: AuthenticatedAdminCitiesRoute,
   AuthenticatedAdminClaimsRoute: AuthenticatedAdminClaimsRoute,
   AuthenticatedAdminEditsRoute: AuthenticatedAdminEditsRoute,
+  AuthenticatedAdminFaqsRoute: AuthenticatedAdminFaqsRoute,
   AuthenticatedAdminImportRoute: AuthenticatedAdminImportRoute,
   AuthenticatedAdminImportsRoute: AuthenticatedAdminImportsRoute,
   AuthenticatedAdminLogsRoute: AuthenticatedAdminLogsRoute,
