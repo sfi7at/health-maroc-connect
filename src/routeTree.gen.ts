@@ -94,6 +94,7 @@ import { Route as AuthenticatedAdminReportsRouteImport } from './routes/_authent
 import { Route as AuthenticatedAdminQualityRouteImport } from './routes/_authenticated/admin.quality'
 import { Route as AuthenticatedAdminProvidersRouteImport } from './routes/_authenticated/admin.providers'
 import { Route as AuthenticatedAdminNotificationsRouteImport } from './routes/_authenticated/admin.notifications'
+import { Route as AuthenticatedAdminMonitoringRouteImport } from './routes/_authenticated/admin.monitoring'
 import { Route as AuthenticatedAdminMasterDataRouteImport } from './routes/_authenticated/admin.master-data'
 import { Route as AuthenticatedAdminLogsRouteImport } from './routes/_authenticated/admin.logs'
 import { Route as AuthenticatedAdminImportsRouteImport } from './routes/_authenticated/admin.imports'
@@ -573,6 +574,12 @@ const AuthenticatedAdminNotificationsRoute =
     path: '/notifications',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminMonitoringRoute =
+  AuthenticatedAdminMonitoringRouteImport.update({
+    id: '/monitoring',
+    path: '/monitoring',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminMasterDataRoute =
   AuthenticatedAdminMasterDataRouteImport.update({
     id: '/master-data',
@@ -763,6 +770,7 @@ export interface FileRoutesByFullPath {
   '/admin/imports': typeof AuthenticatedAdminImportsRoute
   '/admin/logs': typeof AuthenticatedAdminLogsRoute
   '/admin/master-data': typeof AuthenticatedAdminMasterDataRoute
+  '/admin/monitoring': typeof AuthenticatedAdminMonitoringRoute
   '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/admin/providers': typeof AuthenticatedAdminProvidersRoute
   '/admin/quality': typeof AuthenticatedAdminQualityRoute
@@ -868,6 +876,7 @@ export interface FileRoutesByTo {
   '/admin/imports': typeof AuthenticatedAdminImportsRoute
   '/admin/logs': typeof AuthenticatedAdminLogsRoute
   '/admin/master-data': typeof AuthenticatedAdminMasterDataRoute
+  '/admin/monitoring': typeof AuthenticatedAdminMonitoringRoute
   '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/admin/providers': typeof AuthenticatedAdminProvidersRoute
   '/admin/quality': typeof AuthenticatedAdminQualityRoute
@@ -977,6 +986,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/imports': typeof AuthenticatedAdminImportsRoute
   '/_authenticated/admin/logs': typeof AuthenticatedAdminLogsRoute
   '/_authenticated/admin/master-data': typeof AuthenticatedAdminMasterDataRoute
+  '/_authenticated/admin/monitoring': typeof AuthenticatedAdminMonitoringRoute
   '/_authenticated/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/_authenticated/admin/providers': typeof AuthenticatedAdminProvidersRoute
   '/_authenticated/admin/quality': typeof AuthenticatedAdminQualityRoute
@@ -1086,6 +1096,7 @@ export interface FileRouteTypes {
     | '/admin/imports'
     | '/admin/logs'
     | '/admin/master-data'
+    | '/admin/monitoring'
     | '/admin/notifications'
     | '/admin/providers'
     | '/admin/quality'
@@ -1191,6 +1202,7 @@ export interface FileRouteTypes {
     | '/admin/imports'
     | '/admin/logs'
     | '/admin/master-data'
+    | '/admin/monitoring'
     | '/admin/notifications'
     | '/admin/providers'
     | '/admin/quality'
@@ -1299,6 +1311,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/imports'
     | '/_authenticated/admin/logs'
     | '/_authenticated/admin/master-data'
+    | '/_authenticated/admin/monitoring'
     | '/_authenticated/admin/notifications'
     | '/_authenticated/admin/providers'
     | '/_authenticated/admin/quality'
@@ -1963,6 +1976,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminNotificationsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/monitoring': {
+      id: '/_authenticated/admin/monitoring'
+      path: '/monitoring'
+      fullPath: '/admin/monitoring'
+      preLoaderRoute: typeof AuthenticatedAdminMonitoringRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/master-data': {
       id: '/_authenticated/admin/master-data'
       path: '/master-data'
@@ -2148,6 +2168,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminImportsRoute: typeof AuthenticatedAdminImportsRoute
   AuthenticatedAdminLogsRoute: typeof AuthenticatedAdminLogsRoute
   AuthenticatedAdminMasterDataRoute: typeof AuthenticatedAdminMasterDataRoute
+  AuthenticatedAdminMonitoringRoute: typeof AuthenticatedAdminMonitoringRoute
   AuthenticatedAdminNotificationsRoute: typeof AuthenticatedAdminNotificationsRoute
   AuthenticatedAdminProvidersRoute: typeof AuthenticatedAdminProvidersRoute
   AuthenticatedAdminQualityRoute: typeof AuthenticatedAdminQualityRoute
@@ -2177,6 +2198,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminImportsRoute: AuthenticatedAdminImportsRoute,
   AuthenticatedAdminLogsRoute: AuthenticatedAdminLogsRoute,
   AuthenticatedAdminMasterDataRoute: AuthenticatedAdminMasterDataRoute,
+  AuthenticatedAdminMonitoringRoute: AuthenticatedAdminMonitoringRoute,
   AuthenticatedAdminNotificationsRoute: AuthenticatedAdminNotificationsRoute,
   AuthenticatedAdminProvidersRoute: AuthenticatedAdminProvidersRoute,
   AuthenticatedAdminQualityRoute: AuthenticatedAdminQualityRoute,
