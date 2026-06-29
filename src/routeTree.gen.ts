@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PharmaciesRouteImport } from './routes/pharmacies'
 import { Route as DoctorsRouteImport } from './routes/doctors'
+import { Route as BloodRouteImport } from './routes/blood'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PharmaciesOnDutyRouteImport } from './routes/pharmacies.on-duty'
 import { Route as DoctorsIdRouteImport } from './routes/doctors.$id'
@@ -23,6 +24,11 @@ const PharmaciesRoute = PharmaciesRouteImport.update({
 const DoctorsRoute = DoctorsRouteImport.update({
   id: '/doctors',
   path: '/doctors',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BloodRoute = BloodRouteImport.update({
+  id: '/blood',
+  path: '/blood',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -43,6 +49,7 @@ const DoctorsIdRoute = DoctorsIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/blood': typeof BloodRoute
   '/doctors': typeof DoctorsRouteWithChildren
   '/pharmacies': typeof PharmaciesRouteWithChildren
   '/doctors/$id': typeof DoctorsIdRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/blood': typeof BloodRoute
   '/doctors': typeof DoctorsRouteWithChildren
   '/pharmacies': typeof PharmaciesRouteWithChildren
   '/doctors/$id': typeof DoctorsIdRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/blood': typeof BloodRoute
   '/doctors': typeof DoctorsRouteWithChildren
   '/pharmacies': typeof PharmaciesRouteWithChildren
   '/doctors/$id': typeof DoctorsIdRoute
@@ -67,15 +76,23 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/blood'
     | '/doctors'
     | '/pharmacies'
     | '/doctors/$id'
     | '/pharmacies/on-duty'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/doctors' | '/pharmacies' | '/doctors/$id' | '/pharmacies/on-duty'
+  to:
+    | '/'
+    | '/blood'
+    | '/doctors'
+    | '/pharmacies'
+    | '/doctors/$id'
+    | '/pharmacies/on-duty'
   id:
     | '__root__'
     | '/'
+    | '/blood'
     | '/doctors'
     | '/pharmacies'
     | '/doctors/$id'
@@ -84,6 +101,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BloodRoute: typeof BloodRoute
   DoctorsRoute: typeof DoctorsRouteWithChildren
   PharmaciesRoute: typeof PharmaciesRouteWithChildren
 }
@@ -102,6 +120,13 @@ declare module '@tanstack/react-router' {
       path: '/doctors'
       fullPath: '/doctors'
       preLoaderRoute: typeof DoctorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blood': {
+      id: '/blood'
+      path: '/blood'
+      fullPath: '/blood'
+      preLoaderRoute: typeof BloodRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -153,6 +178,7 @@ const PharmaciesRouteWithChildren = PharmaciesRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BloodRoute: BloodRoute,
   DoctorsRoute: DoctorsRouteWithChildren,
   PharmaciesRoute: PharmaciesRouteWithChildren,
 }
