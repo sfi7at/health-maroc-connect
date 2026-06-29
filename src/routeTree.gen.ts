@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PharmaciesRouteImport } from './routes/pharmacies'
 import { Route as DoctorsRouteImport } from './routes/doctors'
@@ -17,6 +18,11 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as PharmaciesOnDutyRouteImport } from './routes/pharmacies.on-duty'
 import { Route as DoctorsIdRouteImport } from './routes/doctors.$id'
 
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/doctors': typeof DoctorsRouteWithChildren
   '/pharmacies': typeof PharmaciesRouteWithChildren
   '/profile': typeof ProfileRoute
+  '/search': typeof SearchRoute
   '/doctors/$id': typeof DoctorsIdRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
 }
@@ -68,6 +75,7 @@ export interface FileRoutesByTo {
   '/doctors': typeof DoctorsRouteWithChildren
   '/pharmacies': typeof PharmaciesRouteWithChildren
   '/profile': typeof ProfileRoute
+  '/search': typeof SearchRoute
   '/doctors/$id': typeof DoctorsIdRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
 }
@@ -78,6 +86,7 @@ export interface FileRoutesById {
   '/doctors': typeof DoctorsRouteWithChildren
   '/pharmacies': typeof PharmaciesRouteWithChildren
   '/profile': typeof ProfileRoute
+  '/search': typeof SearchRoute
   '/doctors/$id': typeof DoctorsIdRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
 }
@@ -89,6 +98,7 @@ export interface FileRouteTypes {
     | '/doctors'
     | '/pharmacies'
     | '/profile'
+    | '/search'
     | '/doctors/$id'
     | '/pharmacies/on-duty'
   fileRoutesByTo: FileRoutesByTo
@@ -98,6 +108,7 @@ export interface FileRouteTypes {
     | '/doctors'
     | '/pharmacies'
     | '/profile'
+    | '/search'
     | '/doctors/$id'
     | '/pharmacies/on-duty'
   id:
@@ -107,6 +118,7 @@ export interface FileRouteTypes {
     | '/doctors'
     | '/pharmacies'
     | '/profile'
+    | '/search'
     | '/doctors/$id'
     | '/pharmacies/on-duty'
   fileRoutesById: FileRoutesById
@@ -117,10 +129,18 @@ export interface RootRouteChildren {
   DoctorsRoute: typeof DoctorsRouteWithChildren
   PharmaciesRoute: typeof PharmaciesRouteWithChildren
   ProfileRoute: typeof ProfileRoute
+  SearchRoute: typeof SearchRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/profile': {
       id: '/profile'
       path: '/profile'
@@ -202,6 +222,7 @@ const rootRouteChildren: RootRouteChildren = {
   DoctorsRoute: DoctorsRouteWithChildren,
   PharmaciesRoute: PharmaciesRouteWithChildren,
   ProfileRoute: ProfileRoute,
+  SearchRoute: SearchRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
