@@ -187,6 +187,21 @@ function SignInForm({ redirect }: { redirect?: string }) {
     setBusy(true);
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setBusy(false);
+    // Best-effort: log every attempt for brute-force analytics + register device on success.
+    void import("@/lib/security").then(async ({ recordLoginAttempt, registerCurrentDevice, logSecurityEvent }) => {
+      const { data: u } = await supabase.auth.getUser();
+      await recordLoginAttempt({
+        email,
+        success: !error,
+        userId: u.user?.id ?? null,
+        failureReason: error?.message ?? null,
+      });
+      if (error) {
+        await logSecurityEvent("login_failed", "low", { email });
+      } else {
+        await registerCurrentDevice();
+      }
+    }).catch(() => undefined);
     if (error) {
       toast.error("Échec de la connexion", { description: error.message });
       return;
