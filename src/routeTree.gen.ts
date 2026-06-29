@@ -35,6 +35,7 @@ import { Route as LaboratoriesSearchRouteImport } from './routes/laboratories.se
 import { Route as LaboratoriesOpenRouteImport } from './routes/laboratories.open'
 import { Route as LaboratoriesMapRouteImport } from './routes/laboratories.map'
 import { Route as LaboratoriesAnalysesRouteImport } from './routes/laboratories.analyses'
+import { Route as HospitalsSearchRouteImport } from './routes/hospitals.search'
 import { Route as DoctorsSpecialtiesRouteImport } from './routes/doctors.specialties'
 import { Route as DoctorsSearchRouteImport } from './routes/doctors.search'
 import { Route as DoctorsIdRouteImport } from './routes/doctors.$id'
@@ -187,6 +188,11 @@ const LaboratoriesAnalysesRoute = LaboratoriesAnalysesRouteImport.update({
   path: '/analyses',
   getParentRoute: () => LaboratoriesRoute,
 } as any)
+const HospitalsSearchRoute = HospitalsSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => HospitalsRoute,
+} as any)
 const DoctorsSpecialtiesRoute = DoctorsSpecialtiesRouteImport.update({
   id: '/specialties',
   path: '/specialties',
@@ -315,7 +321,7 @@ export interface FileRoutesByFullPath {
   '/blood': typeof BloodRouteWithChildren
   '/contact': typeof ContactRoute
   '/doctors': typeof DoctorsRouteWithChildren
-  '/hospitals': typeof HospitalsRoute
+  '/hospitals': typeof HospitalsRouteWithChildren
   '/laboratories': typeof LaboratoriesRouteWithChildren
   '/map': typeof MapRoute
   '/pharmacies': typeof PharmaciesRouteWithChildren
@@ -340,6 +346,7 @@ export interface FileRoutesByFullPath {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/hospitals/search': typeof HospitalsSearchRoute
   '/laboratories/analyses': typeof LaboratoriesAnalysesRoute
   '/laboratories/map': typeof LaboratoriesMapRoute
   '/laboratories/open': typeof LaboratoriesOpenRoute
@@ -364,7 +371,7 @@ export interface FileRoutesByTo {
   '/blood': typeof BloodRouteWithChildren
   '/contact': typeof ContactRoute
   '/doctors': typeof DoctorsRouteWithChildren
-  '/hospitals': typeof HospitalsRoute
+  '/hospitals': typeof HospitalsRouteWithChildren
   '/laboratories': typeof LaboratoriesRouteWithChildren
   '/map': typeof MapRoute
   '/pharmacies': typeof PharmaciesRouteWithChildren
@@ -389,6 +396,7 @@ export interface FileRoutesByTo {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/hospitals/search': typeof HospitalsSearchRoute
   '/laboratories/analyses': typeof LaboratoriesAnalysesRoute
   '/laboratories/map': typeof LaboratoriesMapRoute
   '/laboratories/open': typeof LaboratoriesOpenRoute
@@ -415,7 +423,7 @@ export interface FileRoutesById {
   '/blood': typeof BloodRouteWithChildren
   '/contact': typeof ContactRoute
   '/doctors': typeof DoctorsRouteWithChildren
-  '/hospitals': typeof HospitalsRoute
+  '/hospitals': typeof HospitalsRouteWithChildren
   '/laboratories': typeof LaboratoriesRouteWithChildren
   '/map': typeof MapRoute
   '/pharmacies': typeof PharmaciesRouteWithChildren
@@ -440,6 +448,7 @@ export interface FileRoutesById {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/hospitals/search': typeof HospitalsSearchRoute
   '/laboratories/analyses': typeof LaboratoriesAnalysesRoute
   '/laboratories/map': typeof LaboratoriesMapRoute
   '/laboratories/open': typeof LaboratoriesOpenRoute
@@ -491,6 +500,7 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/hospitals/search'
     | '/laboratories/analyses'
     | '/laboratories/map'
     | '/laboratories/open'
@@ -540,6 +550,7 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/hospitals/search'
     | '/laboratories/analyses'
     | '/laboratories/map'
     | '/laboratories/open'
@@ -590,6 +601,7 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/hospitals/search'
     | '/laboratories/analyses'
     | '/laboratories/map'
     | '/laboratories/open'
@@ -616,7 +628,7 @@ export interface RootRouteChildren {
   BloodRoute: typeof BloodRouteWithChildren
   ContactRoute: typeof ContactRoute
   DoctorsRoute: typeof DoctorsRouteWithChildren
-  HospitalsRoute: typeof HospitalsRoute
+  HospitalsRoute: typeof HospitalsRouteWithChildren
   LaboratoriesRoute: typeof LaboratoriesRouteWithChildren
   MapRoute: typeof MapRoute
   PharmaciesRoute: typeof PharmaciesRouteWithChildren
@@ -811,6 +823,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/laboratories/analyses'
       preLoaderRoute: typeof LaboratoriesAnalysesRouteImport
       parentRoute: typeof LaboratoriesRoute
+    }
+    '/hospitals/search': {
+      id: '/hospitals/search'
+      path: '/search'
+      fullPath: '/hospitals/search'
+      preLoaderRoute: typeof HospitalsSearchRouteImport
+      parentRoute: typeof HospitalsRoute
     }
     '/doctors/specialties': {
       id: '/doctors/specialties'
@@ -1062,6 +1081,18 @@ const DoctorsRouteChildren: DoctorsRouteChildren = {
 const DoctorsRouteWithChildren =
   DoctorsRoute._addFileChildren(DoctorsRouteChildren)
 
+interface HospitalsRouteChildren {
+  HospitalsSearchRoute: typeof HospitalsSearchRoute
+}
+
+const HospitalsRouteChildren: HospitalsRouteChildren = {
+  HospitalsSearchRoute: HospitalsSearchRoute,
+}
+
+const HospitalsRouteWithChildren = HospitalsRoute._addFileChildren(
+  HospitalsRouteChildren,
+)
+
 interface LaboratoriesRouteChildren {
   LaboratoriesAnalysesRoute: typeof LaboratoriesAnalysesRoute
   LaboratoriesMapRoute: typeof LaboratoriesMapRoute
@@ -1107,7 +1138,7 @@ const rootRouteChildren: RootRouteChildren = {
   BloodRoute: BloodRouteWithChildren,
   ContactRoute: ContactRoute,
   DoctorsRoute: DoctorsRouteWithChildren,
-  HospitalsRoute: HospitalsRoute,
+  HospitalsRoute: HospitalsRouteWithChildren,
   LaboratoriesRoute: LaboratoriesRouteWithChildren,
   MapRoute: MapRoute,
   PharmaciesRoute: PharmaciesRouteWithChildren,
