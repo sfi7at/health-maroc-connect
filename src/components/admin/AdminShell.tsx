@@ -6,6 +6,7 @@ import {
   Settings, Activity, BarChart3, ShieldCheck, Search, Menu, X, LogOut,
   Upload, History, PencilLine, Database, Gauge, GitBranch,
   HelpCircle, TrendingUp, Ban, BadgeCheck, ShieldAlert,
+  Rocket, Flag, AlertOctagon,
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -81,6 +82,17 @@ const NAV: NavGroup[] = [
       { to: "/admin/security/events", label: "Événements", icon: Activity },
       { to: "/admin/security/blocked", label: "Liste de blocage", icon: Ban },
       { to: "/admin/security/trust", label: "Confiance & vérifs", icon: BadgeCheck },
+    ],
+  },
+  {
+    label: "Production",
+    items: [
+      { to: "/admin/monitoring", label: "Monitoring & erreurs", icon: AlertOctagon },
+      { to: "/admin/performance", label: "Performance API", icon: Gauge },
+      { to: "/admin/business", label: "Analytique business", icon: TrendingUp },
+      { to: "/admin/flags", label: "Feature flags", icon: Flag },
+      { to: "/admin/backups", label: "Sauvegardes", icon: Database },
+      { to: "/admin/launch", label: "Lancement", icon: Rocket },
     ],
   },
 ];
