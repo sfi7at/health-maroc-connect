@@ -57,13 +57,28 @@ import { Route as AuthenticatedHospitalDashboardRouteImport } from './routes/_au
 import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
 import { Route as AuthenticatedDoctorDashboardRouteImport } from './routes/_authenticated/doctor-dashboard'
 import { Route as AuthenticatedAppointmentsRouteImport } from './routes/_authenticated/appointments'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as DoctorsSpecialtySlugRouteImport } from './routes/doctors.specialty.$slug'
 import { Route as BloodDonorsIdRouteImport } from './routes/blood.donors.$id'
 import { Route as AuthenticatedBloodHistoryRouteImport } from './routes/_authenticated/blood.history'
 import { Route as AuthenticatedBloodBecomeDonorRouteImport } from './routes/_authenticated/blood.become-donor'
 import { Route as AuthenticatedAppointmentsCalendarRouteImport } from './routes/_authenticated/appointments.calendar'
 import { Route as AuthenticatedAppointmentsIdRouteImport } from './routes/_authenticated/appointments.$id'
+import { Route as AuthenticatedAdminVerificationRouteImport } from './routes/_authenticated/admin.verification'
+import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
+import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
+import { Route as AuthenticatedAdminReviewsRouteImport } from './routes/_authenticated/admin.reviews'
+import { Route as AuthenticatedAdminReportsRouteImport } from './routes/_authenticated/admin.reports'
+import { Route as AuthenticatedAdminProvidersRouteImport } from './routes/_authenticated/admin.providers'
+import { Route as AuthenticatedAdminNotificationsRouteImport } from './routes/_authenticated/admin.notifications'
+import { Route as AuthenticatedAdminLogsRouteImport } from './routes/_authenticated/admin.logs'
+import { Route as AuthenticatedAdminCitiesRouteImport } from './routes/_authenticated/admin.cities'
+import { Route as AuthenticatedAdminCategoriesRouteImport } from './routes/_authenticated/admin.categories'
+import { Route as AuthenticatedAdminBloodRouteImport } from './routes/_authenticated/admin.blood'
+import { Route as AuthenticatedAdminArticlesRouteImport } from './routes/_authenticated/admin.articles'
 import { Route as AuthenticatedAdminAppointmentsRouteImport } from './routes/_authenticated/admin.appointments'
+import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin.analytics'
 import { Route as ApiPublicCronAppointmentRemindersRouteImport } from './routes/api/public/cron.appointment-reminders'
 import { Route as AuthenticatedBloodChatRequestIdRouteImport } from './routes/_authenticated/blood.chat.$requestId'
 import { Route as AuthenticatedAppointmentsNewProviderIdRouteImport } from './routes/_authenticated/appointments.new.$providerId'
@@ -315,6 +330,16 @@ const AuthenticatedAppointmentsRoute =
     path: '/appointments',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const DoctorsSpecialtySlugRoute = DoctorsSpecialtySlugRouteImport.update({
   id: '/specialty/$slug',
   path: '/specialty/$slug',
@@ -349,11 +374,86 @@ const AuthenticatedAppointmentsIdRoute =
     path: '/$id',
     getParentRoute: () => AuthenticatedAppointmentsRoute,
   } as any)
+const AuthenticatedAdminVerificationRoute =
+  AuthenticatedAdminVerificationRouteImport.update({
+    id: '/verification',
+    path: '/verification',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminSettingsRoute =
+  AuthenticatedAdminSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminReviewsRoute =
+  AuthenticatedAdminReviewsRouteImport.update({
+    id: '/reviews',
+    path: '/reviews',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminReportsRoute =
+  AuthenticatedAdminReportsRouteImport.update({
+    id: '/reports',
+    path: '/reports',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminProvidersRoute =
+  AuthenticatedAdminProvidersRouteImport.update({
+    id: '/providers',
+    path: '/providers',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminNotificationsRoute =
+  AuthenticatedAdminNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminLogsRoute = AuthenticatedAdminLogsRouteImport.update({
+  id: '/logs',
+  path: '/logs',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminCitiesRoute =
+  AuthenticatedAdminCitiesRouteImport.update({
+    id: '/cities',
+    path: '/cities',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminCategoriesRoute =
+  AuthenticatedAdminCategoriesRouteImport.update({
+    id: '/categories',
+    path: '/categories',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminBloodRoute = AuthenticatedAdminBloodRouteImport.update({
+  id: '/blood',
+  path: '/blood',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminArticlesRoute =
+  AuthenticatedAdminArticlesRouteImport.update({
+    id: '/articles',
+    path: '/articles',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminAppointmentsRoute =
   AuthenticatedAdminAppointmentsRouteImport.update({
-    id: '/admin/appointments',
-    path: '/admin/appointments',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/appointments',
+    path: '/appointments',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAnalyticsRoute =
+  AuthenticatedAdminAnalyticsRouteImport.update({
+    id: '/analytics',
+    path: '/analytics',
+    getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const ApiPublicCronAppointmentRemindersRoute =
   ApiPublicCronAppointmentRemindersRouteImport.update({
@@ -397,6 +497,7 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/appointments': typeof AuthenticatedAppointmentsRouteWithChildren
   '/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/favorites': typeof AuthenticatedFavoritesRoute
@@ -428,13 +529,27 @@ export interface FileRoutesByFullPath {
   '/pharmacies/open': typeof PharmaciesOpenRoute
   '/pharmacies/search': typeof PharmaciesSearchRoute
   '/providers/$id': typeof ProvidersIdRoute
+  '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
+  '/admin/articles': typeof AuthenticatedAdminArticlesRoute
+  '/admin/blood': typeof AuthenticatedAdminBloodRoute
+  '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
+  '/admin/cities': typeof AuthenticatedAdminCitiesRoute
+  '/admin/logs': typeof AuthenticatedAdminLogsRoute
+  '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
+  '/admin/providers': typeof AuthenticatedAdminProvidersRoute
+  '/admin/reports': typeof AuthenticatedAdminReportsRoute
+  '/admin/reviews': typeof AuthenticatedAdminReviewsRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/admin/verification': typeof AuthenticatedAdminVerificationRoute
   '/appointments/$id': typeof AuthenticatedAppointmentsIdRoute
   '/appointments/calendar': typeof AuthenticatedAppointmentsCalendarRoute
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
   '/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
   '/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
@@ -488,13 +603,27 @@ export interface FileRoutesByTo {
   '/pharmacies/open': typeof PharmaciesOpenRoute
   '/pharmacies/search': typeof PharmaciesSearchRoute
   '/providers/$id': typeof ProvidersIdRoute
+  '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
+  '/admin/articles': typeof AuthenticatedAdminArticlesRoute
+  '/admin/blood': typeof AuthenticatedAdminBloodRoute
+  '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
+  '/admin/cities': typeof AuthenticatedAdminCitiesRoute
+  '/admin/logs': typeof AuthenticatedAdminLogsRoute
+  '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
+  '/admin/providers': typeof AuthenticatedAdminProvidersRoute
+  '/admin/reports': typeof AuthenticatedAdminReportsRoute
+  '/admin/reviews': typeof AuthenticatedAdminReviewsRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/admin/verification': typeof AuthenticatedAdminVerificationRoute
   '/appointments/$id': typeof AuthenticatedAppointmentsIdRoute
   '/appointments/calendar': typeof AuthenticatedAppointmentsCalendarRoute
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
   '/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
   '/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
@@ -519,6 +648,7 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/appointments': typeof AuthenticatedAppointmentsRouteWithChildren
   '/_authenticated/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/_authenticated/favorites': typeof AuthenticatedFavoritesRoute
@@ -550,13 +680,27 @@ export interface FileRoutesById {
   '/pharmacies/open': typeof PharmaciesOpenRoute
   '/pharmacies/search': typeof PharmaciesSearchRoute
   '/providers/$id': typeof ProvidersIdRoute
+  '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/_authenticated/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
+  '/_authenticated/admin/articles': typeof AuthenticatedAdminArticlesRoute
+  '/_authenticated/admin/blood': typeof AuthenticatedAdminBloodRoute
+  '/_authenticated/admin/categories': typeof AuthenticatedAdminCategoriesRoute
+  '/_authenticated/admin/cities': typeof AuthenticatedAdminCitiesRoute
+  '/_authenticated/admin/logs': typeof AuthenticatedAdminLogsRoute
+  '/_authenticated/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
+  '/_authenticated/admin/providers': typeof AuthenticatedAdminProvidersRoute
+  '/_authenticated/admin/reports': typeof AuthenticatedAdminReportsRoute
+  '/_authenticated/admin/reviews': typeof AuthenticatedAdminReviewsRoute
+  '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/_authenticated/admin/verification': typeof AuthenticatedAdminVerificationRoute
   '/_authenticated/appointments/$id': typeof AuthenticatedAppointmentsIdRoute
   '/_authenticated/appointments/calendar': typeof AuthenticatedAppointmentsCalendarRoute
   '/_authenticated/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/_authenticated/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
   '/_authenticated/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/_authenticated/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
@@ -581,6 +725,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/sitemap.xml'
     | '/terms'
+    | '/admin'
     | '/appointments'
     | '/doctor-dashboard'
     | '/favorites'
@@ -612,13 +757,27 @@ export interface FileRouteTypes {
     | '/pharmacies/open'
     | '/pharmacies/search'
     | '/providers/$id'
+    | '/admin/analytics'
     | '/admin/appointments'
+    | '/admin/articles'
+    | '/admin/blood'
+    | '/admin/categories'
+    | '/admin/cities'
+    | '/admin/logs'
+    | '/admin/notifications'
+    | '/admin/providers'
+    | '/admin/reports'
+    | '/admin/reviews'
+    | '/admin/settings'
+    | '/admin/users'
+    | '/admin/verification'
     | '/appointments/$id'
     | '/appointments/calendar'
     | '/blood/become-donor'
     | '/blood/history'
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
+    | '/admin/'
     | '/appointments/book/$providerId'
     | '/appointments/new/$providerId'
     | '/blood/chat/$requestId'
@@ -672,13 +831,27 @@ export interface FileRouteTypes {
     | '/pharmacies/open'
     | '/pharmacies/search'
     | '/providers/$id'
+    | '/admin/analytics'
     | '/admin/appointments'
+    | '/admin/articles'
+    | '/admin/blood'
+    | '/admin/categories'
+    | '/admin/cities'
+    | '/admin/logs'
+    | '/admin/notifications'
+    | '/admin/providers'
+    | '/admin/reports'
+    | '/admin/reviews'
+    | '/admin/settings'
+    | '/admin/users'
+    | '/admin/verification'
     | '/appointments/$id'
     | '/appointments/calendar'
     | '/blood/become-donor'
     | '/blood/history'
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
+    | '/admin'
     | '/appointments/book/$providerId'
     | '/appointments/new/$providerId'
     | '/blood/chat/$requestId'
@@ -702,6 +875,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/sitemap.xml'
     | '/terms'
+    | '/_authenticated/admin'
     | '/_authenticated/appointments'
     | '/_authenticated/doctor-dashboard'
     | '/_authenticated/favorites'
@@ -733,13 +907,27 @@ export interface FileRouteTypes {
     | '/pharmacies/open'
     | '/pharmacies/search'
     | '/providers/$id'
+    | '/_authenticated/admin/analytics'
     | '/_authenticated/admin/appointments'
+    | '/_authenticated/admin/articles'
+    | '/_authenticated/admin/blood'
+    | '/_authenticated/admin/categories'
+    | '/_authenticated/admin/cities'
+    | '/_authenticated/admin/logs'
+    | '/_authenticated/admin/notifications'
+    | '/_authenticated/admin/providers'
+    | '/_authenticated/admin/reports'
+    | '/_authenticated/admin/reviews'
+    | '/_authenticated/admin/settings'
+    | '/_authenticated/admin/users'
+    | '/_authenticated/admin/verification'
     | '/_authenticated/appointments/$id'
     | '/_authenticated/appointments/calendar'
     | '/_authenticated/blood/become-donor'
     | '/_authenticated/blood/history'
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
+    | '/_authenticated/admin/'
     | '/_authenticated/appointments/book/$providerId'
     | '/_authenticated/appointments/new/$providerId'
     | '/_authenticated/blood/chat/$requestId'
@@ -1106,6 +1294,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppointmentsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/doctors/specialty/$slug': {
       id: '/doctors/specialty/$slug'
       path: '/specialty/$slug'
@@ -1148,12 +1350,103 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppointmentsIdRouteImport
       parentRoute: typeof AuthenticatedAppointmentsRoute
     }
+    '/_authenticated/admin/verification': {
+      id: '/_authenticated/admin/verification'
+      path: '/verification'
+      fullPath: '/admin/verification'
+      preLoaderRoute: typeof AuthenticatedAdminVerificationRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/users': {
+      id: '/_authenticated/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AuthenticatedAdminUsersRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/settings': {
+      id: '/_authenticated/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/reviews': {
+      id: '/_authenticated/admin/reviews'
+      path: '/reviews'
+      fullPath: '/admin/reviews'
+      preLoaderRoute: typeof AuthenticatedAdminReviewsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/reports': {
+      id: '/_authenticated/admin/reports'
+      path: '/reports'
+      fullPath: '/admin/reports'
+      preLoaderRoute: typeof AuthenticatedAdminReportsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/providers': {
+      id: '/_authenticated/admin/providers'
+      path: '/providers'
+      fullPath: '/admin/providers'
+      preLoaderRoute: typeof AuthenticatedAdminProvidersRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/notifications': {
+      id: '/_authenticated/admin/notifications'
+      path: '/notifications'
+      fullPath: '/admin/notifications'
+      preLoaderRoute: typeof AuthenticatedAdminNotificationsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/logs': {
+      id: '/_authenticated/admin/logs'
+      path: '/logs'
+      fullPath: '/admin/logs'
+      preLoaderRoute: typeof AuthenticatedAdminLogsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/cities': {
+      id: '/_authenticated/admin/cities'
+      path: '/cities'
+      fullPath: '/admin/cities'
+      preLoaderRoute: typeof AuthenticatedAdminCitiesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/categories': {
+      id: '/_authenticated/admin/categories'
+      path: '/categories'
+      fullPath: '/admin/categories'
+      preLoaderRoute: typeof AuthenticatedAdminCategoriesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/blood': {
+      id: '/_authenticated/admin/blood'
+      path: '/blood'
+      fullPath: '/admin/blood'
+      preLoaderRoute: typeof AuthenticatedAdminBloodRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/articles': {
+      id: '/_authenticated/admin/articles'
+      path: '/articles'
+      fullPath: '/admin/articles'
+      preLoaderRoute: typeof AuthenticatedAdminArticlesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/appointments': {
       id: '/_authenticated/admin/appointments'
-      path: '/admin/appointments'
+      path: '/appointments'
       fullPath: '/admin/appointments'
       preLoaderRoute: typeof AuthenticatedAdminAppointmentsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/analytics': {
+      id: '/_authenticated/admin/analytics'
+      path: '/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AuthenticatedAdminAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
     }
     '/api/public/cron/appointment-reminders': {
       id: '/api/public/cron/appointment-reminders'
@@ -1186,6 +1479,45 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminAnalyticsRoute: typeof AuthenticatedAdminAnalyticsRoute
+  AuthenticatedAdminAppointmentsRoute: typeof AuthenticatedAdminAppointmentsRoute
+  AuthenticatedAdminArticlesRoute: typeof AuthenticatedAdminArticlesRoute
+  AuthenticatedAdminBloodRoute: typeof AuthenticatedAdminBloodRoute
+  AuthenticatedAdminCategoriesRoute: typeof AuthenticatedAdminCategoriesRoute
+  AuthenticatedAdminCitiesRoute: typeof AuthenticatedAdminCitiesRoute
+  AuthenticatedAdminLogsRoute: typeof AuthenticatedAdminLogsRoute
+  AuthenticatedAdminNotificationsRoute: typeof AuthenticatedAdminNotificationsRoute
+  AuthenticatedAdminProvidersRoute: typeof AuthenticatedAdminProvidersRoute
+  AuthenticatedAdminReportsRoute: typeof AuthenticatedAdminReportsRoute
+  AuthenticatedAdminReviewsRoute: typeof AuthenticatedAdminReviewsRoute
+  AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
+  AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
+  AuthenticatedAdminVerificationRoute: typeof AuthenticatedAdminVerificationRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+}
+
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminAnalyticsRoute: AuthenticatedAdminAnalyticsRoute,
+  AuthenticatedAdminAppointmentsRoute: AuthenticatedAdminAppointmentsRoute,
+  AuthenticatedAdminArticlesRoute: AuthenticatedAdminArticlesRoute,
+  AuthenticatedAdminBloodRoute: AuthenticatedAdminBloodRoute,
+  AuthenticatedAdminCategoriesRoute: AuthenticatedAdminCategoriesRoute,
+  AuthenticatedAdminCitiesRoute: AuthenticatedAdminCitiesRoute,
+  AuthenticatedAdminLogsRoute: AuthenticatedAdminLogsRoute,
+  AuthenticatedAdminNotificationsRoute: AuthenticatedAdminNotificationsRoute,
+  AuthenticatedAdminProvidersRoute: AuthenticatedAdminProvidersRoute,
+  AuthenticatedAdminReportsRoute: AuthenticatedAdminReportsRoute,
+  AuthenticatedAdminReviewsRoute: AuthenticatedAdminReviewsRoute,
+  AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
+  AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
+  AuthenticatedAdminVerificationRoute: AuthenticatedAdminVerificationRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+}
+
+const AuthenticatedAdminRouteWithChildren =
+  AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
+
 interface AuthenticatedAppointmentsRouteChildren {
   AuthenticatedAppointmentsIdRoute: typeof AuthenticatedAppointmentsIdRoute
   AuthenticatedAppointmentsCalendarRoute: typeof AuthenticatedAppointmentsCalendarRoute
@@ -1210,6 +1542,7 @@ const AuthenticatedAppointmentsRouteWithChildren =
   )
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
   AuthenticatedAppointmentsRoute: typeof AuthenticatedAppointmentsRouteWithChildren
   AuthenticatedDoctorDashboardRoute: typeof AuthenticatedDoctorDashboardRoute
   AuthenticatedFavoritesRoute: typeof AuthenticatedFavoritesRoute
@@ -1220,13 +1553,13 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedProviderCalendarRoute: typeof AuthenticatedProviderCalendarRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
-  AuthenticatedAdminAppointmentsRoute: typeof AuthenticatedAdminAppointmentsRoute
   AuthenticatedBloodBecomeDonorRoute: typeof AuthenticatedBloodBecomeDonorRoute
   AuthenticatedBloodHistoryRoute: typeof AuthenticatedBloodHistoryRoute
   AuthenticatedBloodChatRequestIdRoute: typeof AuthenticatedBloodChatRequestIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
   AuthenticatedAppointmentsRoute: AuthenticatedAppointmentsRouteWithChildren,
   AuthenticatedDoctorDashboardRoute: AuthenticatedDoctorDashboardRoute,
   AuthenticatedFavoritesRoute: AuthenticatedFavoritesRoute,
@@ -1237,7 +1570,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedProviderCalendarRoute: AuthenticatedProviderCalendarRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
-  AuthenticatedAdminAppointmentsRoute: AuthenticatedAdminAppointmentsRoute,
   AuthenticatedBloodBecomeDonorRoute: AuthenticatedBloodBecomeDonorRoute,
   AuthenticatedBloodHistoryRoute: AuthenticatedBloodHistoryRoute,
   AuthenticatedBloodChatRequestIdRoute: AuthenticatedBloodChatRequestIdRoute,

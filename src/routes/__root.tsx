@@ -143,10 +143,11 @@ function RootComponent() {
 
   const isFullscreen =
     location.pathname.startsWith("/auth") || location.pathname.startsWith("/reset-password");
+  const isAdmin = location.pathname.startsWith("/admin");
 
   return (
     <QueryClientProvider client={queryClient}>
-      {isFullscreen ? (
+      {isFullscreen || isAdmin ? (
         <Outlet />
       ) : (
         <AppShell>

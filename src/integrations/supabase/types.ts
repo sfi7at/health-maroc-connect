@@ -71,6 +71,33 @@ export type Database = {
         }
         Relationships: []
       }
+      app_settings: {
+        Row: {
+          category: string
+          is_public: boolean
+          key: string
+          updated_at: string
+          updated_by: string | null
+          value: Json
+        }
+        Insert: {
+          category?: string
+          is_public?: boolean
+          key: string
+          updated_at?: string
+          updated_by?: string | null
+          value?: Json
+        }
+        Update: {
+          category?: string
+          is_public?: boolean
+          key?: string
+          updated_at?: string
+          updated_by?: string | null
+          value?: Json
+        }
+        Relationships: []
+      }
       appointment_waitlist: {
         Row: {
           created_at: string
@@ -1560,6 +1587,51 @@ export type Database = {
         }
         Relationships: []
       }
+      reports: {
+        Row: {
+          category: string
+          created_at: string
+          id: string
+          reason: string
+          reporter_id: string | null
+          resolved_at: string | null
+          resolver_id: string | null
+          resolver_notes: string | null
+          status: string
+          target_id: string | null
+          target_type: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          id?: string
+          reason: string
+          reporter_id?: string | null
+          resolved_at?: string | null
+          resolver_id?: string | null
+          resolver_notes?: string | null
+          status?: string
+          target_id?: string | null
+          target_type: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          id?: string
+          reason?: string
+          reporter_id?: string | null
+          resolved_at?: string | null
+          resolver_id?: string | null
+          resolver_notes?: string | null
+          status?: string
+          target_id?: string | null
+          target_type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       reviews: {
         Row: {
           author_id: string
@@ -1745,6 +1817,7 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      has_any_admin_role: { Args: { _user_id: string }; Returns: boolean }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1771,6 +1844,10 @@ export type Database = {
         | "clinic"
         | "hospital"
         | "blood_center"
+        | "content_manager"
+        | "verification_manager"
+        | "support_agent"
+        | "analytics_viewer"
       appointment_status:
         | "pending"
         | "approved"
@@ -1946,6 +2023,10 @@ export const Constants = {
         "clinic",
         "hospital",
         "blood_center",
+        "content_manager",
+        "verification_manager",
+        "support_agent",
+        "analytics_viewer",
       ],
       appointment_status: [
         "pending",

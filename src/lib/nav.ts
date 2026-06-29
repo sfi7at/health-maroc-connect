@@ -54,7 +54,7 @@ export const secondaryNav: NavItem[] = [
   { label: "Notifications", to: "/notifications", icon: Bell },
   { label: "Favoris", to: "/favorites", icon: Star },
   { label: "Espace prestataire", to: "/provider-calendar", icon: CalendarRange },
-  { label: "Admin RDV", to: "/admin/appointments", icon: ShieldCheck },
+  { label: "Console Admin", to: "/admin", icon: ShieldCheck },
   { label: "Paramètres", to: "/settings", icon: Settings },
 ];
 
