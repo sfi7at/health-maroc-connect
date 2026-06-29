@@ -17,7 +17,7 @@ function AdminBlood() {
   const donors = useQuery({
     queryKey: ["admin-blood-donors"],
     queryFn: async () => {
-      const { data, error, count } = await supabase.from("blood_donors").select("id, full_name, blood_group, city, is_available, created_at", { count: "exact" }).order("created_at", { ascending: false }).limit(50);
+      const { data, error, count } = await supabase.from("blood_donors").select("id, first_name, last_name, blood_group, city_id, is_available, created_at", { count: "exact" }).order("created_at", { ascending: false }).limit(50);
       if (error) throw error;
       return { rows: data ?? [], count: count ?? 0 };
     },
@@ -25,7 +25,7 @@ function AdminBlood() {
   const requests = useQuery({
     queryKey: ["admin-blood-requests"],
     queryFn: async () => {
-      const { data, error, count } = await supabase.from("blood_requests").select("id, blood_group, urgency, city, hospital_name, units_needed, status, created_at", { count: "exact" }).order("created_at", { ascending: false }).limit(50);
+      const { data, error, count } = await supabase.from("blood_requests").select("id, blood_group, urgency, hospital_name, city_id, units_needed, status, created_at", { count: "exact" }).order("created_at", { ascending: false }).limit(50);
       if (error) throw error;
       return { rows: data ?? [], count: count ?? 0 };
     },
@@ -33,7 +33,7 @@ function AdminBlood() {
   const campaigns = useQuery({
     queryKey: ["admin-blood-campaigns"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("blood_campaigns").select("id, title, city, starts_at, ends_at, is_published").order("starts_at", { ascending: false }).limit(30);
+      const { data, error } = await supabase.from("blood_campaigns").select("id, title, organizer, starts_at, ends_at, is_published").order("starts_at", { ascending: false }).limit(30);
       if (error) throw error;
       return data ?? [];
     },
@@ -72,7 +72,7 @@ function AdminBlood() {
                       <td className="px-4 py-3 font-semibold">{r.blood_group}</td>
                       <td className="px-4 py-3"><Badge variant={r.urgency === "critical" ? "destructive" : "outline"}>{r.urgency}</Badge></td>
                       <td className="px-4 py-3">{r.hospital_name ?? "—"}</td>
-                      <td className="px-4 py-3">{r.city ?? "—"}</td>
+                      <td className="px-4 py-3 text-xs text-muted-foreground">{r.city_id?.slice(0, 8) ?? "—"}</td>
                       <td className="px-4 py-3">{r.units_needed}</td>
                       <td className="px-4 py-3"><Badge variant="outline">{r.status}</Badge></td>
                       <td className="px-4 py-3 text-xs text-muted-foreground">{formatDateTimeFr(r.created_at)}</td>
@@ -94,9 +94,9 @@ function AdminBlood() {
                 <tbody>
                   {(donors.data?.rows ?? []).map((d) => (
                     <tr key={d.id} className="border-t border-border">
-                      <td className="px-4 py-3 font-medium">{d.full_name ?? "—"}</td>
+                      <td className="px-4 py-3 font-medium">{[d.first_name, d.last_name].filter(Boolean).join(" ") || "—"}</td>
                       <td className="px-4 py-3 font-bold text-destructive">{d.blood_group}</td>
-                      <td className="px-4 py-3">{d.city ?? "—"}</td>
+                      <td className="px-4 py-3 text-xs text-muted-foreground">{d.city_id?.slice(0, 8) ?? "—"}</td>
                       <td className="px-4 py-3">{d.is_available ? <Badge className="bg-emerald-500/15 text-emerald-700 border-emerald-200">Oui</Badge> : <Badge variant="outline">Non</Badge>}</td>
                       <td className="px-4 py-3 text-xs text-muted-foreground">{formatDateTimeFr(d.created_at)}</td>
                     </tr>
@@ -115,7 +115,7 @@ function AdminBlood() {
                   <h3 className="font-semibold">{c.title}</h3>
                   {c.is_published ? <Badge className="bg-emerald-500/15 text-emerald-700 border-emerald-200">Publié</Badge> : <Badge variant="outline">Brouillon</Badge>}
                 </div>
-                <p className="mt-1 text-xs text-muted-foreground">{c.city ?? "—"} · {formatDateTimeFr(c.starts_at)}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{c.organizer ?? "—"} · {formatDateTimeFr(c.starts_at)}</p>
               </Card>
             ))}
             {(campaigns.data?.length ?? 0) === 0 && <Card className="md:col-span-2 p-8 text-center text-muted-foreground">Aucune campagne.</Card>}
