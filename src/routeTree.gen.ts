@@ -32,6 +32,7 @@ import { Route as PharmaciesOpenRouteImport } from './routes/pharmacies.open'
 import { Route as PharmaciesOnDutyRouteImport } from './routes/pharmacies.on-duty'
 import { Route as PharmaciesMapRouteImport } from './routes/pharmacies.map'
 import { Route as LaboratoriesSearchRouteImport } from './routes/laboratories.search'
+import { Route as LaboratoriesOpenRouteImport } from './routes/laboratories.open'
 import { Route as DoctorsSpecialtiesRouteImport } from './routes/doctors.specialties'
 import { Route as DoctorsSearchRouteImport } from './routes/doctors.search'
 import { Route as DoctorsIdRouteImport } from './routes/doctors.$id'
@@ -166,6 +167,11 @@ const PharmaciesMapRoute = PharmaciesMapRouteImport.update({
 const LaboratoriesSearchRoute = LaboratoriesSearchRouteImport.update({
   id: '/search',
   path: '/search',
+  getParentRoute: () => LaboratoriesRoute,
+} as any)
+const LaboratoriesOpenRoute = LaboratoriesOpenRouteImport.update({
+  id: '/open',
+  path: '/open',
   getParentRoute: () => LaboratoriesRoute,
 } as any)
 const DoctorsSpecialtiesRoute = DoctorsSpecialtiesRouteImport.update({
@@ -314,6 +320,7 @@ export interface FileRoutesByFullPath {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/laboratories/open': typeof LaboratoriesOpenRoute
   '/laboratories/search': typeof LaboratoriesSearchRoute
   '/pharmacies/map': typeof PharmaciesMapRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
@@ -359,6 +366,7 @@ export interface FileRoutesByTo {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/laboratories/open': typeof LaboratoriesOpenRoute
   '/laboratories/search': typeof LaboratoriesSearchRoute
   '/pharmacies/map': typeof PharmaciesMapRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
@@ -406,6 +414,7 @@ export interface FileRoutesById {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/laboratories/open': typeof LaboratoriesOpenRoute
   '/laboratories/search': typeof LaboratoriesSearchRoute
   '/pharmacies/map': typeof PharmaciesMapRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
@@ -453,6 +462,7 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/laboratories/open'
     | '/laboratories/search'
     | '/pharmacies/map'
     | '/pharmacies/on-duty'
@@ -498,6 +508,7 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/laboratories/open'
     | '/laboratories/search'
     | '/pharmacies/map'
     | '/pharmacies/on-duty'
@@ -544,6 +555,7 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/laboratories/open'
     | '/laboratories/search'
     | '/pharmacies/map'
     | '/pharmacies/on-duty'
@@ -740,6 +752,13 @@ declare module '@tanstack/react-router' {
       path: '/search'
       fullPath: '/laboratories/search'
       preLoaderRoute: typeof LaboratoriesSearchRouteImport
+      parentRoute: typeof LaboratoriesRoute
+    }
+    '/laboratories/open': {
+      id: '/laboratories/open'
+      path: '/open'
+      fullPath: '/laboratories/open'
+      preLoaderRoute: typeof LaboratoriesOpenRouteImport
       parentRoute: typeof LaboratoriesRoute
     }
     '/doctors/specialties': {
@@ -984,10 +1003,12 @@ const DoctorsRouteWithChildren =
   DoctorsRoute._addFileChildren(DoctorsRouteChildren)
 
 interface LaboratoriesRouteChildren {
+  LaboratoriesOpenRoute: typeof LaboratoriesOpenRoute
   LaboratoriesSearchRoute: typeof LaboratoriesSearchRoute
 }
 
 const LaboratoriesRouteChildren: LaboratoriesRouteChildren = {
+  LaboratoriesOpenRoute: LaboratoriesOpenRoute,
   LaboratoriesSearchRoute: LaboratoriesSearchRoute,
 }
 
