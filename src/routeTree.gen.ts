@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as PharmaciesRouteImport } from './routes/pharmacies'
 import { Route as DoctorsRouteImport } from './routes/doctors'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PharmaciesOnDutyRouteImport } from './routes/pharmacies.on-duty'
 import { Route as DoctorsIdRouteImport } from './routes/doctors.$id'
 
 const PharmaciesRoute = PharmaciesRouteImport.update({
@@ -29,6 +30,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PharmaciesOnDutyRoute = PharmaciesOnDutyRouteImport.update({
+  id: '/on-duty',
+  path: '/on-duty',
+  getParentRoute: () => PharmaciesRoute,
+} as any)
 const DoctorsIdRoute = DoctorsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -38,34 +44,48 @@ const DoctorsIdRoute = DoctorsIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/doctors': typeof DoctorsRouteWithChildren
-  '/pharmacies': typeof PharmaciesRoute
+  '/pharmacies': typeof PharmaciesRouteWithChildren
   '/doctors/$id': typeof DoctorsIdRoute
+  '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/doctors': typeof DoctorsRouteWithChildren
-  '/pharmacies': typeof PharmaciesRoute
+  '/pharmacies': typeof PharmaciesRouteWithChildren
   '/doctors/$id': typeof DoctorsIdRoute
+  '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/doctors': typeof DoctorsRouteWithChildren
-  '/pharmacies': typeof PharmaciesRoute
+  '/pharmacies': typeof PharmaciesRouteWithChildren
   '/doctors/$id': typeof DoctorsIdRoute
+  '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/doctors' | '/pharmacies' | '/doctors/$id'
+  fullPaths:
+    | '/'
+    | '/doctors'
+    | '/pharmacies'
+    | '/doctors/$id'
+    | '/pharmacies/on-duty'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/doctors' | '/pharmacies' | '/doctors/$id'
-  id: '__root__' | '/' | '/doctors' | '/pharmacies' | '/doctors/$id'
+  to: '/' | '/doctors' | '/pharmacies' | '/doctors/$id' | '/pharmacies/on-duty'
+  id:
+    | '__root__'
+    | '/'
+    | '/doctors'
+    | '/pharmacies'
+    | '/doctors/$id'
+    | '/pharmacies/on-duty'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DoctorsRoute: typeof DoctorsRouteWithChildren
-  PharmaciesRoute: typeof PharmaciesRoute
+  PharmaciesRoute: typeof PharmaciesRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -91,6 +111,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pharmacies/on-duty': {
+      id: '/pharmacies/on-duty'
+      path: '/on-duty'
+      fullPath: '/pharmacies/on-duty'
+      preLoaderRoute: typeof PharmaciesOnDutyRouteImport
+      parentRoute: typeof PharmaciesRoute
+    }
     '/doctors/$id': {
       id: '/doctors/$id'
       path: '/$id'
@@ -112,10 +139,22 @@ const DoctorsRouteChildren: DoctorsRouteChildren = {
 const DoctorsRouteWithChildren =
   DoctorsRoute._addFileChildren(DoctorsRouteChildren)
 
+interface PharmaciesRouteChildren {
+  PharmaciesOnDutyRoute: typeof PharmaciesOnDutyRoute
+}
+
+const PharmaciesRouteChildren: PharmaciesRouteChildren = {
+  PharmaciesOnDutyRoute: PharmaciesOnDutyRoute,
+}
+
+const PharmaciesRouteWithChildren = PharmaciesRoute._addFileChildren(
+  PharmaciesRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DoctorsRoute: DoctorsRouteWithChildren,
-  PharmaciesRoute: PharmaciesRoute,
+  PharmaciesRoute: PharmaciesRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
