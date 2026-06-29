@@ -67,6 +67,7 @@ import { Route as AuthenticatedProviderServicesRouteImport } from './routes/_aut
 import { Route as AuthenticatedProviderProfileRouteImport } from './routes/_authenticated/provider.profile'
 import { Route as AuthenticatedProviderHoursRouteImport } from './routes/_authenticated/provider.hours'
 import { Route as AuthenticatedProviderGalleryRouteImport } from './routes/_authenticated/provider.gallery'
+import { Route as AuthenticatedProviderAppointmentsRouteImport } from './routes/_authenticated/provider.appointments'
 import { Route as AuthenticatedBloodHistoryRouteImport } from './routes/_authenticated/blood.history'
 import { Route as AuthenticatedBloodBecomeDonorRouteImport } from './routes/_authenticated/blood.become-donor'
 import { Route as AuthenticatedAppointmentsCalendarRouteImport } from './routes/_authenticated/appointments.calendar'
@@ -391,6 +392,12 @@ const AuthenticatedProviderGalleryRoute =
     path: '/gallery',
     getParentRoute: () => AuthenticatedProviderRoute,
   } as any)
+const AuthenticatedProviderAppointmentsRoute =
+  AuthenticatedProviderAppointmentsRouteImport.update({
+    id: '/appointments',
+    path: '/appointments',
+    getParentRoute: () => AuthenticatedProviderRoute,
+  } as any)
 const AuthenticatedBloodHistoryRoute =
   AuthenticatedBloodHistoryRouteImport.update({
     id: '/blood/history',
@@ -589,6 +596,7 @@ export interface FileRoutesByFullPath {
   '/appointments/calendar': typeof AuthenticatedAppointmentsCalendarRoute
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/blood/history': typeof AuthenticatedBloodHistoryRoute
+  '/provider/appointments': typeof AuthenticatedProviderAppointmentsRoute
   '/provider/gallery': typeof AuthenticatedProviderGalleryRoute
   '/provider/hours': typeof AuthenticatedProviderHoursRoute
   '/provider/profile': typeof AuthenticatedProviderProfileRoute
@@ -668,6 +676,7 @@ export interface FileRoutesByTo {
   '/appointments/calendar': typeof AuthenticatedAppointmentsCalendarRoute
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/blood/history': typeof AuthenticatedBloodHistoryRoute
+  '/provider/appointments': typeof AuthenticatedProviderAppointmentsRoute
   '/provider/gallery': typeof AuthenticatedProviderGalleryRoute
   '/provider/hours': typeof AuthenticatedProviderHoursRoute
   '/provider/profile': typeof AuthenticatedProviderProfileRoute
@@ -751,6 +760,7 @@ export interface FileRoutesById {
   '/_authenticated/appointments/calendar': typeof AuthenticatedAppointmentsCalendarRoute
   '/_authenticated/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/_authenticated/blood/history': typeof AuthenticatedBloodHistoryRoute
+  '/_authenticated/provider/appointments': typeof AuthenticatedProviderAppointmentsRoute
   '/_authenticated/provider/gallery': typeof AuthenticatedProviderGalleryRoute
   '/_authenticated/provider/hours': typeof AuthenticatedProviderHoursRoute
   '/_authenticated/provider/profile': typeof AuthenticatedProviderProfileRoute
@@ -834,6 +844,7 @@ export interface FileRouteTypes {
     | '/appointments/calendar'
     | '/blood/become-donor'
     | '/blood/history'
+    | '/provider/appointments'
     | '/provider/gallery'
     | '/provider/hours'
     | '/provider/profile'
@@ -913,6 +924,7 @@ export interface FileRouteTypes {
     | '/appointments/calendar'
     | '/blood/become-donor'
     | '/blood/history'
+    | '/provider/appointments'
     | '/provider/gallery'
     | '/provider/hours'
     | '/provider/profile'
@@ -995,6 +1007,7 @@ export interface FileRouteTypes {
     | '/_authenticated/appointments/calendar'
     | '/_authenticated/blood/become-donor'
     | '/_authenticated/blood/history'
+    | '/_authenticated/provider/appointments'
     | '/_authenticated/provider/gallery'
     | '/_authenticated/provider/hours'
     | '/_authenticated/provider/profile'
@@ -1439,6 +1452,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProviderGalleryRouteImport
       parentRoute: typeof AuthenticatedProviderRoute
     }
+    '/_authenticated/provider/appointments': {
+      id: '/_authenticated/provider/appointments'
+      path: '/appointments'
+      fullPath: '/provider/appointments'
+      preLoaderRoute: typeof AuthenticatedProviderAppointmentsRouteImport
+      parentRoute: typeof AuthenticatedProviderRoute
+    }
     '/_authenticated/blood/history': {
       id: '/_authenticated/blood/history'
       path: '/blood/history'
@@ -1659,6 +1679,7 @@ const AuthenticatedAppointmentsRouteWithChildren =
   )
 
 interface AuthenticatedProviderRouteChildren {
+  AuthenticatedProviderAppointmentsRoute: typeof AuthenticatedProviderAppointmentsRoute
   AuthenticatedProviderGalleryRoute: typeof AuthenticatedProviderGalleryRoute
   AuthenticatedProviderHoursRoute: typeof AuthenticatedProviderHoursRoute
   AuthenticatedProviderProfileRoute: typeof AuthenticatedProviderProfileRoute
@@ -1667,6 +1688,8 @@ interface AuthenticatedProviderRouteChildren {
 }
 
 const AuthenticatedProviderRouteChildren: AuthenticatedProviderRouteChildren = {
+  AuthenticatedProviderAppointmentsRoute:
+    AuthenticatedProviderAppointmentsRoute,
   AuthenticatedProviderGalleryRoute: AuthenticatedProviderGalleryRoute,
   AuthenticatedProviderHoursRoute: AuthenticatedProviderHoursRoute,
   AuthenticatedProviderProfileRoute: AuthenticatedProviderProfileRoute,
