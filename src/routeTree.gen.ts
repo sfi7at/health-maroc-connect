@@ -27,7 +27,10 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProvidersIdRouteImport } from './routes/providers.$id'
+import { Route as PharmaciesSearchRouteImport } from './routes/pharmacies.search'
+import { Route as PharmaciesOpenRouteImport } from './routes/pharmacies.open'
 import { Route as PharmaciesOnDutyRouteImport } from './routes/pharmacies.on-duty'
+import { Route as PharmaciesMapRouteImport } from './routes/pharmacies.map'
 import { Route as DoctorsSpecialtiesRouteImport } from './routes/doctors.specialties'
 import { Route as DoctorsSearchRouteImport } from './routes/doctors.search'
 import { Route as DoctorsIdRouteImport } from './routes/doctors.$id'
@@ -38,6 +41,7 @@ import { Route as BloodCentersRouteImport } from './routes/blood.centers'
 import { Route as BloodCampaignsRouteImport } from './routes/blood.campaigns'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedPharmacyDashboardRouteImport } from './routes/_authenticated/pharmacy-dashboard'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
 import { Route as AuthenticatedDoctorDashboardRouteImport } from './routes/_authenticated/doctor-dashboard'
@@ -138,9 +142,24 @@ const ProvidersIdRoute = ProvidersIdRouteImport.update({
   path: '/providers/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PharmaciesSearchRoute = PharmaciesSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => PharmaciesRoute,
+} as any)
+const PharmaciesOpenRoute = PharmaciesOpenRouteImport.update({
+  id: '/open',
+  path: '/open',
+  getParentRoute: () => PharmaciesRoute,
+} as any)
 const PharmaciesOnDutyRoute = PharmaciesOnDutyRouteImport.update({
   id: '/on-duty',
   path: '/on-duty',
+  getParentRoute: () => PharmaciesRoute,
+} as any)
+const PharmaciesMapRoute = PharmaciesMapRouteImport.update({
+  id: '/map',
+  path: '/map',
   getParentRoute: () => PharmaciesRoute,
 } as any)
 const DoctorsSpecialtiesRoute = DoctorsSpecialtiesRouteImport.update({
@@ -193,6 +212,12 @@ const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPharmacyDashboardRoute =
+  AuthenticatedPharmacyDashboardRouteImport.update({
+    id: '/pharmacy-dashboard',
+    path: '/pharmacy-dashboard',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedNotificationsRoute =
   AuthenticatedNotificationsRouteImport.update({
     id: '/notifications',
@@ -272,6 +297,7 @@ export interface FileRoutesByFullPath {
   '/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/favorites': typeof AuthenticatedFavoritesRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
+  '/pharmacy-dashboard': typeof AuthenticatedPharmacyDashboardRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/blood/campaigns': typeof BloodCampaignsRoute
@@ -282,7 +308,10 @@ export interface FileRoutesByFullPath {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/pharmacies/map': typeof PharmaciesMapRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
+  '/pharmacies/open': typeof PharmaciesOpenRoute
+  '/pharmacies/search': typeof PharmaciesSearchRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/blood/history': typeof AuthenticatedBloodHistoryRoute
@@ -312,6 +341,7 @@ export interface FileRoutesByTo {
   '/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/favorites': typeof AuthenticatedFavoritesRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
+  '/pharmacy-dashboard': typeof AuthenticatedPharmacyDashboardRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/blood/campaigns': typeof BloodCampaignsRoute
@@ -322,7 +352,10 @@ export interface FileRoutesByTo {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/pharmacies/map': typeof PharmaciesMapRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
+  '/pharmacies/open': typeof PharmaciesOpenRoute
+  '/pharmacies/search': typeof PharmaciesSearchRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/blood/history': typeof AuthenticatedBloodHistoryRoute
@@ -354,6 +387,7 @@ export interface FileRoutesById {
   '/_authenticated/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/_authenticated/favorites': typeof AuthenticatedFavoritesRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
+  '/_authenticated/pharmacy-dashboard': typeof AuthenticatedPharmacyDashboardRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/blood/campaigns': typeof BloodCampaignsRoute
@@ -364,7 +398,10 @@ export interface FileRoutesById {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/pharmacies/map': typeof PharmaciesMapRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
+  '/pharmacies/open': typeof PharmaciesOpenRoute
+  '/pharmacies/search': typeof PharmaciesSearchRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/_authenticated/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/_authenticated/blood/history': typeof AuthenticatedBloodHistoryRoute
@@ -396,6 +433,7 @@ export interface FileRouteTypes {
     | '/doctor-dashboard'
     | '/favorites'
     | '/notifications'
+    | '/pharmacy-dashboard'
     | '/profile'
     | '/settings'
     | '/blood/campaigns'
@@ -406,7 +444,10 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/pharmacies/map'
     | '/pharmacies/on-duty'
+    | '/pharmacies/open'
+    | '/pharmacies/search'
     | '/providers/$id'
     | '/blood/become-donor'
     | '/blood/history'
@@ -436,6 +477,7 @@ export interface FileRouteTypes {
     | '/doctor-dashboard'
     | '/favorites'
     | '/notifications'
+    | '/pharmacy-dashboard'
     | '/profile'
     | '/settings'
     | '/blood/campaigns'
@@ -446,7 +488,10 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/pharmacies/map'
     | '/pharmacies/on-duty'
+    | '/pharmacies/open'
+    | '/pharmacies/search'
     | '/providers/$id'
     | '/blood/become-donor'
     | '/blood/history'
@@ -477,6 +522,7 @@ export interface FileRouteTypes {
     | '/_authenticated/doctor-dashboard'
     | '/_authenticated/favorites'
     | '/_authenticated/notifications'
+    | '/_authenticated/pharmacy-dashboard'
     | '/_authenticated/profile'
     | '/_authenticated/settings'
     | '/blood/campaigns'
@@ -487,7 +533,10 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/pharmacies/map'
     | '/pharmacies/on-duty'
+    | '/pharmacies/open'
+    | '/pharmacies/search'
     | '/providers/$id'
     | '/_authenticated/blood/become-donor'
     | '/_authenticated/blood/history'
@@ -646,11 +695,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProvidersIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pharmacies/search': {
+      id: '/pharmacies/search'
+      path: '/search'
+      fullPath: '/pharmacies/search'
+      preLoaderRoute: typeof PharmaciesSearchRouteImport
+      parentRoute: typeof PharmaciesRoute
+    }
+    '/pharmacies/open': {
+      id: '/pharmacies/open'
+      path: '/open'
+      fullPath: '/pharmacies/open'
+      preLoaderRoute: typeof PharmaciesOpenRouteImport
+      parentRoute: typeof PharmaciesRoute
+    }
     '/pharmacies/on-duty': {
       id: '/pharmacies/on-duty'
       path: '/on-duty'
       fullPath: '/pharmacies/on-duty'
       preLoaderRoute: typeof PharmaciesOnDutyRouteImport
+      parentRoute: typeof PharmaciesRoute
+    }
+    '/pharmacies/map': {
+      id: '/pharmacies/map'
+      path: '/map'
+      fullPath: '/pharmacies/map'
+      preLoaderRoute: typeof PharmaciesMapRouteImport
       parentRoute: typeof PharmaciesRoute
     }
     '/doctors/specialties': {
@@ -721,6 +791,13 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/pharmacy-dashboard': {
+      id: '/_authenticated/pharmacy-dashboard'
+      path: '/pharmacy-dashboard'
+      fullPath: '/pharmacy-dashboard'
+      preLoaderRoute: typeof AuthenticatedPharmacyDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/notifications': {
@@ -816,6 +893,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDoctorDashboardRoute: typeof AuthenticatedDoctorDashboardRoute
   AuthenticatedFavoritesRoute: typeof AuthenticatedFavoritesRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
+  AuthenticatedPharmacyDashboardRoute: typeof AuthenticatedPharmacyDashboardRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedBloodBecomeDonorRoute: typeof AuthenticatedBloodBecomeDonorRoute
@@ -828,6 +906,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDoctorDashboardRoute: AuthenticatedDoctorDashboardRoute,
   AuthenticatedFavoritesRoute: AuthenticatedFavoritesRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
+  AuthenticatedPharmacyDashboardRoute: AuthenticatedPharmacyDashboardRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedBloodBecomeDonorRoute: AuthenticatedBloodBecomeDonorRoute,
@@ -886,11 +965,17 @@ const DoctorsRouteWithChildren =
   DoctorsRoute._addFileChildren(DoctorsRouteChildren)
 
 interface PharmaciesRouteChildren {
+  PharmaciesMapRoute: typeof PharmaciesMapRoute
   PharmaciesOnDutyRoute: typeof PharmaciesOnDutyRoute
+  PharmaciesOpenRoute: typeof PharmaciesOpenRoute
+  PharmaciesSearchRoute: typeof PharmaciesSearchRoute
 }
 
 const PharmaciesRouteChildren: PharmaciesRouteChildren = {
+  PharmaciesMapRoute: PharmaciesMapRoute,
   PharmaciesOnDutyRoute: PharmaciesOnDutyRoute,
+  PharmaciesOpenRoute: PharmaciesOpenRoute,
+  PharmaciesSearchRoute: PharmaciesSearchRoute,
 }
 
 const PharmaciesRouteWithChildren = PharmaciesRoute._addFileChildren(
