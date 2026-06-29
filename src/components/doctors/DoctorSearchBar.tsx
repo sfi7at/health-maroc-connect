@@ -35,7 +35,7 @@ export function DoctorSearchBar({ initial = "", className, autoFocus }: Props) {
   const { data: specs = [] } = useQuery(specialtiesQuery());
   const debounced = useDebounced(q, 200);
 
-  const { data: suggestions = [], isFetching } = useQuery({
+  const { data: suggestions, isFetching } = useQuery({
     queryKey: ["doctor_search_sugg", debounced],
     enabled: debounced.trim().length > 1,
     queryFn: async () => {
