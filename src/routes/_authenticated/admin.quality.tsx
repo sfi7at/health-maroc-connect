@@ -26,8 +26,9 @@ function AdminQuality() {
 
   const stats = providers.data ?? [];
   const scores = stats.map((p) => {
-    const q = computeQualityScore(p as never);
-    return { ...p, score: q.score, signals: q.signals };
+    const obj = p as Record<string, unknown>;
+    const q = computeQualityScore(obj);
+    return { ...obj, score: q.score, signals: q.signals } as Record<string, unknown> & { id: string; name: string; category: string; score: number; signals: Record<string, boolean> };
   });
   const avg = scores.length ? Math.round(scores.reduce((s, p) => s + p.score, 0) / scores.length) : 0;
 
