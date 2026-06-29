@@ -124,7 +124,7 @@ function PharmaciesHome() {
         items={nearby}
         loading={isLoading}
         emptyLabel="Aucune pharmacie géolocalisée à proximité."
-        favoriteFn={(id) => toggle.mutate(id)}
+        favoriteFn={(id) => toggle(id)}
         isFavorite={isFavorite}
       />
 
@@ -135,7 +135,7 @@ function PharmaciesHome() {
         items={openNow}
         loading={isLoading}
         emptyLabel="Aucune pharmacie marquée ouverte pour le moment."
-        favoriteFn={(id) => toggle.mutate(id)}
+        favoriteFn={(id) => toggle(id)}
         isFavorite={isFavorite}
       />
 
@@ -146,7 +146,7 @@ function PharmaciesHome() {
         items={onDuty}
         loading={isLoading}
         emptyLabel="Aucune pharmacie de garde répertoriée pour aujourd'hui."
-        favoriteFn={(id) => toggle.mutate(id)}
+        favoriteFn={(id) => toggle(id)}
         isFavorite={isFavorite}
       />
 
@@ -156,7 +156,7 @@ function PharmaciesHome() {
         icon={Star}
         items={topRated}
         loading={isLoading}
-        favoriteFn={(id) => toggle.mutate(id)}
+        favoriteFn={(id) => toggle(id)}
         isFavorite={isFavorite}
       />
 
@@ -166,7 +166,7 @@ function PharmaciesHome() {
         icon={Sparkles}
         items={recent}
         loading={isLoading}
-        favoriteFn={(id) => toggle.mutate(id)}
+        favoriteFn={(id) => toggle(id)}
         isFavorite={isFavorite}
       />
     </div>
