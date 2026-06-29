@@ -41,6 +41,7 @@ import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
 import { Route as AuthenticatedAppointmentsRouteImport } from './routes/_authenticated/appointments'
+import { Route as DoctorsSpecialtySlugRouteImport } from './routes/doctors.specialty.$slug'
 import { Route as BloodDonorsIdRouteImport } from './routes/blood.donors.$id'
 import { Route as AuthenticatedBloodHistoryRouteImport } from './routes/_authenticated/blood.history'
 import { Route as AuthenticatedBloodBecomeDonorRouteImport } from './routes/_authenticated/blood.become-donor'
@@ -207,6 +208,11 @@ const AuthenticatedAppointmentsRoute =
     path: '/appointments',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const DoctorsSpecialtySlugRoute = DoctorsSpecialtySlugRouteImport.update({
+  id: '/specialty/$slug',
+  path: '/specialty/$slug',
+  getParentRoute: () => DoctorsRoute,
+} as any)
 const BloodDonorsIdRoute = BloodDonorsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -266,6 +272,7 @@ export interface FileRoutesByFullPath {
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
+  '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
 }
 export interface FileRoutesByTo {
@@ -303,6 +310,7 @@ export interface FileRoutesByTo {
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
+  '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
 }
 export interface FileRoutesById {
@@ -342,6 +350,7 @@ export interface FileRoutesById {
   '/_authenticated/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/_authenticated/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
+  '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/_authenticated/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
 }
 export interface FileRouteTypes {
@@ -381,6 +390,7 @@ export interface FileRouteTypes {
     | '/blood/become-donor'
     | '/blood/history'
     | '/blood/donors/$id'
+    | '/doctors/specialty/$slug'
     | '/blood/chat/$requestId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -418,6 +428,7 @@ export interface FileRouteTypes {
     | '/blood/become-donor'
     | '/blood/history'
     | '/blood/donors/$id'
+    | '/doctors/specialty/$slug'
     | '/blood/chat/$requestId'
   id:
     | '__root__'
@@ -456,6 +467,7 @@ export interface FileRouteTypes {
     | '/_authenticated/blood/become-donor'
     | '/_authenticated/blood/history'
     | '/blood/donors/$id'
+    | '/doctors/specialty/$slug'
     | '/_authenticated/blood/chat/$requestId'
   fileRoutesById: FileRoutesById
 }
@@ -706,6 +718,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppointmentsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/doctors/specialty/$slug': {
+      id: '/doctors/specialty/$slug'
+      path: '/specialty/$slug'
+      fullPath: '/doctors/specialty/$slug'
+      preLoaderRoute: typeof DoctorsSpecialtySlugRouteImport
+      parentRoute: typeof DoctorsRoute
+    }
     '/blood/donors/$id': {
       id: '/blood/donors/$id'
       path: '/$id'
@@ -796,12 +815,14 @@ interface DoctorsRouteChildren {
   DoctorsIdRoute: typeof DoctorsIdRoute
   DoctorsSearchRoute: typeof DoctorsSearchRoute
   DoctorsSpecialtiesRoute: typeof DoctorsSpecialtiesRoute
+  DoctorsSpecialtySlugRoute: typeof DoctorsSpecialtySlugRoute
 }
 
 const DoctorsRouteChildren: DoctorsRouteChildren = {
   DoctorsIdRoute: DoctorsIdRoute,
   DoctorsSearchRoute: DoctorsSearchRoute,
   DoctorsSpecialtiesRoute: DoctorsSpecialtiesRoute,
+  DoctorsSpecialtySlugRoute: DoctorsSpecialtySlugRoute,
 }
 
 const DoctorsRouteWithChildren =
