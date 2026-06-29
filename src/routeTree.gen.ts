@@ -66,6 +66,7 @@ import { Route as AuthenticatedProviderIndexRouteImport } from './routes/_authen
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as DoctorsSpecialtySlugRouteImport } from './routes/doctors.specialty.$slug'
 import { Route as BloodDonorsIdRouteImport } from './routes/blood.donors.$id'
+import { Route as ApiPublicSitemapDotxmlRouteImport } from './routes/api/public/sitemap[.]xml'
 import { Route as ApiPublicHealthRouteImport } from './routes/api/public/health'
 import { Route as AuthenticatedProviderVerificationRouteImport } from './routes/_authenticated/provider.verification'
 import { Route as AuthenticatedProviderSubscriptionRouteImport } from './routes/_authenticated/provider.subscription'
@@ -107,7 +108,6 @@ import { Route as AuthenticatedAdminBloodRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAdminArticlesRouteImport } from './routes/_authenticated/admin.articles'
 import { Route as AuthenticatedAdminAppointmentsRouteImport } from './routes/_authenticated/admin.appointments'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin.analytics'
-import { Route as ApiPublicSitemapXmlRouteImport } from './routes/api/public/sitemap.xml'
 import { Route as ApiPublicCronAppointmentRemindersRouteImport } from './routes/api/public/cron.appointment-reminders'
 import { Route as AuthenticatedBloodChatRequestIdRouteImport } from './routes/_authenticated/blood.chat.$requestId'
 import { Route as AuthenticatedAppointmentsNewProviderIdRouteImport } from './routes/_authenticated/appointments.new.$providerId'
@@ -408,6 +408,11 @@ const BloodDonorsIdRoute = BloodDonorsIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => BloodDonorsRoute,
 } as any)
+const ApiPublicSitemapDotxmlRoute = ApiPublicSitemapDotxmlRouteImport.update({
+  id: '/api/public/sitemap.xml',
+  path: '/api/public/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicHealthRoute = ApiPublicHealthRouteImport.update({
   id: '/api/public/health',
   path: '/api/public/health',
@@ -648,11 +653,6 @@ const AuthenticatedAdminAnalyticsRoute =
     path: '/analytics',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
-const ApiPublicSitemapXmlRoute = ApiPublicSitemapXmlRouteImport.update({
-  id: '/api/public/sitemap/xml',
-  path: '/api/public/sitemap/xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiPublicCronAppointmentRemindersRoute =
   ApiPublicCronAppointmentRemindersRouteImport.update({
     id: '/api/public/cron/appointment-reminders',
@@ -790,6 +790,7 @@ export interface FileRoutesByFullPath {
   '/provider/subscription': typeof AuthenticatedProviderSubscriptionRoute
   '/provider/verification': typeof AuthenticatedProviderVerificationRoute
   '/api/public/health': typeof ApiPublicHealthRoute
+  '/api/public/sitemap.xml': typeof ApiPublicSitemapDotxmlRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
@@ -801,7 +802,6 @@ export interface FileRoutesByFullPath {
   '/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
   '/api/public/cron/appointment-reminders': typeof ApiPublicCronAppointmentRemindersRoute
-  '/api/public/sitemap/xml': typeof ApiPublicSitemapXmlRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -895,6 +895,7 @@ export interface FileRoutesByTo {
   '/provider/subscription': typeof AuthenticatedProviderSubscriptionRoute
   '/provider/verification': typeof AuthenticatedProviderVerificationRoute
   '/api/public/health': typeof ApiPublicHealthRoute
+  '/api/public/sitemap.xml': typeof ApiPublicSitemapDotxmlRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
@@ -906,7 +907,6 @@ export interface FileRoutesByTo {
   '/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
   '/api/public/cron/appointment-reminders': typeof ApiPublicCronAppointmentRemindersRoute
-  '/api/public/sitemap/xml': typeof ApiPublicSitemapXmlRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -1004,6 +1004,7 @@ export interface FileRoutesById {
   '/_authenticated/provider/subscription': typeof AuthenticatedProviderSubscriptionRoute
   '/_authenticated/provider/verification': typeof AuthenticatedProviderVerificationRoute
   '/api/public/health': typeof ApiPublicHealthRoute
+  '/api/public/sitemap.xml': typeof ApiPublicSitemapDotxmlRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
@@ -1015,7 +1016,6 @@ export interface FileRoutesById {
   '/_authenticated/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/_authenticated/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
   '/api/public/cron/appointment-reminders': typeof ApiPublicCronAppointmentRemindersRoute
-  '/api/public/sitemap/xml': typeof ApiPublicSitemapXmlRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -1113,6 +1113,7 @@ export interface FileRouteTypes {
     | '/provider/subscription'
     | '/provider/verification'
     | '/api/public/health'
+    | '/api/public/sitemap.xml'
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
     | '/admin/'
@@ -1124,7 +1125,6 @@ export interface FileRouteTypes {
     | '/appointments/new/$providerId'
     | '/blood/chat/$requestId'
     | '/api/public/cron/appointment-reminders'
-    | '/api/public/sitemap/xml'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -1218,6 +1218,7 @@ export interface FileRouteTypes {
     | '/provider/subscription'
     | '/provider/verification'
     | '/api/public/health'
+    | '/api/public/sitemap.xml'
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
     | '/admin'
@@ -1229,7 +1230,6 @@ export interface FileRouteTypes {
     | '/appointments/new/$providerId'
     | '/blood/chat/$requestId'
     | '/api/public/cron/appointment-reminders'
-    | '/api/public/sitemap/xml'
   id:
     | '__root__'
     | '/'
@@ -1326,6 +1326,7 @@ export interface FileRouteTypes {
     | '/_authenticated/provider/subscription'
     | '/_authenticated/provider/verification'
     | '/api/public/health'
+    | '/api/public/sitemap.xml'
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
     | '/_authenticated/admin/'
@@ -1337,7 +1338,6 @@ export interface FileRouteTypes {
     | '/_authenticated/appointments/new/$providerId'
     | '/_authenticated/blood/chat/$requestId'
     | '/api/public/cron/appointment-reminders'
-    | '/api/public/sitemap/xml'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -1362,8 +1362,8 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   ProvidersIdRoute: typeof ProvidersIdRoute
   ApiPublicHealthRoute: typeof ApiPublicHealthRoute
+  ApiPublicSitemapDotxmlRoute: typeof ApiPublicSitemapDotxmlRoute
   ApiPublicCronAppointmentRemindersRoute: typeof ApiPublicCronAppointmentRemindersRoute
-  ApiPublicSitemapXmlRoute: typeof ApiPublicSitemapXmlRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1767,6 +1767,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BloodDonorsIdRouteImport
       parentRoute: typeof BloodDonorsRoute
     }
+    '/api/public/sitemap.xml': {
+      id: '/api/public/sitemap.xml'
+      path: '/api/public/sitemap.xml'
+      fullPath: '/api/public/sitemap.xml'
+      preLoaderRoute: typeof ApiPublicSitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/health': {
       id: '/api/public/health'
       path: '/api/public/health'
@@ -2053,13 +2060,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/analytics'
       preLoaderRoute: typeof AuthenticatedAdminAnalyticsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/api/public/sitemap/xml': {
-      id: '/api/public/sitemap/xml'
-      path: '/api/public/sitemap/xml'
-      fullPath: '/api/public/sitemap/xml'
-      preLoaderRoute: typeof ApiPublicSitemapXmlRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/api/public/cron/appointment-reminders': {
       id: '/api/public/cron/appointment-reminders'
@@ -2430,9 +2430,9 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   ProvidersIdRoute: ProvidersIdRoute,
   ApiPublicHealthRoute: ApiPublicHealthRoute,
+  ApiPublicSitemapDotxmlRoute: ApiPublicSitemapDotxmlRoute,
   ApiPublicCronAppointmentRemindersRoute:
     ApiPublicCronAppointmentRemindersRoute,
-  ApiPublicSitemapXmlRoute: ApiPublicSitemapXmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

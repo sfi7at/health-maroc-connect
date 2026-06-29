@@ -16,7 +16,7 @@ const STATIC_ROUTES: { path: string; priority: number; changefreq: string }[] = 
   { path: "/auth", priority: 0.5, changefreq: "yearly" },
 ];
 
-export const Route = createFileRoute("/api/public/sitemap/xml")({
+export const Route = createFileRoute("/api/public/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
