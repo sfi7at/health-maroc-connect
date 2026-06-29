@@ -41,6 +41,7 @@ import { Route as BloodCentersRouteImport } from './routes/blood.centers'
 import { Route as BloodCampaignsRouteImport } from './routes/blood.campaigns'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedPharmacyDashboardRouteImport } from './routes/_authenticated/pharmacy-dashboard'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
 import { Route as AuthenticatedDoctorDashboardRouteImport } from './routes/_authenticated/doctor-dashboard'
@@ -211,6 +212,12 @@ const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPharmacyDashboardRoute =
+  AuthenticatedPharmacyDashboardRouteImport.update({
+    id: '/pharmacy-dashboard',
+    path: '/pharmacy-dashboard',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedNotificationsRoute =
   AuthenticatedNotificationsRouteImport.update({
     id: '/notifications',
@@ -290,6 +297,7 @@ export interface FileRoutesByFullPath {
   '/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/favorites': typeof AuthenticatedFavoritesRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
+  '/pharmacy-dashboard': typeof AuthenticatedPharmacyDashboardRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/blood/campaigns': typeof BloodCampaignsRoute
@@ -333,6 +341,7 @@ export interface FileRoutesByTo {
   '/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/favorites': typeof AuthenticatedFavoritesRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
+  '/pharmacy-dashboard': typeof AuthenticatedPharmacyDashboardRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/blood/campaigns': typeof BloodCampaignsRoute
@@ -378,6 +387,7 @@ export interface FileRoutesById {
   '/_authenticated/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/_authenticated/favorites': typeof AuthenticatedFavoritesRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
+  '/_authenticated/pharmacy-dashboard': typeof AuthenticatedPharmacyDashboardRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/blood/campaigns': typeof BloodCampaignsRoute
@@ -423,6 +433,7 @@ export interface FileRouteTypes {
     | '/doctor-dashboard'
     | '/favorites'
     | '/notifications'
+    | '/pharmacy-dashboard'
     | '/profile'
     | '/settings'
     | '/blood/campaigns'
@@ -466,6 +477,7 @@ export interface FileRouteTypes {
     | '/doctor-dashboard'
     | '/favorites'
     | '/notifications'
+    | '/pharmacy-dashboard'
     | '/profile'
     | '/settings'
     | '/blood/campaigns'
@@ -510,6 +522,7 @@ export interface FileRouteTypes {
     | '/_authenticated/doctor-dashboard'
     | '/_authenticated/favorites'
     | '/_authenticated/notifications'
+    | '/_authenticated/pharmacy-dashboard'
     | '/_authenticated/profile'
     | '/_authenticated/settings'
     | '/blood/campaigns'
@@ -780,6 +793,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProfileRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/pharmacy-dashboard': {
+      id: '/_authenticated/pharmacy-dashboard'
+      path: '/pharmacy-dashboard'
+      fullPath: '/pharmacy-dashboard'
+      preLoaderRoute: typeof AuthenticatedPharmacyDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/notifications': {
       id: '/_authenticated/notifications'
       path: '/notifications'
@@ -873,6 +893,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDoctorDashboardRoute: typeof AuthenticatedDoctorDashboardRoute
   AuthenticatedFavoritesRoute: typeof AuthenticatedFavoritesRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
+  AuthenticatedPharmacyDashboardRoute: typeof AuthenticatedPharmacyDashboardRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedBloodBecomeDonorRoute: typeof AuthenticatedBloodBecomeDonorRoute
@@ -885,6 +906,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDoctorDashboardRoute: AuthenticatedDoctorDashboardRoute,
   AuthenticatedFavoritesRoute: AuthenticatedFavoritesRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
+  AuthenticatedPharmacyDashboardRoute: AuthenticatedPharmacyDashboardRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedBloodBecomeDonorRoute: AuthenticatedBloodBecomeDonorRoute,

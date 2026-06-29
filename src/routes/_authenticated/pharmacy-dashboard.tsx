@@ -34,10 +34,12 @@ import {
   myOwnedPharmaciesQuery,
   pharmacyReviewsQuery,
   readPharmacyMeta,
-  type PharmacyMeta,
   type PharmacyRow,
   type PharmacyService,
 } from "@/lib/pharmacies";
+import type { Database } from "@/integrations/supabase/types";
+
+type ProviderUpdate = Database["public"]["Tables"]["providers"]["Update"];
 import { buildHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/_authenticated/pharmacy-dashboard")({
@@ -204,7 +206,7 @@ function PharmacyTabs({ pharmacy }: { pharmacy: PharmacyRow }) {
 function useUpdatePharmacy(id: string) {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (patch: Partial<PharmacyRow>) => {
+    mutationFn: async (patch: ProviderUpdate) => {
       const { error } = await supabase.from("providers").update(patch).eq("id", id);
       if (error) throw error;
     },
