@@ -16,6 +16,7 @@ import {
 import { primaryNav, secondaryNav, footerNav } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
+import { useNotifications } from "@/hooks/use-notifications";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
@@ -71,12 +72,7 @@ export function TopNav() {
           >
             <Search className="h-5 w-5" />
           </Button>
-          <Link to="/notifications">
-            <Button variant="ghost" size="icon" aria-label="Notifications" className="relative">
-              <Bell className="h-5 w-5" />
-              <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-destructive" />
-            </Button>
-          </Link>
+          <NotificationBell />
           <AccountButton />
         </div>
       </div>
