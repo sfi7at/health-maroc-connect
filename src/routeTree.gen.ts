@@ -28,6 +28,8 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProvidersIdRouteImport } from './routes/providers.$id'
 import { Route as PharmaciesOnDutyRouteImport } from './routes/pharmacies.on-duty'
+import { Route as DoctorsSpecialtiesRouteImport } from './routes/doctors.specialties'
+import { Route as DoctorsSearchRouteImport } from './routes/doctors.search'
 import { Route as DoctorsIdRouteImport } from './routes/doctors.$id'
 import { Route as BloodRequestRouteImport } from './routes/blood.request'
 import { Route as BloodMapRouteImport } from './routes/blood.map'
@@ -38,11 +40,14 @@ import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
+import { Route as AuthenticatedDoctorDashboardRouteImport } from './routes/_authenticated/doctor-dashboard'
 import { Route as AuthenticatedAppointmentsRouteImport } from './routes/_authenticated/appointments'
+import { Route as DoctorsSpecialtySlugRouteImport } from './routes/doctors.specialty.$slug'
 import { Route as BloodDonorsIdRouteImport } from './routes/blood.donors.$id'
 import { Route as AuthenticatedBloodHistoryRouteImport } from './routes/_authenticated/blood.history'
 import { Route as AuthenticatedBloodBecomeDonorRouteImport } from './routes/_authenticated/blood.become-donor'
 import { Route as AuthenticatedBloodChatRequestIdRouteImport } from './routes/_authenticated/blood.chat.$requestId'
+import { Route as AuthenticatedAppointmentsBookProviderIdRouteImport } from './routes/_authenticated/appointments.book.$providerId'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -138,6 +143,16 @@ const PharmaciesOnDutyRoute = PharmaciesOnDutyRouteImport.update({
   path: '/on-duty',
   getParentRoute: () => PharmaciesRoute,
 } as any)
+const DoctorsSpecialtiesRoute = DoctorsSpecialtiesRouteImport.update({
+  id: '/specialties',
+  path: '/specialties',
+  getParentRoute: () => DoctorsRoute,
+} as any)
+const DoctorsSearchRoute = DoctorsSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => DoctorsRoute,
+} as any)
 const DoctorsIdRoute = DoctorsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -189,12 +204,23 @@ const AuthenticatedFavoritesRoute = AuthenticatedFavoritesRouteImport.update({
   path: '/favorites',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedDoctorDashboardRoute =
+  AuthenticatedDoctorDashboardRouteImport.update({
+    id: '/doctor-dashboard',
+    path: '/doctor-dashboard',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAppointmentsRoute =
   AuthenticatedAppointmentsRouteImport.update({
     id: '/appointments',
     path: '/appointments',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const DoctorsSpecialtySlugRoute = DoctorsSpecialtySlugRouteImport.update({
+  id: '/specialty/$slug',
+  path: '/specialty/$slug',
+  getParentRoute: () => DoctorsRoute,
+} as any)
 const BloodDonorsIdRoute = BloodDonorsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -218,6 +244,12 @@ const AuthenticatedBloodChatRequestIdRoute =
     path: '/blood/chat/$requestId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAppointmentsBookProviderIdRoute =
+  AuthenticatedAppointmentsBookProviderIdRouteImport.update({
+    id: '/book/$providerId',
+    path: '/book/$providerId',
+    getParentRoute: () => AuthenticatedAppointmentsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -236,7 +268,8 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
-  '/appointments': typeof AuthenticatedAppointmentsRoute
+  '/appointments': typeof AuthenticatedAppointmentsRouteWithChildren
+  '/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/favorites': typeof AuthenticatedFavoritesRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/profile': typeof AuthenticatedProfileRoute
@@ -247,11 +280,15 @@ export interface FileRoutesByFullPath {
   '/blood/map': typeof BloodMapRoute
   '/blood/request': typeof BloodRequestRoute
   '/doctors/$id': typeof DoctorsIdRoute
+  '/doctors/search': typeof DoctorsSearchRoute
+  '/doctors/specialties': typeof DoctorsSpecialtiesRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
+  '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
+  '/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
   '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
 }
 export interface FileRoutesByTo {
@@ -271,7 +308,8 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
-  '/appointments': typeof AuthenticatedAppointmentsRoute
+  '/appointments': typeof AuthenticatedAppointmentsRouteWithChildren
+  '/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/favorites': typeof AuthenticatedFavoritesRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/profile': typeof AuthenticatedProfileRoute
@@ -282,11 +320,15 @@ export interface FileRoutesByTo {
   '/blood/map': typeof BloodMapRoute
   '/blood/request': typeof BloodRequestRoute
   '/doctors/$id': typeof DoctorsIdRoute
+  '/doctors/search': typeof DoctorsSearchRoute
+  '/doctors/specialties': typeof DoctorsSpecialtiesRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
+  '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
+  '/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
   '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
 }
 export interface FileRoutesById {
@@ -308,7 +350,8 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
-  '/_authenticated/appointments': typeof AuthenticatedAppointmentsRoute
+  '/_authenticated/appointments': typeof AuthenticatedAppointmentsRouteWithChildren
+  '/_authenticated/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/_authenticated/favorites': typeof AuthenticatedFavoritesRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
@@ -319,11 +362,15 @@ export interface FileRoutesById {
   '/blood/map': typeof BloodMapRoute
   '/blood/request': typeof BloodRequestRoute
   '/doctors/$id': typeof DoctorsIdRoute
+  '/doctors/search': typeof DoctorsSearchRoute
+  '/doctors/specialties': typeof DoctorsSpecialtiesRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/_authenticated/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/_authenticated/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
+  '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
+  '/_authenticated/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
   '/_authenticated/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
 }
 export interface FileRouteTypes {
@@ -346,6 +393,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/appointments'
+    | '/doctor-dashboard'
     | '/favorites'
     | '/notifications'
     | '/profile'
@@ -356,11 +404,15 @@ export interface FileRouteTypes {
     | '/blood/map'
     | '/blood/request'
     | '/doctors/$id'
+    | '/doctors/search'
+    | '/doctors/specialties'
     | '/pharmacies/on-duty'
     | '/providers/$id'
     | '/blood/become-donor'
     | '/blood/history'
     | '/blood/donors/$id'
+    | '/doctors/specialty/$slug'
+    | '/appointments/book/$providerId'
     | '/blood/chat/$requestId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -381,6 +433,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/appointments'
+    | '/doctor-dashboard'
     | '/favorites'
     | '/notifications'
     | '/profile'
@@ -391,11 +444,15 @@ export interface FileRouteTypes {
     | '/blood/map'
     | '/blood/request'
     | '/doctors/$id'
+    | '/doctors/search'
+    | '/doctors/specialties'
     | '/pharmacies/on-duty'
     | '/providers/$id'
     | '/blood/become-donor'
     | '/blood/history'
     | '/blood/donors/$id'
+    | '/doctors/specialty/$slug'
+    | '/appointments/book/$providerId'
     | '/blood/chat/$requestId'
   id:
     | '__root__'
@@ -417,6 +474,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/_authenticated/appointments'
+    | '/_authenticated/doctor-dashboard'
     | '/_authenticated/favorites'
     | '/_authenticated/notifications'
     | '/_authenticated/profile'
@@ -427,11 +485,15 @@ export interface FileRouteTypes {
     | '/blood/map'
     | '/blood/request'
     | '/doctors/$id'
+    | '/doctors/search'
+    | '/doctors/specialties'
     | '/pharmacies/on-duty'
     | '/providers/$id'
     | '/_authenticated/blood/become-donor'
     | '/_authenticated/blood/history'
     | '/blood/donors/$id'
+    | '/doctors/specialty/$slug'
+    | '/_authenticated/appointments/book/$providerId'
     | '/_authenticated/blood/chat/$requestId'
   fileRoutesById: FileRoutesById
 }
@@ -591,6 +653,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PharmaciesOnDutyRouteImport
       parentRoute: typeof PharmaciesRoute
     }
+    '/doctors/specialties': {
+      id: '/doctors/specialties'
+      path: '/specialties'
+      fullPath: '/doctors/specialties'
+      preLoaderRoute: typeof DoctorsSpecialtiesRouteImport
+      parentRoute: typeof DoctorsRoute
+    }
+    '/doctors/search': {
+      id: '/doctors/search'
+      path: '/search'
+      fullPath: '/doctors/search'
+      preLoaderRoute: typeof DoctorsSearchRouteImport
+      parentRoute: typeof DoctorsRoute
+    }
     '/doctors/$id': {
       id: '/doctors/$id'
       path: '/$id'
@@ -661,12 +737,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFavoritesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/doctor-dashboard': {
+      id: '/_authenticated/doctor-dashboard'
+      path: '/doctor-dashboard'
+      fullPath: '/doctor-dashboard'
+      preLoaderRoute: typeof AuthenticatedDoctorDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/appointments': {
       id: '/_authenticated/appointments'
       path: '/appointments'
       fullPath: '/appointments'
       preLoaderRoute: typeof AuthenticatedAppointmentsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/doctors/specialty/$slug': {
+      id: '/doctors/specialty/$slug'
+      path: '/specialty/$slug'
+      fullPath: '/doctors/specialty/$slug'
+      preLoaderRoute: typeof DoctorsSpecialtySlugRouteImport
+      parentRoute: typeof DoctorsRoute
     }
     '/blood/donors/$id': {
       id: '/blood/donors/$id'
@@ -696,11 +786,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBloodChatRequestIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/appointments/book/$providerId': {
+      id: '/_authenticated/appointments/book/$providerId'
+      path: '/book/$providerId'
+      fullPath: '/appointments/book/$providerId'
+      preLoaderRoute: typeof AuthenticatedAppointmentsBookProviderIdRouteImport
+      parentRoute: typeof AuthenticatedAppointmentsRoute
+    }
   }
 }
 
+interface AuthenticatedAppointmentsRouteChildren {
+  AuthenticatedAppointmentsBookProviderIdRoute: typeof AuthenticatedAppointmentsBookProviderIdRoute
+}
+
+const AuthenticatedAppointmentsRouteChildren: AuthenticatedAppointmentsRouteChildren =
+  {
+    AuthenticatedAppointmentsBookProviderIdRoute:
+      AuthenticatedAppointmentsBookProviderIdRoute,
+  }
+
+const AuthenticatedAppointmentsRouteWithChildren =
+  AuthenticatedAppointmentsRoute._addFileChildren(
+    AuthenticatedAppointmentsRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedAppointmentsRoute: typeof AuthenticatedAppointmentsRoute
+  AuthenticatedAppointmentsRoute: typeof AuthenticatedAppointmentsRouteWithChildren
+  AuthenticatedDoctorDashboardRoute: typeof AuthenticatedDoctorDashboardRoute
   AuthenticatedFavoritesRoute: typeof AuthenticatedFavoritesRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
@@ -711,7 +824,8 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedAppointmentsRoute: AuthenticatedAppointmentsRoute,
+  AuthenticatedAppointmentsRoute: AuthenticatedAppointmentsRouteWithChildren,
+  AuthenticatedDoctorDashboardRoute: AuthenticatedDoctorDashboardRoute,
   AuthenticatedFavoritesRoute: AuthenticatedFavoritesRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
@@ -756,10 +870,16 @@ const BloodRouteWithChildren = BloodRoute._addFileChildren(BloodRouteChildren)
 
 interface DoctorsRouteChildren {
   DoctorsIdRoute: typeof DoctorsIdRoute
+  DoctorsSearchRoute: typeof DoctorsSearchRoute
+  DoctorsSpecialtiesRoute: typeof DoctorsSpecialtiesRoute
+  DoctorsSpecialtySlugRoute: typeof DoctorsSpecialtySlugRoute
 }
 
 const DoctorsRouteChildren: DoctorsRouteChildren = {
   DoctorsIdRoute: DoctorsIdRoute,
+  DoctorsSearchRoute: DoctorsSearchRoute,
+  DoctorsSpecialtiesRoute: DoctorsSpecialtiesRoute,
+  DoctorsSpecialtySlugRoute: DoctorsSpecialtySlugRoute,
 }
 
 const DoctorsRouteWithChildren =
