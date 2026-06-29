@@ -4,6 +4,7 @@ import {
   LayoutDashboard, Users, Stethoscope, Pill, Building2, FlaskConical,
   Droplet, CalendarCheck, FileText, Bell, Flag, Star, Tags, MapPin,
   Settings, Activity, BarChart3, ShieldCheck, Search, Menu, X, LogOut,
+  Upload, History, PencilLine, Database, Gauge, GitBranch,
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -56,6 +57,18 @@ const NAV: NavGroup[] = [
       { to: "/admin/categories", label: "Spécialités", icon: Tags },
       { to: "/admin/settings", label: "Paramètres", icon: Settings },
       { to: "/admin/logs", label: "Journaux", icon: Activity },
+    ],
+  },
+  {
+    label: "Moteur de données",
+    items: [
+      { to: "/admin/import", label: "Centre d'import", icon: Upload },
+      { to: "/admin/imports", label: "Historique imports", icon: History },
+      { to: "/admin/master-data", label: "Données maîtres", icon: Database },
+      { to: "/admin/quality", label: "Qualité des données", icon: Gauge },
+      { to: "/admin/claims", label: "Revendications", icon: ShieldCheck },
+      { to: "/admin/edits", label: "Corrections suggérées", icon: PencilLine },
+      { to: "/admin/versions", label: "Versions", icon: GitBranch },
     ],
   },
 ];

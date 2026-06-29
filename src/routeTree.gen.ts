@@ -79,14 +79,21 @@ import { Route as AuthenticatedBloodHistoryRouteImport } from './routes/_authent
 import { Route as AuthenticatedBloodBecomeDonorRouteImport } from './routes/_authenticated/blood.become-donor'
 import { Route as AuthenticatedAppointmentsCalendarRouteImport } from './routes/_authenticated/appointments.calendar'
 import { Route as AuthenticatedAppointmentsIdRouteImport } from './routes/_authenticated/appointments.$id'
+import { Route as AuthenticatedAdminVersionsRouteImport } from './routes/_authenticated/admin.versions'
 import { Route as AuthenticatedAdminVerificationRouteImport } from './routes/_authenticated/admin.verification'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 import { Route as AuthenticatedAdminReviewsRouteImport } from './routes/_authenticated/admin.reviews'
 import { Route as AuthenticatedAdminReportsRouteImport } from './routes/_authenticated/admin.reports'
+import { Route as AuthenticatedAdminQualityRouteImport } from './routes/_authenticated/admin.quality'
 import { Route as AuthenticatedAdminProvidersRouteImport } from './routes/_authenticated/admin.providers'
 import { Route as AuthenticatedAdminNotificationsRouteImport } from './routes/_authenticated/admin.notifications'
+import { Route as AuthenticatedAdminMasterDataRouteImport } from './routes/_authenticated/admin.master-data'
 import { Route as AuthenticatedAdminLogsRouteImport } from './routes/_authenticated/admin.logs'
+import { Route as AuthenticatedAdminImportsRouteImport } from './routes/_authenticated/admin.imports'
+import { Route as AuthenticatedAdminImportRouteImport } from './routes/_authenticated/admin.import'
+import { Route as AuthenticatedAdminEditsRouteImport } from './routes/_authenticated/admin.edits'
+import { Route as AuthenticatedAdminClaimsRouteImport } from './routes/_authenticated/admin.claims'
 import { Route as AuthenticatedAdminCitiesRouteImport } from './routes/_authenticated/admin.cities'
 import { Route as AuthenticatedAdminCategoriesRouteImport } from './routes/_authenticated/admin.categories'
 import { Route as AuthenticatedAdminBloodRouteImport } from './routes/_authenticated/admin.blood'
@@ -471,6 +478,12 @@ const AuthenticatedAppointmentsIdRoute =
     path: '/$id',
     getParentRoute: () => AuthenticatedAppointmentsRoute,
   } as any)
+const AuthenticatedAdminVersionsRoute =
+  AuthenticatedAdminVersionsRouteImport.update({
+    id: '/versions',
+    path: '/versions',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminVerificationRoute =
   AuthenticatedAdminVerificationRouteImport.update({
     id: '/verification',
@@ -500,6 +513,12 @@ const AuthenticatedAdminReportsRoute =
     path: '/reports',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminQualityRoute =
+  AuthenticatedAdminQualityRouteImport.update({
+    id: '/quality',
+    path: '/quality',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminProvidersRoute =
   AuthenticatedAdminProvidersRouteImport.update({
     id: '/providers',
@@ -512,11 +531,40 @@ const AuthenticatedAdminNotificationsRoute =
     path: '/notifications',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminMasterDataRoute =
+  AuthenticatedAdminMasterDataRouteImport.update({
+    id: '/master-data',
+    path: '/master-data',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminLogsRoute = AuthenticatedAdminLogsRouteImport.update({
   id: '/logs',
   path: '/logs',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminImportsRoute =
+  AuthenticatedAdminImportsRouteImport.update({
+    id: '/imports',
+    path: '/imports',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminImportRoute =
+  AuthenticatedAdminImportRouteImport.update({
+    id: '/import',
+    path: '/import',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminEditsRoute = AuthenticatedAdminEditsRouteImport.update({
+  id: '/edits',
+  path: '/edits',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminClaimsRoute =
+  AuthenticatedAdminClaimsRouteImport.update({
+    id: '/claims',
+    path: '/claims',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminCitiesRoute =
   AuthenticatedAdminCitiesRouteImport.update({
     id: '/cities',
@@ -633,14 +681,21 @@ export interface FileRoutesByFullPath {
   '/admin/blood': typeof AuthenticatedAdminBloodRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/cities': typeof AuthenticatedAdminCitiesRoute
+  '/admin/claims': typeof AuthenticatedAdminClaimsRoute
+  '/admin/edits': typeof AuthenticatedAdminEditsRoute
+  '/admin/import': typeof AuthenticatedAdminImportRoute
+  '/admin/imports': typeof AuthenticatedAdminImportsRoute
   '/admin/logs': typeof AuthenticatedAdminLogsRoute
+  '/admin/master-data': typeof AuthenticatedAdminMasterDataRoute
   '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/admin/providers': typeof AuthenticatedAdminProvidersRoute
+  '/admin/quality': typeof AuthenticatedAdminQualityRoute
   '/admin/reports': typeof AuthenticatedAdminReportsRoute
   '/admin/reviews': typeof AuthenticatedAdminReviewsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/verification': typeof AuthenticatedAdminVerificationRoute
+  '/admin/versions': typeof AuthenticatedAdminVersionsRoute
   '/appointments/$id': typeof AuthenticatedAppointmentsIdRoute
   '/appointments/calendar': typeof AuthenticatedAppointmentsCalendarRoute
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
@@ -720,14 +775,21 @@ export interface FileRoutesByTo {
   '/admin/blood': typeof AuthenticatedAdminBloodRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/cities': typeof AuthenticatedAdminCitiesRoute
+  '/admin/claims': typeof AuthenticatedAdminClaimsRoute
+  '/admin/edits': typeof AuthenticatedAdminEditsRoute
+  '/admin/import': typeof AuthenticatedAdminImportRoute
+  '/admin/imports': typeof AuthenticatedAdminImportsRoute
   '/admin/logs': typeof AuthenticatedAdminLogsRoute
+  '/admin/master-data': typeof AuthenticatedAdminMasterDataRoute
   '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/admin/providers': typeof AuthenticatedAdminProvidersRoute
+  '/admin/quality': typeof AuthenticatedAdminQualityRoute
   '/admin/reports': typeof AuthenticatedAdminReportsRoute
   '/admin/reviews': typeof AuthenticatedAdminReviewsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/verification': typeof AuthenticatedAdminVerificationRoute
+  '/admin/versions': typeof AuthenticatedAdminVersionsRoute
   '/appointments/$id': typeof AuthenticatedAppointmentsIdRoute
   '/appointments/calendar': typeof AuthenticatedAppointmentsCalendarRoute
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
@@ -811,14 +873,21 @@ export interface FileRoutesById {
   '/_authenticated/admin/blood': typeof AuthenticatedAdminBloodRoute
   '/_authenticated/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/_authenticated/admin/cities': typeof AuthenticatedAdminCitiesRoute
+  '/_authenticated/admin/claims': typeof AuthenticatedAdminClaimsRoute
+  '/_authenticated/admin/edits': typeof AuthenticatedAdminEditsRoute
+  '/_authenticated/admin/import': typeof AuthenticatedAdminImportRoute
+  '/_authenticated/admin/imports': typeof AuthenticatedAdminImportsRoute
   '/_authenticated/admin/logs': typeof AuthenticatedAdminLogsRoute
+  '/_authenticated/admin/master-data': typeof AuthenticatedAdminMasterDataRoute
   '/_authenticated/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/_authenticated/admin/providers': typeof AuthenticatedAdminProvidersRoute
+  '/_authenticated/admin/quality': typeof AuthenticatedAdminQualityRoute
   '/_authenticated/admin/reports': typeof AuthenticatedAdminReportsRoute
   '/_authenticated/admin/reviews': typeof AuthenticatedAdminReviewsRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/admin/verification': typeof AuthenticatedAdminVerificationRoute
+  '/_authenticated/admin/versions': typeof AuthenticatedAdminVersionsRoute
   '/_authenticated/appointments/$id': typeof AuthenticatedAppointmentsIdRoute
   '/_authenticated/appointments/calendar': typeof AuthenticatedAppointmentsCalendarRoute
   '/_authenticated/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
@@ -902,14 +971,21 @@ export interface FileRouteTypes {
     | '/admin/blood'
     | '/admin/categories'
     | '/admin/cities'
+    | '/admin/claims'
+    | '/admin/edits'
+    | '/admin/import'
+    | '/admin/imports'
     | '/admin/logs'
+    | '/admin/master-data'
     | '/admin/notifications'
     | '/admin/providers'
+    | '/admin/quality'
     | '/admin/reports'
     | '/admin/reviews'
     | '/admin/settings'
     | '/admin/users'
     | '/admin/verification'
+    | '/admin/versions'
     | '/appointments/$id'
     | '/appointments/calendar'
     | '/blood/become-donor'
@@ -989,14 +1065,21 @@ export interface FileRouteTypes {
     | '/admin/blood'
     | '/admin/categories'
     | '/admin/cities'
+    | '/admin/claims'
+    | '/admin/edits'
+    | '/admin/import'
+    | '/admin/imports'
     | '/admin/logs'
+    | '/admin/master-data'
     | '/admin/notifications'
     | '/admin/providers'
+    | '/admin/quality'
     | '/admin/reports'
     | '/admin/reviews'
     | '/admin/settings'
     | '/admin/users'
     | '/admin/verification'
+    | '/admin/versions'
     | '/appointments/$id'
     | '/appointments/calendar'
     | '/blood/become-donor'
@@ -1079,14 +1162,21 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/blood'
     | '/_authenticated/admin/categories'
     | '/_authenticated/admin/cities'
+    | '/_authenticated/admin/claims'
+    | '/_authenticated/admin/edits'
+    | '/_authenticated/admin/import'
+    | '/_authenticated/admin/imports'
     | '/_authenticated/admin/logs'
+    | '/_authenticated/admin/master-data'
     | '/_authenticated/admin/notifications'
     | '/_authenticated/admin/providers'
+    | '/_authenticated/admin/quality'
     | '/_authenticated/admin/reports'
     | '/_authenticated/admin/reviews'
     | '/_authenticated/admin/settings'
     | '/_authenticated/admin/users'
     | '/_authenticated/admin/verification'
+    | '/_authenticated/admin/versions'
     | '/_authenticated/appointments/$id'
     | '/_authenticated/appointments/calendar'
     | '/_authenticated/blood/become-donor'
@@ -1627,6 +1717,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppointmentsIdRouteImport
       parentRoute: typeof AuthenticatedAppointmentsRoute
     }
+    '/_authenticated/admin/versions': {
+      id: '/_authenticated/admin/versions'
+      path: '/versions'
+      fullPath: '/admin/versions'
+      preLoaderRoute: typeof AuthenticatedAdminVersionsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/verification': {
       id: '/_authenticated/admin/verification'
       path: '/verification'
@@ -1662,6 +1759,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminReportsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/quality': {
+      id: '/_authenticated/admin/quality'
+      path: '/quality'
+      fullPath: '/admin/quality'
+      preLoaderRoute: typeof AuthenticatedAdminQualityRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/providers': {
       id: '/_authenticated/admin/providers'
       path: '/providers'
@@ -1676,11 +1780,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminNotificationsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/master-data': {
+      id: '/_authenticated/admin/master-data'
+      path: '/master-data'
+      fullPath: '/admin/master-data'
+      preLoaderRoute: typeof AuthenticatedAdminMasterDataRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/logs': {
       id: '/_authenticated/admin/logs'
       path: '/logs'
       fullPath: '/admin/logs'
       preLoaderRoute: typeof AuthenticatedAdminLogsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/imports': {
+      id: '/_authenticated/admin/imports'
+      path: '/imports'
+      fullPath: '/admin/imports'
+      preLoaderRoute: typeof AuthenticatedAdminImportsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/import': {
+      id: '/_authenticated/admin/import'
+      path: '/import'
+      fullPath: '/admin/import'
+      preLoaderRoute: typeof AuthenticatedAdminImportRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/edits': {
+      id: '/_authenticated/admin/edits'
+      path: '/edits'
+      fullPath: '/admin/edits'
+      preLoaderRoute: typeof AuthenticatedAdminEditsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/claims': {
+      id: '/_authenticated/admin/claims'
+      path: '/claims'
+      fullPath: '/admin/claims'
+      preLoaderRoute: typeof AuthenticatedAdminClaimsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/cities': {
@@ -1763,14 +1902,21 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminBloodRoute: typeof AuthenticatedAdminBloodRoute
   AuthenticatedAdminCategoriesRoute: typeof AuthenticatedAdminCategoriesRoute
   AuthenticatedAdminCitiesRoute: typeof AuthenticatedAdminCitiesRoute
+  AuthenticatedAdminClaimsRoute: typeof AuthenticatedAdminClaimsRoute
+  AuthenticatedAdminEditsRoute: typeof AuthenticatedAdminEditsRoute
+  AuthenticatedAdminImportRoute: typeof AuthenticatedAdminImportRoute
+  AuthenticatedAdminImportsRoute: typeof AuthenticatedAdminImportsRoute
   AuthenticatedAdminLogsRoute: typeof AuthenticatedAdminLogsRoute
+  AuthenticatedAdminMasterDataRoute: typeof AuthenticatedAdminMasterDataRoute
   AuthenticatedAdminNotificationsRoute: typeof AuthenticatedAdminNotificationsRoute
   AuthenticatedAdminProvidersRoute: typeof AuthenticatedAdminProvidersRoute
+  AuthenticatedAdminQualityRoute: typeof AuthenticatedAdminQualityRoute
   AuthenticatedAdminReportsRoute: typeof AuthenticatedAdminReportsRoute
   AuthenticatedAdminReviewsRoute: typeof AuthenticatedAdminReviewsRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAdminVerificationRoute: typeof AuthenticatedAdminVerificationRoute
+  AuthenticatedAdminVersionsRoute: typeof AuthenticatedAdminVersionsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
@@ -1781,14 +1927,21 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminBloodRoute: AuthenticatedAdminBloodRoute,
   AuthenticatedAdminCategoriesRoute: AuthenticatedAdminCategoriesRoute,
   AuthenticatedAdminCitiesRoute: AuthenticatedAdminCitiesRoute,
+  AuthenticatedAdminClaimsRoute: AuthenticatedAdminClaimsRoute,
+  AuthenticatedAdminEditsRoute: AuthenticatedAdminEditsRoute,
+  AuthenticatedAdminImportRoute: AuthenticatedAdminImportRoute,
+  AuthenticatedAdminImportsRoute: AuthenticatedAdminImportsRoute,
   AuthenticatedAdminLogsRoute: AuthenticatedAdminLogsRoute,
+  AuthenticatedAdminMasterDataRoute: AuthenticatedAdminMasterDataRoute,
   AuthenticatedAdminNotificationsRoute: AuthenticatedAdminNotificationsRoute,
   AuthenticatedAdminProvidersRoute: AuthenticatedAdminProvidersRoute,
+  AuthenticatedAdminQualityRoute: AuthenticatedAdminQualityRoute,
   AuthenticatedAdminReportsRoute: AuthenticatedAdminReportsRoute,
   AuthenticatedAdminReviewsRoute: AuthenticatedAdminReviewsRoute,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAdminVerificationRoute: AuthenticatedAdminVerificationRoute,
+  AuthenticatedAdminVersionsRoute: AuthenticatedAdminVersionsRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
 

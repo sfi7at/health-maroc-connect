@@ -246,6 +246,42 @@ export type Database = {
           },
         ]
       }
+      article_categories: {
+        Row: {
+          created_at: string
+          icon: string | null
+          id: string
+          is_active: boolean
+          name_ar: string | null
+          name_en: string | null
+          name_fr: string
+          slug: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr: string
+          slug: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr?: string
+          slug?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
       articles: {
         Row: {
           author_id: string | null
@@ -690,6 +726,42 @@ export type Database = {
           },
         ]
       }
+      campaign_categories: {
+        Row: {
+          created_at: string
+          icon: string | null
+          id: string
+          is_active: boolean
+          name_ar: string | null
+          name_en: string | null
+          name_fr: string
+          slug: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr: string
+          slug: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr?: string
+          slug?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
       cities: {
         Row: {
           created_at: string
@@ -727,6 +799,155 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      claim_requests: {
+        Row: {
+          business_document_url: string | null
+          business_registration: string | null
+          claimant_id: string
+          created_at: string
+          full_name: string | null
+          id: string
+          identity_document_url: string | null
+          license_document_url: string | null
+          notes: string | null
+          professional_license: string | null
+          provider_id: string
+          review_notes: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          business_document_url?: string | null
+          business_registration?: string | null
+          claimant_id: string
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          identity_document_url?: string | null
+          license_document_url?: string | null
+          notes?: string | null
+          professional_license?: string | null
+          provider_id: string
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          business_document_url?: string | null
+          business_registration?: string | null
+          claimant_id?: string
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          identity_document_url?: string | null
+          license_document_url?: string | null
+          notes?: string | null
+          professional_license?: string | null
+          provider_id?: string
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "claim_requests_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      consultation_types: {
+        Row: {
+          created_at: string
+          default_duration_minutes: number | null
+          icon: string | null
+          id: string
+          is_active: boolean
+          name_ar: string | null
+          name_en: string | null
+          name_fr: string
+          slug: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          default_duration_minutes?: number | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr: string
+          slug: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          default_duration_minutes?: number | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr?: string
+          slug?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      countries: {
+        Row: {
+          created_at: string
+          currency_code: string | null
+          id: string
+          is_active: boolean
+          iso2: string
+          iso3: string | null
+          name_ar: string | null
+          name_en: string | null
+          name_fr: string
+          phone_code: string | null
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          currency_code?: string | null
+          id?: string
+          is_active?: boolean
+          iso2: string
+          iso3?: string | null
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr: string
+          phone_code?: string | null
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          currency_code?: string | null
+          id?: string
+          is_active?: boolean
+          iso2?: string
+          iso3?: string | null
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr?: string
+          phone_code?: string | null
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
       }
       districts: {
         Row: {
@@ -811,6 +1032,99 @@ export type Database = {
           },
         ]
       }
+      edit_requests: {
+        Row: {
+          created_at: string
+          current_value: string | null
+          entity_id: string
+          entity_type: string
+          field: string | null
+          id: string
+          proposed_value: string | null
+          reason: string | null
+          review_notes: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          submitted_by: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          current_value?: string | null
+          entity_id: string
+          entity_type: string
+          field?: string | null
+          id?: string
+          proposed_value?: string | null
+          reason?: string | null
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          submitted_by?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          current_value?: string | null
+          entity_id?: string
+          entity_type?: string
+          field?: string | null
+          id?: string
+          proposed_value?: string | null
+          reason?: string | null
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          submitted_by?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      emergency_categories: {
+        Row: {
+          color: string | null
+          created_at: string
+          icon: string | null
+          id: string
+          is_active: boolean
+          name_ar: string | null
+          name_en: string | null
+          name_fr: string
+          phone_number: string | null
+          slug: string
+          sort_order: number
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr: string
+          phone_number?: string | null
+          slug: string
+          sort_order?: number
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr?: string
+          phone_number?: string | null
+          slug?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
       emergency_contacts: {
         Row: {
           created_at: string
@@ -841,6 +1155,42 @@ export type Database = {
         }
         Relationships: []
       }
+      facility_categories: {
+        Row: {
+          created_at: string
+          icon: string | null
+          id: string
+          is_active: boolean
+          name_ar: string | null
+          name_en: string | null
+          name_fr: string
+          slug: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr: string
+          slug: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr?: string
+          slug?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
       favorites: {
         Row: {
           created_at: string
@@ -866,6 +1216,335 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      hospital_departments_catalog: {
+        Row: {
+          created_at: string
+          icon: string | null
+          id: string
+          is_active: boolean
+          name_ar: string | null
+          name_en: string | null
+          name_fr: string
+          slug: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr: string
+          slug: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr?: string
+          slug?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      import_errors: {
+        Row: {
+          created_at: string
+          field: string | null
+          id: string
+          job_id: string
+          message: string
+          payload: Json | null
+          row_number: number | null
+          severity: string
+        }
+        Insert: {
+          created_at?: string
+          field?: string | null
+          id?: string
+          job_id: string
+          message: string
+          payload?: Json | null
+          row_number?: number | null
+          severity?: string
+        }
+        Update: {
+          created_at?: string
+          field?: string | null
+          id?: string
+          job_id?: string
+          message?: string
+          payload?: Json | null
+          row_number?: number | null
+          severity?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "import_errors_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "import_jobs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      import_jobs: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          dataset: string
+          duplicate_count: number
+          duration_ms: number | null
+          finished_at: string | null
+          id: string
+          inserted_count: number
+          mapping: Json
+          options: Json
+          rejected_count: number
+          report: Json
+          source_filename: string | null
+          source_format: string | null
+          source_storage_path: string | null
+          started_at: string | null
+          status: string
+          total_rows: number
+          updated_at: string
+          updated_count: number
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          dataset: string
+          duplicate_count?: number
+          duration_ms?: number | null
+          finished_at?: string | null
+          id?: string
+          inserted_count?: number
+          mapping?: Json
+          options?: Json
+          rejected_count?: number
+          report?: Json
+          source_filename?: string | null
+          source_format?: string | null
+          source_storage_path?: string | null
+          started_at?: string | null
+          status?: string
+          total_rows?: number
+          updated_at?: string
+          updated_count?: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          dataset?: string
+          duplicate_count?: number
+          duration_ms?: number | null
+          finished_at?: string | null
+          id?: string
+          inserted_count?: number
+          mapping?: Json
+          options?: Json
+          rejected_count?: number
+          report?: Json
+          source_filename?: string | null
+          source_format?: string | null
+          source_storage_path?: string | null
+          started_at?: string | null
+          status?: string
+          total_rows?: number
+          updated_at?: string
+          updated_count?: number
+        }
+        Relationships: []
+      }
+      import_mappings: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          dataset: string
+          id: string
+          is_shared: boolean
+          mapping: Json
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          dataset: string
+          id?: string
+          is_shared?: boolean
+          mapping?: Json
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          dataset?: string
+          id?: string
+          is_shared?: boolean
+          mapping?: Json
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      insurance_companies: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          logo_url: string | null
+          name_ar: string | null
+          name_en: string | null
+          name_fr: string
+          phone: string | null
+          short_code: string | null
+          slug: string
+          sort_order: number
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          logo_url?: string | null
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr: string
+          phone?: string | null
+          short_code?: string | null
+          slug: string
+          sort_order?: number
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          logo_url?: string | null
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr?: string
+          phone?: string | null
+          short_code?: string | null
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
+      laboratory_categories: {
+        Row: {
+          created_at: string
+          icon: string | null
+          id: string
+          is_active: boolean
+          name_ar: string | null
+          name_en: string | null
+          name_fr: string
+          slug: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr: string
+          slug: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr?: string
+          slug?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      languages: {
+        Row: {
+          code: string
+          created_at: string
+          id: string
+          is_active: boolean
+          is_rtl: boolean
+          name_ar: string | null
+          name_en: string | null
+          name_fr: string
+          native_name: string | null
+          sort_order: number
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          is_rtl?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr: string
+          native_name?: string | null
+          sort_order?: number
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          is_rtl?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr?: string
+          native_name?: string | null
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      mdm_quality_scores: {
+        Row: {
+          computed_at: string
+          entity_id: string
+          entity_type: string
+          id: string
+          score: number
+          signals: Json
+        }
+        Insert: {
+          computed_at?: string
+          entity_id: string
+          entity_type: string
+          id?: string
+          score?: number
+          signals?: Json
+        }
+        Update: {
+          computed_at?: string
+          entity_id?: string
+          entity_type?: string
+          id?: string
+          score?: number
+          signals?: Json
+        }
+        Relationships: []
       }
       medical_conditions: {
         Row: {
@@ -930,6 +1609,42 @@ export type Database = {
           storage_path?: string
           title?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      medical_equipment: {
+        Row: {
+          category: string | null
+          created_at: string
+          id: string
+          is_active: boolean
+          name_ar: string | null
+          name_en: string | null
+          name_fr: string
+          slug: string
+          sort_order: number
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr: string
+          slug: string
+          sort_order?: number
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr?: string
+          slug?: string
+          sort_order?: number
         }
         Relationships: []
       }
@@ -1013,6 +1728,84 @@ export type Database = {
           },
         ]
       }
+      medical_services_catalog: {
+        Row: {
+          category: string | null
+          created_at: string
+          description: string | null
+          icon: string | null
+          id: string
+          is_active: boolean
+          name_ar: string | null
+          name_en: string | null
+          name_fr: string
+          slug: string
+          sort_order: number
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr: string
+          slug: string
+          sort_order?: number
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr?: string
+          slug?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      notification_categories: {
+        Row: {
+          created_at: string
+          icon: string | null
+          id: string
+          is_active: boolean
+          name_ar: string | null
+          name_en: string | null
+          name_fr: string
+          slug: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr: string
+          slug: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr?: string
+          slug?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
       notification_preferences: {
         Row: {
           appointments: boolean
@@ -1085,6 +1878,33 @@ export type Database = {
         }
         Relationships: []
       }
+      permissions: {
+        Row: {
+          category: string | null
+          code: string
+          created_at: string
+          description: string | null
+          id: string
+          name_fr: string
+        }
+        Insert: {
+          category?: string | null
+          code: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          name_fr: string
+        }
+        Update: {
+          category?: string | null
+          code?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          name_fr?: string
+        }
+        Relationships: []
+      }
       pharmacies_on_duty: {
         Row: {
           city_id: string
@@ -1148,6 +1968,116 @@ export type Database = {
             columns: ["province_id"]
             isOneToOne: false
             referencedRelation: "provinces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pharmacy_categories: {
+        Row: {
+          created_at: string
+          icon: string | null
+          id: string
+          is_active: boolean
+          name_ar: string | null
+          name_en: string | null
+          name_fr: string
+          slug: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr: string
+          slug: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr?: string
+          slug?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      postal_codes: {
+        Row: {
+          city_id: string | null
+          code: string
+          created_at: string
+          district_id: string | null
+          id: string
+        }
+        Insert: {
+          city_id?: string | null
+          code: string
+          created_at?: string
+          district_id?: string | null
+          id?: string
+        }
+        Update: {
+          city_id?: string | null
+          code?: string
+          created_at?: string
+          district_id?: string | null
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "postal_codes_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "postal_codes_district_id_fkey"
+            columns: ["district_id"]
+            isOneToOne: false
+            referencedRelation: "districts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      prefectures: {
+        Row: {
+          code: string | null
+          created_at: string
+          id: string
+          name_ar: string | null
+          name_fr: string
+          region_id: string | null
+        }
+        Insert: {
+          code?: string | null
+          created_at?: string
+          id?: string
+          name_ar?: string | null
+          name_fr: string
+          region_id?: string | null
+        }
+        Update: {
+          code?: string | null
+          created_at?: string
+          id?: string
+          name_ar?: string | null
+          name_fr?: string
+          region_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "prefectures_region_id_fkey"
+            columns: ["region_id"]
+            isOneToOne: false
+            referencedRelation: "regions"
             referencedColumns: ["id"]
           },
         ]
@@ -1283,6 +2213,42 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "provider_blocked_dates_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      provider_insurance: {
+        Row: {
+          created_at: string
+          insurance_id: string
+          notes: string | null
+          provider_id: string
+        }
+        Insert: {
+          created_at?: string
+          insurance_id: string
+          notes?: string | null
+          provider_id: string
+        }
+        Update: {
+          created_at?: string
+          insurance_id?: string
+          notes?: string | null
+          provider_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "provider_insurance_insurance_id_fkey"
+            columns: ["insurance_id"]
+            isOneToOne: false
+            referencedRelation: "insurance_companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "provider_insurance_provider_id_fkey"
             columns: ["provider_id"]
             isOneToOne: false
             referencedRelation: "providers"
@@ -1563,6 +2529,42 @@ export type Database = {
           },
         ]
       }
+      record_versions: {
+        Row: {
+          change_reason: string | null
+          changed_by: string | null
+          created_at: string
+          entity_id: string
+          entity_type: string
+          id: string
+          new_value: Json | null
+          old_value: Json | null
+          version: number
+        }
+        Insert: {
+          change_reason?: string | null
+          changed_by?: string | null
+          created_at?: string
+          entity_id: string
+          entity_type: string
+          id?: string
+          new_value?: Json | null
+          old_value?: Json | null
+          version?: number
+        }
+        Update: {
+          change_reason?: string | null
+          changed_by?: string | null
+          created_at?: string
+          entity_id?: string
+          entity_type?: string
+          id?: string
+          new_value?: Json | null
+          old_value?: Json | null
+          version?: number
+        }
+        Relationships: []
+      }
       regions: {
         Row: {
           code: string | null
@@ -1679,6 +2681,32 @@ export type Database = {
           },
         ]
       }
+      role_permissions: {
+        Row: {
+          created_at: string
+          permission_id: string
+          role: Database["public"]["Enums"]["app_role"]
+        }
+        Insert: {
+          created_at?: string
+          permission_id: string
+          role: Database["public"]["Enums"]["app_role"]
+        }
+        Update: {
+          created_at?: string
+          permission_id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "role_permissions_permission_id_fkey"
+            columns: ["permission_id"]
+            isOneToOne: false
+            referencedRelation: "permissions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       specialties: {
         Row: {
           category: Database["public"]["Enums"]["provider_category"] | null
@@ -1706,6 +2734,95 @@ export type Database = {
           name_ar?: string | null
           name_fr?: string
           slug?: string
+        }
+        Relationships: []
+      }
+      sub_specialties: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          name_ar: string | null
+          name_en: string | null
+          name_fr: string
+          slug: string
+          sort_order: number
+          specialty_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr: string
+          slug: string
+          sort_order?: number
+          specialty_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr?: string
+          slug?: string
+          sort_order?: number
+          specialty_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sub_specialties_specialty_id_fkey"
+            columns: ["specialty_id"]
+            isOneToOne: false
+            referencedRelation: "specialties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      subscription_plans: {
+        Row: {
+          billing_cycle: string
+          created_at: string
+          features: Json
+          id: string
+          is_active: boolean
+          name_ar: string | null
+          name_en: string | null
+          name_fr: string
+          price_mad: number
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          billing_cycle?: string
+          created_at?: string
+          features?: Json
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr: string
+          price_mad?: number
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          billing_cycle?: string
+          created_at?: string
+          features?: Json
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr?: string
+          price_mad?: number
+          slug?: string
+          sort_order?: number
+          updated_at?: string
         }
         Relationships: []
       }
