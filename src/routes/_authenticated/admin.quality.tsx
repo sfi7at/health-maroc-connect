@@ -17,7 +17,7 @@ function AdminQuality() {
     queryKey: ["mdm-quality"],
     queryFn: async () => {
       const { data, error } = await supabase.from("providers")
-        .select("id, name, category, phone, email, address, latitude, longitude, website, license_number, description, city_id, is_verified")
+        .select("id, name, category, phone, email, address, latitude, longitude, website, description, city_id, is_verified")
         .limit(300);
       if (error) throw error;
       return data ?? [];
@@ -26,9 +26,9 @@ function AdminQuality() {
 
   const stats = providers.data ?? [];
   const scores = stats.map((p) => {
-    const obj = p as Record<string, unknown>;
+    const obj = p as unknown as Record<string, unknown>;
     const q = computeQualityScore(obj);
-    return { ...obj, score: q.score, signals: q.signals } as Record<string, unknown> & { id: string; name: string; category: string; score: number; signals: Record<string, boolean> };
+    return { id: String(obj.id), name: String(obj.name), category: String(obj.category), score: q.score, signals: q.signals };
   });
   const avg = scores.length ? Math.round(scores.reduce((s, p) => s + p.score, 0) / scores.length) : 0;
 
