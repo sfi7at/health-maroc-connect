@@ -18,29 +18,47 @@ export type Database = {
         Row: {
           action: string
           actor_id: string | null
+          actor_role: string | null
+          after_state: Json | null
+          before_state: Json | null
           created_at: string
           entity_id: string | null
           entity_type: string | null
           id: string
+          ip_address: unknown
           metadata: Json
+          severity: string
+          user_agent: string | null
         }
         Insert: {
           action: string
           actor_id?: string | null
+          actor_role?: string | null
+          after_state?: Json | null
+          before_state?: Json | null
           created_at?: string
           entity_id?: string | null
           entity_type?: string | null
           id?: string
+          ip_address?: unknown
           metadata?: Json
+          severity?: string
+          user_agent?: string | null
         }
         Update: {
           action?: string
           actor_id?: string | null
+          actor_role?: string | null
+          after_state?: Json | null
+          before_state?: Json | null
           created_at?: string
           entity_id?: string | null
           entity_type?: string | null
           id?: string
+          ip_address?: unknown
           metadata?: Json
+          severity?: string
+          user_agent?: string | null
         }
         Relationships: []
       }
@@ -420,6 +438,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      blocked_entities: {
+        Row: {
+          blocked_by: string | null
+          created_at: string
+          expires_at: string | null
+          id: string
+          kind: string
+          reason: string | null
+          value: string
+        }
+        Insert: {
+          blocked_by?: string | null
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          kind: string
+          reason?: string | null
+          value: string
+        }
+        Update: {
+          blocked_by?: string | null
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          kind?: string
+          reason?: string | null
+          value?: string
+        }
+        Relationships: []
       }
       blood_campaign_registrations: {
         Row: {
@@ -1338,6 +1386,39 @@ export type Database = {
           },
         ]
       }
+      fraud_signals: {
+        Row: {
+          created_at: string
+          details: Json
+          id: string
+          resolved: boolean
+          signal_type: string
+          target_id: string | null
+          target_type: string
+          weight: number
+        }
+        Insert: {
+          created_at?: string
+          details?: Json
+          id?: string
+          resolved?: boolean
+          signal_type: string
+          target_id?: string | null
+          target_type: string
+          weight?: number
+        }
+        Update: {
+          created_at?: string
+          details?: Json
+          id?: string
+          resolved?: boolean
+          signal_type?: string
+          target_id?: string | null
+          target_type?: string
+          weight?: number
+        }
+        Relationships: []
+      }
       hospital_departments_catalog: {
         Row: {
           created_at: string
@@ -1637,6 +1718,39 @@ export type Database = {
           name_fr?: string
           native_name?: string | null
           sort_order?: number
+        }
+        Relationships: []
+      }
+      login_attempts: {
+        Row: {
+          created_at: string
+          email: string | null
+          failure_reason: string | null
+          id: string
+          ip_address: unknown
+          success: boolean
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          failure_reason?: string | null
+          id?: string
+          ip_address?: unknown
+          success?: boolean
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          failure_reason?: string | null
+          id?: string
+          ip_address?: unknown
+          success?: boolean
+          user_agent?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -2599,6 +2713,38 @@ export type Database = {
           },
         ]
       }
+      provider_trust_scores: {
+        Row: {
+          computed_at: string
+          factors: Json
+          level: string
+          provider_id: string
+          score: number
+        }
+        Insert: {
+          computed_at?: string
+          factors?: Json
+          level?: string
+          provider_id: string
+          score?: number
+        }
+        Update: {
+          computed_at?: string
+          factors?: Json
+          level?: string
+          provider_id?: string
+          score?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "provider_trust_scores_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: true
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       providers: {
         Row: {
           address: string | null
@@ -2623,7 +2769,13 @@ export type Database = {
           profile_image: string | null
           reviews_count: number
           slug: string | null
+          suspended_at: string | null
+          suspension_reason: string | null
           updated_at: string
+          verification_notes: string | null
+          verification_status: Database["public"]["Enums"]["verification_status"]
+          verified_at: string | null
+          verified_by: string | null
           website: string | null
           working_hours: Json
         }
@@ -2650,7 +2802,13 @@ export type Database = {
           profile_image?: string | null
           reviews_count?: number
           slug?: string | null
+          suspended_at?: string | null
+          suspension_reason?: string | null
           updated_at?: string
+          verification_notes?: string | null
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+          verified_at?: string | null
+          verified_by?: string | null
           website?: string | null
           working_hours?: Json
         }
@@ -2677,7 +2835,13 @@ export type Database = {
           profile_image?: string | null
           reviews_count?: number
           slug?: string | null
+          suspended_at?: string | null
+          suspension_reason?: string | null
           updated_at?: string
+          verification_notes?: string | null
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+          verified_at?: string | null
+          verified_by?: string | null
           website?: string | null
           working_hours?: Json
         }
@@ -2766,6 +2930,24 @@ export type Database = {
           p256dh?: string
           user_agent?: string | null
           user_id?: string
+        }
+        Relationships: []
+      }
+      rate_limit_buckets: {
+        Row: {
+          bucket_key: string
+          count: number
+          window_start: string
+        }
+        Insert: {
+          bucket_key: string
+          count?: number
+          window_start: string
+        }
+        Update: {
+          bucket_key?: string
+          count?: number
+          window_start?: string
         }
         Relationships: []
       }
@@ -2947,6 +3129,54 @@ export type Database = {
           },
         ]
       }
+      security_events: {
+        Row: {
+          city: string | null
+          country: string | null
+          created_at: string
+          event_type: string
+          id: string
+          ip_address: unknown
+          metadata: Json
+          resolved: boolean
+          resolved_at: string | null
+          resolved_by: string | null
+          severity: string
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          event_type: string
+          id?: string
+          ip_address?: unknown
+          metadata?: Json
+          resolved?: boolean
+          resolved_at?: string | null
+          resolved_by?: string | null
+          severity?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          event_type?: string
+          id?: string
+          ip_address?: unknown
+          metadata?: Json
+          resolved?: boolean
+          resolved_at?: string | null
+          resolved_by?: string | null
+          severity?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       specialties: {
         Row: {
           category: Database["public"]["Enums"]["provider_category"] | null
@@ -3066,6 +3296,42 @@ export type Database = {
         }
         Relationships: []
       }
+      user_devices: {
+        Row: {
+          created_at: string
+          device_name: string | null
+          fingerprint: string
+          id: string
+          ip_address: unknown
+          last_seen_at: string
+          trusted: boolean
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          device_name?: string | null
+          fingerprint: string
+          id?: string
+          ip_address?: unknown
+          last_seen_at?: string
+          trusted?: boolean
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          device_name?: string | null
+          fingerprint?: string
+          id?: string
+          ip_address?: unknown
+          last_seen_at?: string
+          trusted?: boolean
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -3129,6 +3395,15 @@ export type Database = {
         Args: { _request: string; _user: string }
         Returns: boolean
       }
+      check_brute_force: {
+        Args: {
+          _email: string
+          _ip: unknown
+          _max_attempts?: number
+          _window_minutes?: number
+        }
+        Returns: boolean
+      }
       check_notification_rate_limit: {
         Args: {
           _max_count?: number
@@ -3137,6 +3412,15 @@ export type Database = {
           _window_minutes?: number
         }
         Returns: boolean
+      }
+      compute_provider_trust: { Args: { _provider: string }; Returns: number }
+      detect_duplicate_providers: {
+        Args: { _provider: string }
+        Returns: {
+          duplicate_id: string
+          reason: string
+          similarity: number
+        }[]
       }
       get_donor_contact_for_request: {
         Args: { _donor: string; _request: string }
@@ -3190,6 +3474,11 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      is_blocked: { Args: { _kind: string; _value: string }; Returns: boolean }
+      log_security_event: {
+        Args: { _meta?: Json; _severity: string; _type: string; _user: string }
+        Returns: string
       }
       owns_provider: {
         Args: { _provider_id: string; _user_id: string }
@@ -3275,6 +3564,13 @@ export type Database = {
         | "clinic"
         | "hospital"
         | "blood_center"
+      verification_status:
+        | "pending"
+        | "under_review"
+        | "verified"
+        | "official_verified"
+        | "rejected"
+        | "suspended"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -3486,6 +3782,14 @@ export const Constants = {
         "clinic",
         "hospital",
         "blood_center",
+      ],
+      verification_status: [
+        "pending",
+        "under_review",
+        "verified",
+        "official_verified",
+        "rejected",
+        "suspended",
       ],
     },
   },
