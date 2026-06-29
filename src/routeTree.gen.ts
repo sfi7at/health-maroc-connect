@@ -31,6 +31,10 @@ import { Route as PharmaciesSearchRouteImport } from './routes/pharmacies.search
 import { Route as PharmaciesOpenRouteImport } from './routes/pharmacies.open'
 import { Route as PharmaciesOnDutyRouteImport } from './routes/pharmacies.on-duty'
 import { Route as PharmaciesMapRouteImport } from './routes/pharmacies.map'
+import { Route as LaboratoriesSearchRouteImport } from './routes/laboratories.search'
+import { Route as LaboratoriesOpenRouteImport } from './routes/laboratories.open'
+import { Route as LaboratoriesMapRouteImport } from './routes/laboratories.map'
+import { Route as LaboratoriesAnalysesRouteImport } from './routes/laboratories.analyses'
 import { Route as DoctorsSpecialtiesRouteImport } from './routes/doctors.specialties'
 import { Route as DoctorsSearchRouteImport } from './routes/doctors.search'
 import { Route as DoctorsIdRouteImport } from './routes/doctors.$id'
@@ -43,6 +47,7 @@ import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedPharmacyDashboardRouteImport } from './routes/_authenticated/pharmacy-dashboard'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
+import { Route as AuthenticatedLaboratoryDashboardRouteImport } from './routes/_authenticated/laboratory-dashboard'
 import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
 import { Route as AuthenticatedDoctorDashboardRouteImport } from './routes/_authenticated/doctor-dashboard'
 import { Route as AuthenticatedAppointmentsRouteImport } from './routes/_authenticated/appointments'
@@ -162,6 +167,26 @@ const PharmaciesMapRoute = PharmaciesMapRouteImport.update({
   path: '/map',
   getParentRoute: () => PharmaciesRoute,
 } as any)
+const LaboratoriesSearchRoute = LaboratoriesSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => LaboratoriesRoute,
+} as any)
+const LaboratoriesOpenRoute = LaboratoriesOpenRouteImport.update({
+  id: '/open',
+  path: '/open',
+  getParentRoute: () => LaboratoriesRoute,
+} as any)
+const LaboratoriesMapRoute = LaboratoriesMapRouteImport.update({
+  id: '/map',
+  path: '/map',
+  getParentRoute: () => LaboratoriesRoute,
+} as any)
+const LaboratoriesAnalysesRoute = LaboratoriesAnalysesRouteImport.update({
+  id: '/analyses',
+  path: '/analyses',
+  getParentRoute: () => LaboratoriesRoute,
+} as any)
 const DoctorsSpecialtiesRoute = DoctorsSpecialtiesRouteImport.update({
   id: '/specialties',
   path: '/specialties',
@@ -222,6 +247,12 @@ const AuthenticatedNotificationsRoute =
   AuthenticatedNotificationsRouteImport.update({
     id: '/notifications',
     path: '/notifications',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedLaboratoryDashboardRoute =
+  AuthenticatedLaboratoryDashboardRouteImport.update({
+    id: '/laboratory-dashboard',
+    path: '/laboratory-dashboard',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedFavoritesRoute = AuthenticatedFavoritesRouteImport.update({
@@ -285,7 +316,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/doctors': typeof DoctorsRouteWithChildren
   '/hospitals': typeof HospitalsRoute
-  '/laboratories': typeof LaboratoriesRoute
+  '/laboratories': typeof LaboratoriesRouteWithChildren
   '/map': typeof MapRoute
   '/pharmacies': typeof PharmaciesRouteWithChildren
   '/privacy': typeof PrivacyRoute
@@ -296,6 +327,7 @@ export interface FileRoutesByFullPath {
   '/appointments': typeof AuthenticatedAppointmentsRouteWithChildren
   '/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/favorites': typeof AuthenticatedFavoritesRoute
+  '/laboratory-dashboard': typeof AuthenticatedLaboratoryDashboardRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/pharmacy-dashboard': typeof AuthenticatedPharmacyDashboardRoute
   '/profile': typeof AuthenticatedProfileRoute
@@ -308,6 +340,10 @@ export interface FileRoutesByFullPath {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/laboratories/analyses': typeof LaboratoriesAnalysesRoute
+  '/laboratories/map': typeof LaboratoriesMapRoute
+  '/laboratories/open': typeof LaboratoriesOpenRoute
+  '/laboratories/search': typeof LaboratoriesSearchRoute
   '/pharmacies/map': typeof PharmaciesMapRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/pharmacies/open': typeof PharmaciesOpenRoute
@@ -329,7 +365,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/doctors': typeof DoctorsRouteWithChildren
   '/hospitals': typeof HospitalsRoute
-  '/laboratories': typeof LaboratoriesRoute
+  '/laboratories': typeof LaboratoriesRouteWithChildren
   '/map': typeof MapRoute
   '/pharmacies': typeof PharmaciesRouteWithChildren
   '/privacy': typeof PrivacyRoute
@@ -340,6 +376,7 @@ export interface FileRoutesByTo {
   '/appointments': typeof AuthenticatedAppointmentsRouteWithChildren
   '/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/favorites': typeof AuthenticatedFavoritesRoute
+  '/laboratory-dashboard': typeof AuthenticatedLaboratoryDashboardRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/pharmacy-dashboard': typeof AuthenticatedPharmacyDashboardRoute
   '/profile': typeof AuthenticatedProfileRoute
@@ -352,6 +389,10 @@ export interface FileRoutesByTo {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/laboratories/analyses': typeof LaboratoriesAnalysesRoute
+  '/laboratories/map': typeof LaboratoriesMapRoute
+  '/laboratories/open': typeof LaboratoriesOpenRoute
+  '/laboratories/search': typeof LaboratoriesSearchRoute
   '/pharmacies/map': typeof PharmaciesMapRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/pharmacies/open': typeof PharmaciesOpenRoute
@@ -375,7 +416,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/doctors': typeof DoctorsRouteWithChildren
   '/hospitals': typeof HospitalsRoute
-  '/laboratories': typeof LaboratoriesRoute
+  '/laboratories': typeof LaboratoriesRouteWithChildren
   '/map': typeof MapRoute
   '/pharmacies': typeof PharmaciesRouteWithChildren
   '/privacy': typeof PrivacyRoute
@@ -386,6 +427,7 @@ export interface FileRoutesById {
   '/_authenticated/appointments': typeof AuthenticatedAppointmentsRouteWithChildren
   '/_authenticated/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/_authenticated/favorites': typeof AuthenticatedFavoritesRoute
+  '/_authenticated/laboratory-dashboard': typeof AuthenticatedLaboratoryDashboardRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/pharmacy-dashboard': typeof AuthenticatedPharmacyDashboardRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
@@ -398,6 +440,10 @@ export interface FileRoutesById {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/laboratories/analyses': typeof LaboratoriesAnalysesRoute
+  '/laboratories/map': typeof LaboratoriesMapRoute
+  '/laboratories/open': typeof LaboratoriesOpenRoute
+  '/laboratories/search': typeof LaboratoriesSearchRoute
   '/pharmacies/map': typeof PharmaciesMapRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/pharmacies/open': typeof PharmaciesOpenRoute
@@ -432,6 +478,7 @@ export interface FileRouteTypes {
     | '/appointments'
     | '/doctor-dashboard'
     | '/favorites'
+    | '/laboratory-dashboard'
     | '/notifications'
     | '/pharmacy-dashboard'
     | '/profile'
@@ -444,6 +491,10 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/laboratories/analyses'
+    | '/laboratories/map'
+    | '/laboratories/open'
+    | '/laboratories/search'
     | '/pharmacies/map'
     | '/pharmacies/on-duty'
     | '/pharmacies/open'
@@ -476,6 +527,7 @@ export interface FileRouteTypes {
     | '/appointments'
     | '/doctor-dashboard'
     | '/favorites'
+    | '/laboratory-dashboard'
     | '/notifications'
     | '/pharmacy-dashboard'
     | '/profile'
@@ -488,6 +540,10 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/laboratories/analyses'
+    | '/laboratories/map'
+    | '/laboratories/open'
+    | '/laboratories/search'
     | '/pharmacies/map'
     | '/pharmacies/on-duty'
     | '/pharmacies/open'
@@ -521,6 +577,7 @@ export interface FileRouteTypes {
     | '/_authenticated/appointments'
     | '/_authenticated/doctor-dashboard'
     | '/_authenticated/favorites'
+    | '/_authenticated/laboratory-dashboard'
     | '/_authenticated/notifications'
     | '/_authenticated/pharmacy-dashboard'
     | '/_authenticated/profile'
@@ -533,6 +590,10 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/laboratories/analyses'
+    | '/laboratories/map'
+    | '/laboratories/open'
+    | '/laboratories/search'
     | '/pharmacies/map'
     | '/pharmacies/on-duty'
     | '/pharmacies/open'
@@ -556,7 +617,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   DoctorsRoute: typeof DoctorsRouteWithChildren
   HospitalsRoute: typeof HospitalsRoute
-  LaboratoriesRoute: typeof LaboratoriesRoute
+  LaboratoriesRoute: typeof LaboratoriesRouteWithChildren
   MapRoute: typeof MapRoute
   PharmaciesRoute: typeof PharmaciesRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
@@ -723,6 +784,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PharmaciesMapRouteImport
       parentRoute: typeof PharmaciesRoute
     }
+    '/laboratories/search': {
+      id: '/laboratories/search'
+      path: '/search'
+      fullPath: '/laboratories/search'
+      preLoaderRoute: typeof LaboratoriesSearchRouteImport
+      parentRoute: typeof LaboratoriesRoute
+    }
+    '/laboratories/open': {
+      id: '/laboratories/open'
+      path: '/open'
+      fullPath: '/laboratories/open'
+      preLoaderRoute: typeof LaboratoriesOpenRouteImport
+      parentRoute: typeof LaboratoriesRoute
+    }
+    '/laboratories/map': {
+      id: '/laboratories/map'
+      path: '/map'
+      fullPath: '/laboratories/map'
+      preLoaderRoute: typeof LaboratoriesMapRouteImport
+      parentRoute: typeof LaboratoriesRoute
+    }
+    '/laboratories/analyses': {
+      id: '/laboratories/analyses'
+      path: '/analyses'
+      fullPath: '/laboratories/analyses'
+      preLoaderRoute: typeof LaboratoriesAnalysesRouteImport
+      parentRoute: typeof LaboratoriesRoute
+    }
     '/doctors/specialties': {
       id: '/doctors/specialties'
       path: '/specialties'
@@ -805,6 +894,13 @@ declare module '@tanstack/react-router' {
       path: '/notifications'
       fullPath: '/notifications'
       preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/laboratory-dashboard': {
+      id: '/_authenticated/laboratory-dashboard'
+      path: '/laboratory-dashboard'
+      fullPath: '/laboratory-dashboard'
+      preLoaderRoute: typeof AuthenticatedLaboratoryDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/favorites': {
@@ -892,6 +988,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppointmentsRoute: typeof AuthenticatedAppointmentsRouteWithChildren
   AuthenticatedDoctorDashboardRoute: typeof AuthenticatedDoctorDashboardRoute
   AuthenticatedFavoritesRoute: typeof AuthenticatedFavoritesRoute
+  AuthenticatedLaboratoryDashboardRoute: typeof AuthenticatedLaboratoryDashboardRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedPharmacyDashboardRoute: typeof AuthenticatedPharmacyDashboardRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
@@ -905,6 +1002,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppointmentsRoute: AuthenticatedAppointmentsRouteWithChildren,
   AuthenticatedDoctorDashboardRoute: AuthenticatedDoctorDashboardRoute,
   AuthenticatedFavoritesRoute: AuthenticatedFavoritesRoute,
+  AuthenticatedLaboratoryDashboardRoute: AuthenticatedLaboratoryDashboardRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedPharmacyDashboardRoute: AuthenticatedPharmacyDashboardRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
@@ -964,6 +1062,24 @@ const DoctorsRouteChildren: DoctorsRouteChildren = {
 const DoctorsRouteWithChildren =
   DoctorsRoute._addFileChildren(DoctorsRouteChildren)
 
+interface LaboratoriesRouteChildren {
+  LaboratoriesAnalysesRoute: typeof LaboratoriesAnalysesRoute
+  LaboratoriesMapRoute: typeof LaboratoriesMapRoute
+  LaboratoriesOpenRoute: typeof LaboratoriesOpenRoute
+  LaboratoriesSearchRoute: typeof LaboratoriesSearchRoute
+}
+
+const LaboratoriesRouteChildren: LaboratoriesRouteChildren = {
+  LaboratoriesAnalysesRoute: LaboratoriesAnalysesRoute,
+  LaboratoriesMapRoute: LaboratoriesMapRoute,
+  LaboratoriesOpenRoute: LaboratoriesOpenRoute,
+  LaboratoriesSearchRoute: LaboratoriesSearchRoute,
+}
+
+const LaboratoriesRouteWithChildren = LaboratoriesRoute._addFileChildren(
+  LaboratoriesRouteChildren,
+)
+
 interface PharmaciesRouteChildren {
   PharmaciesMapRoute: typeof PharmaciesMapRoute
   PharmaciesOnDutyRoute: typeof PharmaciesOnDutyRoute
@@ -992,7 +1108,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   DoctorsRoute: DoctorsRouteWithChildren,
   HospitalsRoute: HospitalsRoute,
-  LaboratoriesRoute: LaboratoriesRoute,
+  LaboratoriesRoute: LaboratoriesRouteWithChildren,
   MapRoute: MapRoute,
   PharmaciesRoute: PharmaciesRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
