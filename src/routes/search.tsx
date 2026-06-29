@@ -1,16 +1,23 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Search, Stethoscope, Pill, Building2, FlaskConical } from "lucide-react";
-import { useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { useState, useEffect, useMemo } from "react";
+import { Search as SearchIcon } from "lucide-react";
+import { z } from "zod";
 import { PageHeader } from "@/components/common/PageHeader";
-import { SearchBar } from "@/components/common/SearchBar";
-import { EmptyState } from "@/components/common/EmptyState";
-import { ServiceCard } from "@/components/cards/ServiceCard";
+import { Input } from "@/components/ui/input";
+import { CategoryChips } from "@/components/common/CategoryChips";
+import { ProviderCard } from "@/components/common/ProviderCard";
+import { providersQuery } from "@/lib/queries";
 import { buildHead } from "@/lib/seo";
+import type { ProviderCategory } from "@/lib/format";
+
+const searchSchema = z.object({ q: z.string().optional().catch("") });
 
 export const Route = createFileRoute("/search")({
+  validateSearch: searchSchema,
   head: () =>
     buildHead({
-      title: "Recherche",
+      title: "Recherche — HealthLink Maroc",
       description: "Recherchez médecins, pharmacies, hôpitaux et laboratoires partout au Maroc.",
       path: "/search",
     }),
@@ -18,41 +25,64 @@ export const Route = createFileRoute("/search")({
 });
 
 function SearchPage() {
-  const [q, setQ] = useState("");
+  const { q } = Route.useSearch();
+  const [text, setText] = useState(q ?? "");
+  const [debounced, setDebounced] = useState(q ?? "");
+  const [category, setCategory] = useState<ProviderCategory | "all">("all");
+
+  useEffect(() => {
+    const t = setTimeout(() => setDebounced(text), 250);
+    return () => clearTimeout(t);
+  }, [text]);
+
+  const { data, isLoading } = useQuery(providersQuery({ category, search: debounced }));
+  const list = useMemo(() => data ?? [], [data]);
+
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <PageHeader
         eyebrow="Recherche universelle"
         title="Tout chercher"
-        description="Une seule barre de recherche pour tous les services de santé."
-        icon={<Search className="h-5 w-5" />}
-      />
-      <SearchBar
-        value={q}
-        onChange={setQ}
-        placeholder="Médecin, spécialité, pharmacie, hôpital, laboratoire…"
-        onFilters={() => {}}
+        description="Médecins, pharmacies, hôpitaux, laboratoires — partout au Maroc."
+        icon={<SearchIcon className="h-5 w-5" />}
       />
 
-      <section>
-        <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-          Catégories
-        </h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <ServiceCard to="/doctors" icon={Stethoscope} title="Médecins" description="Annuaire & rendez-vous" accent="primary" />
-          <ServiceCard to="/pharmacies" icon={Pill} title="Pharmacies" description="Proximité & garde" accent="secondary" />
-          <ServiceCard to="/hospitals" icon={Building2} title="Hôpitaux" description="Publics & privés" accent="info" />
-          <ServiceCard to="/laboratories" icon={FlaskConical} title="Laboratoires" description="Analyses & imagerie" accent="warning" />
-        </div>
-      </section>
-
-      {q && (
-        <EmptyState
-          icon={Search}
-          title={`Aucun résultat pour « ${q} »`}
-          description="La recherche temps réel sera disponible dès la connexion aux sources de données."
+      <div className="relative">
+        <SearchIcon className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <Input
+          autoFocus
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="Rechercher un médecin, une pharmacie, une ville…"
+          className="h-12 rounded-2xl pl-11 shadow-soft"
+          aria-label="Rechercher"
         />
+      </div>
+
+      <CategoryChips value={category} onChange={setCategory} />
+
+      {isLoading ? (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="h-56 animate-pulse rounded-3xl bg-muted/50" />
+          ))}
+        </div>
+      ) : list.length === 0 ? (
+        <div className="rounded-3xl border border-dashed border-border bg-card p-10 text-center text-sm text-muted-foreground">
+          Aucun résultat. Essayez un autre mot-clé ou changez de catégorie.
+        </div>
+      ) : (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {list.map((p) => (
+            <ProviderCard key={p.id} provider={p} />
+          ))}
+        </div>
       )}
+
+      <p className="text-center text-xs text-muted-foreground">
+        Vous ne trouvez pas ce que vous cherchez ?{" "}
+        <Link to="/contact" className="font-medium text-primary hover:underline">Signalez-le</Link>
+      </p>
     </div>
   );
 }

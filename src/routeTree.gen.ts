@@ -11,27 +11,28 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PharmaciesRouteImport } from './routes/pharmacies'
-import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as LaboratoriesRouteImport } from './routes/laboratories'
 import { Route as HospitalsRouteImport } from './routes/hospitals'
-import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as DoctorsRouteImport } from './routes/doctors'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BloodRouteImport } from './routes/blood'
 import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AppointmentsRouteImport } from './routes/appointments'
 import { Route as AiAssistantRouteImport } from './routes/ai-assistant'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProvidersIdRouteImport } from './routes/providers.$id'
 import { Route as PharmaciesOnDutyRouteImport } from './routes/pharmacies.on-duty'
 import { Route as DoctorsIdRouteImport } from './routes/doctors.$id'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
+import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
+import { Route as AuthenticatedAppointmentsRouteImport } from './routes/_authenticated/appointments'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -41,11 +42,6 @@ const TermsRoute = TermsRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsRoute = SettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SearchRoute = SearchRouteImport.update({
@@ -68,11 +64,6 @@ const PharmaciesRoute = PharmaciesRouteImport.update({
   path: '/pharmacies',
   getParentRoute: () => rootRouteImport,
 } as any)
-const NotificationsRoute = NotificationsRouteImport.update({
-  id: '/notifications',
-  path: '/notifications',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LaboratoriesRoute = LaboratoriesRouteImport.update({
   id: '/laboratories',
   path: '/laboratories',
@@ -81,11 +72,6 @@ const LaboratoriesRoute = LaboratoriesRouteImport.update({
 const HospitalsRoute = HospitalsRouteImport.update({
   id: '/hospitals',
   path: '/hospitals',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FavoritesRoute = FavoritesRouteImport.update({
-  id: '/favorites',
-  path: '/favorites',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DoctorsRoute = DoctorsRouteImport.update({
@@ -108,11 +94,6 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppointmentsRoute = AppointmentsRouteImport.update({
-  id: '/appointments',
-  path: '/appointments',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AiAssistantRoute = AiAssistantRouteImport.update({
   id: '/ai-assistant',
   path: '/ai-assistant',
@@ -132,6 +113,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProvidersIdRoute = ProvidersIdRouteImport.update({
+  id: '/providers/$id',
+  path: '/providers/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PharmaciesOnDutyRoute = PharmaciesOnDutyRouteImport.update({
   id: '/on-duty',
   path: '/on-duty',
@@ -142,59 +128,83 @@ const DoctorsIdRoute = DoctorsIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => DoctorsRoute,
 } as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedNotificationsRoute =
+  AuthenticatedNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedFavoritesRoute = AuthenticatedFavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAppointmentsRoute =
+  AuthenticatedAppointmentsRouteImport.update({
+    id: '/appointments',
+    path: '/appointments',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/ai-assistant': typeof AiAssistantRoute
-  '/appointments': typeof AppointmentsRoute
   '/auth': typeof AuthRoute
   '/blood': typeof BloodRoute
   '/contact': typeof ContactRoute
   '/doctors': typeof DoctorsRouteWithChildren
-  '/favorites': typeof FavoritesRoute
   '/hospitals': typeof HospitalsRoute
   '/laboratories': typeof LaboratoriesRoute
-  '/notifications': typeof NotificationsRoute
   '/pharmacies': typeof PharmaciesRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/search': typeof SearchRoute
-  '/settings': typeof SettingsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/appointments': typeof AuthenticatedAppointmentsRoute
+  '/favorites': typeof AuthenticatedFavoritesRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/doctors/$id': typeof DoctorsIdRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
+  '/providers/$id': typeof ProvidersIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/ai-assistant': typeof AiAssistantRoute
-  '/appointments': typeof AppointmentsRoute
   '/auth': typeof AuthRoute
   '/blood': typeof BloodRoute
   '/contact': typeof ContactRoute
   '/doctors': typeof DoctorsRouteWithChildren
-  '/favorites': typeof FavoritesRoute
   '/hospitals': typeof HospitalsRoute
   '/laboratories': typeof LaboratoriesRoute
-  '/notifications': typeof NotificationsRoute
   '/pharmacies': typeof PharmaciesRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/search': typeof SearchRoute
-  '/settings': typeof SettingsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/appointments': typeof AuthenticatedAppointmentsRoute
+  '/favorites': typeof AuthenticatedFavoritesRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/doctors/$id': typeof DoctorsIdRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
+  '/providers/$id': typeof ProvidersIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -202,25 +212,26 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/ai-assistant': typeof AiAssistantRoute
-  '/appointments': typeof AppointmentsRoute
   '/auth': typeof AuthRoute
   '/blood': typeof BloodRoute
   '/contact': typeof ContactRoute
   '/doctors': typeof DoctorsRouteWithChildren
-  '/favorites': typeof FavoritesRoute
   '/hospitals': typeof HospitalsRoute
   '/laboratories': typeof LaboratoriesRoute
-  '/notifications': typeof NotificationsRoute
   '/pharmacies': typeof PharmaciesRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/search': typeof SearchRoute
-  '/settings': typeof SettingsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/_authenticated/appointments': typeof AuthenticatedAppointmentsRoute
+  '/_authenticated/favorites': typeof AuthenticatedFavoritesRoute
+  '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/doctors/$id': typeof DoctorsIdRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
+  '/providers/$id': typeof ProvidersIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -228,74 +239,77 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/ai-assistant'
-    | '/appointments'
     | '/auth'
     | '/blood'
     | '/contact'
     | '/doctors'
-    | '/favorites'
     | '/hospitals'
     | '/laboratories'
-    | '/notifications'
     | '/pharmacies'
     | '/privacy'
     | '/reset-password'
     | '/search'
-    | '/settings'
     | '/sitemap.xml'
     | '/terms'
+    | '/appointments'
+    | '/favorites'
+    | '/notifications'
     | '/profile'
+    | '/settings'
     | '/doctors/$id'
     | '/pharmacies/on-duty'
+    | '/providers/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/ai-assistant'
-    | '/appointments'
     | '/auth'
     | '/blood'
     | '/contact'
     | '/doctors'
-    | '/favorites'
     | '/hospitals'
     | '/laboratories'
-    | '/notifications'
     | '/pharmacies'
     | '/privacy'
     | '/reset-password'
     | '/search'
-    | '/settings'
     | '/sitemap.xml'
     | '/terms'
+    | '/appointments'
+    | '/favorites'
+    | '/notifications'
     | '/profile'
+    | '/settings'
     | '/doctors/$id'
     | '/pharmacies/on-duty'
+    | '/providers/$id'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/about'
     | '/ai-assistant'
-    | '/appointments'
     | '/auth'
     | '/blood'
     | '/contact'
     | '/doctors'
-    | '/favorites'
     | '/hospitals'
     | '/laboratories'
-    | '/notifications'
     | '/pharmacies'
     | '/privacy'
     | '/reset-password'
     | '/search'
-    | '/settings'
     | '/sitemap.xml'
     | '/terms'
+    | '/_authenticated/appointments'
+    | '/_authenticated/favorites'
+    | '/_authenticated/notifications'
     | '/_authenticated/profile'
+    | '/_authenticated/settings'
     | '/doctors/$id'
     | '/pharmacies/on-duty'
+    | '/providers/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -303,22 +317,19 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   AiAssistantRoute: typeof AiAssistantRoute
-  AppointmentsRoute: typeof AppointmentsRoute
   AuthRoute: typeof AuthRoute
   BloodRoute: typeof BloodRoute
   ContactRoute: typeof ContactRoute
   DoctorsRoute: typeof DoctorsRouteWithChildren
-  FavoritesRoute: typeof FavoritesRoute
   HospitalsRoute: typeof HospitalsRoute
   LaboratoriesRoute: typeof LaboratoriesRoute
-  NotificationsRoute: typeof NotificationsRoute
   PharmaciesRoute: typeof PharmaciesRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SearchRoute: typeof SearchRoute
-  SettingsRoute: typeof SettingsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
+  ProvidersIdRoute: typeof ProvidersIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -335,13 +346,6 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings': {
-      id: '/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/search': {
@@ -372,13 +376,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PharmaciesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/notifications': {
-      id: '/notifications'
-      path: '/notifications'
-      fullPath: '/notifications'
-      preLoaderRoute: typeof NotificationsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/laboratories': {
       id: '/laboratories'
       path: '/laboratories'
@@ -391,13 +388,6 @@ declare module '@tanstack/react-router' {
       path: '/hospitals'
       fullPath: '/hospitals'
       preLoaderRoute: typeof HospitalsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/favorites': {
-      id: '/favorites'
-      path: '/favorites'
-      fullPath: '/favorites'
-      preLoaderRoute: typeof FavoritesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/doctors': {
@@ -428,13 +418,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/appointments': {
-      id: '/appointments'
-      path: '/appointments'
-      fullPath: '/appointments'
-      preLoaderRoute: typeof AppointmentsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/ai-assistant': {
       id: '/ai-assistant'
       path: '/ai-assistant'
@@ -463,6 +446,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/providers/$id': {
+      id: '/providers/$id'
+      path: '/providers/$id'
+      fullPath: '/providers/$id'
+      preLoaderRoute: typeof ProvidersIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pharmacies/on-duty': {
       id: '/pharmacies/on-duty'
       path: '/on-duty'
@@ -477,6 +467,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DoctorsIdRouteImport
       parentRoute: typeof DoctorsRoute
     }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/profile': {
       id: '/_authenticated/profile'
       path: '/profile'
@@ -484,15 +481,44 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProfileRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/notifications': {
+      id: '/_authenticated/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/favorites': {
+      id: '/_authenticated/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof AuthenticatedFavoritesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/appointments': {
+      id: '/_authenticated/appointments'
+      path: '/appointments'
+      fullPath: '/appointments'
+      preLoaderRoute: typeof AuthenticatedAppointmentsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAppointmentsRoute: typeof AuthenticatedAppointmentsRoute
+  AuthenticatedFavoritesRoute: typeof AuthenticatedFavoritesRoute
+  AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAppointmentsRoute: AuthenticatedAppointmentsRoute,
+  AuthenticatedFavoritesRoute: AuthenticatedFavoritesRoute,
+  AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -526,22 +552,19 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   AiAssistantRoute: AiAssistantRoute,
-  AppointmentsRoute: AppointmentsRoute,
   AuthRoute: AuthRoute,
   BloodRoute: BloodRoute,
   ContactRoute: ContactRoute,
   DoctorsRoute: DoctorsRouteWithChildren,
-  FavoritesRoute: FavoritesRoute,
   HospitalsRoute: HospitalsRoute,
   LaboratoriesRoute: LaboratoriesRoute,
-  NotificationsRoute: NotificationsRoute,
   PharmaciesRoute: PharmaciesRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SearchRoute: SearchRoute,
-  SettingsRoute: SettingsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
+  ProvidersIdRoute: ProvidersIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
