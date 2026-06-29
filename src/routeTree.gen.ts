@@ -71,6 +71,7 @@ import { Route as AuthenticatedAdminReviewsRouteImport } from './routes/_authent
 import { Route as AuthenticatedAdminReportsRouteImport } from './routes/_authenticated/admin.reports'
 import { Route as AuthenticatedAdminProvidersRouteImport } from './routes/_authenticated/admin.providers'
 import { Route as AuthenticatedAdminNotificationsRouteImport } from './routes/_authenticated/admin.notifications'
+import { Route as AuthenticatedAdminLogsRouteImport } from './routes/_authenticated/admin.logs'
 import { Route as AuthenticatedAdminBloodRouteImport } from './routes/_authenticated/admin.blood'
 import { Route as AuthenticatedAdminArticlesRouteImport } from './routes/_authenticated/admin.articles'
 import { Route as AuthenticatedAdminAppointmentsRouteImport } from './routes/_authenticated/admin.appointments'
@@ -405,6 +406,11 @@ const AuthenticatedAdminNotificationsRoute =
     path: '/notifications',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminLogsRoute = AuthenticatedAdminLogsRouteImport.update({
+  id: '/logs',
+  path: '/logs',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const AuthenticatedAdminBloodRoute = AuthenticatedAdminBloodRouteImport.update({
   id: '/blood',
   path: '/blood',
@@ -506,6 +512,7 @@ export interface FileRoutesByFullPath {
   '/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
   '/admin/articles': typeof AuthenticatedAdminArticlesRoute
   '/admin/blood': typeof AuthenticatedAdminBloodRoute
+  '/admin/logs': typeof AuthenticatedAdminLogsRoute
   '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/admin/providers': typeof AuthenticatedAdminProvidersRoute
   '/admin/reports': typeof AuthenticatedAdminReportsRoute
@@ -576,6 +583,7 @@ export interface FileRoutesByTo {
   '/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
   '/admin/articles': typeof AuthenticatedAdminArticlesRoute
   '/admin/blood': typeof AuthenticatedAdminBloodRoute
+  '/admin/logs': typeof AuthenticatedAdminLogsRoute
   '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/admin/providers': typeof AuthenticatedAdminProvidersRoute
   '/admin/reports': typeof AuthenticatedAdminReportsRoute
@@ -649,6 +657,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
   '/_authenticated/admin/articles': typeof AuthenticatedAdminArticlesRoute
   '/_authenticated/admin/blood': typeof AuthenticatedAdminBloodRoute
+  '/_authenticated/admin/logs': typeof AuthenticatedAdminLogsRoute
   '/_authenticated/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/_authenticated/admin/providers': typeof AuthenticatedAdminProvidersRoute
   '/_authenticated/admin/reports': typeof AuthenticatedAdminReportsRoute
@@ -722,6 +731,7 @@ export interface FileRouteTypes {
     | '/admin/appointments'
     | '/admin/articles'
     | '/admin/blood'
+    | '/admin/logs'
     | '/admin/notifications'
     | '/admin/providers'
     | '/admin/reports'
@@ -792,6 +802,7 @@ export interface FileRouteTypes {
     | '/admin/appointments'
     | '/admin/articles'
     | '/admin/blood'
+    | '/admin/logs'
     | '/admin/notifications'
     | '/admin/providers'
     | '/admin/reports'
@@ -864,6 +875,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/appointments'
     | '/_authenticated/admin/articles'
     | '/_authenticated/admin/blood'
+    | '/_authenticated/admin/logs'
     | '/_authenticated/admin/notifications'
     | '/_authenticated/admin/providers'
     | '/_authenticated/admin/reports'
@@ -1341,6 +1353,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminNotificationsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/logs': {
+      id: '/_authenticated/admin/logs'
+      path: '/logs'
+      fullPath: '/admin/logs'
+      preLoaderRoute: typeof AuthenticatedAdminLogsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/blood': {
       id: '/_authenticated/admin/blood'
       path: '/blood'
@@ -1405,6 +1424,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminAppointmentsRoute: typeof AuthenticatedAdminAppointmentsRoute
   AuthenticatedAdminArticlesRoute: typeof AuthenticatedAdminArticlesRoute
   AuthenticatedAdminBloodRoute: typeof AuthenticatedAdminBloodRoute
+  AuthenticatedAdminLogsRoute: typeof AuthenticatedAdminLogsRoute
   AuthenticatedAdminNotificationsRoute: typeof AuthenticatedAdminNotificationsRoute
   AuthenticatedAdminProvidersRoute: typeof AuthenticatedAdminProvidersRoute
   AuthenticatedAdminReportsRoute: typeof AuthenticatedAdminReportsRoute
@@ -1419,6 +1439,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminAppointmentsRoute: AuthenticatedAdminAppointmentsRoute,
   AuthenticatedAdminArticlesRoute: AuthenticatedAdminArticlesRoute,
   AuthenticatedAdminBloodRoute: AuthenticatedAdminBloodRoute,
+  AuthenticatedAdminLogsRoute: AuthenticatedAdminLogsRoute,
   AuthenticatedAdminNotificationsRoute: AuthenticatedAdminNotificationsRoute,
   AuthenticatedAdminProvidersRoute: AuthenticatedAdminProvidersRoute,
   AuthenticatedAdminReportsRoute: AuthenticatedAdminReportsRoute,
