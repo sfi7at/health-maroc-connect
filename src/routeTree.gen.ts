@@ -63,6 +63,7 @@ import { Route as AuthenticatedProviderIndexRouteImport } from './routes/_authen
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as DoctorsSpecialtySlugRouteImport } from './routes/doctors.specialty.$slug'
 import { Route as BloodDonorsIdRouteImport } from './routes/blood.donors.$id'
+import { Route as AuthenticatedProviderStatisticsRouteImport } from './routes/_authenticated/provider.statistics'
 import { Route as AuthenticatedProviderServicesRouteImport } from './routes/_authenticated/provider.services'
 import { Route as AuthenticatedProviderReviewsRouteImport } from './routes/_authenticated/provider.reviews'
 import { Route as AuthenticatedProviderProfileRouteImport } from './routes/_authenticated/provider.profile'
@@ -369,6 +370,12 @@ const BloodDonorsIdRoute = BloodDonorsIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => BloodDonorsRoute,
 } as any)
+const AuthenticatedProviderStatisticsRoute =
+  AuthenticatedProviderStatisticsRouteImport.update({
+    id: '/statistics',
+    path: '/statistics',
+    getParentRoute: () => AuthenticatedProviderRoute,
+  } as any)
 const AuthenticatedProviderServicesRoute =
   AuthenticatedProviderServicesRouteImport.update({
     id: '/services',
@@ -609,6 +616,7 @@ export interface FileRoutesByFullPath {
   '/provider/profile': typeof AuthenticatedProviderProfileRoute
   '/provider/reviews': typeof AuthenticatedProviderReviewsRoute
   '/provider/services': typeof AuthenticatedProviderServicesRoute
+  '/provider/statistics': typeof AuthenticatedProviderStatisticsRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
@@ -690,6 +698,7 @@ export interface FileRoutesByTo {
   '/provider/profile': typeof AuthenticatedProviderProfileRoute
   '/provider/reviews': typeof AuthenticatedProviderReviewsRoute
   '/provider/services': typeof AuthenticatedProviderServicesRoute
+  '/provider/statistics': typeof AuthenticatedProviderStatisticsRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
@@ -775,6 +784,7 @@ export interface FileRoutesById {
   '/_authenticated/provider/profile': typeof AuthenticatedProviderProfileRoute
   '/_authenticated/provider/reviews': typeof AuthenticatedProviderReviewsRoute
   '/_authenticated/provider/services': typeof AuthenticatedProviderServicesRoute
+  '/_authenticated/provider/statistics': typeof AuthenticatedProviderStatisticsRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
@@ -860,6 +870,7 @@ export interface FileRouteTypes {
     | '/provider/profile'
     | '/provider/reviews'
     | '/provider/services'
+    | '/provider/statistics'
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
     | '/admin/'
@@ -941,6 +952,7 @@ export interface FileRouteTypes {
     | '/provider/profile'
     | '/provider/reviews'
     | '/provider/services'
+    | '/provider/statistics'
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
     | '/admin'
@@ -1025,6 +1037,7 @@ export interface FileRouteTypes {
     | '/_authenticated/provider/profile'
     | '/_authenticated/provider/reviews'
     | '/_authenticated/provider/services'
+    | '/_authenticated/provider/statistics'
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
     | '/_authenticated/admin/'
@@ -1437,6 +1450,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BloodDonorsIdRouteImport
       parentRoute: typeof BloodDonorsRoute
     }
+    '/_authenticated/provider/statistics': {
+      id: '/_authenticated/provider/statistics'
+      path: '/statistics'
+      fullPath: '/provider/statistics'
+      preLoaderRoute: typeof AuthenticatedProviderStatisticsRouteImport
+      parentRoute: typeof AuthenticatedProviderRoute
+    }
     '/_authenticated/provider/services': {
       id: '/_authenticated/provider/services'
       path: '/services'
@@ -1705,6 +1725,7 @@ interface AuthenticatedProviderRouteChildren {
   AuthenticatedProviderProfileRoute: typeof AuthenticatedProviderProfileRoute
   AuthenticatedProviderReviewsRoute: typeof AuthenticatedProviderReviewsRoute
   AuthenticatedProviderServicesRoute: typeof AuthenticatedProviderServicesRoute
+  AuthenticatedProviderStatisticsRoute: typeof AuthenticatedProviderStatisticsRoute
   AuthenticatedProviderIndexRoute: typeof AuthenticatedProviderIndexRoute
 }
 
@@ -1716,6 +1737,7 @@ const AuthenticatedProviderRouteChildren: AuthenticatedProviderRouteChildren = {
   AuthenticatedProviderProfileRoute: AuthenticatedProviderProfileRoute,
   AuthenticatedProviderReviewsRoute: AuthenticatedProviderReviewsRoute,
   AuthenticatedProviderServicesRoute: AuthenticatedProviderServicesRoute,
+  AuthenticatedProviderStatisticsRoute: AuthenticatedProviderStatisticsRoute,
   AuthenticatedProviderIndexRoute: AuthenticatedProviderIndexRoute,
 }
 
