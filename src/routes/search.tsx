@@ -29,6 +29,7 @@ import {
   POPULAR_SEARCHES,
   isEmergencyQuery,
   type SearchHit,
+  type SearchIntent,
 } from "@/lib/search-engine";
 import { EMERGENCY_NUMBERS } from "@/lib/map-utils";
 import { useSearchHistory } from "@/hooks/use-search-history";
@@ -245,7 +246,7 @@ function SearchPage() {
   );
 }
 
-function IntentChips({ intent }: { intent: ReturnType<typeof import("@/lib/search-engine").parseIntent> }) {
+function IntentChips({ intent }: { intent: SearchIntent }) {
   const chips: string[] = [];
   if (intent.category) chips.push(`Type : ${intent.category}`);
   if (intent.specialtyLabel) chips.push(intent.specialtyLabel);
