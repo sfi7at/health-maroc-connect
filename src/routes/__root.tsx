@@ -15,6 +15,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AppShell } from "@/components/layout/AppShell";
 import { Toaster } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { EmailVerifyBanner } from "@/components/auth/EmailVerifyBanner";
 
 function NotFoundComponent() {
   return (
@@ -150,6 +151,7 @@ function RootComponent() {
       ) : (
         <AppShell>
           {/* Required: nested routes render here. */}
+          <EmailVerifyBanner />
           <Outlet />
         </AppShell>
       )}
