@@ -24,7 +24,8 @@ export const Route = createFileRoute("/_authenticated/provider")({
   component: ProviderLayout,
 });
 
-const NAV = [
+type NavEntry = { to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean };
+const NAV: NavEntry[] = [
   { to: "/provider", label: "Vue d'ensemble", icon: LayoutDashboard, exact: true },
   { to: "/provider/profile", label: "Profil", icon: UserCog },
   { to: "/provider/gallery", label: "Galerie", icon: Images },
@@ -38,7 +39,7 @@ const NAV = [
   { to: "/provider/subscription", label: "Abonnement", icon: Crown },
   { to: "/provider/messages", label: "Messagerie", icon: MessagesSquare },
   { to: "/provider/settings", label: "Paramètres", icon: Settings },
-] as const;
+];
 
 const CATEGORY_LABEL: Record<string, string> = {
   doctor: "Médecin",

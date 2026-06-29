@@ -49,6 +49,7 @@ import { Route as BloodCentersRouteImport } from './routes/blood.centers'
 import { Route as BloodCampaignsRouteImport } from './routes/blood.campaigns'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedProviderCalendarRouteImport } from './routes/_authenticated/provider-calendar'
+import { Route as AuthenticatedProviderRouteImport } from './routes/_authenticated/provider'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedPharmacyDashboardRouteImport } from './routes/_authenticated/pharmacy-dashboard'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
@@ -284,6 +285,11 @@ const AuthenticatedProviderCalendarRoute =
     path: '/provider-calendar',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedProviderRoute = AuthenticatedProviderRouteImport.update({
+  id: '/provider',
+  path: '/provider',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -506,6 +512,7 @@ export interface FileRoutesByFullPath {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/pharmacy-dashboard': typeof AuthenticatedPharmacyDashboardRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/provider': typeof AuthenticatedProviderRoute
   '/provider-calendar': typeof AuthenticatedProviderCalendarRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/blood/campaigns': typeof BloodCampaignsRoute
@@ -580,6 +587,7 @@ export interface FileRoutesByTo {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/pharmacy-dashboard': typeof AuthenticatedPharmacyDashboardRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/provider': typeof AuthenticatedProviderRoute
   '/provider-calendar': typeof AuthenticatedProviderCalendarRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/blood/campaigns': typeof BloodCampaignsRoute
@@ -657,6 +665,7 @@ export interface FileRoutesById {
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/pharmacy-dashboard': typeof AuthenticatedPharmacyDashboardRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/provider': typeof AuthenticatedProviderRoute
   '/_authenticated/provider-calendar': typeof AuthenticatedProviderCalendarRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/blood/campaigns': typeof BloodCampaignsRoute
@@ -734,6 +743,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/pharmacy-dashboard'
     | '/profile'
+    | '/provider'
     | '/provider-calendar'
     | '/settings'
     | '/blood/campaigns'
@@ -808,6 +818,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/pharmacy-dashboard'
     | '/profile'
+    | '/provider'
     | '/provider-calendar'
     | '/settings'
     | '/blood/campaigns'
@@ -884,6 +895,7 @@ export interface FileRouteTypes {
     | '/_authenticated/notifications'
     | '/_authenticated/pharmacy-dashboard'
     | '/_authenticated/profile'
+    | '/_authenticated/provider'
     | '/_authenticated/provider-calendar'
     | '/_authenticated/settings'
     | '/blood/campaigns'
@@ -1238,6 +1250,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProviderCalendarRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/provider': {
+      id: '/_authenticated/provider'
+      path: '/provider'
+      fullPath: '/provider'
+      preLoaderRoute: typeof AuthenticatedProviderRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/profile': {
       id: '/_authenticated/profile'
       path: '/profile'
@@ -1551,6 +1570,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedPharmacyDashboardRoute: typeof AuthenticatedPharmacyDashboardRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedProviderRoute: typeof AuthenticatedProviderRoute
   AuthenticatedProviderCalendarRoute: typeof AuthenticatedProviderCalendarRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedBloodBecomeDonorRoute: typeof AuthenticatedBloodBecomeDonorRoute
@@ -1568,6 +1588,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedPharmacyDashboardRoute: AuthenticatedPharmacyDashboardRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedProviderRoute: AuthenticatedProviderRoute,
   AuthenticatedProviderCalendarRoute: AuthenticatedProviderCalendarRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedBloodBecomeDonorRoute: AuthenticatedBloodBecomeDonorRoute,
