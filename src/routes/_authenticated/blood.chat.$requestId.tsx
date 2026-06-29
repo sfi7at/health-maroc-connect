@@ -192,6 +192,3 @@ function ChatPage() {
     </div>
   );
 }
-
-// Suppress unused warning for placeholder var
-void Hospital;
