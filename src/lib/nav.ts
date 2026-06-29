@@ -53,6 +53,7 @@ export const secondaryNav: NavItem[] = [
   { label: "Profil médical", to: "/profile", icon: User },
   { label: "Notifications", to: "/notifications", icon: Bell },
   { label: "Favoris", to: "/favorites", icon: Star },
+  { label: "Espace prestataire", to: "/provider", icon: Stethoscope },
   { label: "Espace prestataire", to: "/provider-calendar", icon: CalendarRange },
   { label: "Console Admin", to: "/admin", icon: ShieldCheck },
   { label: "Paramètres", to: "/settings", icon: Settings },
