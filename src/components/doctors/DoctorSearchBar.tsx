@@ -148,7 +148,7 @@ export function DoctorSearchBar({ initial = "", className, autoFocus }: Props) {
                   ))}
                 </Group>
               ) : null}
-              {suggestions.doctors?.length ? (
+              {suggestions?.doctors.length ? (
                 <Group title="Médecins">
                   {suggestions.doctors.map((d) => (
                     <Row
@@ -162,7 +162,7 @@ export function DoctorSearchBar({ initial = "", className, autoFocus }: Props) {
                   ))}
                 </Group>
               ) : null}
-              {suggestions.cities?.length ? (
+              {suggestions?.cities.length ? (
                 <Group title="Villes">
                   {suggestions.cities.map((c) => (
                     <Row
@@ -175,7 +175,7 @@ export function DoctorSearchBar({ initial = "", className, autoFocus }: Props) {
                   ))}
                 </Group>
               ) : null}
-              {!filteredSpecs.length && !suggestions.doctors?.length && !suggestions.cities?.length && !isFetching ? (
+              {!filteredSpecs.length && !suggestions?.doctors.length && !suggestions?.cities.length && !isFetching ? (
                 <p className="px-3 py-6 text-center text-sm text-muted-foreground">Aucun résultat</p>
               ) : null}
             </>
