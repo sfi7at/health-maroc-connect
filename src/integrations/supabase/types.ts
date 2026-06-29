@@ -178,6 +178,154 @@ export type Database = {
         }
         Relationships: []
       }
+      blood_campaign_registrations: {
+        Row: {
+          campaign_id: string
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          campaign_id: string
+          created_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          campaign_id?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blood_campaign_registrations_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "blood_campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      blood_campaigns: {
+        Row: {
+          address: string | null
+          city_id: string | null
+          contact_phone: string | null
+          cover_image: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          ends_at: string | null
+          id: string
+          is_published: boolean
+          latitude: number | null
+          longitude: number | null
+          organizer: string
+          province_id: string | null
+          starts_at: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          city_id?: string | null
+          contact_phone?: string | null
+          cover_image?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          ends_at?: string | null
+          id?: string
+          is_published?: boolean
+          latitude?: number | null
+          longitude?: number | null
+          organizer: string
+          province_id?: string | null
+          starts_at: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          city_id?: string | null
+          contact_phone?: string | null
+          cover_image?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          ends_at?: string | null
+          id?: string
+          is_published?: boolean
+          latitude?: number | null
+          longitude?: number | null
+          organizer?: string
+          province_id?: string | null
+          starts_at?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blood_campaigns_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "blood_campaigns_province_id_fkey"
+            columns: ["province_id"]
+            isOneToOne: false
+            referencedRelation: "provinces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      blood_chat_messages: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          kind: string
+          metadata: Json | null
+          read_at: string | null
+          recipient_id: string
+          request_id: string
+          sender_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          metadata?: Json | null
+          read_at?: string | null
+          recipient_id: string
+          request_id: string
+          sender_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          metadata?: Json | null
+          read_at?: string | null
+          recipient_id?: string
+          request_id?: string
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blood_chat_messages_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "blood_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       blood_compatibility: {
         Row: {
           donor: Database["public"]["Enums"]["blood_group"]
@@ -195,55 +343,88 @@ export type Database = {
       }
       blood_donors: {
         Row: {
+          availability_radius_km: number
+          avatar_url: string | null
           birth_date: string | null
           blood_group: Database["public"]["Enums"]["blood_group"]
           city_id: string | null
           contact_email: string | null
           contact_phone: string | null
           created_at: string
+          first_name: string | null
+          gender: string | null
           id: string
           is_available: boolean
+          is_verified: boolean
+          last_active_at: string
           last_donation_at: string | null
+          last_name: string | null
+          latitude: number | null
+          longitude: number | null
           notes: string | null
           notify_email: boolean
           notify_push: boolean
           notify_sms: boolean
+          province_id: string | null
+          status: Database["public"]["Enums"]["donor_status"]
           total_donations: number
           updated_at: string
           weight_kg: number | null
         }
         Insert: {
+          availability_radius_km?: number
+          avatar_url?: string | null
           birth_date?: string | null
           blood_group: Database["public"]["Enums"]["blood_group"]
           city_id?: string | null
           contact_email?: string | null
           contact_phone?: string | null
           created_at?: string
+          first_name?: string | null
+          gender?: string | null
           id: string
           is_available?: boolean
+          is_verified?: boolean
+          last_active_at?: string
           last_donation_at?: string | null
+          last_name?: string | null
+          latitude?: number | null
+          longitude?: number | null
           notes?: string | null
           notify_email?: boolean
           notify_push?: boolean
           notify_sms?: boolean
+          province_id?: string | null
+          status?: Database["public"]["Enums"]["donor_status"]
           total_donations?: number
           updated_at?: string
           weight_kg?: number | null
         }
         Update: {
+          availability_radius_km?: number
+          avatar_url?: string | null
           birth_date?: string | null
           blood_group?: Database["public"]["Enums"]["blood_group"]
           city_id?: string | null
           contact_email?: string | null
           contact_phone?: string | null
           created_at?: string
+          first_name?: string | null
+          gender?: string | null
           id?: string
           is_available?: boolean
+          is_verified?: boolean
+          last_active_at?: string
           last_donation_at?: string | null
+          last_name?: string | null
+          latitude?: number | null
+          longitude?: number | null
           notes?: string | null
           notify_email?: boolean
           notify_push?: boolean
           notify_sms?: boolean
+          province_id?: string | null
+          status?: Database["public"]["Enums"]["donor_status"]
           total_donations?: number
           updated_at?: string
           weight_kg?: number | null
@@ -254,6 +435,13 @@ export type Database = {
             columns: ["city_id"]
             isOneToOne: false
             referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "blood_donors_province_id_fkey"
+            columns: ["province_id"]
+            isOneToOne: false
+            referencedRelation: "provinces"
             referencedColumns: ["id"]
           },
         ]
@@ -301,14 +489,18 @@ export type Database = {
           address: string | null
           blood_group: Database["public"]["Enums"]["blood_group"]
           city_id: string | null
+          contact_name: string | null
           contact_phone: string
           created_at: string
           hospital_name: string | null
           id: string
           is_emergency: boolean
+          latitude: number | null
+          longitude: number | null
           needed_by: string | null
           notes: string | null
           patient_name: string
+          province_id: string | null
           requester_id: string
           status: Database["public"]["Enums"]["blood_request_status"]
           units_needed: number
@@ -319,14 +511,18 @@ export type Database = {
           address?: string | null
           blood_group: Database["public"]["Enums"]["blood_group"]
           city_id?: string | null
+          contact_name?: string | null
           contact_phone: string
           created_at?: string
           hospital_name?: string | null
           id?: string
           is_emergency?: boolean
+          latitude?: number | null
+          longitude?: number | null
           needed_by?: string | null
           notes?: string | null
           patient_name: string
+          province_id?: string | null
           requester_id: string
           status?: Database["public"]["Enums"]["blood_request_status"]
           units_needed?: number
@@ -337,14 +533,18 @@ export type Database = {
           address?: string | null
           blood_group?: Database["public"]["Enums"]["blood_group"]
           city_id?: string | null
+          contact_name?: string | null
           contact_phone?: string
           created_at?: string
           hospital_name?: string | null
           id?: string
           is_emergency?: boolean
+          latitude?: number | null
+          longitude?: number | null
           needed_by?: string | null
           notes?: string | null
           patient_name?: string
+          province_id?: string | null
           requester_id?: string
           status?: Database["public"]["Enums"]["blood_request_status"]
           units_needed?: number
@@ -357,6 +557,13 @@ export type Database = {
             columns: ["city_id"]
             isOneToOne: false
             referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "blood_requests_province_id_fkey"
+            columns: ["province_id"]
+            isOneToOne: false
+            referencedRelation: "provinces"
             referencedColumns: ["id"]
           },
         ]
@@ -1249,30 +1456,60 @@ export type Database = {
     Views: {
       blood_donors_public: {
         Row: {
+          approx_latitude: number | null
+          approx_longitude: number | null
+          avatar_url: string | null
           blood_group: Database["public"]["Enums"]["blood_group"] | null
           city_id: string | null
           created_at: string | null
+          first_name: string | null
+          gender: string | null
           id: string | null
           is_available: boolean | null
+          is_verified: boolean | null
+          last_active_at: string | null
           last_donation_at: string | null
+          last_name: string | null
+          province_id: string | null
+          status: Database["public"]["Enums"]["donor_status"] | null
           total_donations: number | null
         }
         Insert: {
+          approx_latitude?: never
+          approx_longitude?: never
+          avatar_url?: string | null
           blood_group?: Database["public"]["Enums"]["blood_group"] | null
           city_id?: string | null
           created_at?: string | null
+          first_name?: string | null
+          gender?: string | null
           id?: string | null
           is_available?: boolean | null
+          is_verified?: boolean | null
+          last_active_at?: string | null
           last_donation_at?: string | null
+          last_name?: string | null
+          province_id?: string | null
+          status?: Database["public"]["Enums"]["donor_status"] | null
           total_donations?: number | null
         }
         Update: {
+          approx_latitude?: never
+          approx_longitude?: never
+          avatar_url?: string | null
           blood_group?: Database["public"]["Enums"]["blood_group"] | null
           city_id?: string | null
           created_at?: string | null
+          first_name?: string | null
+          gender?: string | null
           id?: string | null
           is_available?: boolean | null
+          is_verified?: boolean | null
+          last_active_at?: string | null
           last_donation_at?: string | null
+          last_name?: string | null
+          province_id?: string | null
+          status?: Database["public"]["Enums"]["donor_status"] | null
           total_donations?: number | null
         }
         Relationships: [
@@ -1283,10 +1520,21 @@ export type Database = {
             referencedRelation: "cities"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "blood_donors_province_id_fkey"
+            columns: ["province_id"]
+            isOneToOne: false
+            referencedRelation: "provinces"
+            referencedColumns: ["id"]
+          },
         ]
       }
     }
     Functions: {
+      can_chat_on_request: {
+        Args: { _request: string; _user: string }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1325,6 +1573,12 @@ export type Database = {
       blood_request_status: "open" | "fulfilled" | "expired" | "cancelled"
       blood_request_urgency: "low" | "normal" | "high" | "critical"
       blood_response_status: "pending" | "accepted" | "declined" | "cancelled"
+      donor_status:
+        | "available"
+        | "unavailable"
+        | "busy"
+        | "traveling"
+        | "inactive"
       notification_type:
         | "push"
         | "email"
@@ -1495,6 +1749,13 @@ export const Constants = {
       blood_request_status: ["open", "fulfilled", "expired", "cancelled"],
       blood_request_urgency: ["low", "normal", "high", "critical"],
       blood_response_status: ["pending", "accepted", "declined", "cancelled"],
+      donor_status: [
+        "available",
+        "unavailable",
+        "busy",
+        "traveling",
+        "inactive",
+      ],
       notification_type: [
         "push",
         "email",
