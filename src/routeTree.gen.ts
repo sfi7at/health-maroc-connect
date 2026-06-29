@@ -67,6 +67,7 @@ import { Route as AuthenticatedAppointmentsCalendarRouteImport } from './routes/
 import { Route as AuthenticatedAppointmentsIdRouteImport } from './routes/_authenticated/appointments.$id'
 import { Route as AuthenticatedAdminVerificationRouteImport } from './routes/_authenticated/admin.verification'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
+import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 import { Route as AuthenticatedAdminReviewsRouteImport } from './routes/_authenticated/admin.reviews'
 import { Route as AuthenticatedAdminReportsRouteImport } from './routes/_authenticated/admin.reports'
 import { Route as AuthenticatedAdminProvidersRouteImport } from './routes/_authenticated/admin.providers'
@@ -382,6 +383,12 @@ const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminSettingsRoute =
+  AuthenticatedAdminSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminReviewsRoute =
   AuthenticatedAdminReviewsRouteImport.update({
     id: '/reviews',
@@ -517,6 +524,7 @@ export interface FileRoutesByFullPath {
   '/admin/providers': typeof AuthenticatedAdminProvidersRoute
   '/admin/reports': typeof AuthenticatedAdminReportsRoute
   '/admin/reviews': typeof AuthenticatedAdminReviewsRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/verification': typeof AuthenticatedAdminVerificationRoute
   '/appointments/$id': typeof AuthenticatedAppointmentsIdRoute
@@ -588,6 +596,7 @@ export interface FileRoutesByTo {
   '/admin/providers': typeof AuthenticatedAdminProvidersRoute
   '/admin/reports': typeof AuthenticatedAdminReportsRoute
   '/admin/reviews': typeof AuthenticatedAdminReviewsRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/verification': typeof AuthenticatedAdminVerificationRoute
   '/appointments/$id': typeof AuthenticatedAppointmentsIdRoute
@@ -662,6 +671,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/providers': typeof AuthenticatedAdminProvidersRoute
   '/_authenticated/admin/reports': typeof AuthenticatedAdminReportsRoute
   '/_authenticated/admin/reviews': typeof AuthenticatedAdminReviewsRoute
+  '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/admin/verification': typeof AuthenticatedAdminVerificationRoute
   '/_authenticated/appointments/$id': typeof AuthenticatedAppointmentsIdRoute
@@ -736,6 +746,7 @@ export interface FileRouteTypes {
     | '/admin/providers'
     | '/admin/reports'
     | '/admin/reviews'
+    | '/admin/settings'
     | '/admin/users'
     | '/admin/verification'
     | '/appointments/$id'
@@ -807,6 +818,7 @@ export interface FileRouteTypes {
     | '/admin/providers'
     | '/admin/reports'
     | '/admin/reviews'
+    | '/admin/settings'
     | '/admin/users'
     | '/admin/verification'
     | '/appointments/$id'
@@ -880,6 +892,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/providers'
     | '/_authenticated/admin/reports'
     | '/_authenticated/admin/reviews'
+    | '/_authenticated/admin/settings'
     | '/_authenticated/admin/users'
     | '/_authenticated/admin/verification'
     | '/_authenticated/appointments/$id'
@@ -1325,6 +1338,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminUsersRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/settings': {
+      id: '/_authenticated/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/reviews': {
       id: '/_authenticated/admin/reviews'
       path: '/reviews'
@@ -1429,6 +1449,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminProvidersRoute: typeof AuthenticatedAdminProvidersRoute
   AuthenticatedAdminReportsRoute: typeof AuthenticatedAdminReportsRoute
   AuthenticatedAdminReviewsRoute: typeof AuthenticatedAdminReviewsRoute
+  AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAdminVerificationRoute: typeof AuthenticatedAdminVerificationRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
@@ -1444,6 +1465,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminProvidersRoute: AuthenticatedAdminProvidersRoute,
   AuthenticatedAdminReportsRoute: AuthenticatedAdminReportsRoute,
   AuthenticatedAdminReviewsRoute: AuthenticatedAdminReviewsRoute,
+  AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAdminVerificationRoute: AuthenticatedAdminVerificationRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
