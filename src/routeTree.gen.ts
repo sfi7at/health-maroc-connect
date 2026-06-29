@@ -58,6 +58,7 @@ import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authentica
 import { Route as AuthenticatedDoctorDashboardRouteImport } from './routes/_authenticated/doctor-dashboard'
 import { Route as AuthenticatedAppointmentsRouteImport } from './routes/_authenticated/appointments'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as DoctorsSpecialtySlugRouteImport } from './routes/doctors.specialty.$slug'
 import { Route as BloodDonorsIdRouteImport } from './routes/blood.donors.$id'
 import { Route as AuthenticatedBloodHistoryRouteImport } from './routes/_authenticated/blood.history'
@@ -321,6 +322,11 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const DoctorsSpecialtySlugRoute = DoctorsSpecialtySlugRouteImport.update({
   id: '/specialty/$slug',
   path: '/specialty/$slug',
@@ -442,6 +448,7 @@ export interface FileRoutesByFullPath {
   '/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
   '/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
   '/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
@@ -464,7 +471,6 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
-  '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/appointments': typeof AuthenticatedAppointmentsRouteWithChildren
   '/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/favorites': typeof AuthenticatedFavoritesRoute
@@ -503,6 +509,7 @@ export interface FileRoutesByTo {
   '/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
   '/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
   '/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
@@ -566,6 +573,7 @@ export interface FileRoutesById {
   '/_authenticated/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
   '/_authenticated/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/_authenticated/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
@@ -629,6 +637,7 @@ export interface FileRouteTypes {
     | '/blood/history'
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
+    | '/admin/'
     | '/appointments/book/$providerId'
     | '/appointments/new/$providerId'
     | '/blood/chat/$requestId'
@@ -651,7 +660,6 @@ export interface FileRouteTypes {
     | '/search'
     | '/sitemap.xml'
     | '/terms'
-    | '/admin'
     | '/appointments'
     | '/doctor-dashboard'
     | '/favorites'
@@ -690,6 +698,7 @@ export interface FileRouteTypes {
     | '/blood/history'
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
+    | '/admin'
     | '/appointments/book/$providerId'
     | '/appointments/new/$providerId'
     | '/blood/chat/$requestId'
@@ -752,6 +761,7 @@ export interface FileRouteTypes {
     | '/_authenticated/blood/history'
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
+    | '/_authenticated/admin/'
     | '/_authenticated/appointments/book/$providerId'
     | '/_authenticated/appointments/new/$providerId'
     | '/_authenticated/blood/chat/$requestId'
@@ -1125,6 +1135,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/doctors/specialty/$slug': {
       id: '/doctors/specialty/$slug'
       path: '/specialty/$slug'
@@ -1207,10 +1224,12 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminAppointmentsRoute: typeof AuthenticatedAdminAppointmentsRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminAppointmentsRoute: AuthenticatedAdminAppointmentsRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
 
 const AuthenticatedAdminRouteWithChildren =
