@@ -69,10 +69,9 @@ function ProviderAppointments() {
 
   const setStatus = useMutation({
     mutationFn: async ({ id: aid, status }: { id: string; status: "approved" | "rejected" | "completed" | "cancelled" | "no_show" }) => {
-      const patch: Record<string, unknown> = { status };
+      const patch: { status: typeof status; confirmed_at?: string; completed_at?: string } = { status };
       if (status === "approved") patch.confirmed_at = new Date().toISOString();
       if (status === "completed") patch.completed_at = new Date().toISOString();
-      if (status === "cancelled") patch.cancelled_at = new Date().toISOString();
       const { error } = await supabase.from("appointments").update(patch).eq("id", aid);
       if (error) throw error;
     },
@@ -83,7 +82,7 @@ function ProviderAppointments() {
   const saveNote = useMutation({
     mutationFn: async () => {
       if (!noteFor) return;
-      const { error } = await supabase.from("appointments").update({ provider_notes: note }).eq("id", noteFor.id);
+      const { error } = await supabase.from("appointments").update({ notes: note }).eq("id", noteFor.id);
       if (error) throw error;
     },
     onSuccess: () => { toast.success("Note enregistrée"); setNoteFor(null); qc.invalidateQueries({ queryKey: ["provider_appointments"] }); },
@@ -130,7 +129,7 @@ function ProviderAppointments() {
               <ApptList
                 items={buckets[k]}
                 onStatus={(a, status) => setStatus.mutate({ id: a.id, status })}
-                onNote={(a) => { setNoteFor(a); setNote(a.provider_notes ?? ""); }}
+              onNote={(a) => { setNoteFor(a); setNote(a.notes ?? ""); }}
                 onReschedule={(a) => { setReschFor(a); setReschTime(a.scheduled_for.slice(0,16)); }}
               />
             )}
@@ -200,7 +199,7 @@ function ApptList({ items, onStatus, onNote, onReschedule }: {
               <Button size="icon" variant="ghost" onClick={() => onNote(a)}><MessageSquare className="h-4 w-4" /></Button>
             </div>
           </div>
-          {a.provider_notes ? <p className="mt-2 rounded-xl bg-muted/50 p-2 text-xs text-muted-foreground"><strong>Note: </strong>{a.provider_notes}</p> : null}
+          {a.notes ? <p className="mt-2 rounded-xl bg-muted/50 p-2 text-xs text-muted-foreground"><strong>Note: </strong>{a.notes}</p> : null}
         </li>
       ))}
     </ul>
