@@ -1,0 +1,62 @@
+import {
+  Home,
+  Search,
+  Heart,
+  Stethoscope,
+  Pill,
+  Building2,
+  FlaskConical,
+  Sparkles,
+  CalendarCheck,
+  User,
+  Bell,
+  Star,
+  Settings,
+  Droplet,
+  Info,
+  Mail,
+  FileText,
+  Shield,
+  type LucideIcon,
+} from "lucide-react";
+
+export interface NavItem {
+  label: string;
+  to: string;
+  icon: LucideIcon;
+  badge?: string;
+}
+
+export const primaryNav: NavItem[] = [
+  { label: "Accueil", to: "/", icon: Home },
+  { label: "Recherche", to: "/search", icon: Search },
+  { label: "Médecins", to: "/doctors", icon: Stethoscope },
+  { label: "Pharmacies", to: "/pharmacies", icon: Pill },
+  { label: "Hôpitaux", to: "/hospitals", icon: Building2 },
+  { label: "Laboratoires", to: "/laboratories", icon: FlaskConical },
+  { label: "Don du sang", to: "/blood", icon: Droplet },
+  { label: "Assistant IA", to: "/ai-assistant", icon: Sparkles },
+  { label: "Rendez-vous", to: "/appointments", icon: CalendarCheck },
+];
+
+export const secondaryNav: NavItem[] = [
+  { label: "Profil médical", to: "/profile", icon: User },
+  { label: "Notifications", to: "/notifications", icon: Bell },
+  { label: "Favoris", to: "/favorites", icon: Star },
+  { label: "Paramètres", to: "/settings", icon: Settings },
+];
+
+export const footerNav: NavItem[] = [
+  { label: "À propos", to: "/about", icon: Info },
+  { label: "Contact", to: "/contact", icon: Mail },
+  { label: "Confidentialité", to: "/privacy", icon: Shield },
+  { label: "Conditions", to: "/terms", icon: FileText },
+];
+
+export const mobileBottomNav: NavItem[] = [
+  { label: "Accueil", to: "/", icon: Home },
+  { label: "Recherche", to: "/search", icon: Search },
+  { label: "Don", to: "/blood", icon: Heart },
+  { label: "RDV", to: "/appointments", icon: CalendarCheck },
+  { label: "Profil", to: "/profile", icon: User },
+];
