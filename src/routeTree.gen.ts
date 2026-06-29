@@ -89,6 +89,7 @@ import { Route as AuthenticatedAdminNotificationsRouteImport } from './routes/_a
 import { Route as AuthenticatedAdminLogsRouteImport } from './routes/_authenticated/admin.logs'
 import { Route as AuthenticatedAdminImportsRouteImport } from './routes/_authenticated/admin.imports'
 import { Route as AuthenticatedAdminImportRouteImport } from './routes/_authenticated/admin.import'
+import { Route as AuthenticatedAdminClaimsRouteImport } from './routes/_authenticated/admin.claims'
 import { Route as AuthenticatedAdminCitiesRouteImport } from './routes/_authenticated/admin.cities'
 import { Route as AuthenticatedAdminCategoriesRouteImport } from './routes/_authenticated/admin.categories'
 import { Route as AuthenticatedAdminBloodRouteImport } from './routes/_authenticated/admin.blood'
@@ -531,6 +532,12 @@ const AuthenticatedAdminImportRoute =
     path: '/import',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminClaimsRoute =
+  AuthenticatedAdminClaimsRouteImport.update({
+    id: '/claims',
+    path: '/claims',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminCitiesRoute =
   AuthenticatedAdminCitiesRouteImport.update({
     id: '/cities',
@@ -647,6 +654,7 @@ export interface FileRoutesByFullPath {
   '/admin/blood': typeof AuthenticatedAdminBloodRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/cities': typeof AuthenticatedAdminCitiesRoute
+  '/admin/claims': typeof AuthenticatedAdminClaimsRoute
   '/admin/import': typeof AuthenticatedAdminImportRoute
   '/admin/imports': typeof AuthenticatedAdminImportsRoute
   '/admin/logs': typeof AuthenticatedAdminLogsRoute
@@ -736,6 +744,7 @@ export interface FileRoutesByTo {
   '/admin/blood': typeof AuthenticatedAdminBloodRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/cities': typeof AuthenticatedAdminCitiesRoute
+  '/admin/claims': typeof AuthenticatedAdminClaimsRoute
   '/admin/import': typeof AuthenticatedAdminImportRoute
   '/admin/imports': typeof AuthenticatedAdminImportsRoute
   '/admin/logs': typeof AuthenticatedAdminLogsRoute
@@ -829,6 +838,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/blood': typeof AuthenticatedAdminBloodRoute
   '/_authenticated/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/_authenticated/admin/cities': typeof AuthenticatedAdminCitiesRoute
+  '/_authenticated/admin/claims': typeof AuthenticatedAdminClaimsRoute
   '/_authenticated/admin/import': typeof AuthenticatedAdminImportRoute
   '/_authenticated/admin/imports': typeof AuthenticatedAdminImportsRoute
   '/_authenticated/admin/logs': typeof AuthenticatedAdminLogsRoute
@@ -922,6 +932,7 @@ export interface FileRouteTypes {
     | '/admin/blood'
     | '/admin/categories'
     | '/admin/cities'
+    | '/admin/claims'
     | '/admin/import'
     | '/admin/imports'
     | '/admin/logs'
@@ -1011,6 +1022,7 @@ export interface FileRouteTypes {
     | '/admin/blood'
     | '/admin/categories'
     | '/admin/cities'
+    | '/admin/claims'
     | '/admin/import'
     | '/admin/imports'
     | '/admin/logs'
@@ -1103,6 +1115,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/blood'
     | '/_authenticated/admin/categories'
     | '/_authenticated/admin/cities'
+    | '/_authenticated/admin/claims'
     | '/_authenticated/admin/import'
     | '/_authenticated/admin/imports'
     | '/_authenticated/admin/logs'
@@ -1723,6 +1736,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminImportRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/claims': {
+      id: '/_authenticated/admin/claims'
+      path: '/claims'
+      fullPath: '/admin/claims'
+      preLoaderRoute: typeof AuthenticatedAdminClaimsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/cities': {
       id: '/_authenticated/admin/cities'
       path: '/cities'
@@ -1803,6 +1823,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminBloodRoute: typeof AuthenticatedAdminBloodRoute
   AuthenticatedAdminCategoriesRoute: typeof AuthenticatedAdminCategoriesRoute
   AuthenticatedAdminCitiesRoute: typeof AuthenticatedAdminCitiesRoute
+  AuthenticatedAdminClaimsRoute: typeof AuthenticatedAdminClaimsRoute
   AuthenticatedAdminImportRoute: typeof AuthenticatedAdminImportRoute
   AuthenticatedAdminImportsRoute: typeof AuthenticatedAdminImportsRoute
   AuthenticatedAdminLogsRoute: typeof AuthenticatedAdminLogsRoute
@@ -1823,6 +1844,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminBloodRoute: AuthenticatedAdminBloodRoute,
   AuthenticatedAdminCategoriesRoute: AuthenticatedAdminCategoriesRoute,
   AuthenticatedAdminCitiesRoute: AuthenticatedAdminCitiesRoute,
+  AuthenticatedAdminClaimsRoute: AuthenticatedAdminClaimsRoute,
   AuthenticatedAdminImportRoute: AuthenticatedAdminImportRoute,
   AuthenticatedAdminImportsRoute: AuthenticatedAdminImportsRoute,
   AuthenticatedAdminLogsRoute: AuthenticatedAdminLogsRoute,
