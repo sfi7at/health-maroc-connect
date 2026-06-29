@@ -78,7 +78,7 @@ export function ProviderListPage({ category, eyebrow }: ProviderListPageProps) {
         </div>
       ) : listed.length === 0 ? (
         <EmptyState
-          icon={<Icon className="h-8 w-8" />}
+          icon={Icon}
           title={`Aucun ${meta.label.toLowerCase()} trouvé`}
           description="Aucun prestataire ne correspond pour le moment. Modifiez vos filtres ou revenez plus tard — l'annuaire s'enrichit chaque semaine."
         />
