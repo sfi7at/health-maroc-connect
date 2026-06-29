@@ -39,7 +39,7 @@ function AdminBlood() {
     },
   });
 
-  const emergency = (requests.data?.rows ?? []).filter((r) => r.urgency === "critical" || r.urgency === "urgent").length;
+  const emergency = (requests.data?.rows ?? []).filter((r) => r.urgency === "high").length;
 
   return (
     <div className="space-y-6">
@@ -70,7 +70,7 @@ function AdminBlood() {
                   {(requests.data?.rows ?? []).map((r) => (
                     <tr key={r.id} className="border-t border-border">
                       <td className="px-4 py-3 font-semibold">{r.blood_group}</td>
-                      <td className="px-4 py-3"><Badge variant={r.urgency === "critical" ? "destructive" : "outline"}>{r.urgency}</Badge></td>
+                      <td className="px-4 py-3"><Badge variant={r.urgency === "high" ? "destructive" : "outline"}>{r.urgency}</Badge></td>
                       <td className="px-4 py-3">{r.hospital_name ?? "—"}</td>
                       <td className="px-4 py-3 text-xs text-muted-foreground">{r.city_id?.slice(0, 8) ?? "—"}</td>
                       <td className="px-4 py-3">{r.units_needed}</td>
