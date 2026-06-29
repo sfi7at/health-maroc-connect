@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Bell, Heart, LogOut, Menu, Search, User as UserIcon } from "lucide-react";
 import { useState } from "react";
+import { GlobalSearchDialog, useGlobalSearchHotkey } from "@/components/search/GlobalSearchDialog";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -22,6 +23,8 @@ import { toast } from "sonner";
 
 export function TopNav() {
   const [open, setOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  useGlobalSearchHotkey(setSearchOpen);
 
   return (
     <header className="sticky top-0 z-20 border-b border-border/70 bg-background/80 backdrop-blur-xl">
@@ -48,21 +51,26 @@ export function TopNav() {
 
         {/* Search */}
         <div className="ml-auto flex flex-1 items-center justify-end gap-2 lg:ml-0">
-          <Link
-            to="/search"
-            className="group relative hidden h-10 w-full max-w-md items-center gap-3 rounded-full border border-border bg-card px-4 text-sm text-muted-foreground shadow-soft transition hover:border-primary/40 hover:text-foreground sm:flex"
+          <button
+            type="button"
+            onClick={() => setSearchOpen(true)}
+            className="group relative hidden h-10 w-full max-w-md items-center gap-3 rounded-full border border-border bg-card px-4 text-left text-sm text-muted-foreground shadow-soft transition hover:border-primary/40 hover:text-foreground sm:flex"
           >
             <Search className="h-4 w-4" />
             <span>Rechercher un médecin, pharmacie, hôpital…</span>
             <kbd className="ml-auto hidden rounded-md border border-border bg-muted px-1.5 py-0.5 text-[10px] font-medium md:inline">
               ⌘K
             </kbd>
-          </Link>
-          <Link to="/search" className="sm:hidden">
-            <Button variant="ghost" size="icon" aria-label="Rechercher">
-              <Search className="h-5 w-5" />
-            </Button>
-          </Link>
+          </button>
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Rechercher"
+            className="sm:hidden"
+            onClick={() => setSearchOpen(true)}
+          >
+            <Search className="h-5 w-5" />
+          </Button>
           <Link to="/notifications">
             <Button variant="ghost" size="icon" aria-label="Notifications" className="relative">
               <Bell className="h-5 w-5" />
@@ -72,6 +80,7 @@ export function TopNav() {
           <AccountButton />
         </div>
       </div>
+      <GlobalSearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
     </header>
   );
 }
