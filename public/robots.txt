@@ -1,2 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /auth
+Disallow: /_authenticated
+
+Sitemap: https://health-maroc-connect.lovable.app/api/public/sitemap.xml

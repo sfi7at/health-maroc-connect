@@ -89,6 +89,81 @@ export type Database = {
         }
         Relationships: []
       }
+      analytics_events: {
+        Row: {
+          city_id: string | null
+          created_at: string
+          event_category: string | null
+          event_name: string
+          id: number
+          properties: Json
+          referrer: string | null
+          session_id: string | null
+          url: string | null
+          user_id: string | null
+        }
+        Insert: {
+          city_id?: string | null
+          created_at?: string
+          event_category?: string | null
+          event_name: string
+          id?: number
+          properties?: Json
+          referrer?: string | null
+          session_id?: string | null
+          url?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          city_id?: string | null
+          created_at?: string
+          event_category?: string | null
+          event_name?: string
+          id?: number
+          properties?: Json
+          referrer?: string | null
+          session_id?: string | null
+          url?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      api_metrics: {
+        Row: {
+          created_at: string
+          duration_ms: number
+          id: number
+          method: string
+          region: string | null
+          route: string
+          status_code: number
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          duration_ms: number
+          id?: number
+          method?: string
+          region?: string | null
+          route: string
+          status_code: number
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          duration_ms?: number
+          id?: number
+          method?: string
+          region?: string | null
+          route?: string
+          status_code?: number
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       app_settings: {
         Row: {
           category: string
@@ -438,6 +513,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      backup_runs: {
+        Row: {
+          duration_ms: number | null
+          error: string | null
+          finished_at: string | null
+          id: string
+          kind: string
+          location: string | null
+          size_bytes: number | null
+          started_at: string
+          status: string
+        }
+        Insert: {
+          duration_ms?: number | null
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          kind: string
+          location?: string | null
+          size_bytes?: number | null
+          started_at?: string
+          status: string
+        }
+        Update: {
+          duration_ms?: number | null
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          kind?: string
+          location?: string | null
+          size_bytes?: number | null
+          started_at?: string
+          status?: string
+        }
+        Relationships: []
       }
       blocked_entities: {
         Row: {
@@ -1288,6 +1399,63 @@ export type Database = {
         }
         Relationships: []
       }
+      error_reports: {
+        Row: {
+          context: Json
+          created_at: string
+          fingerprint: string
+          first_seen: string
+          id: string
+          last_seen: string
+          message: string
+          occurrences: number
+          resolved: boolean
+          resolved_at: string | null
+          severity: string
+          source: string
+          stack: string | null
+          url: string | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          context?: Json
+          created_at?: string
+          fingerprint: string
+          first_seen?: string
+          id?: string
+          last_seen?: string
+          message: string
+          occurrences?: number
+          resolved?: boolean
+          resolved_at?: string | null
+          severity?: string
+          source?: string
+          stack?: string | null
+          url?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          context?: Json
+          created_at?: string
+          fingerprint?: string
+          first_seen?: string
+          id?: string
+          last_seen?: string
+          message?: string
+          occurrences?: number
+          resolved?: boolean
+          resolved_at?: string | null
+          severity?: string
+          source?: string
+          stack?: string | null
+          url?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       facility_categories: {
         Row: {
           created_at: string
@@ -1385,6 +1553,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      feature_flags: {
+        Row: {
+          created_at: string
+          description: string | null
+          enabled: boolean
+          environment: string
+          key: string
+          rollout_percent: number
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          enabled?: boolean
+          environment?: string
+          key: string
+          rollout_percent?: number
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          enabled?: boolean
+          environment?: string
+          key?: string
+          rollout_percent?: number
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
       }
       fraud_signals: {
         Row: {
@@ -1718,6 +1919,48 @@ export type Database = {
           name_fr?: string
           native_name?: string | null
           sort_order?: number
+        }
+        Relationships: []
+      }
+      launch_checklist_items: {
+        Row: {
+          category: string
+          completed_at: string | null
+          created_at: string
+          description: string | null
+          id: string
+          notes: string | null
+          owner: string | null
+          priority: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          completed_at?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          notes?: string | null
+          owner?: string | null
+          priority?: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          completed_at?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          notes?: string | null
+          owner?: string | null
+          priority?: string
+          status?: string
+          title?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -3293,6 +3536,33 @@ export type Database = {
           slug?: string
           sort_order?: number
           updated_at?: string
+        }
+        Relationships: []
+      }
+      system_health_checks: {
+        Row: {
+          checked_at: string
+          component: string
+          details: Json | null
+          id: number
+          latency_ms: number | null
+          status: string
+        }
+        Insert: {
+          checked_at?: string
+          component: string
+          details?: Json | null
+          id?: number
+          latency_ms?: number | null
+          status: string
+        }
+        Update: {
+          checked_at?: string
+          component?: string
+          details?: Json | null
+          id?: number
+          latency_ms?: number | null
+          status?: string
         }
         Relationships: []
       }
