@@ -34,6 +34,7 @@ import { Route as PharmaciesMapRouteImport } from './routes/pharmacies.map'
 import { Route as LaboratoriesSearchRouteImport } from './routes/laboratories.search'
 import { Route as LaboratoriesOpenRouteImport } from './routes/laboratories.open'
 import { Route as LaboratoriesMapRouteImport } from './routes/laboratories.map'
+import { Route as LaboratoriesAnalysesRouteImport } from './routes/laboratories.analyses'
 import { Route as DoctorsSpecialtiesRouteImport } from './routes/doctors.specialties'
 import { Route as DoctorsSearchRouteImport } from './routes/doctors.search'
 import { Route as DoctorsIdRouteImport } from './routes/doctors.$id'
@@ -178,6 +179,11 @@ const LaboratoriesOpenRoute = LaboratoriesOpenRouteImport.update({
 const LaboratoriesMapRoute = LaboratoriesMapRouteImport.update({
   id: '/map',
   path: '/map',
+  getParentRoute: () => LaboratoriesRoute,
+} as any)
+const LaboratoriesAnalysesRoute = LaboratoriesAnalysesRouteImport.update({
+  id: '/analyses',
+  path: '/analyses',
   getParentRoute: () => LaboratoriesRoute,
 } as any)
 const DoctorsSpecialtiesRoute = DoctorsSpecialtiesRouteImport.update({
@@ -326,6 +332,7 @@ export interface FileRoutesByFullPath {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/laboratories/analyses': typeof LaboratoriesAnalysesRoute
   '/laboratories/map': typeof LaboratoriesMapRoute
   '/laboratories/open': typeof LaboratoriesOpenRoute
   '/laboratories/search': typeof LaboratoriesSearchRoute
@@ -373,6 +380,7 @@ export interface FileRoutesByTo {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/laboratories/analyses': typeof LaboratoriesAnalysesRoute
   '/laboratories/map': typeof LaboratoriesMapRoute
   '/laboratories/open': typeof LaboratoriesOpenRoute
   '/laboratories/search': typeof LaboratoriesSearchRoute
@@ -422,6 +430,7 @@ export interface FileRoutesById {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/laboratories/analyses': typeof LaboratoriesAnalysesRoute
   '/laboratories/map': typeof LaboratoriesMapRoute
   '/laboratories/open': typeof LaboratoriesOpenRoute
   '/laboratories/search': typeof LaboratoriesSearchRoute
@@ -471,6 +480,7 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/laboratories/analyses'
     | '/laboratories/map'
     | '/laboratories/open'
     | '/laboratories/search'
@@ -518,6 +528,7 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/laboratories/analyses'
     | '/laboratories/map'
     | '/laboratories/open'
     | '/laboratories/search'
@@ -566,6 +577,7 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/laboratories/analyses'
     | '/laboratories/map'
     | '/laboratories/open'
     | '/laboratories/search'
@@ -778,6 +790,13 @@ declare module '@tanstack/react-router' {
       path: '/map'
       fullPath: '/laboratories/map'
       preLoaderRoute: typeof LaboratoriesMapRouteImport
+      parentRoute: typeof LaboratoriesRoute
+    }
+    '/laboratories/analyses': {
+      id: '/laboratories/analyses'
+      path: '/analyses'
+      fullPath: '/laboratories/analyses'
+      preLoaderRoute: typeof LaboratoriesAnalysesRouteImport
       parentRoute: typeof LaboratoriesRoute
     }
     '/doctors/specialties': {
@@ -1022,12 +1041,14 @@ const DoctorsRouteWithChildren =
   DoctorsRoute._addFileChildren(DoctorsRouteChildren)
 
 interface LaboratoriesRouteChildren {
+  LaboratoriesAnalysesRoute: typeof LaboratoriesAnalysesRoute
   LaboratoriesMapRoute: typeof LaboratoriesMapRoute
   LaboratoriesOpenRoute: typeof LaboratoriesOpenRoute
   LaboratoriesSearchRoute: typeof LaboratoriesSearchRoute
 }
 
 const LaboratoriesRouteChildren: LaboratoriesRouteChildren = {
+  LaboratoriesAnalysesRoute: LaboratoriesAnalysesRoute,
   LaboratoriesMapRoute: LaboratoriesMapRoute,
   LaboratoriesOpenRoute: LaboratoriesOpenRoute,
   LaboratoriesSearchRoute: LaboratoriesSearchRoute,
