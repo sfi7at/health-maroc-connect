@@ -18,6 +18,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { EmailVerifyBanner } from "@/components/auth/EmailVerifyBanner";
 import { InstallPrompt } from "@/components/pwa/InstallPrompt";
 import { registerPWA } from "@/lib/pwa-register";
+import { installObservability } from "@/lib/observability";
 
 function NotFoundComponent() {
   return (
@@ -159,6 +160,7 @@ function RootComponent() {
 
   useEffect(() => {
     void registerPWA();
+    installObservability();
   }, []);
 
   const isFullscreen =
