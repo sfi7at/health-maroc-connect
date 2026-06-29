@@ -2,6 +2,8 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { ArrowLeft, Clock, Eye, Share2, Calendar } from "lucide-react";
+import { marked } from "marked";
+import DOMPurify from "isomorphic-dompurify";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -22,18 +24,13 @@ export const Route = createFileRoute("/content/$slug")({
 
 function renderMarkdown(md: string) {
   if (!md) return "";
-  const esc = md.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  return esc
-    .replace(/^### (.+)$/gm, '<h3 class="mt-6 mb-2 text-xl font-semibold">$1</h3>')
-    .replace(/^## (.+)$/gm, '<h2 class="mt-8 mb-3 text-2xl font-bold">$1</h2>')
-    .replace(/^# (.+)$/gm, '<h1 class="mt-8 mb-4 text-3xl font-bold">$1</h1>')
-    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-    .replace(/\*(.+?)\*/g, "<em>$1</em>")
-    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="my-4 rounded-xl" loading="lazy" />')
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-primary underline" target="_blank" rel="noopener">$1</a>')
-    .replace(/^- (.+)$/gm, '<li class="ml-6 list-disc">$1</li>')
-    .replace(/\n\n/g, '</p><p class="my-3">')
-    .replace(/^/, '<p class="my-3">') + "</p>";
+  const raw = marked.parse(md, { async: false, breaks: true, gfm: true }) as string;
+  return DOMPurify.sanitize(raw, {
+    USE_PROFILES: { html: true },
+    FORBID_TAGS: ["style", "script", "iframe", "object", "embed", "form"],
+    FORBID_ATTR: ["style", "onerror", "onload", "onclick"],
+    ALLOWED_URI_REGEXP: /^(?:(?:https?|mailto|tel):|[^a-z]|[a-z+.-]+(?:[^a-z+.\-:]|$))/i,
+  });
 }
 
 function ArticleDetail() {

@@ -17,7 +17,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { useSearchHistory } from "@/hooks/use-search-history";
 
-export const Route = createFileRoute("/ai-assistant")({
+export const Route = createFileRoute("/_authenticated/ai-assistant")({
   head: () =>
     buildHead({
       title: "Assistant IA santé — HealthLink Maroc",
