@@ -46,6 +46,7 @@ import { Route as BloodDonorsIdRouteImport } from './routes/blood.donors.$id'
 import { Route as AuthenticatedBloodHistoryRouteImport } from './routes/_authenticated/blood.history'
 import { Route as AuthenticatedBloodBecomeDonorRouteImport } from './routes/_authenticated/blood.become-donor'
 import { Route as AuthenticatedBloodChatRequestIdRouteImport } from './routes/_authenticated/blood.chat.$requestId'
+import { Route as AuthenticatedAppointmentsBookProviderIdRouteImport } from './routes/_authenticated/appointments.book.$providerId'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -236,6 +237,12 @@ const AuthenticatedBloodChatRequestIdRoute =
     path: '/blood/chat/$requestId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAppointmentsBookProviderIdRoute =
+  AuthenticatedAppointmentsBookProviderIdRouteImport.update({
+    id: '/book/$providerId',
+    path: '/book/$providerId',
+    getParentRoute: () => AuthenticatedAppointmentsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -254,7 +261,7 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
-  '/appointments': typeof AuthenticatedAppointmentsRoute
+  '/appointments': typeof AuthenticatedAppointmentsRouteWithChildren
   '/favorites': typeof AuthenticatedFavoritesRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/profile': typeof AuthenticatedProfileRoute
@@ -273,6 +280,7 @@ export interface FileRoutesByFullPath {
   '/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
+  '/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
   '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
 }
 export interface FileRoutesByTo {
@@ -292,7 +300,7 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
-  '/appointments': typeof AuthenticatedAppointmentsRoute
+  '/appointments': typeof AuthenticatedAppointmentsRouteWithChildren
   '/favorites': typeof AuthenticatedFavoritesRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/profile': typeof AuthenticatedProfileRoute
@@ -311,6 +319,7 @@ export interface FileRoutesByTo {
   '/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
+  '/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
   '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
 }
 export interface FileRoutesById {
@@ -332,7 +341,7 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
-  '/_authenticated/appointments': typeof AuthenticatedAppointmentsRoute
+  '/_authenticated/appointments': typeof AuthenticatedAppointmentsRouteWithChildren
   '/_authenticated/favorites': typeof AuthenticatedFavoritesRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
@@ -351,6 +360,7 @@ export interface FileRoutesById {
   '/_authenticated/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
+  '/_authenticated/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
   '/_authenticated/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
 }
 export interface FileRouteTypes {
@@ -391,6 +401,7 @@ export interface FileRouteTypes {
     | '/blood/history'
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
+    | '/appointments/book/$providerId'
     | '/blood/chat/$requestId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -429,6 +440,7 @@ export interface FileRouteTypes {
     | '/blood/history'
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
+    | '/appointments/book/$providerId'
     | '/blood/chat/$requestId'
   id:
     | '__root__'
@@ -468,6 +480,7 @@ export interface FileRouteTypes {
     | '/_authenticated/blood/history'
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
+    | '/_authenticated/appointments/book/$providerId'
     | '/_authenticated/blood/chat/$requestId'
   fileRoutesById: FileRoutesById
 }
@@ -753,11 +766,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBloodChatRequestIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/appointments/book/$providerId': {
+      id: '/_authenticated/appointments/book/$providerId'
+      path: '/book/$providerId'
+      fullPath: '/appointments/book/$providerId'
+      preLoaderRoute: typeof AuthenticatedAppointmentsBookProviderIdRouteImport
+      parentRoute: typeof AuthenticatedAppointmentsRoute
+    }
   }
 }
 
+interface AuthenticatedAppointmentsRouteChildren {
+  AuthenticatedAppointmentsBookProviderIdRoute: typeof AuthenticatedAppointmentsBookProviderIdRoute
+}
+
+const AuthenticatedAppointmentsRouteChildren: AuthenticatedAppointmentsRouteChildren =
+  {
+    AuthenticatedAppointmentsBookProviderIdRoute:
+      AuthenticatedAppointmentsBookProviderIdRoute,
+  }
+
+const AuthenticatedAppointmentsRouteWithChildren =
+  AuthenticatedAppointmentsRoute._addFileChildren(
+    AuthenticatedAppointmentsRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedAppointmentsRoute: typeof AuthenticatedAppointmentsRoute
+  AuthenticatedAppointmentsRoute: typeof AuthenticatedAppointmentsRouteWithChildren
   AuthenticatedFavoritesRoute: typeof AuthenticatedFavoritesRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
@@ -768,7 +803,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedAppointmentsRoute: AuthenticatedAppointmentsRoute,
+  AuthenticatedAppointmentsRoute: AuthenticatedAppointmentsRouteWithChildren,
   AuthenticatedFavoritesRoute: AuthenticatedFavoritesRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
