@@ -231,7 +231,7 @@ function NotificationList({
   if (rows.length === 0) {
     return (
       <EmptyState
-        icon={Building2 ? Bell : Bell}
+        icon={Bell}
         title="Rien à afficher"
         description="Aucune notification dans cette catégorie."
       />
