@@ -19,6 +19,7 @@ import { Route as MapRouteImport } from './routes/map'
 import { Route as LaboratoriesRouteImport } from './routes/laboratories'
 import { Route as HospitalsRouteImport } from './routes/hospitals'
 import { Route as DoctorsRouteImport } from './routes/doctors'
+import { Route as ContentRouteImport } from './routes/content'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BloodRouteImport } from './routes/blood'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -155,6 +156,11 @@ const HospitalsRoute = HospitalsRouteImport.update({
 const DoctorsRoute = DoctorsRouteImport.update({
   id: '/doctors',
   path: '/doctors',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContentRoute = ContentRouteImport.update({
+  id: '/content',
+  path: '/content',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -645,6 +651,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/blood': typeof BloodRouteWithChildren
   '/contact': typeof ContactRoute
+  '/content': typeof ContentRoute
   '/doctors': typeof DoctorsRouteWithChildren
   '/hospitals': typeof HospitalsRouteWithChildren
   '/laboratories': typeof LaboratoriesRouteWithChildren
@@ -743,6 +750,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/blood': typeof BloodRouteWithChildren
   '/contact': typeof ContactRoute
+  '/content': typeof ContentRoute
   '/doctors': typeof DoctorsRouteWithChildren
   '/hospitals': typeof HospitalsRouteWithChildren
   '/laboratories': typeof LaboratoriesRouteWithChildren
@@ -841,6 +849,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/blood': typeof BloodRouteWithChildren
   '/contact': typeof ContactRoute
+  '/content': typeof ContentRoute
   '/doctors': typeof DoctorsRouteWithChildren
   '/hospitals': typeof HospitalsRouteWithChildren
   '/laboratories': typeof LaboratoriesRouteWithChildren
@@ -941,6 +950,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/blood'
     | '/contact'
+    | '/content'
     | '/doctors'
     | '/hospitals'
     | '/laboratories'
@@ -1039,6 +1049,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/blood'
     | '/contact'
+    | '/content'
     | '/doctors'
     | '/hospitals'
     | '/laboratories'
@@ -1136,6 +1147,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/blood'
     | '/contact'
+    | '/content'
     | '/doctors'
     | '/hospitals'
     | '/laboratories'
@@ -1236,6 +1248,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BloodRoute: typeof BloodRouteWithChildren
   ContactRoute: typeof ContactRoute
+  ContentRoute: typeof ContentRoute
   DoctorsRoute: typeof DoctorsRouteWithChildren
   HospitalsRoute: typeof HospitalsRouteWithChildren
   LaboratoriesRoute: typeof LaboratoriesRouteWithChildren
@@ -1320,6 +1333,13 @@ declare module '@tanstack/react-router' {
       path: '/doctors'
       fullPath: '/doctors'
       preLoaderRoute: typeof DoctorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/content': {
+      id: '/content'
+      path: '/content'
+      fullPath: '/content'
+      preLoaderRoute: typeof ContentRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -2204,6 +2224,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   BloodRoute: BloodRouteWithChildren,
   ContactRoute: ContactRoute,
+  ContentRoute: ContentRoute,
   DoctorsRoute: DoctorsRouteWithChildren,
   HospitalsRoute: HospitalsRouteWithChildren,
   LaboratoriesRoute: LaboratoriesRouteWithChildren,
