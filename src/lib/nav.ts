@@ -20,6 +20,8 @@ import {
   Map as MapIcon,
   Clock,
   Siren,
+  CalendarRange,
+  ShieldCheck,
   type LucideIcon,
 } from "lucide-react";
 
@@ -44,12 +46,15 @@ export const primaryNav: NavItem[] = [
   { label: "Don du sang", to: "/blood", icon: Droplet },
   { label: "Assistant IA", to: "/ai-assistant", icon: Sparkles },
   { label: "Rendez-vous", to: "/appointments", icon: CalendarCheck },
+  { label: "Calendrier RDV", to: "/appointments/calendar", icon: CalendarRange },
 ];
 
 export const secondaryNav: NavItem[] = [
   { label: "Profil médical", to: "/profile", icon: User },
   { label: "Notifications", to: "/notifications", icon: Bell },
   { label: "Favoris", to: "/favorites", icon: Star },
+  { label: "Espace prestataire", to: "/provider-calendar", icon: CalendarRange },
+  { label: "Admin RDV", to: "/admin/appointments", icon: ShieldCheck },
   { label: "Paramètres", to: "/settings", icon: Settings },
 ];
 
