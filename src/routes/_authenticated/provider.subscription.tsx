@@ -27,8 +27,7 @@ const TIERS: Tier[] = [
 function ProviderSubscription() {
   const { provider } = useSelectedProvider();
   if (!provider) return null;
-  const current = (provider.metadata as Record<string, unknown> | null)?.["subscription_tier"] as Tier["id"] | undefined;
-  const tier: Tier["id"] = current ?? (provider.is_premium ? "premium" : "free");
+  const tier: Tier["id"] = provider.is_premium ? "premium" : "free";
 
   return (
     <div className="space-y-6">
