@@ -230,7 +230,7 @@ function SearchPage() {
                   distanceFor={distanceFor}
                   trailing={
                     <Button asChild variant="outline" size="sm" className="gap-2 rounded-full">
-                      <Link to="/map" search={{ q: debounced }}>
+                      <Link to="/map">
                         <MapIcon className="h-4 w-4" /> Voir sur la carte
                       </Link>
                     </Button>
