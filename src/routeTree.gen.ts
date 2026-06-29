@@ -101,6 +101,7 @@ import { Route as AuthenticatedAdminLogsRouteImport } from './routes/_authentica
 import { Route as AuthenticatedAdminLaunchRouteImport } from './routes/_authenticated/admin.launch'
 import { Route as AuthenticatedAdminImportsRouteImport } from './routes/_authenticated/admin.imports'
 import { Route as AuthenticatedAdminImportRouteImport } from './routes/_authenticated/admin.import'
+import { Route as AuthenticatedAdminFlagsRouteImport } from './routes/_authenticated/admin.flags'
 import { Route as AuthenticatedAdminFaqsRouteImport } from './routes/_authenticated/admin.faqs'
 import { Route as AuthenticatedAdminEditsRouteImport } from './routes/_authenticated/admin.edits'
 import { Route as AuthenticatedAdminContentAnalyticsRouteImport } from './routes/_authenticated/admin.content-analytics'
@@ -618,6 +619,11 @@ const AuthenticatedAdminImportRoute =
     path: '/import',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminFlagsRoute = AuthenticatedAdminFlagsRouteImport.update({
+  id: '/flags',
+  path: '/flags',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const AuthenticatedAdminFaqsRoute = AuthenticatedAdminFaqsRouteImport.update({
   id: '/faqs',
   path: '/faqs',
@@ -788,6 +794,7 @@ export interface FileRoutesByFullPath {
   '/admin/content-analytics': typeof AuthenticatedAdminContentAnalyticsRoute
   '/admin/edits': typeof AuthenticatedAdminEditsRoute
   '/admin/faqs': typeof AuthenticatedAdminFaqsRoute
+  '/admin/flags': typeof AuthenticatedAdminFlagsRoute
   '/admin/import': typeof AuthenticatedAdminImportRoute
   '/admin/imports': typeof AuthenticatedAdminImportsRoute
   '/admin/launch': typeof AuthenticatedAdminLaunchRoute
@@ -897,6 +904,7 @@ export interface FileRoutesByTo {
   '/admin/content-analytics': typeof AuthenticatedAdminContentAnalyticsRoute
   '/admin/edits': typeof AuthenticatedAdminEditsRoute
   '/admin/faqs': typeof AuthenticatedAdminFaqsRoute
+  '/admin/flags': typeof AuthenticatedAdminFlagsRoute
   '/admin/import': typeof AuthenticatedAdminImportRoute
   '/admin/imports': typeof AuthenticatedAdminImportsRoute
   '/admin/launch': typeof AuthenticatedAdminLaunchRoute
@@ -1010,6 +1018,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/content-analytics': typeof AuthenticatedAdminContentAnalyticsRoute
   '/_authenticated/admin/edits': typeof AuthenticatedAdminEditsRoute
   '/_authenticated/admin/faqs': typeof AuthenticatedAdminFaqsRoute
+  '/_authenticated/admin/flags': typeof AuthenticatedAdminFlagsRoute
   '/_authenticated/admin/import': typeof AuthenticatedAdminImportRoute
   '/_authenticated/admin/imports': typeof AuthenticatedAdminImportsRoute
   '/_authenticated/admin/launch': typeof AuthenticatedAdminLaunchRoute
@@ -1123,6 +1132,7 @@ export interface FileRouteTypes {
     | '/admin/content-analytics'
     | '/admin/edits'
     | '/admin/faqs'
+    | '/admin/flags'
     | '/admin/import'
     | '/admin/imports'
     | '/admin/launch'
@@ -1232,6 +1242,7 @@ export interface FileRouteTypes {
     | '/admin/content-analytics'
     | '/admin/edits'
     | '/admin/faqs'
+    | '/admin/flags'
     | '/admin/import'
     | '/admin/imports'
     | '/admin/launch'
@@ -1344,6 +1355,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/content-analytics'
     | '/_authenticated/admin/edits'
     | '/_authenticated/admin/faqs'
+    | '/_authenticated/admin/flags'
     | '/_authenticated/admin/import'
     | '/_authenticated/admin/imports'
     | '/_authenticated/admin/launch'
@@ -2064,6 +2076,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminImportRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/flags': {
+      id: '/_authenticated/admin/flags'
+      path: '/flags'
+      fullPath: '/admin/flags'
+      preLoaderRoute: typeof AuthenticatedAdminFlagsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/faqs': {
       id: '/_authenticated/admin/faqs'
       path: '/faqs'
@@ -2225,6 +2244,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminContentAnalyticsRoute: typeof AuthenticatedAdminContentAnalyticsRoute
   AuthenticatedAdminEditsRoute: typeof AuthenticatedAdminEditsRoute
   AuthenticatedAdminFaqsRoute: typeof AuthenticatedAdminFaqsRoute
+  AuthenticatedAdminFlagsRoute: typeof AuthenticatedAdminFlagsRoute
   AuthenticatedAdminImportRoute: typeof AuthenticatedAdminImportRoute
   AuthenticatedAdminImportsRoute: typeof AuthenticatedAdminImportsRoute
   AuthenticatedAdminLaunchRoute: typeof AuthenticatedAdminLaunchRoute
@@ -2258,6 +2278,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
     AuthenticatedAdminContentAnalyticsRoute,
   AuthenticatedAdminEditsRoute: AuthenticatedAdminEditsRoute,
   AuthenticatedAdminFaqsRoute: AuthenticatedAdminFaqsRoute,
+  AuthenticatedAdminFlagsRoute: AuthenticatedAdminFlagsRoute,
   AuthenticatedAdminImportRoute: AuthenticatedAdminImportRoute,
   AuthenticatedAdminImportsRoute: AuthenticatedAdminImportsRoute,
   AuthenticatedAdminLaunchRoute: AuthenticatedAdminLaunchRoute,
