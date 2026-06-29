@@ -1454,86 +1454,57 @@ export type Database = {
       }
     }
     Views: {
-      blood_donors_public: {
-        Row: {
-          approx_latitude: number | null
-          approx_longitude: number | null
-          avatar_url: string | null
-          blood_group: Database["public"]["Enums"]["blood_group"] | null
-          city_id: string | null
-          created_at: string | null
-          first_name: string | null
-          gender: string | null
-          id: string | null
-          is_available: boolean | null
-          is_verified: boolean | null
-          last_active_at: string | null
-          last_donation_at: string | null
-          last_name: string | null
-          province_id: string | null
-          status: Database["public"]["Enums"]["donor_status"] | null
-          total_donations: number | null
-        }
-        Insert: {
-          approx_latitude?: never
-          approx_longitude?: never
-          avatar_url?: string | null
-          blood_group?: Database["public"]["Enums"]["blood_group"] | null
-          city_id?: string | null
-          created_at?: string | null
-          first_name?: string | null
-          gender?: string | null
-          id?: string | null
-          is_available?: boolean | null
-          is_verified?: boolean | null
-          last_active_at?: string | null
-          last_donation_at?: string | null
-          last_name?: string | null
-          province_id?: string | null
-          status?: Database["public"]["Enums"]["donor_status"] | null
-          total_donations?: number | null
-        }
-        Update: {
-          approx_latitude?: never
-          approx_longitude?: never
-          avatar_url?: string | null
-          blood_group?: Database["public"]["Enums"]["blood_group"] | null
-          city_id?: string | null
-          created_at?: string | null
-          first_name?: string | null
-          gender?: string | null
-          id?: string | null
-          is_available?: boolean | null
-          is_verified?: boolean | null
-          last_active_at?: string | null
-          last_donation_at?: string | null
-          last_name?: string | null
-          province_id?: string | null
-          status?: Database["public"]["Enums"]["donor_status"] | null
-          total_donations?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "blood_donors_city_id_fkey"
-            columns: ["city_id"]
-            isOneToOne: false
-            referencedRelation: "cities"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "blood_donors_province_id_fkey"
-            columns: ["province_id"]
-            isOneToOne: false
-            referencedRelation: "provinces"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
+      [_ in never]: never
     }
     Functions: {
       can_chat_on_request: {
         Args: { _request: string; _user: string }
         Returns: boolean
+      }
+      get_donor_contact_for_request: {
+        Args: { _donor: string; _request: string }
+        Returns: {
+          contact_email: string
+          contact_phone: string
+        }[]
+      }
+      get_my_donor_profile: {
+        Args: never
+        Returns: {
+          availability_radius_km: number
+          avatar_url: string | null
+          birth_date: string | null
+          blood_group: Database["public"]["Enums"]["blood_group"]
+          city_id: string | null
+          contact_email: string | null
+          contact_phone: string | null
+          created_at: string
+          first_name: string | null
+          gender: string | null
+          id: string
+          is_available: boolean
+          is_verified: boolean
+          last_active_at: string
+          last_donation_at: string | null
+          last_name: string | null
+          latitude: number | null
+          longitude: number | null
+          notes: string | null
+          notify_email: boolean
+          notify_push: boolean
+          notify_sms: boolean
+          province_id: string | null
+          status: Database["public"]["Enums"]["donor_status"]
+          total_donations: number
+          updated_at: string
+          weight_kg: number | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "blood_donors"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
       has_role: {
         Args: {
