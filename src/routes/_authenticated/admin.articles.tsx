@@ -94,8 +94,9 @@ function AdminArticles() {
     onSuccess: () => { toast.success("Supprimé"); qc.invalidateQueries({ queryKey: ["admin-articles"] }); },
   });
 
-  const openEdit = (a: typeof items.data extends Array<infer T> ? T : never) => {
-    setEditing(a as never);
+  type ArticleRow = NonNullable<typeof items.data>[number];
+  const openEdit = (a: ArticleRow) => {
+    setEditing(a as unknown as Record<string, unknown>);
     setForm({
       title: a.title, description: a.description ?? "", content: "", category: a.category ?? "Conseil santé",
       cover_image: a.cover_image ?? "", language: a.language ?? "fr", is_published: !!a.is_published,
