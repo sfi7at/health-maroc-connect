@@ -38,6 +38,7 @@ import { Route as LaboratoriesAnalysesRouteImport } from './routes/laboratories.
 import { Route as HospitalsSearchRouteImport } from './routes/hospitals.search'
 import { Route as HospitalsMapRouteImport } from './routes/hospitals.map'
 import { Route as HospitalsEmergencyRouteImport } from './routes/hospitals.emergency'
+import { Route as HospitalsDepartmentsRouteImport } from './routes/hospitals.departments'
 import { Route as DoctorsSpecialtiesRouteImport } from './routes/doctors.specialties'
 import { Route as DoctorsSearchRouteImport } from './routes/doctors.search'
 import { Route as DoctorsIdRouteImport } from './routes/doctors.$id'
@@ -205,6 +206,11 @@ const HospitalsEmergencyRoute = HospitalsEmergencyRouteImport.update({
   path: '/emergency',
   getParentRoute: () => HospitalsRoute,
 } as any)
+const HospitalsDepartmentsRoute = HospitalsDepartmentsRouteImport.update({
+  id: '/departments',
+  path: '/departments',
+  getParentRoute: () => HospitalsRoute,
+} as any)
 const DoctorsSpecialtiesRoute = DoctorsSpecialtiesRouteImport.update({
   id: '/specialties',
   path: '/specialties',
@@ -358,6 +364,7 @@ export interface FileRoutesByFullPath {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/hospitals/departments': typeof HospitalsDepartmentsRoute
   '/hospitals/emergency': typeof HospitalsEmergencyRoute
   '/hospitals/map': typeof HospitalsMapRoute
   '/hospitals/search': typeof HospitalsSearchRoute
@@ -410,6 +417,7 @@ export interface FileRoutesByTo {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/hospitals/departments': typeof HospitalsDepartmentsRoute
   '/hospitals/emergency': typeof HospitalsEmergencyRoute
   '/hospitals/map': typeof HospitalsMapRoute
   '/hospitals/search': typeof HospitalsSearchRoute
@@ -464,6 +472,7 @@ export interface FileRoutesById {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/hospitals/departments': typeof HospitalsDepartmentsRoute
   '/hospitals/emergency': typeof HospitalsEmergencyRoute
   '/hospitals/map': typeof HospitalsMapRoute
   '/hospitals/search': typeof HospitalsSearchRoute
@@ -518,6 +527,7 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/hospitals/departments'
     | '/hospitals/emergency'
     | '/hospitals/map'
     | '/hospitals/search'
@@ -570,6 +580,7 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/hospitals/departments'
     | '/hospitals/emergency'
     | '/hospitals/map'
     | '/hospitals/search'
@@ -623,6 +634,7 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/hospitals/departments'
     | '/hospitals/emergency'
     | '/hospitals/map'
     | '/hospitals/search'
@@ -867,6 +879,13 @@ declare module '@tanstack/react-router' {
       path: '/emergency'
       fullPath: '/hospitals/emergency'
       preLoaderRoute: typeof HospitalsEmergencyRouteImport
+      parentRoute: typeof HospitalsRoute
+    }
+    '/hospitals/departments': {
+      id: '/hospitals/departments'
+      path: '/departments'
+      fullPath: '/hospitals/departments'
+      preLoaderRoute: typeof HospitalsDepartmentsRouteImport
       parentRoute: typeof HospitalsRoute
     }
     '/doctors/specialties': {
@@ -1120,12 +1139,14 @@ const DoctorsRouteWithChildren =
   DoctorsRoute._addFileChildren(DoctorsRouteChildren)
 
 interface HospitalsRouteChildren {
+  HospitalsDepartmentsRoute: typeof HospitalsDepartmentsRoute
   HospitalsEmergencyRoute: typeof HospitalsEmergencyRoute
   HospitalsMapRoute: typeof HospitalsMapRoute
   HospitalsSearchRoute: typeof HospitalsSearchRoute
 }
 
 const HospitalsRouteChildren: HospitalsRouteChildren = {
+  HospitalsDepartmentsRoute: HospitalsDepartmentsRoute,
   HospitalsEmergencyRoute: HospitalsEmergencyRoute,
   HospitalsMapRoute: HospitalsMapRoute,
   HospitalsSearchRoute: HospitalsSearchRoute,
