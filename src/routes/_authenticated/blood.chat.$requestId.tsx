@@ -41,10 +41,6 @@ function ChatPage() {
   const [body, setBody] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Determine recipient = the other participant. If I'm requester, recipient is anyone who accepted.
-  // For simplicity, we let server-side RLS enforce. Recipient defaults to request.requester_id if I'm a donor, else needs accepted donor lookup.
-  const recipientId = useEffect ? null : null;
-
   useEffect(() => {
     if (!requestId) return;
     const ch = supabase
@@ -65,7 +61,7 @@ function ChatPage() {
   }, [messages.length]);
 
   const send = useMutation({
-    mutationFn: async (payload: { kind: string; body: string; metadata?: Record<string, unknown> }) => {
+    mutationFn: async (payload: { kind: string; body: string; metadata?: { latitude: number; longitude: number } }) => {
       if (!user || !request) throw new Error("Session invalide");
       // Determine recipient
       let recipient = request.requester_id;
@@ -86,7 +82,7 @@ function ChatPage() {
         recipient_id: recipient,
         body: payload.body,
         kind: payload.kind,
-        metadata: payload.metadata ?? null,
+        metadata: payload.metadata ? { ...payload.metadata } : null,
       });
       if (error) throw error;
     },
