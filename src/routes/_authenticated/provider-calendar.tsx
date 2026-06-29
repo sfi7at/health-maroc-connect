@@ -189,11 +189,11 @@ function CalendarTab({ appointments, loading }: { appointments: AppointmentRow[]
 function PatientList({ items, emptyHint }: { items: AppointmentRow[]; emptyHint: string }) {
   const qc = useQueryClient();
   const setStatus = useMutation({
-    mutationFn: async ({ id, status, extra }: { id: string; status: "approved" | "rejected" | "completed" | "no_show"; extra?: Record<string, string> }) => {
-      const update: Record<string, unknown> = { status, ...extra };
-      if (status === "approved") update.confirmed_at = new Date().toISOString();
-      if (status === "completed") update.completed_at = new Date().toISOString();
-      const { error } = await supabase.from("appointments").update(update).eq("id", id);
+    mutationFn: async ({ id, status }: { id: string; status: "approved" | "rejected" | "completed" | "no_show" }) => {
+      const patch: { status: typeof status; confirmed_at?: string; completed_at?: string } = { status };
+      if (status === "approved") patch.confirmed_at = new Date().toISOString();
+      if (status === "completed") patch.completed_at = new Date().toISOString();
+      const { error } = await supabase.from("appointments").update(patch).eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => {
