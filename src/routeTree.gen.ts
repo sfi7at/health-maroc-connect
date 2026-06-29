@@ -68,6 +68,7 @@ import { Route as AuthenticatedAppointmentsIdRouteImport } from './routes/_authe
 import { Route as AuthenticatedAdminVerificationRouteImport } from './routes/_authenticated/admin.verification'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
 import { Route as AuthenticatedAdminProvidersRouteImport } from './routes/_authenticated/admin.providers'
+import { Route as AuthenticatedAdminNotificationsRouteImport } from './routes/_authenticated/admin.notifications'
 import { Route as AuthenticatedAdminArticlesRouteImport } from './routes/_authenticated/admin.articles'
 import { Route as AuthenticatedAdminAppointmentsRouteImport } from './routes/_authenticated/admin.appointments'
 import { Route as ApiPublicCronAppointmentRemindersRouteImport } from './routes/api/public/cron.appointment-reminders'
@@ -382,6 +383,12 @@ const AuthenticatedAdminProvidersRoute =
     path: '/providers',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminNotificationsRoute =
+  AuthenticatedAdminNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminArticlesRoute =
   AuthenticatedAdminArticlesRouteImport.update({
     id: '/articles',
@@ -470,6 +477,7 @@ export interface FileRoutesByFullPath {
   '/providers/$id': typeof ProvidersIdRoute
   '/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
   '/admin/articles': typeof AuthenticatedAdminArticlesRoute
+  '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/admin/providers': typeof AuthenticatedAdminProvidersRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/verification': typeof AuthenticatedAdminVerificationRoute
@@ -535,6 +543,7 @@ export interface FileRoutesByTo {
   '/providers/$id': typeof ProvidersIdRoute
   '/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
   '/admin/articles': typeof AuthenticatedAdminArticlesRoute
+  '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/admin/providers': typeof AuthenticatedAdminProvidersRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/verification': typeof AuthenticatedAdminVerificationRoute
@@ -603,6 +612,7 @@ export interface FileRoutesById {
   '/providers/$id': typeof ProvidersIdRoute
   '/_authenticated/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
   '/_authenticated/admin/articles': typeof AuthenticatedAdminArticlesRoute
+  '/_authenticated/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/_authenticated/admin/providers': typeof AuthenticatedAdminProvidersRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/admin/verification': typeof AuthenticatedAdminVerificationRoute
@@ -671,6 +681,7 @@ export interface FileRouteTypes {
     | '/providers/$id'
     | '/admin/appointments'
     | '/admin/articles'
+    | '/admin/notifications'
     | '/admin/providers'
     | '/admin/users'
     | '/admin/verification'
@@ -736,6 +747,7 @@ export interface FileRouteTypes {
     | '/providers/$id'
     | '/admin/appointments'
     | '/admin/articles'
+    | '/admin/notifications'
     | '/admin/providers'
     | '/admin/users'
     | '/admin/verification'
@@ -803,6 +815,7 @@ export interface FileRouteTypes {
     | '/providers/$id'
     | '/_authenticated/admin/appointments'
     | '/_authenticated/admin/articles'
+    | '/_authenticated/admin/notifications'
     | '/_authenticated/admin/providers'
     | '/_authenticated/admin/users'
     | '/_authenticated/admin/verification'
@@ -1256,6 +1269,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminProvidersRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/notifications': {
+      id: '/_authenticated/admin/notifications'
+      path: '/notifications'
+      fullPath: '/admin/notifications'
+      preLoaderRoute: typeof AuthenticatedAdminNotificationsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/articles': {
       id: '/_authenticated/admin/articles'
       path: '/articles'
@@ -1304,6 +1324,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminAppointmentsRoute: typeof AuthenticatedAdminAppointmentsRoute
   AuthenticatedAdminArticlesRoute: typeof AuthenticatedAdminArticlesRoute
+  AuthenticatedAdminNotificationsRoute: typeof AuthenticatedAdminNotificationsRoute
   AuthenticatedAdminProvidersRoute: typeof AuthenticatedAdminProvidersRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAdminVerificationRoute: typeof AuthenticatedAdminVerificationRoute
@@ -1313,6 +1334,7 @@ interface AuthenticatedAdminRouteChildren {
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminAppointmentsRoute: AuthenticatedAdminAppointmentsRoute,
   AuthenticatedAdminArticlesRoute: AuthenticatedAdminArticlesRoute,
+  AuthenticatedAdminNotificationsRoute: AuthenticatedAdminNotificationsRoute,
   AuthenticatedAdminProvidersRoute: AuthenticatedAdminProvidersRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAdminVerificationRoute: AuthenticatedAdminVerificationRoute,
