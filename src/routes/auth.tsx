@@ -1,6 +1,19 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { Heart, Loader2, Mail, Lock, ArrowLeft } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import {
+  Heart,
+  Loader2,
+  Mail,
+  Lock,
+  ArrowLeft,
+  Eye,
+  EyeOff,
+  Phone,
+  User as UserIcon,
+  Check,
+  Droplet,
+} from "lucide-react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,11 +23,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { citiesQuery } from "@/lib/queries";
 import { buildHead } from "@/lib/seo";
 
 const searchSchema = z.object({
   redirect: z.string().optional(),
-  mode: z.enum(["signin", "signup", "forgot"]).optional(),
+  mode: z.enum(["signin", "signup", "phone", "forgot"]).optional(),
 });
 
 export const Route = createFileRoute("/auth")({
@@ -44,7 +67,7 @@ function AuthPage() {
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute -top-32 left-1/2 h-[420px] w-[820px] -translate-x-1/2 rounded-full bg-primary/15 blur-3xl" />
       </div>
-      <div className="mx-auto flex min-h-screen w-full max-w-md flex-col px-5 py-8">
+      <div className="mx-auto flex min-h-screen w-full max-w-lg flex-col px-5 py-8">
         <Link
           to="/"
           className="inline-flex w-fit items-center gap-1.5 text-sm text-muted-foreground transition hover:text-foreground"
@@ -66,13 +89,22 @@ function AuthPage() {
           {mode === "forgot" ? (
             <ForgotPasswordForm />
           ) : (
-            <Tabs defaultValue={mode === "signup" ? "signup" : "signin"} className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="signin">Se connecter</TabsTrigger>
-                <TabsTrigger value="signup">Créer un compte</TabsTrigger>
+            <Tabs
+              defaultValue={
+                mode === "signup" ? "signup" : mode === "phone" ? "phone" : "signin"
+              }
+              className="w-full"
+            >
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="signin">Email</TabsTrigger>
+                <TabsTrigger value="phone">Téléphone</TabsTrigger>
+                <TabsTrigger value="signup">Inscription</TabsTrigger>
               </TabsList>
               <TabsContent value="signin" className="mt-5">
                 <SignInForm redirect={redirect} />
+              </TabsContent>
+              <TabsContent value="phone" className="mt-5">
+                <PhoneOtpForm redirect={redirect} />
               </TabsContent>
               <TabsContent value="signup" className="mt-5">
                 <SignUpForm />
@@ -146,6 +178,8 @@ function SignInForm({ redirect }: { redirect?: string }) {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPwd, setShowPwd] = useState(false);
+  const [remember, setRemember] = useState(true);
   const [busy, setBusy] = useState(false);
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -156,6 +190,18 @@ function SignInForm({ redirect }: { redirect?: string }) {
     if (error) {
       toast.error("Échec de la connexion", { description: error.message });
       return;
+    }
+    if (!remember) {
+      try {
+        // Move session to sessionStorage so it clears when the tab closes.
+        const raw = localStorage.getItem(`sb-${import.meta.env.VITE_SUPABASE_PROJECT_ID}-auth-token`);
+        if (raw) {
+          sessionStorage.setItem(`sb-${import.meta.env.VITE_SUPABASE_PROJECT_ID}-auth-token`, raw);
+          localStorage.removeItem(`sb-${import.meta.env.VITE_SUPABASE_PROJECT_ID}-auth-token`);
+        }
+      } catch {
+        /* ignore */
+      }
     }
     toast.success("Bienvenue !");
     navigate({ to: redirect ?? "/profile", replace: true });
@@ -197,16 +243,32 @@ function SignInForm({ redirect }: { redirect?: string }) {
             <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               id="signin-password"
-              type="password"
+              type={showPwd ? "text" : "password"}
               autoComplete="current-password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="pl-9"
+              className="pl-9 pr-10"
               placeholder="••••••••"
             />
+            <button
+              type="button"
+              onClick={() => setShowPwd((v) => !v)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1.5 text-muted-foreground hover:text-foreground"
+              aria-label={showPwd ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+            >
+              {showPwd ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            </button>
           </div>
         </div>
+        <label className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Checkbox
+            checked={remember}
+            onCheckedChange={(v) => setRemember(Boolean(v))}
+            id="remember"
+          />
+          <span>Se souvenir de moi sur cet appareil</span>
+        </label>
         <Button type="submit" className="w-full" disabled={busy}>
           {busy && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Se connecter
@@ -218,32 +280,110 @@ function SignInForm({ redirect }: { redirect?: string }) {
 
 function SignUpForm() {
   const navigate = useNavigate();
-  const [fullName, setFullName] = useState("");
+  const { data: cities = [] } = useQuery(citiesQuery());
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
+  const [cityId, setCityId] = useState<string>("");
+  const [language, setLanguage] = useState<"fr" | "ar" | "en">("fr");
+  const [terms, setTerms] = useState(false);
+  const [showPwd, setShowPwd] = useState(false);
+
+  // Optional blood donor block
+  const [isDonor, setIsDonor] = useState(false);
+  const [bloodGroup, setBloodGroup] = useState<string>("");
+  const [weightKg, setWeightKg] = useState<string>("");
+  const [lastDonation, setLastDonation] = useState<string>("");
+  const [donorAvailable, setDonorAvailable] = useState(true);
+
   const [busy, setBusy] = useState(false);
+
+  const pwdStrength = useMemo(() => scorePassword(password), [password]);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!firstName.trim() || !lastName.trim()) {
+      toast.error("Renseignez votre prénom et votre nom.");
+      return;
+    }
+    if (phone && !/^\+?[0-9\s-]{8,16}$/.test(phone)) {
+      toast.error("Numéro de téléphone invalide.");
+      return;
+    }
     if (password.length < 8) {
       toast.error("Mot de passe trop court", { description: "Au moins 8 caractères." });
       return;
     }
+    if (password !== confirm) {
+      toast.error("Les mots de passe ne correspondent pas.");
+      return;
+    }
+    if (!terms) {
+      toast.error("Veuillez accepter les Conditions d'utilisation.");
+      return;
+    }
+    if (isDonor && !bloodGroup) {
+      toast.error("Sélectionnez votre groupe sanguin.");
+      return;
+    }
     setBusy(true);
-    const { error } = await supabase.auth.signUp({
+    const fullName = `${firstName.trim()} ${lastName.trim()}`.replace(/\s+/g, " ");
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      phone: phone ? normalizePhone(phone) : undefined,
       options: {
-        data: { full_name: fullName },
+        data: {
+          full_name: fullName,
+          first_name: firstName.trim(),
+          last_name: lastName.trim(),
+          phone: phone ? normalizePhone(phone) : null,
+          city_id: cityId || null,
+          language,
+          terms_accepted: true,
+        },
         emailRedirectTo: window.location.origin,
       },
     });
-    setBusy(false);
     if (error) {
+      setBusy(false);
       toast.error("Inscription impossible", { description: error.message });
       return;
     }
-    toast.success("Compte créé", { description: "Bienvenue sur HealthLink Maroc." });
+
+    // Create blood donor profile if opted in
+    const userId = data.user?.id;
+    if (isDonor && userId) {
+      const { error: donorErr } = await supabase.from("blood_donors").insert({
+        id: userId,
+        blood_group: bloodGroup as never,
+        weight_kg: weightKg ? Number(weightKg) : null,
+        last_donation_at: lastDonation || null,
+        is_available: donorAvailable,
+        city_id: cityId || null,
+        contact_phone: phone ? normalizePhone(phone) : null,
+        contact_email: email,
+      });
+      if (donorErr) {
+        toast.warning("Compte créé, mais profil donneur non enregistré", {
+          description: donorErr.message,
+        });
+      }
+    }
+    setBusy(false);
+
+    if (!data.session) {
+      toast.success("Compte créé", {
+        description: "Vérifiez votre boîte email pour confirmer votre adresse.",
+      });
+      navigate({ to: "/auth", search: { mode: "signin" }, replace: true });
+      return;
+    }
+    toast.success("Bienvenue sur HealthLink Maroc.");
     navigate({ to: "/profile", replace: true });
   };
 
@@ -252,43 +392,228 @@ function SignUpForm() {
       <GoogleButton label="S'inscrire avec Google" />
       <Divider />
       <form onSubmit={onSubmit} className="space-y-4">
-        <div className="space-y-1.5">
-          <Label htmlFor="signup-name">Nom complet</Label>
-          <Input
-            id="signup-name"
-            type="text"
-            autoComplete="name"
-            required
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-            placeholder="Amine El Idrissi"
-          />
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-1.5">
+            <Label htmlFor="signup-first">Prénom</Label>
+            <div className="relative">
+              <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                id="signup-first"
+                required
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                className="pl-9"
+                placeholder="Amine"
+                autoComplete="given-name"
+              />
+            </div>
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="signup-last">Nom</Label>
+            <Input
+              id="signup-last"
+              required
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              placeholder="El Idrissi"
+              autoComplete="family-name"
+            />
+          </div>
         </div>
+
         <div className="space-y-1.5">
           <Label htmlFor="signup-email">Email</Label>
-          <Input
-            id="signup-email"
-            type="email"
-            autoComplete="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="vous@exemple.ma"
-          />
+          <div className="relative">
+            <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              id="signup-email"
+              type="email"
+              autoComplete="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="pl-9"
+              placeholder="vous@exemple.ma"
+            />
+          </div>
         </div>
+
+        <div className="space-y-1.5">
+          <Label htmlFor="signup-phone">Téléphone</Label>
+          <div className="relative">
+            <Phone className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              id="signup-phone"
+              type="tel"
+              autoComplete="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              className="pl-9"
+              placeholder="+212 6XX XX XX XX"
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-1.5">
+            <Label>Ville</Label>
+            <Select value={cityId} onValueChange={setCityId}>
+              <SelectTrigger>
+                <SelectValue placeholder="Choisir une ville" />
+              </SelectTrigger>
+              <SelectContent className="max-h-64">
+                {cities.map((c) => (
+                  <SelectItem key={c.id} value={c.id}>
+                    {c.name_fr}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-1.5">
+            <Label>Langue</Label>
+            <Select value={language} onValueChange={(v) => setLanguage(v as typeof language)}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="fr">Français</SelectItem>
+                <SelectItem value="ar">العربية</SelectItem>
+                <SelectItem value="en">English</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
         <div className="space-y-1.5">
           <Label htmlFor="signup-password">Mot de passe</Label>
-          <Input
-            id="signup-password"
-            type="password"
-            autoComplete="new-password"
-            required
-            minLength={8}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Au moins 8 caractères"
-          />
+          <div className="relative">
+            <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              id="signup-password"
+              type={showPwd ? "text" : "password"}
+              autoComplete="new-password"
+              required
+              minLength={8}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="pl-9 pr-10"
+              placeholder="Au moins 8 caractères"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPwd((v) => !v)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1.5 text-muted-foreground hover:text-foreground"
+              aria-label={showPwd ? "Masquer" : "Afficher"}
+            >
+              {showPwd ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            </button>
+          </div>
+          {password.length > 0 && <PasswordStrength score={pwdStrength} />}
         </div>
+
+        <div className="space-y-1.5">
+          <Label htmlFor="signup-confirm">Confirmer le mot de passe</Label>
+          <div className="relative">
+            <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              id="signup-confirm"
+              type={showPwd ? "text" : "password"}
+              required
+              minLength={8}
+              value={confirm}
+              onChange={(e) => setConfirm(e.target.value)}
+              className="pl-9"
+              autoComplete="new-password"
+            />
+          </div>
+        </div>
+
+        {/* Optional blood donor block */}
+        <div className="rounded-2xl border border-border bg-muted/30 p-4">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <div className="flex items-center gap-2 font-medium">
+                <Droplet className="h-4 w-4 text-red-500" />
+                Devenir donneur de sang
+              </div>
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                Sauvez des vies. Vos coordonnées restent privées jusqu'à ce que vous acceptiez
+                une demande.
+              </p>
+            </div>
+            <Switch checked={isDonor} onCheckedChange={setIsDonor} />
+          </div>
+
+          {isDonor && (
+            <div className="mt-4 space-y-3">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <Label>Groupe sanguin</Label>
+                  <Select value={bloodGroup} onValueChange={setBloodGroup}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Sélectionner" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map((bg) => (
+                        <SelectItem key={bg} value={bg}>
+                          {bg}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="weight">Poids (kg)</Label>
+                  <Input
+                    id="weight"
+                    type="number"
+                    min={40}
+                    max={250}
+                    step={1}
+                    value={weightKg}
+                    onChange={(e) => setWeightKg(e.target.value)}
+                    placeholder="70"
+                  />
+                </div>
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="last-don">Dernier don (optionnel)</Label>
+                <Input
+                  id="last-don"
+                  type="date"
+                  value={lastDonation}
+                  onChange={(e) => setLastDonation(e.target.value)}
+                />
+              </div>
+              <label className="flex items-center justify-between gap-2 text-sm">
+                <span>Je suis disponible pour donner</span>
+                <Switch checked={donorAvailable} onCheckedChange={setDonorAvailable} />
+              </label>
+            </div>
+          )}
+        </div>
+
+        <label className="flex items-start gap-2 text-sm text-muted-foreground">
+          <Checkbox
+            checked={terms}
+            onCheckedChange={(v) => setTerms(Boolean(v))}
+            id="terms"
+            className="mt-0.5"
+          />
+          <span>
+            J'accepte les{" "}
+            <Link to="/terms" className="underline hover:text-foreground">
+              Conditions
+            </Link>{" "}
+            et la{" "}
+            <Link to="/privacy" className="underline hover:text-foreground">
+              Politique de confidentialité
+            </Link>
+            .
+          </span>
+        </label>
+
         <Button type="submit" className="w-full" disabled={busy}>
           {busy && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Créer mon compte
@@ -296,6 +621,167 @@ function SignUpForm() {
       </form>
     </div>
   );
+}
+
+function PhoneOtpForm({ redirect }: { redirect?: string }) {
+  const navigate = useNavigate();
+  const [phone, setPhone] = useState("");
+  const [code, setCode] = useState("");
+  const [step, setStep] = useState<"phone" | "code">("phone");
+  const [busy, setBusy] = useState(false);
+
+  const sendCode = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const normalized = normalizePhone(phone);
+    if (!/^\+\d{8,15}$/.test(normalized)) {
+      toast.error("Numéro invalide", {
+        description: "Format international ex: +212 6 12 34 56 78",
+      });
+      return;
+    }
+    setBusy(true);
+    const { error } = await supabase.auth.signInWithOtp({
+      phone: normalized,
+    });
+    setBusy(false);
+    if (error) {
+      toast.error("Envoi du code impossible", { description: error.message });
+      return;
+    }
+    toast.success("Code envoyé par SMS.");
+    setStep("code");
+  };
+
+  const verify = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setBusy(true);
+    const { error } = await supabase.auth.verifyOtp({
+      phone: normalizePhone(phone),
+      token: code.trim(),
+      type: "sms",
+    });
+    setBusy(false);
+    if (error) {
+      toast.error("Code invalide", { description: error.message });
+      return;
+    }
+    toast.success("Bienvenue !");
+    navigate({ to: redirect ?? "/profile", replace: true });
+  };
+
+  return (
+    <div className="space-y-4">
+      <GoogleButton label="Continuer avec Google" />
+      <Divider />
+      {step === "phone" ? (
+        <form onSubmit={sendCode} className="space-y-4">
+          <div className="space-y-1.5">
+            <Label htmlFor="otp-phone">Numéro de téléphone</Label>
+            <div className="relative">
+              <Phone className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                id="otp-phone"
+                type="tel"
+                autoComplete="tel"
+                required
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="pl-9"
+                placeholder="+212 6 12 34 56 78"
+              />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Vous recevrez un code à 6 chiffres par SMS.
+            </p>
+          </div>
+          <Button type="submit" className="w-full" disabled={busy}>
+            {busy && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Envoyer le code
+          </Button>
+        </form>
+      ) : (
+        <form onSubmit={verify} className="space-y-4">
+          <div className="space-y-1.5">
+            <Label htmlFor="otp-code">Code de vérification</Label>
+            <Input
+              id="otp-code"
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              required
+              maxLength={6}
+              value={code}
+              onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
+              placeholder="123456"
+              className="text-center text-lg tracking-[0.4em]"
+            />
+            <p className="text-xs text-muted-foreground">
+              Code envoyé au {normalizePhone(phone)}
+            </p>
+          </div>
+          <Button type="submit" className="w-full" disabled={busy || code.length < 6}>
+            {busy && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            <Check className="mr-2 h-4 w-4" />
+            Vérifier
+          </Button>
+          <button
+            type="button"
+            onClick={() => setStep("phone")}
+            className="block w-full text-center text-sm text-muted-foreground hover:text-foreground"
+          >
+            Modifier le numéro
+          </button>
+        </form>
+      )}
+    </div>
+  );
+}
+
+function PasswordStrength({ score }: { score: number }) {
+  const labels = ["Très faible", "Faible", "Moyen", "Bon", "Excellent"];
+  const colors = [
+    "bg-red-500",
+    "bg-orange-500",
+    "bg-yellow-500",
+    "bg-lime-500",
+    "bg-emerald-500",
+  ];
+  return (
+    <div className="space-y-1">
+      <div className="flex gap-1">
+        {[0, 1, 2, 3, 4].map((i) => (
+          <div
+            key={i}
+            className={`h-1 flex-1 rounded-full ${
+              i < score ? colors[score - 1] : "bg-muted"
+            }`}
+          />
+        ))}
+      </div>
+      <p className="text-[11px] text-muted-foreground">
+        Force : {labels[Math.max(0, score - 1)] ?? labels[0]}
+      </p>
+    </div>
+  );
+}
+
+function scorePassword(pwd: string): number {
+  if (!pwd) return 0;
+  let score = 0;
+  if (pwd.length >= 8) score++;
+  if (pwd.length >= 12) score++;
+  if (/[A-Z]/.test(pwd) && /[a-z]/.test(pwd)) score++;
+  if (/\d/.test(pwd)) score++;
+  if (/[^A-Za-z0-9]/.test(pwd)) score++;
+  return Math.min(score, 5);
+}
+
+function normalizePhone(input: string): string {
+  const trimmed = input.trim().replace(/[\s().-]/g, "");
+  if (trimmed.startsWith("+")) return trimmed;
+  if (trimmed.startsWith("00")) return "+" + trimmed.slice(2);
+  // Default to Morocco (+212), strip leading 0
+  if (trimmed.startsWith("0")) return "+212" + trimmed.slice(1);
+  return "+" + trimmed;
 }
 
 function ForgotPasswordForm() {
