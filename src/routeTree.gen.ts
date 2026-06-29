@@ -28,6 +28,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProvidersIdRouteImport } from './routes/providers.$id'
 import { Route as PharmaciesSearchRouteImport } from './routes/pharmacies.search'
+import { Route as PharmaciesOpenRouteImport } from './routes/pharmacies.open'
 import { Route as PharmaciesOnDutyRouteImport } from './routes/pharmacies.on-duty'
 import { Route as DoctorsSpecialtiesRouteImport } from './routes/doctors.specialties'
 import { Route as DoctorsSearchRouteImport } from './routes/doctors.search'
@@ -142,6 +143,11 @@ const ProvidersIdRoute = ProvidersIdRouteImport.update({
 const PharmaciesSearchRoute = PharmaciesSearchRouteImport.update({
   id: '/search',
   path: '/search',
+  getParentRoute: () => PharmaciesRoute,
+} as any)
+const PharmaciesOpenRoute = PharmaciesOpenRouteImport.update({
+  id: '/open',
+  path: '/open',
   getParentRoute: () => PharmaciesRoute,
 } as any)
 const PharmaciesOnDutyRoute = PharmaciesOnDutyRouteImport.update({
@@ -289,6 +295,7 @@ export interface FileRoutesByFullPath {
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
+  '/pharmacies/open': typeof PharmaciesOpenRoute
   '/pharmacies/search': typeof PharmaciesSearchRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
@@ -330,6 +337,7 @@ export interface FileRoutesByTo {
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
+  '/pharmacies/open': typeof PharmaciesOpenRoute
   '/pharmacies/search': typeof PharmaciesSearchRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
@@ -373,6 +381,7 @@ export interface FileRoutesById {
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
+  '/pharmacies/open': typeof PharmaciesOpenRoute
   '/pharmacies/search': typeof PharmaciesSearchRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/_authenticated/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
@@ -416,6 +425,7 @@ export interface FileRouteTypes {
     | '/doctors/search'
     | '/doctors/specialties'
     | '/pharmacies/on-duty'
+    | '/pharmacies/open'
     | '/pharmacies/search'
     | '/providers/$id'
     | '/blood/become-donor'
@@ -457,6 +467,7 @@ export interface FileRouteTypes {
     | '/doctors/search'
     | '/doctors/specialties'
     | '/pharmacies/on-duty'
+    | '/pharmacies/open'
     | '/pharmacies/search'
     | '/providers/$id'
     | '/blood/become-donor'
@@ -499,6 +510,7 @@ export interface FileRouteTypes {
     | '/doctors/search'
     | '/doctors/specialties'
     | '/pharmacies/on-duty'
+    | '/pharmacies/open'
     | '/pharmacies/search'
     | '/providers/$id'
     | '/_authenticated/blood/become-donor'
@@ -663,6 +675,13 @@ declare module '@tanstack/react-router' {
       path: '/search'
       fullPath: '/pharmacies/search'
       preLoaderRoute: typeof PharmaciesSearchRouteImport
+      parentRoute: typeof PharmaciesRoute
+    }
+    '/pharmacies/open': {
+      id: '/pharmacies/open'
+      path: '/open'
+      fullPath: '/pharmacies/open'
+      preLoaderRoute: typeof PharmaciesOpenRouteImport
       parentRoute: typeof PharmaciesRoute
     }
     '/pharmacies/on-duty': {
@@ -906,11 +925,13 @@ const DoctorsRouteWithChildren =
 
 interface PharmaciesRouteChildren {
   PharmaciesOnDutyRoute: typeof PharmaciesOnDutyRoute
+  PharmaciesOpenRoute: typeof PharmaciesOpenRoute
   PharmaciesSearchRoute: typeof PharmaciesSearchRoute
 }
 
 const PharmaciesRouteChildren: PharmaciesRouteChildren = {
   PharmaciesOnDutyRoute: PharmaciesOnDutyRoute,
+  PharmaciesOpenRoute: PharmaciesOpenRoute,
   PharmaciesSearchRoute: PharmaciesSearchRoute,
 }
 
