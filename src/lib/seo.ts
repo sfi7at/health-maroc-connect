@@ -1,5 +1,3 @@
-import type { Route } from "@tanstack/react-router";
-
 export interface SeoMeta {
   title: string;
   description: string;
@@ -26,6 +24,3 @@ export function buildHead({ title, description, image, path }: SeoMeta) {
   if (path) meta.push({ property: "og:url", content: path });
   return { meta };
 }
-
-// satisfy unused-import lint in some templates
-export type _RouteUnused = Route;
