@@ -59,7 +59,7 @@ function ContentPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={Newspaper} title="Santé & actualités" description="Conseils, campagnes et guides médicaux du Maroc." />
+      <PageHeader icon={<Newspaper className="h-5 w-5" />} title="Santé & actualités" description="Conseils, campagnes et guides médicaux du Maroc." />
 
       <div className="flex flex-col gap-3 md:flex-row">
         <div className="relative flex-1">
