@@ -27,6 +27,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProvidersIdRouteImport } from './routes/providers.$id'
+import { Route as PharmaciesSearchRouteImport } from './routes/pharmacies.search'
 import { Route as PharmaciesOnDutyRouteImport } from './routes/pharmacies.on-duty'
 import { Route as DoctorsSpecialtiesRouteImport } from './routes/doctors.specialties'
 import { Route as DoctorsSearchRouteImport } from './routes/doctors.search'
@@ -137,6 +138,11 @@ const ProvidersIdRoute = ProvidersIdRouteImport.update({
   id: '/providers/$id',
   path: '/providers/$id',
   getParentRoute: () => rootRouteImport,
+} as any)
+const PharmaciesSearchRoute = PharmaciesSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => PharmaciesRoute,
 } as any)
 const PharmaciesOnDutyRoute = PharmaciesOnDutyRouteImport.update({
   id: '/on-duty',
@@ -283,6 +289,7 @@ export interface FileRoutesByFullPath {
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
+  '/pharmacies/search': typeof PharmaciesSearchRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/blood/history': typeof AuthenticatedBloodHistoryRoute
@@ -323,6 +330,7 @@ export interface FileRoutesByTo {
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
+  '/pharmacies/search': typeof PharmaciesSearchRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/blood/history': typeof AuthenticatedBloodHistoryRoute
@@ -365,6 +373,7 @@ export interface FileRoutesById {
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
+  '/pharmacies/search': typeof PharmaciesSearchRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/_authenticated/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/_authenticated/blood/history': typeof AuthenticatedBloodHistoryRoute
@@ -407,6 +416,7 @@ export interface FileRouteTypes {
     | '/doctors/search'
     | '/doctors/specialties'
     | '/pharmacies/on-duty'
+    | '/pharmacies/search'
     | '/providers/$id'
     | '/blood/become-donor'
     | '/blood/history'
@@ -447,6 +457,7 @@ export interface FileRouteTypes {
     | '/doctors/search'
     | '/doctors/specialties'
     | '/pharmacies/on-duty'
+    | '/pharmacies/search'
     | '/providers/$id'
     | '/blood/become-donor'
     | '/blood/history'
@@ -488,6 +499,7 @@ export interface FileRouteTypes {
     | '/doctors/search'
     | '/doctors/specialties'
     | '/pharmacies/on-duty'
+    | '/pharmacies/search'
     | '/providers/$id'
     | '/_authenticated/blood/become-donor'
     | '/_authenticated/blood/history'
@@ -645,6 +657,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/providers/$id'
       preLoaderRoute: typeof ProvidersIdRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/pharmacies/search': {
+      id: '/pharmacies/search'
+      path: '/search'
+      fullPath: '/pharmacies/search'
+      preLoaderRoute: typeof PharmaciesSearchRouteImport
+      parentRoute: typeof PharmaciesRoute
     }
     '/pharmacies/on-duty': {
       id: '/pharmacies/on-duty'
@@ -887,10 +906,12 @@ const DoctorsRouteWithChildren =
 
 interface PharmaciesRouteChildren {
   PharmaciesOnDutyRoute: typeof PharmaciesOnDutyRoute
+  PharmaciesSearchRoute: typeof PharmaciesSearchRoute
 }
 
 const PharmaciesRouteChildren: PharmaciesRouteChildren = {
   PharmaciesOnDutyRoute: PharmaciesOnDutyRoute,
+  PharmaciesSearchRoute: PharmaciesSearchRoute,
 }
 
 const PharmaciesRouteWithChildren = PharmaciesRoute._addFileChildren(
