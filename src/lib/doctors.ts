@@ -191,19 +191,21 @@ export function doctorReviewsQuery(providerId: string) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("reviews")
-        .select("*, profiles!reviews_author_id_fkey ( id, full_name, avatar_url )")
+        .select("*")
         .eq("provider_id", providerId)
         .order("created_at", { ascending: false });
-      if (error) {
-        // Fallback if FK alias not exposed in PostgREST
-        const { data: plain } = await supabase
-          .from("reviews")
-          .select("*")
-          .eq("provider_id", providerId)
-          .order("created_at", { ascending: false });
-        return (plain ?? []).map((r) => ({ ...r, profiles: null }));
+      if (error) throw error;
+      const rows = data ?? [];
+      const ids = Array.from(new Set(rows.map((r) => r.author_id)));
+      let profilesById: Record<string, { id: string; full_name: string | null; avatar_url: string | null }> = {};
+      if (ids.length) {
+        const { data: profs } = await supabase
+          .from("profiles")
+          .select("id, full_name, avatar_url")
+          .in("id", ids);
+        profilesById = Object.fromEntries((profs ?? []).map((p) => [p.id, p]));
       }
-      return data ?? [];
+      return rows.map((r) => ({ ...r, profiles: profilesById[r.author_id] ?? null }));
     },
     staleTime: 30_000,
   });
