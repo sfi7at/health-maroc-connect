@@ -120,7 +120,7 @@ function NotificationsPage() {
         title="Notifications"
         description="Real-time, filtré et personnalisé pour le Maroc."
         icon={<Bell className="h-5 w-5" />}
-        action={
+        actions={
           <Button variant="outline" size="sm" onClick={markAllRead} disabled={unreadCount === 0}>
             <CheckCheck className="mr-2 h-4 w-4" /> Tout marquer lu
           </Button>
