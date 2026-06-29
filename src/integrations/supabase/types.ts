@@ -877,31 +877,54 @@ export type Database = {
         Row: {
           avatar_url: string | null
           city: string | null
+          city_id: string | null
           created_at: string
+          first_name: string | null
           full_name: string | null
           id: string
+          language: string
+          last_name: string | null
           phone: string | null
+          terms_accepted_at: string | null
           updated_at: string
         }
         Insert: {
           avatar_url?: string | null
           city?: string | null
+          city_id?: string | null
           created_at?: string
+          first_name?: string | null
           full_name?: string | null
           id: string
+          language?: string
+          last_name?: string | null
           phone?: string | null
+          terms_accepted_at?: string | null
           updated_at?: string
         }
         Update: {
           avatar_url?: string | null
           city?: string | null
+          city_id?: string | null
           created_at?: string
+          first_name?: string | null
           full_name?: string | null
           id?: string
+          language?: string
+          last_name?: string | null
           phone?: string | null
+          terms_accepted_at?: string | null
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       provider_specialties: {
         Row: {
