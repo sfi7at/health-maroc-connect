@@ -81,7 +81,7 @@ function BookFlow() {
           notes: notes.trim() || null,
           location_text: provider?.address ?? null,
           status: "pending",
-        } as never)
+        })
         .select("id")
         .single();
       if (error) {
