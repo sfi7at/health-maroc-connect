@@ -111,6 +111,7 @@ import { Route as AuthenticatedBloodChatRequestIdRouteImport } from './routes/_a
 import { Route as AuthenticatedAppointmentsNewProviderIdRouteImport } from './routes/_authenticated/appointments.new.$providerId'
 import { Route as AuthenticatedAppointmentsBookProviderIdRouteImport } from './routes/_authenticated/appointments.book.$providerId'
 import { Route as AuthenticatedAdminSecurityEventsRouteImport } from './routes/_authenticated/admin.security.events'
+import { Route as AuthenticatedAdminSecurityBlockedRouteImport } from './routes/_authenticated/admin.security.blocked'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -669,6 +670,12 @@ const AuthenticatedAdminSecurityEventsRoute =
     path: '/events',
     getParentRoute: () => AuthenticatedAdminSecurityRoute,
   } as any)
+const AuthenticatedAdminSecurityBlockedRoute =
+  AuthenticatedAdminSecurityBlockedRouteImport.update({
+    id: '/blocked',
+    path: '/blocked',
+    getParentRoute: () => AuthenticatedAdminSecurityRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -767,6 +774,7 @@ export interface FileRoutesByFullPath {
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/provider/': typeof AuthenticatedProviderIndexRoute
+  '/admin/security/blocked': typeof AuthenticatedAdminSecurityBlockedRoute
   '/admin/security/events': typeof AuthenticatedAdminSecurityEventsRoute
   '/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
   '/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
@@ -868,6 +876,7 @@ export interface FileRoutesByTo {
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/provider': typeof AuthenticatedProviderIndexRoute
+  '/admin/security/blocked': typeof AuthenticatedAdminSecurityBlockedRoute
   '/admin/security/events': typeof AuthenticatedAdminSecurityEventsRoute
   '/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
   '/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
@@ -973,6 +982,7 @@ export interface FileRoutesById {
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/provider/': typeof AuthenticatedProviderIndexRoute
+  '/_authenticated/admin/security/blocked': typeof AuthenticatedAdminSecurityBlockedRoute
   '/_authenticated/admin/security/events': typeof AuthenticatedAdminSecurityEventsRoute
   '/_authenticated/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
   '/_authenticated/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
@@ -1078,6 +1088,7 @@ export interface FileRouteTypes {
     | '/doctors/specialty/$slug'
     | '/admin/'
     | '/provider/'
+    | '/admin/security/blocked'
     | '/admin/security/events'
     | '/appointments/book/$providerId'
     | '/appointments/new/$providerId'
@@ -1179,6 +1190,7 @@ export interface FileRouteTypes {
     | '/doctors/specialty/$slug'
     | '/admin'
     | '/provider'
+    | '/admin/security/blocked'
     | '/admin/security/events'
     | '/appointments/book/$providerId'
     | '/appointments/new/$providerId'
@@ -1283,6 +1295,7 @@ export interface FileRouteTypes {
     | '/doctors/specialty/$slug'
     | '/_authenticated/admin/'
     | '/_authenticated/provider/'
+    | '/_authenticated/admin/security/blocked'
     | '/_authenticated/admin/security/events'
     | '/_authenticated/appointments/book/$providerId'
     | '/_authenticated/appointments/new/$providerId'
@@ -2030,15 +2043,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminSecurityEventsRouteImport
       parentRoute: typeof AuthenticatedAdminSecurityRoute
     }
+    '/_authenticated/admin/security/blocked': {
+      id: '/_authenticated/admin/security/blocked'
+      path: '/blocked'
+      fullPath: '/admin/security/blocked'
+      preLoaderRoute: typeof AuthenticatedAdminSecurityBlockedRouteImport
+      parentRoute: typeof AuthenticatedAdminSecurityRoute
+    }
   }
 }
 
 interface AuthenticatedAdminSecurityRouteChildren {
+  AuthenticatedAdminSecurityBlockedRoute: typeof AuthenticatedAdminSecurityBlockedRoute
   AuthenticatedAdminSecurityEventsRoute: typeof AuthenticatedAdminSecurityEventsRoute
 }
 
 const AuthenticatedAdminSecurityRouteChildren: AuthenticatedAdminSecurityRouteChildren =
   {
+    AuthenticatedAdminSecurityBlockedRoute:
+      AuthenticatedAdminSecurityBlockedRoute,
     AuthenticatedAdminSecurityEventsRoute:
       AuthenticatedAdminSecurityEventsRoute,
   }
