@@ -28,11 +28,20 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProvidersIdRouteImport } from './routes/providers.$id'
 import { Route as PharmaciesOnDutyRouteImport } from './routes/pharmacies.on-duty'
 import { Route as DoctorsIdRouteImport } from './routes/doctors.$id'
+import { Route as BloodRequestRouteImport } from './routes/blood.request'
+import { Route as BloodMapRouteImport } from './routes/blood.map'
+import { Route as BloodDonorsRouteImport } from './routes/blood.donors'
+import { Route as BloodCentersRouteImport } from './routes/blood.centers'
+import { Route as BloodCampaignsRouteImport } from './routes/blood.campaigns'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
 import { Route as AuthenticatedAppointmentsRouteImport } from './routes/_authenticated/appointments'
+import { Route as BloodDonorsIdRouteImport } from './routes/blood.donors.$id'
+import { Route as AuthenticatedBloodHistoryRouteImport } from './routes/_authenticated/blood.history'
+import { Route as AuthenticatedBloodBecomeDonorRouteImport } from './routes/_authenticated/blood.become-donor'
+import { Route as AuthenticatedBloodChatRequestIdRouteImport } from './routes/_authenticated/blood.chat.$requestId'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -128,6 +137,31 @@ const DoctorsIdRoute = DoctorsIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => DoctorsRoute,
 } as any)
+const BloodRequestRoute = BloodRequestRouteImport.update({
+  id: '/request',
+  path: '/request',
+  getParentRoute: () => BloodRoute,
+} as any)
+const BloodMapRoute = BloodMapRouteImport.update({
+  id: '/map',
+  path: '/map',
+  getParentRoute: () => BloodRoute,
+} as any)
+const BloodDonorsRoute = BloodDonorsRouteImport.update({
+  id: '/donors',
+  path: '/donors',
+  getParentRoute: () => BloodRoute,
+} as any)
+const BloodCentersRoute = BloodCentersRouteImport.update({
+  id: '/centers',
+  path: '/centers',
+  getParentRoute: () => BloodRoute,
+} as any)
+const BloodCampaignsRoute = BloodCampaignsRouteImport.update({
+  id: '/campaigns',
+  path: '/campaigns',
+  getParentRoute: () => BloodRoute,
+} as any)
 const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -155,13 +189,36 @@ const AuthenticatedAppointmentsRoute =
     path: '/appointments',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const BloodDonorsIdRoute = BloodDonorsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => BloodDonorsRoute,
+} as any)
+const AuthenticatedBloodHistoryRoute =
+  AuthenticatedBloodHistoryRouteImport.update({
+    id: '/blood/history',
+    path: '/blood/history',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedBloodBecomeDonorRoute =
+  AuthenticatedBloodBecomeDonorRouteImport.update({
+    id: '/blood/become-donor',
+    path: '/blood/become-donor',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedBloodChatRequestIdRoute =
+  AuthenticatedBloodChatRequestIdRouteImport.update({
+    id: '/blood/chat/$requestId',
+    path: '/blood/chat/$requestId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/ai-assistant': typeof AiAssistantRoute
   '/auth': typeof AuthRoute
-  '/blood': typeof BloodRoute
+  '/blood': typeof BloodRouteWithChildren
   '/contact': typeof ContactRoute
   '/doctors': typeof DoctorsRouteWithChildren
   '/hospitals': typeof HospitalsRoute
@@ -177,16 +234,25 @@ export interface FileRoutesByFullPath {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/blood/campaigns': typeof BloodCampaignsRoute
+  '/blood/centers': typeof BloodCentersRoute
+  '/blood/donors': typeof BloodDonorsRouteWithChildren
+  '/blood/map': typeof BloodMapRoute
+  '/blood/request': typeof BloodRequestRoute
   '/doctors/$id': typeof DoctorsIdRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/providers/$id': typeof ProvidersIdRoute
+  '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
+  '/blood/history': typeof AuthenticatedBloodHistoryRoute
+  '/blood/donors/$id': typeof BloodDonorsIdRoute
+  '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/ai-assistant': typeof AiAssistantRoute
   '/auth': typeof AuthRoute
-  '/blood': typeof BloodRoute
+  '/blood': typeof BloodRouteWithChildren
   '/contact': typeof ContactRoute
   '/doctors': typeof DoctorsRouteWithChildren
   '/hospitals': typeof HospitalsRoute
@@ -202,9 +268,18 @@ export interface FileRoutesByTo {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/blood/campaigns': typeof BloodCampaignsRoute
+  '/blood/centers': typeof BloodCentersRoute
+  '/blood/donors': typeof BloodDonorsRouteWithChildren
+  '/blood/map': typeof BloodMapRoute
+  '/blood/request': typeof BloodRequestRoute
   '/doctors/$id': typeof DoctorsIdRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/providers/$id': typeof ProvidersIdRoute
+  '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
+  '/blood/history': typeof AuthenticatedBloodHistoryRoute
+  '/blood/donors/$id': typeof BloodDonorsIdRoute
+  '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -213,7 +288,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/ai-assistant': typeof AiAssistantRoute
   '/auth': typeof AuthRoute
-  '/blood': typeof BloodRoute
+  '/blood': typeof BloodRouteWithChildren
   '/contact': typeof ContactRoute
   '/doctors': typeof DoctorsRouteWithChildren
   '/hospitals': typeof HospitalsRoute
@@ -229,9 +304,18 @@ export interface FileRoutesById {
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/blood/campaigns': typeof BloodCampaignsRoute
+  '/blood/centers': typeof BloodCentersRoute
+  '/blood/donors': typeof BloodDonorsRouteWithChildren
+  '/blood/map': typeof BloodMapRoute
+  '/blood/request': typeof BloodRequestRoute
   '/doctors/$id': typeof DoctorsIdRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/providers/$id': typeof ProvidersIdRoute
+  '/_authenticated/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
+  '/_authenticated/blood/history': typeof AuthenticatedBloodHistoryRoute
+  '/blood/donors/$id': typeof BloodDonorsIdRoute
+  '/_authenticated/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -256,9 +340,18 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/profile'
     | '/settings'
+    | '/blood/campaigns'
+    | '/blood/centers'
+    | '/blood/donors'
+    | '/blood/map'
+    | '/blood/request'
     | '/doctors/$id'
     | '/pharmacies/on-duty'
     | '/providers/$id'
+    | '/blood/become-donor'
+    | '/blood/history'
+    | '/blood/donors/$id'
+    | '/blood/chat/$requestId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -281,9 +374,18 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/profile'
     | '/settings'
+    | '/blood/campaigns'
+    | '/blood/centers'
+    | '/blood/donors'
+    | '/blood/map'
+    | '/blood/request'
     | '/doctors/$id'
     | '/pharmacies/on-duty'
     | '/providers/$id'
+    | '/blood/become-donor'
+    | '/blood/history'
+    | '/blood/donors/$id'
+    | '/blood/chat/$requestId'
   id:
     | '__root__'
     | '/'
@@ -307,9 +409,18 @@ export interface FileRouteTypes {
     | '/_authenticated/notifications'
     | '/_authenticated/profile'
     | '/_authenticated/settings'
+    | '/blood/campaigns'
+    | '/blood/centers'
+    | '/blood/donors'
+    | '/blood/map'
+    | '/blood/request'
     | '/doctors/$id'
     | '/pharmacies/on-duty'
     | '/providers/$id'
+    | '/_authenticated/blood/become-donor'
+    | '/_authenticated/blood/history'
+    | '/blood/donors/$id'
+    | '/_authenticated/blood/chat/$requestId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -318,7 +429,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AiAssistantRoute: typeof AiAssistantRoute
   AuthRoute: typeof AuthRoute
-  BloodRoute: typeof BloodRoute
+  BloodRoute: typeof BloodRouteWithChildren
   ContactRoute: typeof ContactRoute
   DoctorsRoute: typeof DoctorsRouteWithChildren
   HospitalsRoute: typeof HospitalsRoute
@@ -467,6 +578,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DoctorsIdRouteImport
       parentRoute: typeof DoctorsRoute
     }
+    '/blood/request': {
+      id: '/blood/request'
+      path: '/request'
+      fullPath: '/blood/request'
+      preLoaderRoute: typeof BloodRequestRouteImport
+      parentRoute: typeof BloodRoute
+    }
+    '/blood/map': {
+      id: '/blood/map'
+      path: '/map'
+      fullPath: '/blood/map'
+      preLoaderRoute: typeof BloodMapRouteImport
+      parentRoute: typeof BloodRoute
+    }
+    '/blood/donors': {
+      id: '/blood/donors'
+      path: '/donors'
+      fullPath: '/blood/donors'
+      preLoaderRoute: typeof BloodDonorsRouteImport
+      parentRoute: typeof BloodRoute
+    }
+    '/blood/centers': {
+      id: '/blood/centers'
+      path: '/centers'
+      fullPath: '/blood/centers'
+      preLoaderRoute: typeof BloodCentersRouteImport
+      parentRoute: typeof BloodRoute
+    }
+    '/blood/campaigns': {
+      id: '/blood/campaigns'
+      path: '/campaigns'
+      fullPath: '/blood/campaigns'
+      preLoaderRoute: typeof BloodCampaignsRouteImport
+      parentRoute: typeof BloodRoute
+    }
     '/_authenticated/settings': {
       id: '/_authenticated/settings'
       path: '/settings'
@@ -502,6 +648,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppointmentsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/blood/donors/$id': {
+      id: '/blood/donors/$id'
+      path: '/$id'
+      fullPath: '/blood/donors/$id'
+      preLoaderRoute: typeof BloodDonorsIdRouteImport
+      parentRoute: typeof BloodDonorsRoute
+    }
+    '/_authenticated/blood/history': {
+      id: '/_authenticated/blood/history'
+      path: '/blood/history'
+      fullPath: '/blood/history'
+      preLoaderRoute: typeof AuthenticatedBloodHistoryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/blood/become-donor': {
+      id: '/_authenticated/blood/become-donor'
+      path: '/blood/become-donor'
+      fullPath: '/blood/become-donor'
+      preLoaderRoute: typeof AuthenticatedBloodBecomeDonorRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/blood/chat/$requestId': {
+      id: '/_authenticated/blood/chat/$requestId'
+      path: '/blood/chat/$requestId'
+      fullPath: '/blood/chat/$requestId'
+      preLoaderRoute: typeof AuthenticatedBloodChatRequestIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -511,6 +685,9 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedBloodBecomeDonorRoute: typeof AuthenticatedBloodBecomeDonorRoute
+  AuthenticatedBloodHistoryRoute: typeof AuthenticatedBloodHistoryRoute
+  AuthenticatedBloodChatRequestIdRoute: typeof AuthenticatedBloodChatRequestIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -519,10 +696,43 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedBloodBecomeDonorRoute: AuthenticatedBloodBecomeDonorRoute,
+  AuthenticatedBloodHistoryRoute: AuthenticatedBloodHistoryRoute,
+  AuthenticatedBloodChatRequestIdRoute: AuthenticatedBloodChatRequestIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
+interface BloodDonorsRouteChildren {
+  BloodDonorsIdRoute: typeof BloodDonorsIdRoute
+}
+
+const BloodDonorsRouteChildren: BloodDonorsRouteChildren = {
+  BloodDonorsIdRoute: BloodDonorsIdRoute,
+}
+
+const BloodDonorsRouteWithChildren = BloodDonorsRoute._addFileChildren(
+  BloodDonorsRouteChildren,
+)
+
+interface BloodRouteChildren {
+  BloodCampaignsRoute: typeof BloodCampaignsRoute
+  BloodCentersRoute: typeof BloodCentersRoute
+  BloodDonorsRoute: typeof BloodDonorsRouteWithChildren
+  BloodMapRoute: typeof BloodMapRoute
+  BloodRequestRoute: typeof BloodRequestRoute
+}
+
+const BloodRouteChildren: BloodRouteChildren = {
+  BloodCampaignsRoute: BloodCampaignsRoute,
+  BloodCentersRoute: BloodCentersRoute,
+  BloodDonorsRoute: BloodDonorsRouteWithChildren,
+  BloodMapRoute: BloodMapRoute,
+  BloodRequestRoute: BloodRequestRoute,
+}
+
+const BloodRouteWithChildren = BloodRoute._addFileChildren(BloodRouteChildren)
 
 interface DoctorsRouteChildren {
   DoctorsIdRoute: typeof DoctorsIdRoute
@@ -553,7 +763,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AiAssistantRoute: AiAssistantRoute,
   AuthRoute: AuthRoute,
-  BloodRoute: BloodRoute,
+  BloodRoute: BloodRouteWithChildren,
   ContactRoute: ContactRoute,
   DoctorsRoute: DoctorsRouteWithChildren,
   HospitalsRoute: HospitalsRoute,
