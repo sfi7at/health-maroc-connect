@@ -28,8 +28,14 @@ export const Route = createFileRoute("/api/public/cron/appointment-reminders")({
         if (error) return Response.json({ ok: false, error: error.message }, { status: 500 });
 
         let sent = 0;
-        const updates: Array<Promise<unknown>> = [];
-        const notifs: Array<{ user_id: string; type: "appointment_reminder"; title: string; body: string; data: Record<string, unknown> }> = [];
+        const updates: Array<PromiseLike<unknown>> = [];
+        const notifs: Array<{
+          user_id: string;
+          type: "appointment";
+          title: string;
+          body: string;
+          data: { appointment_id: string; tier: string };
+        }> = [];
 
         for (const a of appts ?? []) {
           const when = new Date(a.scheduled_for);
@@ -46,13 +52,17 @@ export const Route = createFileRoute("/api/public/cron/appointment-reminders")({
             if (!sentAt && diffMin <= t.window && diffMin > t.window - 10) {
               notifs.push({
                 user_id: a.patient_id,
-                type: "appointment_reminder",
+                type: "appointment",
                 title: `Rappel rendez-vous ${t.label}`,
                 body: `Votre rendez-vous avec ${provName} commence ${t.label}.`,
                 data: { appointment_id: a.id, tier: t.field },
               });
+              const patch =
+                t.field === "reminder_24h_sent_at" ? { reminder_24h_sent_at: now.toISOString() }
+                : t.field === "reminder_2h_sent_at" ? { reminder_2h_sent_at: now.toISOString() }
+                : { reminder_30m_sent_at: now.toISOString() };
               updates.push(
-                supabaseAdmin.from("appointments").update({ [t.field]: now.toISOString() }).eq("id", a.id),
+                supabaseAdmin.from("appointments").update(patch).eq("id", a.id).then(() => null),
               );
               sent++;
             }
