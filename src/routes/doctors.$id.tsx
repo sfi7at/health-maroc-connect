@@ -291,7 +291,7 @@ function DoctorProfile() {
               <MapView
                 center={{ lat: Number(doctor.latitude), lng: Number(doctor.longitude) }}
                 points={[{ id: doctor.id, lat: Number(doctor.latitude), lng: Number(doctor.longitude), title: doctor.name }]}
-                height={380}
+                height="380px"
               />
             </div>
           ) : null}
