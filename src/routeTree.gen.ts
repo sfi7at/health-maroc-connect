@@ -16,7 +16,6 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PharmaciesRouteImport } from './routes/pharmacies'
 import { Route as MapRouteImport } from './routes/map'
-import { Route as LaboratoriesRouteImport } from './routes/laboratories'
 import { Route as HospitalsRouteImport } from './routes/hospitals'
 import { Route as DoctorsRouteImport } from './routes/doctors'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -86,11 +85,6 @@ const PharmaciesRoute = PharmaciesRouteImport.update({
 const MapRoute = MapRouteImport.update({
   id: '/map',
   path: '/map',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LaboratoriesRoute = LaboratoriesRouteImport.update({
-  id: '/laboratories',
-  path: '/laboratories',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HospitalsRoute = HospitalsRouteImport.update({
@@ -285,7 +279,6 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/doctors': typeof DoctorsRouteWithChildren
   '/hospitals': typeof HospitalsRoute
-  '/laboratories': typeof LaboratoriesRoute
   '/map': typeof MapRoute
   '/pharmacies': typeof PharmaciesRouteWithChildren
   '/privacy': typeof PrivacyRoute
@@ -329,7 +322,6 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/doctors': typeof DoctorsRouteWithChildren
   '/hospitals': typeof HospitalsRoute
-  '/laboratories': typeof LaboratoriesRoute
   '/map': typeof MapRoute
   '/pharmacies': typeof PharmaciesRouteWithChildren
   '/privacy': typeof PrivacyRoute
@@ -375,7 +367,6 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/doctors': typeof DoctorsRouteWithChildren
   '/hospitals': typeof HospitalsRoute
-  '/laboratories': typeof LaboratoriesRoute
   '/map': typeof MapRoute
   '/pharmacies': typeof PharmaciesRouteWithChildren
   '/privacy': typeof PrivacyRoute
@@ -421,7 +412,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/doctors'
     | '/hospitals'
-    | '/laboratories'
     | '/map'
     | '/pharmacies'
     | '/privacy'
@@ -465,7 +455,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/doctors'
     | '/hospitals'
-    | '/laboratories'
     | '/map'
     | '/pharmacies'
     | '/privacy'
@@ -510,7 +499,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/doctors'
     | '/hospitals'
-    | '/laboratories'
     | '/map'
     | '/pharmacies'
     | '/privacy'
@@ -556,7 +544,6 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   DoctorsRoute: typeof DoctorsRouteWithChildren
   HospitalsRoute: typeof HospitalsRoute
-  LaboratoriesRoute: typeof LaboratoriesRoute
   MapRoute: typeof MapRoute
   PharmaciesRoute: typeof PharmaciesRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
@@ -616,13 +603,6 @@ declare module '@tanstack/react-router' {
       path: '/map'
       fullPath: '/map'
       preLoaderRoute: typeof MapRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/laboratories': {
-      id: '/laboratories'
-      path: '/laboratories'
-      fullPath: '/laboratories'
-      preLoaderRoute: typeof LaboratoriesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/hospitals': {
@@ -992,7 +972,6 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   DoctorsRoute: DoctorsRouteWithChildren,
   HospitalsRoute: HospitalsRoute,
-  LaboratoriesRoute: LaboratoriesRoute,
   MapRoute: MapRoute,
   PharmaciesRoute: PharmaciesRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
