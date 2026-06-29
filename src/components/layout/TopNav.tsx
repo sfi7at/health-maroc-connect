@@ -1,10 +1,24 @@
 import { Link } from "@tanstack/react-router";
-import { Bell, Heart, Menu, Search } from "lucide-react";
+import { Bell, Heart, LogOut, Menu, Search, User as UserIcon } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { primaryNav, secondaryNav, footerNav } from "@/lib/nav";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/use-auth";
+import { supabase } from "@/integrations/supabase/client";
+import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
 
 export function TopNav() {
   const [open, setOpen] = useState(false);
@@ -55,9 +69,73 @@ export function TopNav() {
               <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-destructive" />
             </Button>
           </Link>
+          <AccountButton />
         </div>
       </div>
     </header>
+  );
+}
+
+function AccountButton() {
+  const { user, loading } = useAuth();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  if (loading) {
+    return <div className="h-9 w-9 animate-pulse rounded-full bg-muted" />;
+  }
+
+  if (!user) {
+    return (
+      <Link to="/auth">
+        <Button size="sm" className="rounded-full">
+          Connexion
+        </Button>
+      </Link>
+    );
+  }
+
+  const meta = (user.user_metadata ?? {}) as { full_name?: string; avatar_url?: string };
+  const name = meta.full_name || user.email || "Compte";
+  const fallback = name.slice(0, 2).toUpperCase();
+
+  const onSignOut = async () => {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    toast.success("Déconnecté");
+    navigate({ to: "/", replace: true });
+  };
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          aria-label="Compte"
+          className="grid h-9 w-9 place-items-center rounded-full ring-1 ring-border transition hover:ring-primary/40"
+        >
+          <Avatar className="h-9 w-9">
+            {meta.avatar_url ? <AvatarImage src={meta.avatar_url} alt={name} /> : null}
+            <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary">
+              {fallback}
+            </AvatarFallback>
+          </Avatar>
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-56">
+        <DropdownMenuLabel className="truncate">{name}</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link to="/profile" className="cursor-pointer gap-2">
+            <UserIcon className="h-4 w-4" /> Profil médical
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={onSignOut} className="cursor-pointer gap-2 text-destructive focus:text-destructive">
+          <LogOut className="h-4 w-4" /> Se déconnecter
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
