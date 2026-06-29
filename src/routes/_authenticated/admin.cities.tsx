@@ -36,7 +36,7 @@ function AdminCities() {
             <ul className="space-y-1 text-sm">
               {(data.data?.regions ?? []).map((r) => (
                 <li key={r.id} className="flex items-center justify-between rounded-lg px-2 py-1 hover:bg-muted/40">
-                  <span>{r.name}</span>
+                  <span>{r.name_fr}</span>
                   <Badge variant="outline" className="text-[10px]">{r.code ?? "—"}</Badge>
                 </li>
               ))}
