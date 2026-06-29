@@ -31,6 +31,7 @@ import { Route as PharmaciesSearchRouteImport } from './routes/pharmacies.search
 import { Route as PharmaciesOpenRouteImport } from './routes/pharmacies.open'
 import { Route as PharmaciesOnDutyRouteImport } from './routes/pharmacies.on-duty'
 import { Route as PharmaciesMapRouteImport } from './routes/pharmacies.map'
+import { Route as LaboratoriesSearchRouteImport } from './routes/laboratories.search'
 import { Route as DoctorsSpecialtiesRouteImport } from './routes/doctors.specialties'
 import { Route as DoctorsSearchRouteImport } from './routes/doctors.search'
 import { Route as DoctorsIdRouteImport } from './routes/doctors.$id'
@@ -162,6 +163,11 @@ const PharmaciesMapRoute = PharmaciesMapRouteImport.update({
   path: '/map',
   getParentRoute: () => PharmaciesRoute,
 } as any)
+const LaboratoriesSearchRoute = LaboratoriesSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => LaboratoriesRoute,
+} as any)
 const DoctorsSpecialtiesRoute = DoctorsSpecialtiesRouteImport.update({
   id: '/specialties',
   path: '/specialties',
@@ -285,7 +291,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/doctors': typeof DoctorsRouteWithChildren
   '/hospitals': typeof HospitalsRoute
-  '/laboratories': typeof LaboratoriesRoute
+  '/laboratories': typeof LaboratoriesRouteWithChildren
   '/map': typeof MapRoute
   '/pharmacies': typeof PharmaciesRouteWithChildren
   '/privacy': typeof PrivacyRoute
@@ -308,6 +314,7 @@ export interface FileRoutesByFullPath {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/laboratories/search': typeof LaboratoriesSearchRoute
   '/pharmacies/map': typeof PharmaciesMapRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/pharmacies/open': typeof PharmaciesOpenRoute
@@ -329,7 +336,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/doctors': typeof DoctorsRouteWithChildren
   '/hospitals': typeof HospitalsRoute
-  '/laboratories': typeof LaboratoriesRoute
+  '/laboratories': typeof LaboratoriesRouteWithChildren
   '/map': typeof MapRoute
   '/pharmacies': typeof PharmaciesRouteWithChildren
   '/privacy': typeof PrivacyRoute
@@ -352,6 +359,7 @@ export interface FileRoutesByTo {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/laboratories/search': typeof LaboratoriesSearchRoute
   '/pharmacies/map': typeof PharmaciesMapRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/pharmacies/open': typeof PharmaciesOpenRoute
@@ -375,7 +383,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/doctors': typeof DoctorsRouteWithChildren
   '/hospitals': typeof HospitalsRoute
-  '/laboratories': typeof LaboratoriesRoute
+  '/laboratories': typeof LaboratoriesRouteWithChildren
   '/map': typeof MapRoute
   '/pharmacies': typeof PharmaciesRouteWithChildren
   '/privacy': typeof PrivacyRoute
@@ -398,6 +406,7 @@ export interface FileRoutesById {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/laboratories/search': typeof LaboratoriesSearchRoute
   '/pharmacies/map': typeof PharmaciesMapRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/pharmacies/open': typeof PharmaciesOpenRoute
@@ -444,6 +453,7 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/laboratories/search'
     | '/pharmacies/map'
     | '/pharmacies/on-duty'
     | '/pharmacies/open'
@@ -488,6 +498,7 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/laboratories/search'
     | '/pharmacies/map'
     | '/pharmacies/on-duty'
     | '/pharmacies/open'
@@ -533,6 +544,7 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/laboratories/search'
     | '/pharmacies/map'
     | '/pharmacies/on-duty'
     | '/pharmacies/open'
@@ -556,7 +568,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   DoctorsRoute: typeof DoctorsRouteWithChildren
   HospitalsRoute: typeof HospitalsRoute
-  LaboratoriesRoute: typeof LaboratoriesRoute
+  LaboratoriesRoute: typeof LaboratoriesRouteWithChildren
   MapRoute: typeof MapRoute
   PharmaciesRoute: typeof PharmaciesRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
@@ -722,6 +734,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/pharmacies/map'
       preLoaderRoute: typeof PharmaciesMapRouteImport
       parentRoute: typeof PharmaciesRoute
+    }
+    '/laboratories/search': {
+      id: '/laboratories/search'
+      path: '/search'
+      fullPath: '/laboratories/search'
+      preLoaderRoute: typeof LaboratoriesSearchRouteImport
+      parentRoute: typeof LaboratoriesRoute
     }
     '/doctors/specialties': {
       id: '/doctors/specialties'
@@ -964,6 +983,18 @@ const DoctorsRouteChildren: DoctorsRouteChildren = {
 const DoctorsRouteWithChildren =
   DoctorsRoute._addFileChildren(DoctorsRouteChildren)
 
+interface LaboratoriesRouteChildren {
+  LaboratoriesSearchRoute: typeof LaboratoriesSearchRoute
+}
+
+const LaboratoriesRouteChildren: LaboratoriesRouteChildren = {
+  LaboratoriesSearchRoute: LaboratoriesSearchRoute,
+}
+
+const LaboratoriesRouteWithChildren = LaboratoriesRoute._addFileChildren(
+  LaboratoriesRouteChildren,
+)
+
 interface PharmaciesRouteChildren {
   PharmaciesMapRoute: typeof PharmaciesMapRoute
   PharmaciesOnDutyRoute: typeof PharmaciesOnDutyRoute
@@ -992,7 +1023,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   DoctorsRoute: DoctorsRouteWithChildren,
   HospitalsRoute: HospitalsRoute,
-  LaboratoriesRoute: LaboratoriesRoute,
+  LaboratoriesRoute: LaboratoriesRouteWithChildren,
   MapRoute: MapRoute,
   PharmaciesRoute: PharmaciesRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
