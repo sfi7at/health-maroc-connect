@@ -39,6 +39,7 @@ import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authen
 import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
 import { Route as AuthenticatedAppointmentsRouteImport } from './routes/_authenticated/appointments'
 import { Route as BloodDonorsIdRouteImport } from './routes/blood.donors.$id'
+import { Route as AuthenticatedBloodHistoryRouteImport } from './routes/_authenticated/blood.history'
 import { Route as AuthenticatedBloodBecomeDonorRouteImport } from './routes/_authenticated/blood.become-donor'
 
 const TermsRoute = TermsRouteImport.update({
@@ -192,6 +193,12 @@ const BloodDonorsIdRoute = BloodDonorsIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => BloodDonorsRoute,
 } as any)
+const AuthenticatedBloodHistoryRoute =
+  AuthenticatedBloodHistoryRouteImport.update({
+    id: '/blood/history',
+    path: '/blood/history',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedBloodBecomeDonorRoute =
   AuthenticatedBloodBecomeDonorRouteImport.update({
     id: '/blood/become-donor',
@@ -229,6 +236,7 @@ export interface FileRoutesByFullPath {
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
+  '/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
 }
 export interface FileRoutesByTo {
@@ -261,6 +269,7 @@ export interface FileRoutesByTo {
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
+  '/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
 }
 export interface FileRoutesById {
@@ -295,6 +304,7 @@ export interface FileRoutesById {
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/_authenticated/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
+  '/_authenticated/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
 }
 export interface FileRouteTypes {
@@ -329,6 +339,7 @@ export interface FileRouteTypes {
     | '/pharmacies/on-duty'
     | '/providers/$id'
     | '/blood/become-donor'
+    | '/blood/history'
     | '/blood/donors/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -361,6 +372,7 @@ export interface FileRouteTypes {
     | '/pharmacies/on-duty'
     | '/providers/$id'
     | '/blood/become-donor'
+    | '/blood/history'
     | '/blood/donors/$id'
   id:
     | '__root__'
@@ -394,6 +406,7 @@ export interface FileRouteTypes {
     | '/pharmacies/on-duty'
     | '/providers/$id'
     | '/_authenticated/blood/become-donor'
+    | '/_authenticated/blood/history'
     | '/blood/donors/$id'
   fileRoutesById: FileRoutesById
 }
@@ -629,6 +642,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BloodDonorsIdRouteImport
       parentRoute: typeof BloodDonorsRoute
     }
+    '/_authenticated/blood/history': {
+      id: '/_authenticated/blood/history'
+      path: '/blood/history'
+      fullPath: '/blood/history'
+      preLoaderRoute: typeof AuthenticatedBloodHistoryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/blood/become-donor': {
       id: '/_authenticated/blood/become-donor'
       path: '/blood/become-donor'
@@ -646,6 +666,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedBloodBecomeDonorRoute: typeof AuthenticatedBloodBecomeDonorRoute
+  AuthenticatedBloodHistoryRoute: typeof AuthenticatedBloodHistoryRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -655,6 +676,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedBloodBecomeDonorRoute: AuthenticatedBloodBecomeDonorRoute,
+  AuthenticatedBloodHistoryRoute: AuthenticatedBloodHistoryRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
