@@ -19,7 +19,7 @@ export const Route = createFileRoute("/_authenticated/provider/settings")({
 });
 
 function ProviderSettings() {
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const stored = typeof window !== "undefined" ? window.localStorage : null;
@@ -114,7 +114,7 @@ function ProviderSettings() {
         <h2 className="mb-2 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-destructive"><ShieldAlert className="h-4 w-4" /> Zone sensible</h2>
         <p className="text-sm text-muted-foreground">La suppression de votre compte est définitive et irréversible.</p>
         <div className="mt-3 flex flex-wrap gap-2">
-          <Button variant="outline" onClick={async () => { await signOut(); navigate({ to: "/" }); }}>Se déconnecter</Button>
+          <Button variant="outline" onClick={async () => { await supabase.auth.signOut(); navigate({ to: "/" }); }}>Se déconnecter</Button>
           <Button variant="destructive" className="gap-2" onClick={() => setConfirmDel(true)}><Trash2 className="h-4 w-4" /> Demander la suppression</Button>
         </div>
       </section>
