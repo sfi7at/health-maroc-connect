@@ -67,6 +67,7 @@ import { Route as AuthenticatedProviderStatisticsRouteImport } from './routes/_a
 import { Route as AuthenticatedProviderServicesRouteImport } from './routes/_authenticated/provider.services'
 import { Route as AuthenticatedProviderReviewsRouteImport } from './routes/_authenticated/provider.reviews'
 import { Route as AuthenticatedProviderProfileRouteImport } from './routes/_authenticated/provider.profile'
+import { Route as AuthenticatedProviderNotificationsRouteImport } from './routes/_authenticated/provider.notifications'
 import { Route as AuthenticatedProviderHoursRouteImport } from './routes/_authenticated/provider.hours'
 import { Route as AuthenticatedProviderGalleryRouteImport } from './routes/_authenticated/provider.gallery'
 import { Route as AuthenticatedProviderAppointmentsRouteImport } from './routes/_authenticated/provider.appointments'
@@ -394,6 +395,12 @@ const AuthenticatedProviderProfileRoute =
     path: '/profile',
     getParentRoute: () => AuthenticatedProviderRoute,
   } as any)
+const AuthenticatedProviderNotificationsRoute =
+  AuthenticatedProviderNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedProviderRoute,
+  } as any)
 const AuthenticatedProviderHoursRoute =
   AuthenticatedProviderHoursRouteImport.update({
     id: '/hours',
@@ -613,6 +620,7 @@ export interface FileRoutesByFullPath {
   '/provider/appointments': typeof AuthenticatedProviderAppointmentsRoute
   '/provider/gallery': typeof AuthenticatedProviderGalleryRoute
   '/provider/hours': typeof AuthenticatedProviderHoursRoute
+  '/provider/notifications': typeof AuthenticatedProviderNotificationsRoute
   '/provider/profile': typeof AuthenticatedProviderProfileRoute
   '/provider/reviews': typeof AuthenticatedProviderReviewsRoute
   '/provider/services': typeof AuthenticatedProviderServicesRoute
@@ -695,6 +703,7 @@ export interface FileRoutesByTo {
   '/provider/appointments': typeof AuthenticatedProviderAppointmentsRoute
   '/provider/gallery': typeof AuthenticatedProviderGalleryRoute
   '/provider/hours': typeof AuthenticatedProviderHoursRoute
+  '/provider/notifications': typeof AuthenticatedProviderNotificationsRoute
   '/provider/profile': typeof AuthenticatedProviderProfileRoute
   '/provider/reviews': typeof AuthenticatedProviderReviewsRoute
   '/provider/services': typeof AuthenticatedProviderServicesRoute
@@ -781,6 +790,7 @@ export interface FileRoutesById {
   '/_authenticated/provider/appointments': typeof AuthenticatedProviderAppointmentsRoute
   '/_authenticated/provider/gallery': typeof AuthenticatedProviderGalleryRoute
   '/_authenticated/provider/hours': typeof AuthenticatedProviderHoursRoute
+  '/_authenticated/provider/notifications': typeof AuthenticatedProviderNotificationsRoute
   '/_authenticated/provider/profile': typeof AuthenticatedProviderProfileRoute
   '/_authenticated/provider/reviews': typeof AuthenticatedProviderReviewsRoute
   '/_authenticated/provider/services': typeof AuthenticatedProviderServicesRoute
@@ -867,6 +877,7 @@ export interface FileRouteTypes {
     | '/provider/appointments'
     | '/provider/gallery'
     | '/provider/hours'
+    | '/provider/notifications'
     | '/provider/profile'
     | '/provider/reviews'
     | '/provider/services'
@@ -949,6 +960,7 @@ export interface FileRouteTypes {
     | '/provider/appointments'
     | '/provider/gallery'
     | '/provider/hours'
+    | '/provider/notifications'
     | '/provider/profile'
     | '/provider/reviews'
     | '/provider/services'
@@ -1034,6 +1046,7 @@ export interface FileRouteTypes {
     | '/_authenticated/provider/appointments'
     | '/_authenticated/provider/gallery'
     | '/_authenticated/provider/hours'
+    | '/_authenticated/provider/notifications'
     | '/_authenticated/provider/profile'
     | '/_authenticated/provider/reviews'
     | '/_authenticated/provider/services'
@@ -1478,6 +1491,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProviderProfileRouteImport
       parentRoute: typeof AuthenticatedProviderRoute
     }
+    '/_authenticated/provider/notifications': {
+      id: '/_authenticated/provider/notifications'
+      path: '/notifications'
+      fullPath: '/provider/notifications'
+      preLoaderRoute: typeof AuthenticatedProviderNotificationsRouteImport
+      parentRoute: typeof AuthenticatedProviderRoute
+    }
     '/_authenticated/provider/hours': {
       id: '/_authenticated/provider/hours'
       path: '/hours'
@@ -1722,6 +1742,7 @@ interface AuthenticatedProviderRouteChildren {
   AuthenticatedProviderAppointmentsRoute: typeof AuthenticatedProviderAppointmentsRoute
   AuthenticatedProviderGalleryRoute: typeof AuthenticatedProviderGalleryRoute
   AuthenticatedProviderHoursRoute: typeof AuthenticatedProviderHoursRoute
+  AuthenticatedProviderNotificationsRoute: typeof AuthenticatedProviderNotificationsRoute
   AuthenticatedProviderProfileRoute: typeof AuthenticatedProviderProfileRoute
   AuthenticatedProviderReviewsRoute: typeof AuthenticatedProviderReviewsRoute
   AuthenticatedProviderServicesRoute: typeof AuthenticatedProviderServicesRoute
@@ -1734,6 +1755,8 @@ const AuthenticatedProviderRouteChildren: AuthenticatedProviderRouteChildren = {
     AuthenticatedProviderAppointmentsRoute,
   AuthenticatedProviderGalleryRoute: AuthenticatedProviderGalleryRoute,
   AuthenticatedProviderHoursRoute: AuthenticatedProviderHoursRoute,
+  AuthenticatedProviderNotificationsRoute:
+    AuthenticatedProviderNotificationsRoute,
   AuthenticatedProviderProfileRoute: AuthenticatedProviderProfileRoute,
   AuthenticatedProviderReviewsRoute: AuthenticatedProviderReviewsRoute,
   AuthenticatedProviderServicesRoute: AuthenticatedProviderServicesRoute,
