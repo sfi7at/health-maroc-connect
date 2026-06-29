@@ -22,6 +22,8 @@ import {
   Siren,
   CalendarRange,
   ShieldCheck,
+  Newspaper,
+  HelpCircle,
   type LucideIcon,
 } from "lucide-react";
 
@@ -45,6 +47,8 @@ export const primaryNav: NavItem[] = [
   { label: "Analyses médicales", to: "/laboratories/analyses", icon: FlaskConical },
   { label: "Don du sang", to: "/blood", icon: Droplet },
   { label: "Assistant IA", to: "/ai-assistant", icon: Sparkles },
+  { label: "Santé & actualités", to: "/content", icon: Newspaper },
+  { label: "FAQ", to: "/faq", icon: HelpCircle },
   { label: "Rendez-vous", to: "/appointments", icon: CalendarCheck },
   { label: "Calendrier RDV", to: "/appointments/calendar", icon: CalendarRange },
 ];

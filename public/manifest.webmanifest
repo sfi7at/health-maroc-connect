@@ -1,0 +1,23 @@
+{
+  "name": "HealthLink Maroc",
+  "short_name": "HealthLink",
+  "description": "Tous les services de santé du Maroc, dans une seule application.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#0E9F6E",
+  "lang": "fr",
+  "categories": ["medical", "health", "lifestyle"],
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Recherche", "url": "/search", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Carte santé", "url": "/map", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Don du sang", "url": "/blood", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Pharmacies de garde", "url": "/pharmacies/on-duty", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] }
+  ]
+}

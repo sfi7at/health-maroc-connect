@@ -5,6 +5,7 @@ import {
   Droplet, CalendarCheck, FileText, Bell, Flag, Star, Tags, MapPin,
   Settings, Activity, BarChart3, ShieldCheck, Search, Menu, X, LogOut,
   Upload, History, PencilLine, Database, Gauge, GitBranch,
+  HelpCircle, TrendingUp,
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -47,6 +48,8 @@ const NAV: NavGroup[] = [
       { to: "/admin/appointments", label: "Rendez-vous", icon: CalendarCheck },
       { to: "/admin/blood", label: "Don du sang", icon: Droplet },
       { to: "/admin/articles", label: "Articles & CMS", icon: FileText },
+      { to: "/admin/faqs", label: "FAQ", icon: HelpCircle },
+      { to: "/admin/content-analytics", label: "Analytique contenu", icon: TrendingUp },
       { to: "/admin/notifications", label: "Notifications", icon: Bell },
     ],
   },

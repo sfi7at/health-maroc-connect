@@ -282,59 +282,144 @@ export type Database = {
         }
         Relationships: []
       }
+      article_views: {
+        Row: {
+          article_id: string
+          created_at: string
+          duration_seconds: number | null
+          id: string
+          referrer: string | null
+          session_id: string | null
+          viewer_id: string | null
+        }
+        Insert: {
+          article_id: string
+          created_at?: string
+          duration_seconds?: number | null
+          id?: string
+          referrer?: string | null
+          session_id?: string | null
+          viewer_id?: string | null
+        }
+        Update: {
+          article_id?: string
+          created_at?: string
+          duration_seconds?: number | null
+          id?: string
+          referrer?: string | null
+          session_id?: string | null
+          viewer_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "article_views_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "articles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       articles: {
         Row: {
           author_id: string | null
           author_name: string | null
           category: string | null
+          city_id: string | null
+          click_count: number
           content: string | null
+          content_type: Database["public"]["Enums"]["content_type"]
           cover_image: string | null
           created_at: string
           description: string | null
+          excerpt: string | null
           id: string
+          is_featured: boolean
+          is_pinned: boolean
           is_published: boolean
           language: Database["public"]["Enums"]["article_language"]
           published_at: string | null
+          reading_time_minutes: number | null
+          scheduled_at: string | null
+          seo_description: string | null
+          seo_title: string | null
+          share_count: number
           slug: string
+          status: Database["public"]["Enums"]["article_status"]
           tags: string[]
           title: string
           updated_at: string
+          view_count: number
         }
         Insert: {
           author_id?: string | null
           author_name?: string | null
           category?: string | null
+          city_id?: string | null
+          click_count?: number
           content?: string | null
+          content_type?: Database["public"]["Enums"]["content_type"]
           cover_image?: string | null
           created_at?: string
           description?: string | null
+          excerpt?: string | null
           id?: string
+          is_featured?: boolean
+          is_pinned?: boolean
           is_published?: boolean
           language?: Database["public"]["Enums"]["article_language"]
           published_at?: string | null
+          reading_time_minutes?: number | null
+          scheduled_at?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
+          share_count?: number
           slug: string
+          status?: Database["public"]["Enums"]["article_status"]
           tags?: string[]
           title: string
           updated_at?: string
+          view_count?: number
         }
         Update: {
           author_id?: string | null
           author_name?: string | null
           category?: string | null
+          city_id?: string | null
+          click_count?: number
           content?: string | null
+          content_type?: Database["public"]["Enums"]["content_type"]
           cover_image?: string | null
           created_at?: string
           description?: string | null
+          excerpt?: string | null
           id?: string
+          is_featured?: boolean
+          is_pinned?: boolean
           is_published?: boolean
           language?: Database["public"]["Enums"]["article_language"]
           published_at?: string | null
+          reading_time_minutes?: number | null
+          scheduled_at?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
+          share_count?: number
           slug?: string
+          status?: Database["public"]["Enums"]["article_status"]
           tags?: string[]
           title?: string
           updated_at?: string
+          view_count?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "articles_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       blood_campaign_registrations: {
         Row: {
@@ -1188,6 +1273,42 @@ export type Database = {
           name_fr?: string
           slug?: string
           sort_order?: number
+        }
+        Relationships: []
+      }
+      faqs: {
+        Row: {
+          answer: string
+          category: string | null
+          created_at: string
+          id: string
+          is_published: boolean
+          language: Database["public"]["Enums"]["article_language"]
+          question: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          answer: string
+          category?: string | null
+          created_at?: string
+          id?: string
+          is_published?: boolean
+          language?: Database["public"]["Enums"]["article_language"]
+          question: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          answer?: string
+          category?: string | null
+          created_at?: string
+          id?: string
+          is_published?: boolean
+          language?: Database["public"]["Enums"]["article_language"]
+          question?: string
+          sort_order?: number
+          updated_at?: string
         }
         Relationships: []
       }
@@ -2974,10 +3095,21 @@ export type Database = {
         | "no_show"
         | "rescheduled"
       article_language: "fr" | "ar" | "en"
+      article_status: "draft" | "published" | "scheduled" | "archived"
       blood_group: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-"
       blood_request_status: "open" | "fulfilled" | "expired" | "cancelled"
       blood_request_urgency: "low" | "normal" | "high" | "critical"
       blood_response_status: "pending" | "accepted" | "declined" | "cancelled"
+      content_type:
+        | "article"
+        | "news"
+        | "campaign"
+        | "faq"
+        | "guide"
+        | "emergency"
+        | "seasonal"
+        | "announcement"
+        | "city_info"
       donor_status:
         | "available"
         | "unavailable"
@@ -3155,10 +3287,22 @@ export const Constants = {
         "rescheduled",
       ],
       article_language: ["fr", "ar", "en"],
+      article_status: ["draft", "published", "scheduled", "archived"],
       blood_group: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
       blood_request_status: ["open", "fulfilled", "expired", "cancelled"],
       blood_request_urgency: ["low", "normal", "high", "critical"],
       blood_response_status: ["pending", "accepted", "declined", "cancelled"],
+      content_type: [
+        "article",
+        "news",
+        "campaign",
+        "faq",
+        "guide",
+        "emergency",
+        "seasonal",
+        "announcement",
+        "city_info",
+      ],
       donor_status: [
         "available",
         "unavailable",

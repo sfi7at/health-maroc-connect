@@ -18,7 +18,9 @@ import { Route as PharmaciesRouteImport } from './routes/pharmacies'
 import { Route as MapRouteImport } from './routes/map'
 import { Route as LaboratoriesRouteImport } from './routes/laboratories'
 import { Route as HospitalsRouteImport } from './routes/hospitals'
+import { Route as FaqRouteImport } from './routes/faq'
 import { Route as DoctorsRouteImport } from './routes/doctors'
+import { Route as ContentRouteImport } from './routes/content'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BloodRouteImport } from './routes/blood'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -42,6 +44,7 @@ import { Route as HospitalsDepartmentsRouteImport } from './routes/hospitals.dep
 import { Route as DoctorsSpecialtiesRouteImport } from './routes/doctors.specialties'
 import { Route as DoctorsSearchRouteImport } from './routes/doctors.search'
 import { Route as DoctorsIdRouteImport } from './routes/doctors.$id'
+import { Route as ContentSlugRouteImport } from './routes/content.$slug'
 import { Route as BloodRequestRouteImport } from './routes/blood.request'
 import { Route as BloodMapRouteImport } from './routes/blood.map'
 import { Route as BloodDonorsRouteImport } from './routes/blood.donors'
@@ -92,7 +95,9 @@ import { Route as AuthenticatedAdminMasterDataRouteImport } from './routes/_auth
 import { Route as AuthenticatedAdminLogsRouteImport } from './routes/_authenticated/admin.logs'
 import { Route as AuthenticatedAdminImportsRouteImport } from './routes/_authenticated/admin.imports'
 import { Route as AuthenticatedAdminImportRouteImport } from './routes/_authenticated/admin.import'
+import { Route as AuthenticatedAdminFaqsRouteImport } from './routes/_authenticated/admin.faqs'
 import { Route as AuthenticatedAdminEditsRouteImport } from './routes/_authenticated/admin.edits'
+import { Route as AuthenticatedAdminContentAnalyticsRouteImport } from './routes/_authenticated/admin.content-analytics'
 import { Route as AuthenticatedAdminClaimsRouteImport } from './routes/_authenticated/admin.claims'
 import { Route as AuthenticatedAdminCitiesRouteImport } from './routes/_authenticated/admin.cities'
 import { Route as AuthenticatedAdminCategoriesRouteImport } from './routes/_authenticated/admin.categories'
@@ -150,9 +155,19 @@ const HospitalsRoute = HospitalsRouteImport.update({
   path: '/hospitals',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DoctorsRoute = DoctorsRouteImport.update({
   id: '/doctors',
   path: '/doctors',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContentRoute = ContentRouteImport.update({
+  id: '/content',
+  path: '/content',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -268,6 +283,11 @@ const DoctorsIdRoute = DoctorsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => DoctorsRoute,
+} as any)
+const ContentSlugRoute = ContentSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ContentRoute,
 } as any)
 const BloodRequestRoute = BloodRequestRouteImport.update({
   id: '/request',
@@ -554,11 +574,22 @@ const AuthenticatedAdminImportRoute =
     path: '/import',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminFaqsRoute = AuthenticatedAdminFaqsRouteImport.update({
+  id: '/faqs',
+  path: '/faqs',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const AuthenticatedAdminEditsRoute = AuthenticatedAdminEditsRouteImport.update({
   id: '/edits',
   path: '/edits',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminContentAnalyticsRoute =
+  AuthenticatedAdminContentAnalyticsRouteImport.update({
+    id: '/content-analytics',
+    path: '/content-analytics',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminClaimsRoute =
   AuthenticatedAdminClaimsRouteImport.update({
     id: '/claims',
@@ -632,7 +663,9 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/blood': typeof BloodRouteWithChildren
   '/contact': typeof ContactRoute
+  '/content': typeof ContentRouteWithChildren
   '/doctors': typeof DoctorsRouteWithChildren
+  '/faq': typeof FaqRoute
   '/hospitals': typeof HospitalsRouteWithChildren
   '/laboratories': typeof LaboratoriesRouteWithChildren
   '/map': typeof MapRoute
@@ -659,6 +692,7 @@ export interface FileRoutesByFullPath {
   '/blood/donors': typeof BloodDonorsRouteWithChildren
   '/blood/map': typeof BloodMapRoute
   '/blood/request': typeof BloodRequestRoute
+  '/content/$slug': typeof ContentSlugRoute
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
@@ -682,7 +716,9 @@ export interface FileRoutesByFullPath {
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/cities': typeof AuthenticatedAdminCitiesRoute
   '/admin/claims': typeof AuthenticatedAdminClaimsRoute
+  '/admin/content-analytics': typeof AuthenticatedAdminContentAnalyticsRoute
   '/admin/edits': typeof AuthenticatedAdminEditsRoute
+  '/admin/faqs': typeof AuthenticatedAdminFaqsRoute
   '/admin/import': typeof AuthenticatedAdminImportRoute
   '/admin/imports': typeof AuthenticatedAdminImportsRoute
   '/admin/logs': typeof AuthenticatedAdminLogsRoute
@@ -728,7 +764,9 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/blood': typeof BloodRouteWithChildren
   '/contact': typeof ContactRoute
+  '/content': typeof ContentRouteWithChildren
   '/doctors': typeof DoctorsRouteWithChildren
+  '/faq': typeof FaqRoute
   '/hospitals': typeof HospitalsRouteWithChildren
   '/laboratories': typeof LaboratoriesRouteWithChildren
   '/map': typeof MapRoute
@@ -753,6 +791,7 @@ export interface FileRoutesByTo {
   '/blood/donors': typeof BloodDonorsRouteWithChildren
   '/blood/map': typeof BloodMapRoute
   '/blood/request': typeof BloodRequestRoute
+  '/content/$slug': typeof ContentSlugRoute
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
@@ -776,7 +815,9 @@ export interface FileRoutesByTo {
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/cities': typeof AuthenticatedAdminCitiesRoute
   '/admin/claims': typeof AuthenticatedAdminClaimsRoute
+  '/admin/content-analytics': typeof AuthenticatedAdminContentAnalyticsRoute
   '/admin/edits': typeof AuthenticatedAdminEditsRoute
+  '/admin/faqs': typeof AuthenticatedAdminFaqsRoute
   '/admin/import': typeof AuthenticatedAdminImportRoute
   '/admin/imports': typeof AuthenticatedAdminImportsRoute
   '/admin/logs': typeof AuthenticatedAdminLogsRoute
@@ -824,7 +865,9 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/blood': typeof BloodRouteWithChildren
   '/contact': typeof ContactRoute
+  '/content': typeof ContentRouteWithChildren
   '/doctors': typeof DoctorsRouteWithChildren
+  '/faq': typeof FaqRoute
   '/hospitals': typeof HospitalsRouteWithChildren
   '/laboratories': typeof LaboratoriesRouteWithChildren
   '/map': typeof MapRoute
@@ -851,6 +894,7 @@ export interface FileRoutesById {
   '/blood/donors': typeof BloodDonorsRouteWithChildren
   '/blood/map': typeof BloodMapRoute
   '/blood/request': typeof BloodRequestRoute
+  '/content/$slug': typeof ContentSlugRoute
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
@@ -874,7 +918,9 @@ export interface FileRoutesById {
   '/_authenticated/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/_authenticated/admin/cities': typeof AuthenticatedAdminCitiesRoute
   '/_authenticated/admin/claims': typeof AuthenticatedAdminClaimsRoute
+  '/_authenticated/admin/content-analytics': typeof AuthenticatedAdminContentAnalyticsRoute
   '/_authenticated/admin/edits': typeof AuthenticatedAdminEditsRoute
+  '/_authenticated/admin/faqs': typeof AuthenticatedAdminFaqsRoute
   '/_authenticated/admin/import': typeof AuthenticatedAdminImportRoute
   '/_authenticated/admin/imports': typeof AuthenticatedAdminImportsRoute
   '/_authenticated/admin/logs': typeof AuthenticatedAdminLogsRoute
@@ -922,7 +968,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/blood'
     | '/contact'
+    | '/content'
     | '/doctors'
+    | '/faq'
     | '/hospitals'
     | '/laboratories'
     | '/map'
@@ -949,6 +997,7 @@ export interface FileRouteTypes {
     | '/blood/donors'
     | '/blood/map'
     | '/blood/request'
+    | '/content/$slug'
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
@@ -972,7 +1021,9 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/cities'
     | '/admin/claims'
+    | '/admin/content-analytics'
     | '/admin/edits'
+    | '/admin/faqs'
     | '/admin/import'
     | '/admin/imports'
     | '/admin/logs'
@@ -1018,7 +1069,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/blood'
     | '/contact'
+    | '/content'
     | '/doctors'
+    | '/faq'
     | '/hospitals'
     | '/laboratories'
     | '/map'
@@ -1043,6 +1096,7 @@ export interface FileRouteTypes {
     | '/blood/donors'
     | '/blood/map'
     | '/blood/request'
+    | '/content/$slug'
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
@@ -1066,7 +1120,9 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/cities'
     | '/admin/claims'
+    | '/admin/content-analytics'
     | '/admin/edits'
+    | '/admin/faqs'
     | '/admin/import'
     | '/admin/imports'
     | '/admin/logs'
@@ -1113,7 +1169,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/blood'
     | '/contact'
+    | '/content'
     | '/doctors'
+    | '/faq'
     | '/hospitals'
     | '/laboratories'
     | '/map'
@@ -1140,6 +1198,7 @@ export interface FileRouteTypes {
     | '/blood/donors'
     | '/blood/map'
     | '/blood/request'
+    | '/content/$slug'
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
@@ -1163,7 +1222,9 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/categories'
     | '/_authenticated/admin/cities'
     | '/_authenticated/admin/claims'
+    | '/_authenticated/admin/content-analytics'
     | '/_authenticated/admin/edits'
+    | '/_authenticated/admin/faqs'
     | '/_authenticated/admin/import'
     | '/_authenticated/admin/imports'
     | '/_authenticated/admin/logs'
@@ -1211,7 +1272,9 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BloodRoute: typeof BloodRouteWithChildren
   ContactRoute: typeof ContactRoute
+  ContentRoute: typeof ContentRouteWithChildren
   DoctorsRoute: typeof DoctorsRouteWithChildren
+  FaqRoute: typeof FaqRoute
   HospitalsRoute: typeof HospitalsRouteWithChildren
   LaboratoriesRoute: typeof LaboratoriesRouteWithChildren
   MapRoute: typeof MapRoute
@@ -1290,11 +1353,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HospitalsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/doctors': {
       id: '/doctors'
       path: '/doctors'
       fullPath: '/doctors'
       preLoaderRoute: typeof DoctorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/content': {
+      id: '/content'
+      path: '/content'
+      fullPath: '/content'
+      preLoaderRoute: typeof ContentRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -1457,6 +1534,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/doctors/$id'
       preLoaderRoute: typeof DoctorsIdRouteImport
       parentRoute: typeof DoctorsRoute
+    }
+    '/content/$slug': {
+      id: '/content/$slug'
+      path: '/$slug'
+      fullPath: '/content/$slug'
+      preLoaderRoute: typeof ContentSlugRouteImport
+      parentRoute: typeof ContentRoute
     }
     '/blood/request': {
       id: '/blood/request'
@@ -1808,11 +1892,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminImportRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/faqs': {
+      id: '/_authenticated/admin/faqs'
+      path: '/faqs'
+      fullPath: '/admin/faqs'
+      preLoaderRoute: typeof AuthenticatedAdminFaqsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/edits': {
       id: '/_authenticated/admin/edits'
       path: '/edits'
       fullPath: '/admin/edits'
       preLoaderRoute: typeof AuthenticatedAdminEditsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/content-analytics': {
+      id: '/_authenticated/admin/content-analytics'
+      path: '/content-analytics'
+      fullPath: '/admin/content-analytics'
+      preLoaderRoute: typeof AuthenticatedAdminContentAnalyticsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/claims': {
@@ -1903,7 +2001,9 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminCategoriesRoute: typeof AuthenticatedAdminCategoriesRoute
   AuthenticatedAdminCitiesRoute: typeof AuthenticatedAdminCitiesRoute
   AuthenticatedAdminClaimsRoute: typeof AuthenticatedAdminClaimsRoute
+  AuthenticatedAdminContentAnalyticsRoute: typeof AuthenticatedAdminContentAnalyticsRoute
   AuthenticatedAdminEditsRoute: typeof AuthenticatedAdminEditsRoute
+  AuthenticatedAdminFaqsRoute: typeof AuthenticatedAdminFaqsRoute
   AuthenticatedAdminImportRoute: typeof AuthenticatedAdminImportRoute
   AuthenticatedAdminImportsRoute: typeof AuthenticatedAdminImportsRoute
   AuthenticatedAdminLogsRoute: typeof AuthenticatedAdminLogsRoute
@@ -1928,7 +2028,10 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminCategoriesRoute: AuthenticatedAdminCategoriesRoute,
   AuthenticatedAdminCitiesRoute: AuthenticatedAdminCitiesRoute,
   AuthenticatedAdminClaimsRoute: AuthenticatedAdminClaimsRoute,
+  AuthenticatedAdminContentAnalyticsRoute:
+    AuthenticatedAdminContentAnalyticsRoute,
   AuthenticatedAdminEditsRoute: AuthenticatedAdminEditsRoute,
+  AuthenticatedAdminFaqsRoute: AuthenticatedAdminFaqsRoute,
   AuthenticatedAdminImportRoute: AuthenticatedAdminImportRoute,
   AuthenticatedAdminImportsRoute: AuthenticatedAdminImportsRoute,
   AuthenticatedAdminLogsRoute: AuthenticatedAdminLogsRoute,
@@ -2081,6 +2184,17 @@ const BloodRouteChildren: BloodRouteChildren = {
 
 const BloodRouteWithChildren = BloodRoute._addFileChildren(BloodRouteChildren)
 
+interface ContentRouteChildren {
+  ContentSlugRoute: typeof ContentSlugRoute
+}
+
+const ContentRouteChildren: ContentRouteChildren = {
+  ContentSlugRoute: ContentSlugRoute,
+}
+
+const ContentRouteWithChildren =
+  ContentRoute._addFileChildren(ContentRouteChildren)
+
 interface DoctorsRouteChildren {
   DoctorsIdRoute: typeof DoctorsIdRoute
   DoctorsSearchRoute: typeof DoctorsSearchRoute
@@ -2160,7 +2274,9 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   BloodRoute: BloodRouteWithChildren,
   ContactRoute: ContactRoute,
+  ContentRoute: ContentRouteWithChildren,
   DoctorsRoute: DoctorsRouteWithChildren,
+  FaqRoute: FaqRoute,
   HospitalsRoute: HospitalsRouteWithChildren,
   LaboratoriesRoute: LaboratoriesRouteWithChildren,
   MapRoute: MapRoute,

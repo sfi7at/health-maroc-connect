@@ -16,6 +16,8 @@ import { AppShell } from "@/components/layout/AppShell";
 import { Toaster } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { EmailVerifyBanner } from "@/components/auth/EmailVerifyBanner";
+import { InstallPrompt } from "@/components/pwa/InstallPrompt";
+import { registerPWA } from "@/lib/pwa-register";
 
 function NotFoundComponent() {
   return (
@@ -90,6 +92,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { name: "author", content: "HealthLink Maroc" },
       { name: "theme-color", content: "#0E9F6E" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "default" },
+      { name: "apple-mobile-web-app-title", content: "HealthLink" },
+      { name: "mobile-web-app-capable", content: "yes" },
       { property: "og:title", content: "HealthLink Maroc — Tous les services de santé en une app" },
       {
         property: "og:description",
@@ -111,6 +117,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "canonical", href: "/" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+      { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32.png" },
+      { rel: "icon", type: "image/png", sizes: "192x192", href: "/icon-192.png" },
     ],
   }),
   shellComponent: RootShell,
@@ -147,6 +157,10 @@ function RootComponent() {
     return () => sub.subscription.unsubscribe();
   }, [router, queryClient]);
 
+  useEffect(() => {
+    void registerPWA();
+  }, []);
+
   const isFullscreen =
     location.pathname.startsWith("/auth") || location.pathname.startsWith("/reset-password");
   const isAdmin = location.pathname.startsWith("/admin");
@@ -163,6 +177,7 @@ function RootComponent() {
         </AppShell>
       )}
       <Toaster />
+      <InstallPrompt />
     </QueryClientProvider>
   );
 }
