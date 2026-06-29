@@ -90,7 +90,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { name: "author", content: "HealthLink Maroc" },
       { name: "theme-color", content: "#0E9F6E" },
-      { property: "og:title", content: "HealthLink Maroc — Health Super App" },
+      { property: "og:title", content: "HealthLink Maroc — Tous les services de santé en une app" },
       {
         property: "og:description",
         content: "Tous les services de santé du Maroc, réunis dans une application moderne.",
@@ -98,6 +98,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@HealthLinkMaroc" },
+      { name: "twitter:title", content: "HealthLink Maroc — Tous les services de santé en une app" },
+      { name: "description", content: "HealthLink Maroc is a comprehensive Moroccan health super app centralizing all healthcare services." },
+      { property: "og:description", content: "HealthLink Maroc is a comprehensive Moroccan health super app centralizing all healthcare services." },
+      { name: "twitter:description", content: "HealthLink Maroc is a comprehensive Moroccan health super app centralizing all healthcare services." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/016a0bcb-b7bb-42d0-a5e9-6d9c76d57ae3/id-preview-3bb12778--6cf10384-a539-48ba-bbaf-3e985b0863af.lovable.app-1782704367392.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/016a0bcb-b7bb-42d0-a5e9-6d9c76d57ae3/id-preview-3bb12778--6cf10384-a539-48ba-bbaf-3e985b0863af.lovable.app-1782704367392.png" },
     ],
     links: [
       {
