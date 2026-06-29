@@ -28,6 +28,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProvidersIdRouteImport } from './routes/providers.$id'
 import { Route as PharmaciesOnDutyRouteImport } from './routes/pharmacies.on-duty'
+import { Route as DoctorsSearchRouteImport } from './routes/doctors.search'
 import { Route as DoctorsIdRouteImport } from './routes/doctors.$id'
 import { Route as BloodRequestRouteImport } from './routes/blood.request'
 import { Route as BloodMapRouteImport } from './routes/blood.map'
@@ -138,6 +139,11 @@ const PharmaciesOnDutyRoute = PharmaciesOnDutyRouteImport.update({
   path: '/on-duty',
   getParentRoute: () => PharmaciesRoute,
 } as any)
+const DoctorsSearchRoute = DoctorsSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => DoctorsRoute,
+} as any)
 const DoctorsIdRoute = DoctorsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -247,6 +253,7 @@ export interface FileRoutesByFullPath {
   '/blood/map': typeof BloodMapRoute
   '/blood/request': typeof BloodRequestRoute
   '/doctors/$id': typeof DoctorsIdRoute
+  '/doctors/search': typeof DoctorsSearchRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
@@ -282,6 +289,7 @@ export interface FileRoutesByTo {
   '/blood/map': typeof BloodMapRoute
   '/blood/request': typeof BloodRequestRoute
   '/doctors/$id': typeof DoctorsIdRoute
+  '/doctors/search': typeof DoctorsSearchRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
@@ -319,6 +327,7 @@ export interface FileRoutesById {
   '/blood/map': typeof BloodMapRoute
   '/blood/request': typeof BloodRequestRoute
   '/doctors/$id': typeof DoctorsIdRoute
+  '/doctors/search': typeof DoctorsSearchRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/_authenticated/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
@@ -356,6 +365,7 @@ export interface FileRouteTypes {
     | '/blood/map'
     | '/blood/request'
     | '/doctors/$id'
+    | '/doctors/search'
     | '/pharmacies/on-duty'
     | '/providers/$id'
     | '/blood/become-donor'
@@ -391,6 +401,7 @@ export interface FileRouteTypes {
     | '/blood/map'
     | '/blood/request'
     | '/doctors/$id'
+    | '/doctors/search'
     | '/pharmacies/on-duty'
     | '/providers/$id'
     | '/blood/become-donor'
@@ -427,6 +438,7 @@ export interface FileRouteTypes {
     | '/blood/map'
     | '/blood/request'
     | '/doctors/$id'
+    | '/doctors/search'
     | '/pharmacies/on-duty'
     | '/providers/$id'
     | '/_authenticated/blood/become-donor'
@@ -590,6 +602,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/pharmacies/on-duty'
       preLoaderRoute: typeof PharmaciesOnDutyRouteImport
       parentRoute: typeof PharmaciesRoute
+    }
+    '/doctors/search': {
+      id: '/doctors/search'
+      path: '/search'
+      fullPath: '/doctors/search'
+      preLoaderRoute: typeof DoctorsSearchRouteImport
+      parentRoute: typeof DoctorsRoute
     }
     '/doctors/$id': {
       id: '/doctors/$id'
@@ -756,10 +775,12 @@ const BloodRouteWithChildren = BloodRoute._addFileChildren(BloodRouteChildren)
 
 interface DoctorsRouteChildren {
   DoctorsIdRoute: typeof DoctorsIdRoute
+  DoctorsSearchRoute: typeof DoctorsSearchRoute
 }
 
 const DoctorsRouteChildren: DoctorsRouteChildren = {
   DoctorsIdRoute: DoctorsIdRoute,
+  DoctorsSearchRoute: DoctorsSearchRoute,
 }
 
 const DoctorsRouteWithChildren =
