@@ -31,6 +31,7 @@ import { EmptyState } from "@/components/common/EmptyState";
 import { PageHeader } from "@/components/common/PageHeader";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
 import {
   HOSPITAL_DEPARTMENTS,
   HOSPITAL_SERVICES,
@@ -171,7 +172,14 @@ function ProfileTab({ hospital }: { hospital: HospitalRow }) {
       };
       const { error } = await supabase
         .from("providers")
-        .update({ name, description, phone, website, address, metadata: nextMeta })
+        .update({
+          name,
+          description,
+          phone,
+          website,
+          address,
+          metadata: nextMeta as unknown as Database["public"]["Tables"]["providers"]["Update"]["metadata"],
+        })
         .eq("id", hospital.id);
       if (error) throw error;
     },
@@ -257,7 +265,9 @@ function DepartmentsTab({ hospital }: { hospital: HospitalRow }) {
       const next: HospitalMeta = { ...meta, departments: Array.from(selected) };
       const { error } = await supabase
         .from("providers")
-        .update({ metadata: next })
+        .update({
+          metadata: next as unknown as Database["public"]["Tables"]["providers"]["Update"]["metadata"],
+        })
         .eq("id", hospital.id);
       if (error) throw error;
     },
@@ -321,7 +331,9 @@ function ServicesTab({ hospital }: { hospital: HospitalRow }) {
       const next: HospitalMeta = { ...meta, services: Array.from(selected) };
       const { error } = await supabase
         .from("providers")
-        .update({ metadata: next })
+        .update({
+          metadata: next as unknown as Database["public"]["Tables"]["providers"]["Update"]["metadata"],
+        })
         .eq("id", hospital.id);
       if (error) throw error;
     },

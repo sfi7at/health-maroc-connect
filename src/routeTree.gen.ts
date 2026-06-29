@@ -52,6 +52,7 @@ import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedPharmacyDashboardRouteImport } from './routes/_authenticated/pharmacy-dashboard'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedLaboratoryDashboardRouteImport } from './routes/_authenticated/laboratory-dashboard'
+import { Route as AuthenticatedHospitalDashboardRouteImport } from './routes/_authenticated/hospital-dashboard'
 import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
 import { Route as AuthenticatedDoctorDashboardRouteImport } from './routes/_authenticated/doctor-dashboard'
 import { Route as AuthenticatedAppointmentsRouteImport } from './routes/_authenticated/appointments'
@@ -279,6 +280,12 @@ const AuthenticatedLaboratoryDashboardRoute =
     path: '/laboratory-dashboard',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedHospitalDashboardRoute =
+  AuthenticatedHospitalDashboardRouteImport.update({
+    id: '/hospital-dashboard',
+    path: '/hospital-dashboard',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedFavoritesRoute = AuthenticatedFavoritesRouteImport.update({
   id: '/favorites',
   path: '/favorites',
@@ -351,6 +358,7 @@ export interface FileRoutesByFullPath {
   '/appointments': typeof AuthenticatedAppointmentsRouteWithChildren
   '/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/favorites': typeof AuthenticatedFavoritesRoute
+  '/hospital-dashboard': typeof AuthenticatedHospitalDashboardRoute
   '/laboratory-dashboard': typeof AuthenticatedLaboratoryDashboardRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/pharmacy-dashboard': typeof AuthenticatedPharmacyDashboardRoute
@@ -404,6 +412,7 @@ export interface FileRoutesByTo {
   '/appointments': typeof AuthenticatedAppointmentsRouteWithChildren
   '/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/favorites': typeof AuthenticatedFavoritesRoute
+  '/hospital-dashboard': typeof AuthenticatedHospitalDashboardRoute
   '/laboratory-dashboard': typeof AuthenticatedLaboratoryDashboardRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/pharmacy-dashboard': typeof AuthenticatedPharmacyDashboardRoute
@@ -459,6 +468,7 @@ export interface FileRoutesById {
   '/_authenticated/appointments': typeof AuthenticatedAppointmentsRouteWithChildren
   '/_authenticated/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/_authenticated/favorites': typeof AuthenticatedFavoritesRoute
+  '/_authenticated/hospital-dashboard': typeof AuthenticatedHospitalDashboardRoute
   '/_authenticated/laboratory-dashboard': typeof AuthenticatedLaboratoryDashboardRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/pharmacy-dashboard': typeof AuthenticatedPharmacyDashboardRoute
@@ -514,6 +524,7 @@ export interface FileRouteTypes {
     | '/appointments'
     | '/doctor-dashboard'
     | '/favorites'
+    | '/hospital-dashboard'
     | '/laboratory-dashboard'
     | '/notifications'
     | '/pharmacy-dashboard'
@@ -567,6 +578,7 @@ export interface FileRouteTypes {
     | '/appointments'
     | '/doctor-dashboard'
     | '/favorites'
+    | '/hospital-dashboard'
     | '/laboratory-dashboard'
     | '/notifications'
     | '/pharmacy-dashboard'
@@ -621,6 +633,7 @@ export interface FileRouteTypes {
     | '/_authenticated/appointments'
     | '/_authenticated/doctor-dashboard'
     | '/_authenticated/favorites'
+    | '/_authenticated/hospital-dashboard'
     | '/_authenticated/laboratory-dashboard'
     | '/_authenticated/notifications'
     | '/_authenticated/pharmacy-dashboard'
@@ -979,6 +992,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLaboratoryDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/hospital-dashboard': {
+      id: '/_authenticated/hospital-dashboard'
+      path: '/hospital-dashboard'
+      fullPath: '/hospital-dashboard'
+      preLoaderRoute: typeof AuthenticatedHospitalDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/favorites': {
       id: '/_authenticated/favorites'
       path: '/favorites'
@@ -1064,6 +1084,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppointmentsRoute: typeof AuthenticatedAppointmentsRouteWithChildren
   AuthenticatedDoctorDashboardRoute: typeof AuthenticatedDoctorDashboardRoute
   AuthenticatedFavoritesRoute: typeof AuthenticatedFavoritesRoute
+  AuthenticatedHospitalDashboardRoute: typeof AuthenticatedHospitalDashboardRoute
   AuthenticatedLaboratoryDashboardRoute: typeof AuthenticatedLaboratoryDashboardRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedPharmacyDashboardRoute: typeof AuthenticatedPharmacyDashboardRoute
@@ -1078,6 +1099,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppointmentsRoute: AuthenticatedAppointmentsRouteWithChildren,
   AuthenticatedDoctorDashboardRoute: AuthenticatedDoctorDashboardRoute,
   AuthenticatedFavoritesRoute: AuthenticatedFavoritesRoute,
+  AuthenticatedHospitalDashboardRoute: AuthenticatedHospitalDashboardRoute,
   AuthenticatedLaboratoryDashboardRoute: AuthenticatedLaboratoryDashboardRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedPharmacyDashboardRoute: AuthenticatedPharmacyDashboardRoute,
