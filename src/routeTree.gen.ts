@@ -37,6 +37,7 @@ import { Route as LaboratoriesMapRouteImport } from './routes/laboratories.map'
 import { Route as LaboratoriesAnalysesRouteImport } from './routes/laboratories.analyses'
 import { Route as HospitalsSearchRouteImport } from './routes/hospitals.search'
 import { Route as HospitalsMapRouteImport } from './routes/hospitals.map'
+import { Route as HospitalsEmergencyRouteImport } from './routes/hospitals.emergency'
 import { Route as DoctorsSpecialtiesRouteImport } from './routes/doctors.specialties'
 import { Route as DoctorsSearchRouteImport } from './routes/doctors.search'
 import { Route as DoctorsIdRouteImport } from './routes/doctors.$id'
@@ -199,6 +200,11 @@ const HospitalsMapRoute = HospitalsMapRouteImport.update({
   path: '/map',
   getParentRoute: () => HospitalsRoute,
 } as any)
+const HospitalsEmergencyRoute = HospitalsEmergencyRouteImport.update({
+  id: '/emergency',
+  path: '/emergency',
+  getParentRoute: () => HospitalsRoute,
+} as any)
 const DoctorsSpecialtiesRoute = DoctorsSpecialtiesRouteImport.update({
   id: '/specialties',
   path: '/specialties',
@@ -352,6 +358,7 @@ export interface FileRoutesByFullPath {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/hospitals/emergency': typeof HospitalsEmergencyRoute
   '/hospitals/map': typeof HospitalsMapRoute
   '/hospitals/search': typeof HospitalsSearchRoute
   '/laboratories/analyses': typeof LaboratoriesAnalysesRoute
@@ -403,6 +410,7 @@ export interface FileRoutesByTo {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/hospitals/emergency': typeof HospitalsEmergencyRoute
   '/hospitals/map': typeof HospitalsMapRoute
   '/hospitals/search': typeof HospitalsSearchRoute
   '/laboratories/analyses': typeof LaboratoriesAnalysesRoute
@@ -456,6 +464,7 @@ export interface FileRoutesById {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/hospitals/emergency': typeof HospitalsEmergencyRoute
   '/hospitals/map': typeof HospitalsMapRoute
   '/hospitals/search': typeof HospitalsSearchRoute
   '/laboratories/analyses': typeof LaboratoriesAnalysesRoute
@@ -509,6 +518,7 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/hospitals/emergency'
     | '/hospitals/map'
     | '/hospitals/search'
     | '/laboratories/analyses'
@@ -560,6 +570,7 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/hospitals/emergency'
     | '/hospitals/map'
     | '/hospitals/search'
     | '/laboratories/analyses'
@@ -612,6 +623,7 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/hospitals/emergency'
     | '/hospitals/map'
     | '/hospitals/search'
     | '/laboratories/analyses'
@@ -848,6 +860,13 @@ declare module '@tanstack/react-router' {
       path: '/map'
       fullPath: '/hospitals/map'
       preLoaderRoute: typeof HospitalsMapRouteImport
+      parentRoute: typeof HospitalsRoute
+    }
+    '/hospitals/emergency': {
+      id: '/hospitals/emergency'
+      path: '/emergency'
+      fullPath: '/hospitals/emergency'
+      preLoaderRoute: typeof HospitalsEmergencyRouteImport
       parentRoute: typeof HospitalsRoute
     }
     '/doctors/specialties': {
@@ -1101,11 +1120,13 @@ const DoctorsRouteWithChildren =
   DoctorsRoute._addFileChildren(DoctorsRouteChildren)
 
 interface HospitalsRouteChildren {
+  HospitalsEmergencyRoute: typeof HospitalsEmergencyRoute
   HospitalsMapRoute: typeof HospitalsMapRoute
   HospitalsSearchRoute: typeof HospitalsSearchRoute
 }
 
 const HospitalsRouteChildren: HospitalsRouteChildren = {
+  HospitalsEmergencyRoute: HospitalsEmergencyRoute,
   HospitalsMapRoute: HospitalsMapRoute,
   HospitalsSearchRoute: HospitalsSearchRoute,
 }
