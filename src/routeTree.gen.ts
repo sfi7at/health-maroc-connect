@@ -110,6 +110,7 @@ import { Route as ApiPublicCronAppointmentRemindersRouteImport } from './routes/
 import { Route as AuthenticatedBloodChatRequestIdRouteImport } from './routes/_authenticated/blood.chat.$requestId'
 import { Route as AuthenticatedAppointmentsNewProviderIdRouteImport } from './routes/_authenticated/appointments.new.$providerId'
 import { Route as AuthenticatedAppointmentsBookProviderIdRouteImport } from './routes/_authenticated/appointments.book.$providerId'
+import { Route as AuthenticatedAdminSecurityEventsRouteImport } from './routes/_authenticated/admin.security.events'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -662,6 +663,12 @@ const AuthenticatedAppointmentsBookProviderIdRoute =
     path: '/book/$providerId',
     getParentRoute: () => AuthenticatedAppointmentsRoute,
   } as any)
+const AuthenticatedAdminSecurityEventsRoute =
+  AuthenticatedAdminSecurityEventsRouteImport.update({
+    id: '/events',
+    path: '/events',
+    getParentRoute: () => AuthenticatedAdminSecurityRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -735,7 +742,7 @@ export interface FileRoutesByFullPath {
   '/admin/quality': typeof AuthenticatedAdminQualityRoute
   '/admin/reports': typeof AuthenticatedAdminReportsRoute
   '/admin/reviews': typeof AuthenticatedAdminReviewsRoute
-  '/admin/security': typeof AuthenticatedAdminSecurityRoute
+  '/admin/security': typeof AuthenticatedAdminSecurityRouteWithChildren
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/verification': typeof AuthenticatedAdminVerificationRoute
@@ -760,6 +767,7 @@ export interface FileRoutesByFullPath {
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/provider/': typeof AuthenticatedProviderIndexRoute
+  '/admin/security/events': typeof AuthenticatedAdminSecurityEventsRoute
   '/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
   '/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
@@ -835,7 +843,7 @@ export interface FileRoutesByTo {
   '/admin/quality': typeof AuthenticatedAdminQualityRoute
   '/admin/reports': typeof AuthenticatedAdminReportsRoute
   '/admin/reviews': typeof AuthenticatedAdminReviewsRoute
-  '/admin/security': typeof AuthenticatedAdminSecurityRoute
+  '/admin/security': typeof AuthenticatedAdminSecurityRouteWithChildren
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/verification': typeof AuthenticatedAdminVerificationRoute
@@ -860,6 +868,7 @@ export interface FileRoutesByTo {
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/provider': typeof AuthenticatedProviderIndexRoute
+  '/admin/security/events': typeof AuthenticatedAdminSecurityEventsRoute
   '/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
   '/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
@@ -939,7 +948,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/quality': typeof AuthenticatedAdminQualityRoute
   '/_authenticated/admin/reports': typeof AuthenticatedAdminReportsRoute
   '/_authenticated/admin/reviews': typeof AuthenticatedAdminReviewsRoute
-  '/_authenticated/admin/security': typeof AuthenticatedAdminSecurityRoute
+  '/_authenticated/admin/security': typeof AuthenticatedAdminSecurityRouteWithChildren
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/admin/verification': typeof AuthenticatedAdminVerificationRoute
@@ -964,6 +973,7 @@ export interface FileRoutesById {
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/provider/': typeof AuthenticatedProviderIndexRoute
+  '/_authenticated/admin/security/events': typeof AuthenticatedAdminSecurityEventsRoute
   '/_authenticated/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
   '/_authenticated/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/_authenticated/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
@@ -1068,6 +1078,7 @@ export interface FileRouteTypes {
     | '/doctors/specialty/$slug'
     | '/admin/'
     | '/provider/'
+    | '/admin/security/events'
     | '/appointments/book/$providerId'
     | '/appointments/new/$providerId'
     | '/blood/chat/$requestId'
@@ -1168,6 +1179,7 @@ export interface FileRouteTypes {
     | '/doctors/specialty/$slug'
     | '/admin'
     | '/provider'
+    | '/admin/security/events'
     | '/appointments/book/$providerId'
     | '/appointments/new/$providerId'
     | '/blood/chat/$requestId'
@@ -1271,6 +1283,7 @@ export interface FileRouteTypes {
     | '/doctors/specialty/$slug'
     | '/_authenticated/admin/'
     | '/_authenticated/provider/'
+    | '/_authenticated/admin/security/events'
     | '/_authenticated/appointments/book/$providerId'
     | '/_authenticated/appointments/new/$providerId'
     | '/_authenticated/blood/chat/$requestId'
@@ -2010,8 +2023,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppointmentsBookProviderIdRouteImport
       parentRoute: typeof AuthenticatedAppointmentsRoute
     }
+    '/_authenticated/admin/security/events': {
+      id: '/_authenticated/admin/security/events'
+      path: '/events'
+      fullPath: '/admin/security/events'
+      preLoaderRoute: typeof AuthenticatedAdminSecurityEventsRouteImport
+      parentRoute: typeof AuthenticatedAdminSecurityRoute
+    }
   }
 }
+
+interface AuthenticatedAdminSecurityRouteChildren {
+  AuthenticatedAdminSecurityEventsRoute: typeof AuthenticatedAdminSecurityEventsRoute
+}
+
+const AuthenticatedAdminSecurityRouteChildren: AuthenticatedAdminSecurityRouteChildren =
+  {
+    AuthenticatedAdminSecurityEventsRoute:
+      AuthenticatedAdminSecurityEventsRoute,
+  }
+
+const AuthenticatedAdminSecurityRouteWithChildren =
+  AuthenticatedAdminSecurityRoute._addFileChildren(
+    AuthenticatedAdminSecurityRouteChildren,
+  )
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminAnalyticsRoute: typeof AuthenticatedAdminAnalyticsRoute
@@ -2033,7 +2068,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminQualityRoute: typeof AuthenticatedAdminQualityRoute
   AuthenticatedAdminReportsRoute: typeof AuthenticatedAdminReportsRoute
   AuthenticatedAdminReviewsRoute: typeof AuthenticatedAdminReviewsRoute
-  AuthenticatedAdminSecurityRoute: typeof AuthenticatedAdminSecurityRoute
+  AuthenticatedAdminSecurityRoute: typeof AuthenticatedAdminSecurityRouteWithChildren
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAdminVerificationRoute: typeof AuthenticatedAdminVerificationRoute
@@ -2062,7 +2097,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminQualityRoute: AuthenticatedAdminQualityRoute,
   AuthenticatedAdminReportsRoute: AuthenticatedAdminReportsRoute,
   AuthenticatedAdminReviewsRoute: AuthenticatedAdminReviewsRoute,
-  AuthenticatedAdminSecurityRoute: AuthenticatedAdminSecurityRoute,
+  AuthenticatedAdminSecurityRoute: AuthenticatedAdminSecurityRouteWithChildren,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAdminVerificationRoute: AuthenticatedAdminVerificationRoute,
