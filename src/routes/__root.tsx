@@ -92,6 +92,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { name: "author", content: "HealthLink Maroc" },
       { name: "theme-color", content: "#0E9F6E" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "default" },
+      { name: "apple-mobile-web-app-title", content: "HealthLink" },
+      { name: "mobile-web-app-capable", content: "yes" },
       { property: "og:title", content: "HealthLink Maroc — Tous les services de santé en une app" },
       {
         property: "og:description",
