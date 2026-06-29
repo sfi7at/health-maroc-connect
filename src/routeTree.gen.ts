@@ -94,6 +94,7 @@ import { Route as AuthenticatedAdminImportsRouteImport } from './routes/_authent
 import { Route as AuthenticatedAdminImportRouteImport } from './routes/_authenticated/admin.import'
 import { Route as AuthenticatedAdminFaqsRouteImport } from './routes/_authenticated/admin.faqs'
 import { Route as AuthenticatedAdminEditsRouteImport } from './routes/_authenticated/admin.edits'
+import { Route as AuthenticatedAdminContentAnalyticsRouteImport } from './routes/_authenticated/admin.content-analytics'
 import { Route as AuthenticatedAdminClaimsRouteImport } from './routes/_authenticated/admin.claims'
 import { Route as AuthenticatedAdminCitiesRouteImport } from './routes/_authenticated/admin.cities'
 import { Route as AuthenticatedAdminCategoriesRouteImport } from './routes/_authenticated/admin.categories'
@@ -565,6 +566,12 @@ const AuthenticatedAdminEditsRoute = AuthenticatedAdminEditsRouteImport.update({
   path: '/edits',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminContentAnalyticsRoute =
+  AuthenticatedAdminContentAnalyticsRouteImport.update({
+    id: '/content-analytics',
+    path: '/content-analytics',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminClaimsRoute =
   AuthenticatedAdminClaimsRouteImport.update({
     id: '/claims',
@@ -688,6 +695,7 @@ export interface FileRoutesByFullPath {
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/cities': typeof AuthenticatedAdminCitiesRoute
   '/admin/claims': typeof AuthenticatedAdminClaimsRoute
+  '/admin/content-analytics': typeof AuthenticatedAdminContentAnalyticsRoute
   '/admin/edits': typeof AuthenticatedAdminEditsRoute
   '/admin/faqs': typeof AuthenticatedAdminFaqsRoute
   '/admin/import': typeof AuthenticatedAdminImportRoute
@@ -783,6 +791,7 @@ export interface FileRoutesByTo {
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/cities': typeof AuthenticatedAdminCitiesRoute
   '/admin/claims': typeof AuthenticatedAdminClaimsRoute
+  '/admin/content-analytics': typeof AuthenticatedAdminContentAnalyticsRoute
   '/admin/edits': typeof AuthenticatedAdminEditsRoute
   '/admin/faqs': typeof AuthenticatedAdminFaqsRoute
   '/admin/import': typeof AuthenticatedAdminImportRoute
@@ -882,6 +891,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/_authenticated/admin/cities': typeof AuthenticatedAdminCitiesRoute
   '/_authenticated/admin/claims': typeof AuthenticatedAdminClaimsRoute
+  '/_authenticated/admin/content-analytics': typeof AuthenticatedAdminContentAnalyticsRoute
   '/_authenticated/admin/edits': typeof AuthenticatedAdminEditsRoute
   '/_authenticated/admin/faqs': typeof AuthenticatedAdminFaqsRoute
   '/_authenticated/admin/import': typeof AuthenticatedAdminImportRoute
@@ -981,6 +991,7 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/cities'
     | '/admin/claims'
+    | '/admin/content-analytics'
     | '/admin/edits'
     | '/admin/faqs'
     | '/admin/import'
@@ -1076,6 +1087,7 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/cities'
     | '/admin/claims'
+    | '/admin/content-analytics'
     | '/admin/edits'
     | '/admin/faqs'
     | '/admin/import'
@@ -1174,6 +1186,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/categories'
     | '/_authenticated/admin/cities'
     | '/_authenticated/admin/claims'
+    | '/_authenticated/admin/content-analytics'
     | '/_authenticated/admin/edits'
     | '/_authenticated/admin/faqs'
     | '/_authenticated/admin/import'
@@ -1834,6 +1847,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminEditsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/content-analytics': {
+      id: '/_authenticated/admin/content-analytics'
+      path: '/content-analytics'
+      fullPath: '/admin/content-analytics'
+      preLoaderRoute: typeof AuthenticatedAdminContentAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/claims': {
       id: '/_authenticated/admin/claims'
       path: '/claims'
@@ -1922,6 +1942,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminCategoriesRoute: typeof AuthenticatedAdminCategoriesRoute
   AuthenticatedAdminCitiesRoute: typeof AuthenticatedAdminCitiesRoute
   AuthenticatedAdminClaimsRoute: typeof AuthenticatedAdminClaimsRoute
+  AuthenticatedAdminContentAnalyticsRoute: typeof AuthenticatedAdminContentAnalyticsRoute
   AuthenticatedAdminEditsRoute: typeof AuthenticatedAdminEditsRoute
   AuthenticatedAdminFaqsRoute: typeof AuthenticatedAdminFaqsRoute
   AuthenticatedAdminImportRoute: typeof AuthenticatedAdminImportRoute
@@ -1948,6 +1969,8 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminCategoriesRoute: AuthenticatedAdminCategoriesRoute,
   AuthenticatedAdminCitiesRoute: AuthenticatedAdminCitiesRoute,
   AuthenticatedAdminClaimsRoute: AuthenticatedAdminClaimsRoute,
+  AuthenticatedAdminContentAnalyticsRoute:
+    AuthenticatedAdminContentAnalyticsRoute,
   AuthenticatedAdminEditsRoute: AuthenticatedAdminEditsRoute,
   AuthenticatedAdminFaqsRoute: AuthenticatedAdminFaqsRoute,
   AuthenticatedAdminImportRoute: AuthenticatedAdminImportRoute,
