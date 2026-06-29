@@ -22,6 +22,8 @@ import {
   Siren,
   CalendarRange,
   ShieldCheck,
+  Newspaper,
+  HelpCircle,
   type LucideIcon,
 } from "lucide-react";
 
