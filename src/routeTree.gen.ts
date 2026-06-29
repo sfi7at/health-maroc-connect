@@ -48,6 +48,7 @@ import { Route as BloodDonorsRouteImport } from './routes/blood.donors'
 import { Route as BloodCentersRouteImport } from './routes/blood.centers'
 import { Route as BloodCampaignsRouteImport } from './routes/blood.campaigns'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedProviderCalendarRouteImport } from './routes/_authenticated/provider-calendar'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedPharmacyDashboardRouteImport } from './routes/_authenticated/pharmacy-dashboard'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
@@ -60,7 +61,12 @@ import { Route as DoctorsSpecialtySlugRouteImport } from './routes/doctors.speci
 import { Route as BloodDonorsIdRouteImport } from './routes/blood.donors.$id'
 import { Route as AuthenticatedBloodHistoryRouteImport } from './routes/_authenticated/blood.history'
 import { Route as AuthenticatedBloodBecomeDonorRouteImport } from './routes/_authenticated/blood.become-donor'
+import { Route as AuthenticatedAppointmentsCalendarRouteImport } from './routes/_authenticated/appointments.calendar'
+import { Route as AuthenticatedAppointmentsIdRouteImport } from './routes/_authenticated/appointments.$id'
+import { Route as AuthenticatedAdminAppointmentsRouteImport } from './routes/_authenticated/admin.appointments'
+import { Route as ApiPublicCronAppointmentRemindersRouteImport } from './routes/api/public/cron.appointment-reminders'
 import { Route as AuthenticatedBloodChatRequestIdRouteImport } from './routes/_authenticated/blood.chat.$requestId'
+import { Route as AuthenticatedAppointmentsNewProviderIdRouteImport } from './routes/_authenticated/appointments.new.$providerId'
 import { Route as AuthenticatedAppointmentsBookProviderIdRouteImport } from './routes/_authenticated/appointments.book.$providerId'
 
 const TermsRoute = TermsRouteImport.update({
@@ -257,6 +263,12 @@ const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedProviderCalendarRoute =
+  AuthenticatedProviderCalendarRouteImport.update({
+    id: '/provider-calendar',
+    path: '/provider-calendar',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -325,11 +337,41 @@ const AuthenticatedBloodBecomeDonorRoute =
     path: '/blood/become-donor',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAppointmentsCalendarRoute =
+  AuthenticatedAppointmentsCalendarRouteImport.update({
+    id: '/calendar',
+    path: '/calendar',
+    getParentRoute: () => AuthenticatedAppointmentsRoute,
+  } as any)
+const AuthenticatedAppointmentsIdRoute =
+  AuthenticatedAppointmentsIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedAppointmentsRoute,
+  } as any)
+const AuthenticatedAdminAppointmentsRoute =
+  AuthenticatedAdminAppointmentsRouteImport.update({
+    id: '/admin/appointments',
+    path: '/admin/appointments',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const ApiPublicCronAppointmentRemindersRoute =
+  ApiPublicCronAppointmentRemindersRouteImport.update({
+    id: '/api/public/cron/appointment-reminders',
+    path: '/api/public/cron/appointment-reminders',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthenticatedBloodChatRequestIdRoute =
   AuthenticatedBloodChatRequestIdRouteImport.update({
     id: '/blood/chat/$requestId',
     path: '/blood/chat/$requestId',
     getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAppointmentsNewProviderIdRoute =
+  AuthenticatedAppointmentsNewProviderIdRouteImport.update({
+    id: '/new/$providerId',
+    path: '/new/$providerId',
+    getParentRoute: () => AuthenticatedAppointmentsRoute,
   } as any)
 const AuthenticatedAppointmentsBookProviderIdRoute =
   AuthenticatedAppointmentsBookProviderIdRouteImport.update({
@@ -363,6 +405,7 @@ export interface FileRoutesByFullPath {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/pharmacy-dashboard': typeof AuthenticatedPharmacyDashboardRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/provider-calendar': typeof AuthenticatedProviderCalendarRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/blood/campaigns': typeof BloodCampaignsRoute
   '/blood/centers': typeof BloodCentersRoute
@@ -385,12 +428,17 @@ export interface FileRoutesByFullPath {
   '/pharmacies/open': typeof PharmaciesOpenRoute
   '/pharmacies/search': typeof PharmaciesSearchRoute
   '/providers/$id': typeof ProvidersIdRoute
+  '/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
+  '/appointments/$id': typeof AuthenticatedAppointmentsIdRoute
+  '/appointments/calendar': typeof AuthenticatedAppointmentsCalendarRoute
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
+  '/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
+  '/api/public/cron/appointment-reminders': typeof ApiPublicCronAppointmentRemindersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -417,6 +465,7 @@ export interface FileRoutesByTo {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/pharmacy-dashboard': typeof AuthenticatedPharmacyDashboardRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/provider-calendar': typeof AuthenticatedProviderCalendarRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/blood/campaigns': typeof BloodCampaignsRoute
   '/blood/centers': typeof BloodCentersRoute
@@ -439,12 +488,17 @@ export interface FileRoutesByTo {
   '/pharmacies/open': typeof PharmaciesOpenRoute
   '/pharmacies/search': typeof PharmaciesSearchRoute
   '/providers/$id': typeof ProvidersIdRoute
+  '/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
+  '/appointments/$id': typeof AuthenticatedAppointmentsIdRoute
+  '/appointments/calendar': typeof AuthenticatedAppointmentsCalendarRoute
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
+  '/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
+  '/api/public/cron/appointment-reminders': typeof ApiPublicCronAppointmentRemindersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -473,6 +527,7 @@ export interface FileRoutesById {
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/pharmacy-dashboard': typeof AuthenticatedPharmacyDashboardRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/provider-calendar': typeof AuthenticatedProviderCalendarRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/blood/campaigns': typeof BloodCampaignsRoute
   '/blood/centers': typeof BloodCentersRoute
@@ -495,12 +550,17 @@ export interface FileRoutesById {
   '/pharmacies/open': typeof PharmaciesOpenRoute
   '/pharmacies/search': typeof PharmaciesSearchRoute
   '/providers/$id': typeof ProvidersIdRoute
+  '/_authenticated/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
+  '/_authenticated/appointments/$id': typeof AuthenticatedAppointmentsIdRoute
+  '/_authenticated/appointments/calendar': typeof AuthenticatedAppointmentsCalendarRoute
   '/_authenticated/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/_authenticated/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/_authenticated/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
+  '/_authenticated/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/_authenticated/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
+  '/api/public/cron/appointment-reminders': typeof ApiPublicCronAppointmentRemindersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -529,6 +589,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/pharmacy-dashboard'
     | '/profile'
+    | '/provider-calendar'
     | '/settings'
     | '/blood/campaigns'
     | '/blood/centers'
@@ -551,12 +612,17 @@ export interface FileRouteTypes {
     | '/pharmacies/open'
     | '/pharmacies/search'
     | '/providers/$id'
+    | '/admin/appointments'
+    | '/appointments/$id'
+    | '/appointments/calendar'
     | '/blood/become-donor'
     | '/blood/history'
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
     | '/appointments/book/$providerId'
+    | '/appointments/new/$providerId'
     | '/blood/chat/$requestId'
+    | '/api/public/cron/appointment-reminders'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -583,6 +649,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/pharmacy-dashboard'
     | '/profile'
+    | '/provider-calendar'
     | '/settings'
     | '/blood/campaigns'
     | '/blood/centers'
@@ -605,12 +672,17 @@ export interface FileRouteTypes {
     | '/pharmacies/open'
     | '/pharmacies/search'
     | '/providers/$id'
+    | '/admin/appointments'
+    | '/appointments/$id'
+    | '/appointments/calendar'
     | '/blood/become-donor'
     | '/blood/history'
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
     | '/appointments/book/$providerId'
+    | '/appointments/new/$providerId'
     | '/blood/chat/$requestId'
+    | '/api/public/cron/appointment-reminders'
   id:
     | '__root__'
     | '/'
@@ -638,6 +710,7 @@ export interface FileRouteTypes {
     | '/_authenticated/notifications'
     | '/_authenticated/pharmacy-dashboard'
     | '/_authenticated/profile'
+    | '/_authenticated/provider-calendar'
     | '/_authenticated/settings'
     | '/blood/campaigns'
     | '/blood/centers'
@@ -660,12 +733,17 @@ export interface FileRouteTypes {
     | '/pharmacies/open'
     | '/pharmacies/search'
     | '/providers/$id'
+    | '/_authenticated/admin/appointments'
+    | '/_authenticated/appointments/$id'
+    | '/_authenticated/appointments/calendar'
     | '/_authenticated/blood/become-donor'
     | '/_authenticated/blood/history'
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
     | '/_authenticated/appointments/book/$providerId'
+    | '/_authenticated/appointments/new/$providerId'
     | '/_authenticated/blood/chat/$requestId'
+    | '/api/public/cron/appointment-reminders'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -687,6 +765,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   ProvidersIdRoute: typeof ProvidersIdRoute
+  ApiPublicCronAppointmentRemindersRoute: typeof ApiPublicCronAppointmentRemindersRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -964,6 +1043,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/provider-calendar': {
+      id: '/_authenticated/provider-calendar'
+      path: '/provider-calendar'
+      fullPath: '/provider-calendar'
+      preLoaderRoute: typeof AuthenticatedProviderCalendarRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/profile': {
       id: '/_authenticated/profile'
       path: '/profile'
@@ -1048,12 +1134,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBloodBecomeDonorRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/appointments/calendar': {
+      id: '/_authenticated/appointments/calendar'
+      path: '/calendar'
+      fullPath: '/appointments/calendar'
+      preLoaderRoute: typeof AuthenticatedAppointmentsCalendarRouteImport
+      parentRoute: typeof AuthenticatedAppointmentsRoute
+    }
+    '/_authenticated/appointments/$id': {
+      id: '/_authenticated/appointments/$id'
+      path: '/$id'
+      fullPath: '/appointments/$id'
+      preLoaderRoute: typeof AuthenticatedAppointmentsIdRouteImport
+      parentRoute: typeof AuthenticatedAppointmentsRoute
+    }
+    '/_authenticated/admin/appointments': {
+      id: '/_authenticated/admin/appointments'
+      path: '/admin/appointments'
+      fullPath: '/admin/appointments'
+      preLoaderRoute: typeof AuthenticatedAdminAppointmentsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/api/public/cron/appointment-reminders': {
+      id: '/api/public/cron/appointment-reminders'
+      path: '/api/public/cron/appointment-reminders'
+      fullPath: '/api/public/cron/appointment-reminders'
+      preLoaderRoute: typeof ApiPublicCronAppointmentRemindersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/blood/chat/$requestId': {
       id: '/_authenticated/blood/chat/$requestId'
       path: '/blood/chat/$requestId'
       fullPath: '/blood/chat/$requestId'
       preLoaderRoute: typeof AuthenticatedBloodChatRequestIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/appointments/new/$providerId': {
+      id: '/_authenticated/appointments/new/$providerId'
+      path: '/new/$providerId'
+      fullPath: '/appointments/new/$providerId'
+      preLoaderRoute: typeof AuthenticatedAppointmentsNewProviderIdRouteImport
+      parentRoute: typeof AuthenticatedAppointmentsRoute
     }
     '/_authenticated/appointments/book/$providerId': {
       id: '/_authenticated/appointments/book/$providerId'
@@ -1066,13 +1187,21 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAppointmentsRouteChildren {
+  AuthenticatedAppointmentsIdRoute: typeof AuthenticatedAppointmentsIdRoute
+  AuthenticatedAppointmentsCalendarRoute: typeof AuthenticatedAppointmentsCalendarRoute
   AuthenticatedAppointmentsBookProviderIdRoute: typeof AuthenticatedAppointmentsBookProviderIdRoute
+  AuthenticatedAppointmentsNewProviderIdRoute: typeof AuthenticatedAppointmentsNewProviderIdRoute
 }
 
 const AuthenticatedAppointmentsRouteChildren: AuthenticatedAppointmentsRouteChildren =
   {
+    AuthenticatedAppointmentsIdRoute: AuthenticatedAppointmentsIdRoute,
+    AuthenticatedAppointmentsCalendarRoute:
+      AuthenticatedAppointmentsCalendarRoute,
     AuthenticatedAppointmentsBookProviderIdRoute:
       AuthenticatedAppointmentsBookProviderIdRoute,
+    AuthenticatedAppointmentsNewProviderIdRoute:
+      AuthenticatedAppointmentsNewProviderIdRoute,
   }
 
 const AuthenticatedAppointmentsRouteWithChildren =
@@ -1089,7 +1218,9 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedPharmacyDashboardRoute: typeof AuthenticatedPharmacyDashboardRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedProviderCalendarRoute: typeof AuthenticatedProviderCalendarRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedAdminAppointmentsRoute: typeof AuthenticatedAdminAppointmentsRoute
   AuthenticatedBloodBecomeDonorRoute: typeof AuthenticatedBloodBecomeDonorRoute
   AuthenticatedBloodHistoryRoute: typeof AuthenticatedBloodHistoryRoute
   AuthenticatedBloodChatRequestIdRoute: typeof AuthenticatedBloodChatRequestIdRoute
@@ -1104,7 +1235,9 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedPharmacyDashboardRoute: AuthenticatedPharmacyDashboardRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedProviderCalendarRoute: AuthenticatedProviderCalendarRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedAdminAppointmentsRoute: AuthenticatedAdminAppointmentsRoute,
   AuthenticatedBloodBecomeDonorRoute: AuthenticatedBloodBecomeDonorRoute,
   AuthenticatedBloodHistoryRoute: AuthenticatedBloodHistoryRoute,
   AuthenticatedBloodChatRequestIdRoute: AuthenticatedBloodChatRequestIdRoute,
@@ -1233,6 +1366,8 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   ProvidersIdRoute: ProvidersIdRoute,
+  ApiPublicCronAppointmentRemindersRoute:
+    ApiPublicCronAppointmentRemindersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

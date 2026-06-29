@@ -71,46 +71,127 @@ export type Database = {
         }
         Relationships: []
       }
+      appointment_waitlist: {
+        Row: {
+          created_at: string
+          id: string
+          notes: string | null
+          notified_at: string | null
+          patient_id: string
+          preferred_date: string | null
+          preferred_period: string | null
+          provider_id: string
+          service_id: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          notified_at?: string | null
+          patient_id: string
+          preferred_date?: string | null
+          preferred_period?: string | null
+          provider_id: string
+          service_id?: string | null
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          notified_at?: string | null
+          patient_id?: string
+          preferred_date?: string | null
+          preferred_period?: string | null
+          provider_id?: string
+          service_id?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "appointment_waitlist_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "appointment_waitlist_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "provider_services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       appointments: {
         Row: {
           cancelled_reason: string | null
+          completed_at: string | null
+          confirmed_at: string | null
+          consultation_type: string
           created_at: string
           duration_minutes: number
           id: string
+          location_text: string | null
           notes: string | null
           patient_id: string
           provider_id: string
           reason: string | null
+          reminder_24h_sent_at: string | null
+          reminder_2h_sent_at: string | null
+          reminder_30m_sent_at: string | null
           reminder_sent_at: string | null
+          rescheduled_from: string | null
           scheduled_for: string
+          service_id: string | null
           status: Database["public"]["Enums"]["appointment_status"]
           updated_at: string
         }
         Insert: {
           cancelled_reason?: string | null
+          completed_at?: string | null
+          confirmed_at?: string | null
+          consultation_type?: string
           created_at?: string
           duration_minutes?: number
           id?: string
+          location_text?: string | null
           notes?: string | null
           patient_id: string
           provider_id: string
           reason?: string | null
+          reminder_24h_sent_at?: string | null
+          reminder_2h_sent_at?: string | null
+          reminder_30m_sent_at?: string | null
           reminder_sent_at?: string | null
+          rescheduled_from?: string | null
           scheduled_for: string
+          service_id?: string | null
           status?: Database["public"]["Enums"]["appointment_status"]
           updated_at?: string
         }
         Update: {
           cancelled_reason?: string | null
+          completed_at?: string | null
+          confirmed_at?: string | null
+          consultation_type?: string
           created_at?: string
           duration_minutes?: number
           id?: string
+          location_text?: string | null
           notes?: string | null
           patient_id?: string
           provider_id?: string
           reason?: string | null
+          reminder_24h_sent_at?: string | null
+          reminder_2h_sent_at?: string | null
+          reminder_30m_sent_at?: string | null
           reminder_sent_at?: string | null
+          rescheduled_from?: string | null
           scheduled_for?: string
+          service_id?: string | null
           status?: Database["public"]["Enums"]["appointment_status"]
           updated_at?: string
         }
@@ -120,6 +201,20 @@ export type Database = {
             columns: ["provider_id"]
             isOneToOne: false
             referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "appointments_rescheduled_from_fkey"
+            columns: ["rescheduled_from"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "appointments_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "provider_services"
             referencedColumns: ["id"]
           },
         ]
@@ -1133,6 +1228,150 @@ export type Database = {
           },
         ]
       }
+      provider_blocked_dates: {
+        Row: {
+          created_at: string
+          end_at: string
+          id: string
+          provider_id: string
+          reason: string | null
+          start_at: string
+        }
+        Insert: {
+          created_at?: string
+          end_at: string
+          id?: string
+          provider_id: string
+          reason?: string | null
+          start_at: string
+        }
+        Update: {
+          created_at?: string
+          end_at?: string
+          id?: string
+          provider_id?: string
+          reason?: string | null
+          start_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "provider_blocked_dates_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      provider_schedules: {
+        Row: {
+          break_end: string | null
+          break_start: string | null
+          created_at: string
+          end_time: string
+          id: string
+          is_active: boolean
+          max_per_day: number | null
+          provider_id: string
+          slot_minutes: number
+          start_time: string
+          updated_at: string
+          weekday: number
+        }
+        Insert: {
+          break_end?: string | null
+          break_start?: string | null
+          created_at?: string
+          end_time: string
+          id?: string
+          is_active?: boolean
+          max_per_day?: number | null
+          provider_id: string
+          slot_minutes?: number
+          start_time: string
+          updated_at?: string
+          weekday: number
+        }
+        Update: {
+          break_end?: string | null
+          break_start?: string | null
+          created_at?: string
+          end_time?: string
+          id?: string
+          is_active?: boolean
+          max_per_day?: number | null
+          provider_id?: string
+          slot_minutes?: number
+          start_time?: string
+          updated_at?: string
+          weekday?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "provider_schedules_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      provider_services: {
+        Row: {
+          category: string | null
+          created_at: string
+          description: string | null
+          duration_minutes: number
+          id: string
+          is_active: boolean
+          is_online_eligible: boolean
+          name: string
+          preparation: string | null
+          price_mad: number | null
+          provider_id: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          duration_minutes?: number
+          id?: string
+          is_active?: boolean
+          is_online_eligible?: boolean
+          name: string
+          preparation?: string | null
+          price_mad?: number | null
+          provider_id: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          duration_minutes?: number
+          id?: string
+          is_active?: boolean
+          is_online_eligible?: boolean
+          name?: string
+          preparation?: string | null
+          price_mad?: number | null
+          provider_id?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "provider_services_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       provider_specialties: {
         Row: {
           provider_id: string
@@ -1539,6 +1778,7 @@ export type Database = {
         | "cancelled"
         | "completed"
         | "no_show"
+        | "rescheduled"
       article_language: "fr" | "ar" | "en"
       blood_group: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-"
       blood_request_status: "open" | "fulfilled" | "expired" | "cancelled"
@@ -1714,6 +1954,7 @@ export const Constants = {
         "cancelled",
         "completed",
         "no_show",
+        "rescheduled",
       ],
       article_language: ["fr", "ar", "en"],
       blood_group: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
