@@ -80,7 +80,7 @@ function OnDutyPage() {
                     {row.day_shift ? (
                       <Badge className="border-0 bg-amber-500/15 text-amber-600 gap-1"><Sun className="h-3 w-3" /> Jour</Badge>
                     ) : null}
-                    {row.verified ? (
+                    {row.is_verified ? (
                       <Badge className="border-0 bg-primary/10 text-primary gap-1"><ShieldCheck className="h-3 w-3" /> Vérifié</Badge>
                     ) : null}
                   </div>
