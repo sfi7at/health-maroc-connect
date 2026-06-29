@@ -18,6 +18,7 @@ import {
   FileText,
   Shield,
   Map as MapIcon,
+  Clock,
   type LucideIcon,
 } from "lucide-react";
 
@@ -34,6 +35,7 @@ export const primaryNav: NavItem[] = [
   { label: "Carte santé", to: "/map", icon: MapIcon },
   { label: "Médecins", to: "/doctors", icon: Stethoscope },
   { label: "Pharmacies", to: "/pharmacies", icon: Pill },
+  { label: "Pharmacies de garde", to: "/pharmacies/on-duty", icon: Clock },
   { label: "Hôpitaux", to: "/hospitals", icon: Building2 },
   { label: "Laboratoires", to: "/laboratories", icon: FlaskConical },
   { label: "Don du sang", to: "/blood", icon: Droplet },
