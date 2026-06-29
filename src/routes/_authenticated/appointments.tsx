@@ -82,15 +82,15 @@ function AppointmentsPage() {
   );
 }
 
+type AppointmentItem = NonNullable<Awaited<ReturnType<NonNullable<ReturnType<typeof appointmentsQuery>["queryFn"]>>>>[number];
+
 function Section({
   title,
   items,
   emptyHint,
 }: {
   title: string;
-  items: ReturnType<typeof appointmentsQuery>["queryFn"] extends (...args: never) => Promise<infer R>
-    ? R
-    : never;
+  items: AppointmentItem[];
   emptyHint: string;
 }) {
   return (
