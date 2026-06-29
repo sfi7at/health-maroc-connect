@@ -1927,6 +1927,41 @@ export type Database = {
         }
         Relationships: []
       }
+      notification_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          metadata: Json | null
+          notification_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          id?: string
+          metadata?: Json | null
+          notification_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          metadata?: Json | null
+          notification_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_events_notification_id_fkey"
+            columns: ["notification_id"]
+            isOneToOne: false
+            referencedRelation: "notifications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notification_preferences: {
         Row: {
           appointments: boolean
@@ -1965,34 +2000,82 @@ export type Database = {
       }
       notifications: {
         Row: {
+          action_label: string | null
+          action_url: string | null
           body: string | null
+          channel: string
+          clicked_at: string | null
           created_at: string
           data: Json
+          dedupe_key: string | null
+          delivery_attempts: number
+          expires_at: string | null
           id: string
+          is_archived: boolean
+          is_pinned: boolean
           is_read: boolean
+          last_attempt_at: string | null
+          latitude: number | null
+          longitude: number | null
+          opened_at: string | null
+          priority: Database["public"]["Enums"]["notification_priority"]
           read_at: string | null
+          scheduled_for: string | null
+          status: Database["public"]["Enums"]["notification_status"]
           title: string
           type: Database["public"]["Enums"]["notification_type"]
           user_id: string
         }
         Insert: {
+          action_label?: string | null
+          action_url?: string | null
           body?: string | null
+          channel?: string
+          clicked_at?: string | null
           created_at?: string
           data?: Json
+          dedupe_key?: string | null
+          delivery_attempts?: number
+          expires_at?: string | null
           id?: string
+          is_archived?: boolean
+          is_pinned?: boolean
           is_read?: boolean
+          last_attempt_at?: string | null
+          latitude?: number | null
+          longitude?: number | null
+          opened_at?: string | null
+          priority?: Database["public"]["Enums"]["notification_priority"]
           read_at?: string | null
+          scheduled_for?: string | null
+          status?: Database["public"]["Enums"]["notification_status"]
           title: string
           type?: Database["public"]["Enums"]["notification_type"]
           user_id: string
         }
         Update: {
+          action_label?: string | null
+          action_url?: string | null
           body?: string | null
+          channel?: string
+          clicked_at?: string | null
           created_at?: string
           data?: Json
+          dedupe_key?: string | null
+          delivery_attempts?: number
+          expires_at?: string | null
           id?: string
+          is_archived?: boolean
+          is_pinned?: boolean
           is_read?: boolean
+          last_attempt_at?: string | null
+          latitude?: number | null
+          longitude?: number | null
+          opened_at?: string | null
+          priority?: Database["public"]["Enums"]["notification_priority"]
           read_at?: string | null
+          scheduled_for?: string | null
+          status?: Database["public"]["Enums"]["notification_status"]
           title?: string
           type?: Database["public"]["Enums"]["notification_type"]
           user_id?: string
@@ -2650,6 +2733,42 @@ export type Database = {
           },
         ]
       }
+      push_subscriptions: {
+        Row: {
+          auth_key: string
+          created_at: string
+          enabled: boolean
+          endpoint: string
+          id: string
+          last_used_at: string | null
+          p256dh: string
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          auth_key: string
+          created_at?: string
+          enabled?: boolean
+          endpoint: string
+          id?: string
+          last_used_at?: string | null
+          p256dh: string
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          auth_key?: string
+          created_at?: string
+          enabled?: boolean
+          endpoint?: string
+          id?: string
+          last_used_at?: string | null
+          p256dh?: string
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       record_versions: {
         Row: {
           change_reason: string | null
@@ -3010,6 +3129,15 @@ export type Database = {
         Args: { _request: string; _user: string }
         Returns: boolean
       }
+      check_notification_rate_limit: {
+        Args: {
+          _max_count?: number
+          _type: Database["public"]["Enums"]["notification_type"]
+          _user_id: string
+          _window_minutes?: number
+        }
+        Returns: boolean
+      }
       get_donor_contact_for_request: {
         Args: { _donor: string; _request: string }
         Returns: {
@@ -3116,6 +3244,15 @@ export type Database = {
         | "busy"
         | "traveling"
         | "inactive"
+      notification_priority: "low" | "normal" | "high" | "urgent" | "critical"
+      notification_status:
+        | "pending"
+        | "sent"
+        | "delivered"
+        | "opened"
+        | "clicked"
+        | "failed"
+        | "ignored"
       notification_type:
         | "push"
         | "email"
@@ -3124,6 +3261,12 @@ export type Database = {
         | "emergency"
         | "medical_tip"
         | "system"
+        | "pharmacy_on_duty"
+        | "campaign"
+        | "article"
+        | "doctor_availability"
+        | "lab_results"
+        | "ai_suggestion"
       provider_category:
         | "doctor"
         | "dentist"
@@ -3310,6 +3453,16 @@ export const Constants = {
         "traveling",
         "inactive",
       ],
+      notification_priority: ["low", "normal", "high", "urgent", "critical"],
+      notification_status: [
+        "pending",
+        "sent",
+        "delivered",
+        "opened",
+        "clicked",
+        "failed",
+        "ignored",
+      ],
       notification_type: [
         "push",
         "email",
@@ -3318,6 +3471,12 @@ export const Constants = {
         "emergency",
         "medical_tip",
         "system",
+        "pharmacy_on_duty",
+        "campaign",
+        "article",
+        "doctor_availability",
+        "lab_results",
+        "ai_suggestion",
       ],
       provider_category: [
         "doctor",
