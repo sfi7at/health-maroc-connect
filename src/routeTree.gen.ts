@@ -34,6 +34,7 @@ import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
 import { Route as AuthenticatedAppointmentsRouteImport } from './routes/_authenticated/appointments'
+import { Route as BloodDonorsIdRouteImport } from './routes/blood.donors.$id'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -161,6 +162,11 @@ const AuthenticatedAppointmentsRoute =
     path: '/appointments',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const BloodDonorsIdRoute = BloodDonorsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => BloodDonorsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -183,10 +189,11 @@ export interface FileRoutesByFullPath {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/settings': typeof AuthenticatedSettingsRoute
-  '/blood/donors': typeof BloodDonorsRoute
+  '/blood/donors': typeof BloodDonorsRouteWithChildren
   '/doctors/$id': typeof DoctorsIdRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/providers/$id': typeof ProvidersIdRoute
+  '/blood/donors/$id': typeof BloodDonorsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -209,10 +216,11 @@ export interface FileRoutesByTo {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/settings': typeof AuthenticatedSettingsRoute
-  '/blood/donors': typeof BloodDonorsRoute
+  '/blood/donors': typeof BloodDonorsRouteWithChildren
   '/doctors/$id': typeof DoctorsIdRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/providers/$id': typeof ProvidersIdRoute
+  '/blood/donors/$id': typeof BloodDonorsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -237,10 +245,11 @@ export interface FileRoutesById {
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
-  '/blood/donors': typeof BloodDonorsRoute
+  '/blood/donors': typeof BloodDonorsRouteWithChildren
   '/doctors/$id': typeof DoctorsIdRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/providers/$id': typeof ProvidersIdRoute
+  '/blood/donors/$id': typeof BloodDonorsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -269,6 +278,7 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/pharmacies/on-duty'
     | '/providers/$id'
+    | '/blood/donors/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -295,6 +305,7 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/pharmacies/on-duty'
     | '/providers/$id'
+    | '/blood/donors/$id'
   id:
     | '__root__'
     | '/'
@@ -322,6 +333,7 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/pharmacies/on-duty'
     | '/providers/$id'
+    | '/blood/donors/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -521,6 +533,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppointmentsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/blood/donors/$id': {
+      id: '/blood/donors/$id'
+      path: '/$id'
+      fullPath: '/blood/donors/$id'
+      preLoaderRoute: typeof BloodDonorsIdRouteImport
+      parentRoute: typeof BloodDonorsRoute
+    }
   }
 }
 
@@ -543,12 +562,24 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface BloodDonorsRouteChildren {
+  BloodDonorsIdRoute: typeof BloodDonorsIdRoute
+}
+
+const BloodDonorsRouteChildren: BloodDonorsRouteChildren = {
+  BloodDonorsIdRoute: BloodDonorsIdRoute,
+}
+
+const BloodDonorsRouteWithChildren = BloodDonorsRoute._addFileChildren(
+  BloodDonorsRouteChildren,
+)
+
 interface BloodRouteChildren {
-  BloodDonorsRoute: typeof BloodDonorsRoute
+  BloodDonorsRoute: typeof BloodDonorsRouteWithChildren
 }
 
 const BloodRouteChildren: BloodRouteChildren = {
-  BloodDonorsRoute: BloodDonorsRoute,
+  BloodDonorsRoute: BloodDonorsRouteWithChildren,
 }
 
 const BloodRouteWithChildren = BloodRoute._addFileChildren(BloodRouteChildren)
