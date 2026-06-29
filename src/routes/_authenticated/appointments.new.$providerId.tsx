@@ -102,7 +102,7 @@ function BookFlow() {
   const waitlist = useMutation({
     mutationFn: async () => {
       if (!user) throw new Error("Connectez-vous.");
-      const { error } = await supabase.from("appointment_waitlist" as never).insert({
+      const { error } = await supabase.from("appointment_waitlist").insert({
         patient_id: user.id,
         provider_id: providerId,
         service_id: serviceId,

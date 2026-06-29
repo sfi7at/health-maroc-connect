@@ -55,7 +55,7 @@ export function providerServicesQuery(providerId: string | undefined, opts?: { a
     enabled: !!providerId,
     queryFn: async () => {
       let q = supabase
-        .from("provider_services" as never)
+        .from("provider_services")
         .select("*")
         .eq("provider_id", providerId!)
         .order("sort_order", { ascending: true })
@@ -75,7 +75,7 @@ export function providerSchedulesQuery(providerId: string | undefined) {
     enabled: !!providerId,
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("provider_schedules" as never)
+        .from("provider_schedules")
         .select("*")
         .eq("provider_id", providerId!)
         .order("weekday")
@@ -93,7 +93,7 @@ export function blockedDatesQuery(providerId: string | undefined, fromIso?: stri
     enabled: !!providerId,
     queryFn: async () => {
       let q = supabase
-        .from("provider_blocked_dates" as never)
+        .from("provider_blocked_dates")
         .select("*")
         .eq("provider_id", providerId!)
         .order("start_at");
@@ -170,7 +170,7 @@ export function waitlistQuery(providerId: string | undefined) {
     enabled: !!providerId,
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("appointment_waitlist" as never)
+        .from("appointment_waitlist")
         .select("*, profiles:patient_id ( id, full_name, phone ), provider_services:service_id ( id, name )")
         .eq("provider_id", providerId!)
         .order("created_at", { ascending: false });
