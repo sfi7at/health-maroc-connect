@@ -76,7 +76,7 @@ export async function logAdminAction(
       action,
       entity_type,
       entity_id,
-      metadata,
+      metadata: metadata as never,
     });
   } catch {
     // ignore
