@@ -9,10 +9,15 @@ export const Route = createFileRoute("/api/public/cron/appointment-reminders")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const apikey = request.headers.get("apikey");
-        if (!apikey || apikey !== process.env.SUPABASE_PUBLISHABLE_KEY) {
+        const provided = request.headers.get("x-cron-secret") ?? request.headers.get("authorization")?.replace(/^Bearer\s+/i, "") ?? "";
+        const expected = process.env.CRON_SECRET ?? "";
+        if (!expected || provided.length !== expected.length) {
           return new Response("Unauthorized", { status: 401 });
         }
+        // timing-safe compare
+        let diff = 0;
+        for (let i = 0; i < expected.length; i++) diff |= provided.charCodeAt(i) ^ expected.charCodeAt(i);
+        if (diff !== 0) return new Response("Unauthorized", { status: 401 });
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
         const now = new Date();
