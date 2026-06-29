@@ -11,7 +11,8 @@ import { DoctorCard } from "@/components/doctors/DoctorCard";
 import { SpecialtyCard } from "@/components/doctors/SpecialtyCard";
 import { DoctorSearchBar } from "@/components/doctors/DoctorSearchBar";
 import { EmptyState } from "@/components/common/EmptyState";
-import { doctorsQuery, specialtiesQuery, haversineKmSafe } from "@/lib/doctors-helpers";
+import { doctorsQuery, specialtiesQuery } from "@/lib/doctors";
+import { haversineKm } from "@/lib/format";
 import { useGeolocation } from "@/hooks/use-geolocation";
 import { buildHead } from "@/lib/seo";
 
@@ -53,9 +54,7 @@ function DoctorsHome() {
       .filter((d) => d.latitude != null && d.longitude != null)
       .map((d) => ({
         d,
-        km: haversineKmSafe(position, {
-          lat: Number(d.latitude), lng: Number(d.longitude),
-        }),
+        km: haversineKm(position, { lat: Number(d.latitude), lng: Number(d.longitude) }),
       }))
       .sort((a, b) => a.km - b.km)
       .slice(0, 6);
