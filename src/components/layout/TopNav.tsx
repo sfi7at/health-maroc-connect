@@ -82,6 +82,44 @@ export function TopNav() {
 }
 
 function AccountButton() {
+  return <AccountButtonInner />;
+}
+
+function NotificationBell() {
+  const { user } = useAuth();
+  if (!user) {
+    return (
+      <Link to="/auth">
+        <Button variant="ghost" size="icon" aria-label="Notifications" className="relative">
+          <Bell className="h-5 w-5" />
+        </Button>
+      </Link>
+    );
+  }
+  return <NotificationBellAuthed />;
+}
+
+function NotificationBellAuthed() {
+  const { unreadCount, hasUrgent } = useNotifications();
+  return (
+    <Link to="/notifications">
+      <Button variant="ghost" size="icon" aria-label={`Notifications (${unreadCount} non lues)`} className="relative">
+        <Bell className="h-5 w-5" />
+        {unreadCount > 0 && (
+          <span
+            className={`absolute -right-0.5 -top-0.5 grid h-4 min-w-4 place-items-center rounded-full px-1 text-[10px] font-bold text-white ${
+              hasUrgent ? "bg-destructive animate-pulse" : "bg-primary"
+            }`}
+          >
+            {unreadCount > 9 ? "9+" : unreadCount}
+          </span>
+        )}
+      </Button>
+    </Link>
+  );
+}
+
+function AccountButtonInner() {
   const { user, loading } = useAuth();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
