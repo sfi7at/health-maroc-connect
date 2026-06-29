@@ -30,6 +30,7 @@ import { Route as ProvidersIdRouteImport } from './routes/providers.$id'
 import { Route as PharmaciesSearchRouteImport } from './routes/pharmacies.search'
 import { Route as PharmaciesOpenRouteImport } from './routes/pharmacies.open'
 import { Route as PharmaciesOnDutyRouteImport } from './routes/pharmacies.on-duty'
+import { Route as PharmaciesMapRouteImport } from './routes/pharmacies.map'
 import { Route as DoctorsSpecialtiesRouteImport } from './routes/doctors.specialties'
 import { Route as DoctorsSearchRouteImport } from './routes/doctors.search'
 import { Route as DoctorsIdRouteImport } from './routes/doctors.$id'
@@ -153,6 +154,11 @@ const PharmaciesOpenRoute = PharmaciesOpenRouteImport.update({
 const PharmaciesOnDutyRoute = PharmaciesOnDutyRouteImport.update({
   id: '/on-duty',
   path: '/on-duty',
+  getParentRoute: () => PharmaciesRoute,
+} as any)
+const PharmaciesMapRoute = PharmaciesMapRouteImport.update({
+  id: '/map',
+  path: '/map',
   getParentRoute: () => PharmaciesRoute,
 } as any)
 const DoctorsSpecialtiesRoute = DoctorsSpecialtiesRouteImport.update({
@@ -294,6 +300,7 @@ export interface FileRoutesByFullPath {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/pharmacies/map': typeof PharmaciesMapRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/pharmacies/open': typeof PharmaciesOpenRoute
   '/pharmacies/search': typeof PharmaciesSearchRoute
@@ -336,6 +343,7 @@ export interface FileRoutesByTo {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/pharmacies/map': typeof PharmaciesMapRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/pharmacies/open': typeof PharmaciesOpenRoute
   '/pharmacies/search': typeof PharmaciesSearchRoute
@@ -380,6 +388,7 @@ export interface FileRoutesById {
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
+  '/pharmacies/map': typeof PharmaciesMapRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/pharmacies/open': typeof PharmaciesOpenRoute
   '/pharmacies/search': typeof PharmaciesSearchRoute
@@ -424,6 +433,7 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/pharmacies/map'
     | '/pharmacies/on-duty'
     | '/pharmacies/open'
     | '/pharmacies/search'
@@ -466,6 +476,7 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/pharmacies/map'
     | '/pharmacies/on-duty'
     | '/pharmacies/open'
     | '/pharmacies/search'
@@ -509,6 +520,7 @@ export interface FileRouteTypes {
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
+    | '/pharmacies/map'
     | '/pharmacies/on-duty'
     | '/pharmacies/open'
     | '/pharmacies/search'
@@ -689,6 +701,13 @@ declare module '@tanstack/react-router' {
       path: '/on-duty'
       fullPath: '/pharmacies/on-duty'
       preLoaderRoute: typeof PharmaciesOnDutyRouteImport
+      parentRoute: typeof PharmaciesRoute
+    }
+    '/pharmacies/map': {
+      id: '/pharmacies/map'
+      path: '/map'
+      fullPath: '/pharmacies/map'
+      preLoaderRoute: typeof PharmaciesMapRouteImport
       parentRoute: typeof PharmaciesRoute
     }
     '/doctors/specialties': {
@@ -924,12 +943,14 @@ const DoctorsRouteWithChildren =
   DoctorsRoute._addFileChildren(DoctorsRouteChildren)
 
 interface PharmaciesRouteChildren {
+  PharmaciesMapRoute: typeof PharmaciesMapRoute
   PharmaciesOnDutyRoute: typeof PharmaciesOnDutyRoute
   PharmaciesOpenRoute: typeof PharmaciesOpenRoute
   PharmaciesSearchRoute: typeof PharmaciesSearchRoute
 }
 
 const PharmaciesRouteChildren: PharmaciesRouteChildren = {
+  PharmaciesMapRoute: PharmaciesMapRoute,
   PharmaciesOnDutyRoute: PharmaciesOnDutyRoute,
   PharmaciesOpenRoute: PharmaciesOpenRoute,
   PharmaciesSearchRoute: PharmaciesSearchRoute,
