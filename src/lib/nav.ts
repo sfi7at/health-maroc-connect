@@ -37,6 +37,7 @@ export const primaryNav: NavItem[] = [
   { label: "Pharmacies", to: "/pharmacies", icon: Pill },
   { label: "Pharmacies de garde", to: "/pharmacies/on-duty", icon: Clock },
   { label: "Hôpitaux", to: "/hospitals", icon: Building2 },
+  { label: "Urgences", to: "/hospitals/emergency", icon: Building2 },
   { label: "Laboratoires", to: "/laboratories", icon: FlaskConical },
   { label: "Analyses médicales", to: "/laboratories/analyses", icon: FlaskConical },
   { label: "Don du sang", to: "/blood", icon: Droplet },
