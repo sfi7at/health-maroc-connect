@@ -61,6 +61,7 @@ import { Route as BloodDonorsIdRouteImport } from './routes/blood.donors.$id'
 import { Route as AuthenticatedBloodHistoryRouteImport } from './routes/_authenticated/blood.history'
 import { Route as AuthenticatedBloodBecomeDonorRouteImport } from './routes/_authenticated/blood.become-donor'
 import { Route as AuthenticatedBloodChatRequestIdRouteImport } from './routes/_authenticated/blood.chat.$requestId'
+import { Route as AuthenticatedAppointmentsNewProviderIdRouteImport } from './routes/_authenticated/appointments.new.$providerId'
 import { Route as AuthenticatedAppointmentsBookProviderIdRouteImport } from './routes/_authenticated/appointments.book.$providerId'
 
 const TermsRoute = TermsRouteImport.update({
@@ -331,6 +332,12 @@ const AuthenticatedBloodChatRequestIdRoute =
     path: '/blood/chat/$requestId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAppointmentsNewProviderIdRoute =
+  AuthenticatedAppointmentsNewProviderIdRouteImport.update({
+    id: '/new/$providerId',
+    path: '/new/$providerId',
+    getParentRoute: () => AuthenticatedAppointmentsRoute,
+  } as any)
 const AuthenticatedAppointmentsBookProviderIdRoute =
   AuthenticatedAppointmentsBookProviderIdRouteImport.update({
     id: '/book/$providerId',
@@ -390,6 +397,7 @@ export interface FileRoutesByFullPath {
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
+  '/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
 }
 export interface FileRoutesByTo {
@@ -444,6 +452,7 @@ export interface FileRoutesByTo {
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
+  '/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
 }
 export interface FileRoutesById {
@@ -500,6 +509,7 @@ export interface FileRoutesById {
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/_authenticated/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
+  '/_authenticated/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/_authenticated/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
 }
 export interface FileRouteTypes {
@@ -556,6 +566,7 @@ export interface FileRouteTypes {
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
     | '/appointments/book/$providerId'
+    | '/appointments/new/$providerId'
     | '/blood/chat/$requestId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -610,6 +621,7 @@ export interface FileRouteTypes {
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
     | '/appointments/book/$providerId'
+    | '/appointments/new/$providerId'
     | '/blood/chat/$requestId'
   id:
     | '__root__'
@@ -665,6 +677,7 @@ export interface FileRouteTypes {
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
     | '/_authenticated/appointments/book/$providerId'
+    | '/_authenticated/appointments/new/$providerId'
     | '/_authenticated/blood/chat/$requestId'
   fileRoutesById: FileRoutesById
 }
@@ -1055,6 +1068,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBloodChatRequestIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/appointments/new/$providerId': {
+      id: '/_authenticated/appointments/new/$providerId'
+      path: '/new/$providerId'
+      fullPath: '/appointments/new/$providerId'
+      preLoaderRoute: typeof AuthenticatedAppointmentsNewProviderIdRouteImport
+      parentRoute: typeof AuthenticatedAppointmentsRoute
+    }
     '/_authenticated/appointments/book/$providerId': {
       id: '/_authenticated/appointments/book/$providerId'
       path: '/book/$providerId'
@@ -1067,12 +1087,15 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAppointmentsRouteChildren {
   AuthenticatedAppointmentsBookProviderIdRoute: typeof AuthenticatedAppointmentsBookProviderIdRoute
+  AuthenticatedAppointmentsNewProviderIdRoute: typeof AuthenticatedAppointmentsNewProviderIdRoute
 }
 
 const AuthenticatedAppointmentsRouteChildren: AuthenticatedAppointmentsRouteChildren =
   {
     AuthenticatedAppointmentsBookProviderIdRoute:
       AuthenticatedAppointmentsBookProviderIdRoute,
+    AuthenticatedAppointmentsNewProviderIdRoute:
+      AuthenticatedAppointmentsNewProviderIdRoute,
   }
 
 const AuthenticatedAppointmentsRouteWithChildren =
