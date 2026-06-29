@@ -315,7 +315,15 @@ function VitalsSection({
   );
 }
 
-interface ListItem { id: string; name?: string; full_name?: string; phone?: string; relation?: string; severity?: string | null; vaccinated_at?: string | null }
+interface ListItem {
+  id: string;
+  name?: string | null;
+  full_name?: string | null;
+  phone?: string | null;
+  relation?: string | null;
+  severity?: string | null;
+  vaccinated_at?: string | null;
+}
 
 function ListSection<T extends ListItem>({
   title, icon, table, userId, items, getLabel, emptyHint, addLabel, extraField,
@@ -338,15 +346,17 @@ function ListSection<T extends ListItem>({
   const add = useMutation({
     mutationFn: async () => {
       if (!name.trim()) throw new Error("Le nom est requis");
-      const payload: Record<string, unknown> = { user_id: userId };
       if (table === "emergency_contacts") {
-        payload.full_name = name.trim();
-        payload.phone = extra.trim();
+        const { error } = await supabase
+          .from("emergency_contacts")
+          .insert({ user_id: userId, full_name: name.trim(), phone: extra.trim() });
+        if (error) throw error;
       } else {
-        payload.name = name.trim();
+        const { error } = await supabase
+          .from(table)
+          .insert({ user_id: userId, name: name.trim() });
+        if (error) throw error;
       }
-      const { error } = await supabase.from(table).insert(payload);
-      if (error) throw error;
     },
     onSuccess: () => {
       setName(""); setExtra(""); setOpen(false);
