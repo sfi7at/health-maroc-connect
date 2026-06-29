@@ -106,6 +106,7 @@ import { Route as AuthenticatedAdminContentAnalyticsRouteImport } from './routes
 import { Route as AuthenticatedAdminClaimsRouteImport } from './routes/_authenticated/admin.claims'
 import { Route as AuthenticatedAdminCitiesRouteImport } from './routes/_authenticated/admin.cities'
 import { Route as AuthenticatedAdminCategoriesRouteImport } from './routes/_authenticated/admin.categories'
+import { Route as AuthenticatedAdminBusinessRouteImport } from './routes/_authenticated/admin.business'
 import { Route as AuthenticatedAdminBloodRouteImport } from './routes/_authenticated/admin.blood'
 import { Route as AuthenticatedAdminArticlesRouteImport } from './routes/_authenticated/admin.articles'
 import { Route as AuthenticatedAdminAppointmentsRouteImport } from './routes/_authenticated/admin.appointments'
@@ -644,6 +645,12 @@ const AuthenticatedAdminCategoriesRoute =
     path: '/categories',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminBusinessRoute =
+  AuthenticatedAdminBusinessRouteImport.update({
+    id: '/business',
+    path: '/business',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminBloodRoute = AuthenticatedAdminBloodRouteImport.update({
   id: '/blood',
   path: '/blood',
@@ -767,6 +774,7 @@ export interface FileRoutesByFullPath {
   '/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
   '/admin/articles': typeof AuthenticatedAdminArticlesRoute
   '/admin/blood': typeof AuthenticatedAdminBloodRoute
+  '/admin/business': typeof AuthenticatedAdminBusinessRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/cities': typeof AuthenticatedAdminCitiesRoute
   '/admin/claims': typeof AuthenticatedAdminClaimsRoute
@@ -874,6 +882,7 @@ export interface FileRoutesByTo {
   '/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
   '/admin/articles': typeof AuthenticatedAdminArticlesRoute
   '/admin/blood': typeof AuthenticatedAdminBloodRoute
+  '/admin/business': typeof AuthenticatedAdminBusinessRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/cities': typeof AuthenticatedAdminCitiesRoute
   '/admin/claims': typeof AuthenticatedAdminClaimsRoute
@@ -985,6 +994,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
   '/_authenticated/admin/articles': typeof AuthenticatedAdminArticlesRoute
   '/_authenticated/admin/blood': typeof AuthenticatedAdminBloodRoute
+  '/_authenticated/admin/business': typeof AuthenticatedAdminBusinessRoute
   '/_authenticated/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/_authenticated/admin/cities': typeof AuthenticatedAdminCitiesRoute
   '/_authenticated/admin/claims': typeof AuthenticatedAdminClaimsRoute
@@ -1096,6 +1106,7 @@ export interface FileRouteTypes {
     | '/admin/appointments'
     | '/admin/articles'
     | '/admin/blood'
+    | '/admin/business'
     | '/admin/categories'
     | '/admin/cities'
     | '/admin/claims'
@@ -1203,6 +1214,7 @@ export interface FileRouteTypes {
     | '/admin/appointments'
     | '/admin/articles'
     | '/admin/blood'
+    | '/admin/business'
     | '/admin/categories'
     | '/admin/cities'
     | '/admin/claims'
@@ -1313,6 +1325,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/appointments'
     | '/_authenticated/admin/articles'
     | '/_authenticated/admin/blood'
+    | '/_authenticated/admin/business'
     | '/_authenticated/admin/categories'
     | '/_authenticated/admin/cities'
     | '/_authenticated/admin/claims'
@@ -2073,6 +2086,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminCategoriesRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/business': {
+      id: '/_authenticated/admin/business'
+      path: '/business'
+      fullPath: '/admin/business'
+      preLoaderRoute: typeof AuthenticatedAdminBusinessRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/blood': {
       id: '/_authenticated/admin/blood'
       path: '/blood'
@@ -2178,6 +2198,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminAppointmentsRoute: typeof AuthenticatedAdminAppointmentsRoute
   AuthenticatedAdminArticlesRoute: typeof AuthenticatedAdminArticlesRoute
   AuthenticatedAdminBloodRoute: typeof AuthenticatedAdminBloodRoute
+  AuthenticatedAdminBusinessRoute: typeof AuthenticatedAdminBusinessRoute
   AuthenticatedAdminCategoriesRoute: typeof AuthenticatedAdminCategoriesRoute
   AuthenticatedAdminCitiesRoute: typeof AuthenticatedAdminCitiesRoute
   AuthenticatedAdminClaimsRoute: typeof AuthenticatedAdminClaimsRoute
@@ -2208,6 +2229,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminAppointmentsRoute: AuthenticatedAdminAppointmentsRoute,
   AuthenticatedAdminArticlesRoute: AuthenticatedAdminArticlesRoute,
   AuthenticatedAdminBloodRoute: AuthenticatedAdminBloodRoute,
+  AuthenticatedAdminBusinessRoute: AuthenticatedAdminBusinessRoute,
   AuthenticatedAdminCategoriesRoute: AuthenticatedAdminCategoriesRoute,
   AuthenticatedAdminCitiesRoute: AuthenticatedAdminCitiesRoute,
   AuthenticatedAdminClaimsRoute: AuthenticatedAdminClaimsRoute,
