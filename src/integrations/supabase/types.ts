@@ -1771,6 +1771,10 @@ export type Database = {
         | "clinic"
         | "hospital"
         | "blood_center"
+        | "content_manager"
+        | "verification_manager"
+        | "support_agent"
+        | "analytics_viewer"
       appointment_status:
         | "pending"
         | "approved"
@@ -1946,6 +1950,10 @@ export const Constants = {
         "clinic",
         "hospital",
         "blood_center",
+        "content_manager",
+        "verification_manager",
+        "support_agent",
+        "analytics_viewer",
       ],
       appointment_status: [
         "pending",
