@@ -5,7 +5,7 @@ import { useServerFn } from "@tanstack/react-start";
 import {
   Bell, Droplet, CalendarCheck, AlertTriangle, Sparkles, Mail, Pin, PinOff,
   Archive, ArchiveRestore, Filter, CheckCheck, Pill, Newspaper, FlaskConical,
-  Stethoscope, Building2, Megaphone, ExternalLink, Phone,
+  Stethoscope, Megaphone, ExternalLink, Phone,
 } from "lucide-react";
 import { PageHeader } from "@/components/common/PageHeader";
 import { EmptyState } from "@/components/common/EmptyState";
