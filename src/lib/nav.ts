@@ -17,6 +17,7 @@ import {
   Mail,
   FileText,
   Shield,
+  Map as MapIcon,
   type LucideIcon,
 } from "lucide-react";
 
@@ -30,6 +31,7 @@ export interface NavItem {
 export const primaryNav: NavItem[] = [
   { label: "Accueil", to: "/", icon: Home },
   { label: "Recherche", to: "/search", icon: Search },
+  { label: "Carte santé", to: "/map", icon: MapIcon },
   { label: "Médecins", to: "/doctors", icon: Stethoscope },
   { label: "Pharmacies", to: "/pharmacies", icon: Pill },
   { label: "Hôpitaux", to: "/hospitals", icon: Building2 },
@@ -55,7 +57,7 @@ export const footerNav: NavItem[] = [
 
 export const mobileBottomNav: NavItem[] = [
   { label: "Accueil", to: "/", icon: Home },
-  { label: "Recherche", to: "/search", icon: Search },
+  { label: "Carte", to: "/map", icon: MapIcon },
   { label: "Don", to: "/blood", icon: Heart },
   { label: "RDV", to: "/appointments", icon: CalendarCheck },
   { label: "Profil", to: "/profile", icon: User },
