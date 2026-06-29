@@ -6,6 +6,7 @@
  * - Feature flag evaluation
  */
 import { supabase } from "@/integrations/supabase/client";
+import type { Json } from "@/integrations/supabase/types";
 
 function fingerprint(message: string, stack?: string): string {
   const top = (stack ?? "").split("\n").slice(0, 3).join("|");
@@ -35,7 +36,7 @@ export async function reportError(
       source: ctx.source ?? "client",
       url: typeof window !== "undefined" ? window.location.href : null,
       user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
-      context: ctx.context ?? {},
+      context: (ctx.context ?? {}) as Json,
       last_seen: new Date().toISOString(),
     };
     if (existing) {
