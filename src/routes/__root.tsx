@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { AppShell } from "@/components/layout/AppShell";
 
 function NotFoundComponent() {
   return (
@@ -77,20 +78,29 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "HealthLink Maroc — Tous les services de santé en une app" },
+      {
+        name: "description",
+        content:
+          "HealthLink Maroc centralise médecins, pharmacies, hôpitaux, laboratoires, don du sang et téléconsultation dans une application moderne et sécurisée.",
+      },
+      { name: "author", content: "HealthLink Maroc" },
+      { name: "theme-color", content: "#0E9F6E" },
+      { property: "og:title", content: "HealthLink Maroc — Health Super App" },
+      {
+        property: "og:description",
+        content: "Tous les services de santé du Maroc, réunis dans une application moderne.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:site", content: "@HealthLinkMaroc" },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
       },
+      { rel: "canonical", href: "/" },
     ],
   }),
   shellComponent: RootShell,
@@ -118,8 +128,10 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <AppShell>
+        {/* Required: nested routes render here. */}
+        <Outlet />
+      </AppShell>
     </QueryClientProvider>
   );
 }
