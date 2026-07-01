@@ -154,7 +154,7 @@ export function HealthMap({
     }
     if (userPosition) {
       userMarkerRef.current = L.marker([userPosition.lat, userPosition.lng], {
-        icon: userIcon,
+        icon: getUserIcon(),
         zIndexOffset: 1000,
         keyboard: false,
       }).addTo(map);
