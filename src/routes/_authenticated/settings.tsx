@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Bell, Globe, Lock, MapPin, Moon, ShieldCheck, UserCog } from "lucide-react";
 import { useState } from "react";
+import { useLanguage, useTheme, type AppLang } from "@/hooks/use-preferences";
 import { PageHeader } from "@/components/common/PageHeader";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -19,8 +20,9 @@ export const Route = createFileRoute("/_authenticated/settings")({
 });
 
 function SettingsPage() {
-  const [lang, setLang] = useState("fr");
-  const [dark, setDark] = useState(false);
+  const [lang, setLang] = useLanguage();
+  const [theme, setTheme] = useTheme();
+  const dark = theme === "dark";
   const [pushAlerts, setPushAlerts] = useState(true);
   const [emailAlerts, setEmailAlerts] = useState(true);
   const [bloodAlerts, setBloodAlerts] = useState(true);
@@ -41,7 +43,7 @@ function SettingsPage() {
           title="Langue"
           description="Choisissez la langue de l'interface"
         >
-          <Select value={lang} onValueChange={setLang}>
+          <Select value={lang} onValueChange={(v) => setLang(v as AppLang)}>
             <SelectTrigger className="w-[160px]"><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="fr">Français</SelectItem>
@@ -56,7 +58,11 @@ function SettingsPage() {
           title="Mode sombre"
           description="Réduisez la fatigue oculaire le soir"
         >
-          <Switch checked={dark} onCheckedChange={setDark} aria-label="Mode sombre" />
+          <Switch
+            checked={dark}
+            onCheckedChange={(v) => setTheme(v ? "dark" : "light")}
+            aria-label="Mode sombre"
+          />
         </SettingRow>
       </section>
 
