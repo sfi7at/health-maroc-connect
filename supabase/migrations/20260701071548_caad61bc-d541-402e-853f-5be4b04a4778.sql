@@ -1,0 +1,1 @@
+GRANT SELECT (email) ON public.providers TO anon;
