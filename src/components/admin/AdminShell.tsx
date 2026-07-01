@@ -18,6 +18,7 @@ import { useIsAdmin, STAFF_ROLE_LABELS } from "@/lib/admin";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
 
 interface NavGroup {
@@ -149,6 +150,7 @@ function TopBar({ onOpenMenu }: { onOpenMenu: () => void }) {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { roles } = useIsAdmin();
+  const queryClient = useQueryClient();
   const initials = (user?.email ?? "A").slice(0, 2).toUpperCase();
 
   const signOut = async () => {
