@@ -32,6 +32,7 @@ import { cn } from "@/lib/utils";
 import type { ProviderCategory } from "@/lib/format";
 
 export const Route = createFileRoute("/map")({
+  ssr: false,
   head: () =>
     buildHead({
       title: "Carte santé — HealthLink Maroc",
