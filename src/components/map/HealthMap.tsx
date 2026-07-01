@@ -54,16 +54,21 @@ function iconFor(kind: MapKind, urgent?: boolean): L.Icon {
   });
 }
 
-const userIcon = L.divIcon({
-  className: "",
-  html: `<div style="position:relative;width:22px;height:22px">
-    <div style="position:absolute;inset:-10px;border-radius:9999px;background:rgba(14,159,110,.18);animation:hlpulse 1.8s ease-out infinite"></div>
-    <div style="position:absolute;inset:0;border-radius:9999px;background:#0e9f6e;border:3px solid white;box-shadow:0 1px 6px rgba(0,0,0,.3)"></div>
-  </div>
-  <style>@keyframes hlpulse{0%{transform:scale(.6);opacity:.8}100%{transform:scale(1.6);opacity:0}}</style>`,
-  iconSize: [22, 22],
-  iconAnchor: [11, 11],
-});
+let _userIcon: L.DivIcon | null = null;
+function getUserIcon(): L.DivIcon {
+  if (_userIcon) return _userIcon;
+  _userIcon = L.divIcon({
+    className: "",
+    html: `<div style="position:relative;width:22px;height:22px">
+      <div style="position:absolute;inset:-10px;border-radius:9999px;background:rgba(14,159,110,.18);animation:hlpulse 1.8s ease-out infinite"></div>
+      <div style="position:absolute;inset:0;border-radius:9999px;background:#0e9f6e;border:3px solid white;box-shadow:0 1px 6px rgba(0,0,0,.3)"></div>
+    </div>
+    <style>@keyframes hlpulse{0%{transform:scale(.6);opacity:.8}100%{transform:scale(1.6);opacity:0}}</style>`,
+    iconSize: [22, 22],
+    iconAnchor: [11, 11],
+  });
+  return _userIcon;
+}
 
 export function HealthMap({
   markers,
