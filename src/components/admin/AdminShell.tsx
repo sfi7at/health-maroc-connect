@@ -152,8 +152,10 @@ function TopBar({ onOpenMenu }: { onOpenMenu: () => void }) {
   const initials = (user?.email ?? "A").slice(0, 2).toUpperCase();
 
   const signOut = async () => {
+    await queryClient.cancelQueries();
+    queryClient.clear();
     await supabase.auth.signOut();
-    navigate({ to: "/auth" });
+    navigate({ to: "/auth", replace: true });
   };
 
   return (
