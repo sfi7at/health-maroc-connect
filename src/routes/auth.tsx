@@ -179,7 +179,6 @@ function SignInForm({ redirect }: { redirect?: string }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPwd, setShowPwd] = useState(false);
-  const [remember, setRemember] = useState(true);
   const [busy, setBusy] = useState(false);
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -205,18 +204,6 @@ function SignInForm({ redirect }: { redirect?: string }) {
     if (error) {
       toast.error("Échec de la connexion", { description: error.message });
       return;
-    }
-    if (!remember) {
-      try {
-        // Move session to sessionStorage so it clears when the tab closes.
-        const raw = localStorage.getItem(`sb-${import.meta.env.VITE_SUPABASE_PROJECT_ID}-auth-token`);
-        if (raw) {
-          sessionStorage.setItem(`sb-${import.meta.env.VITE_SUPABASE_PROJECT_ID}-auth-token`, raw);
-          localStorage.removeItem(`sb-${import.meta.env.VITE_SUPABASE_PROJECT_ID}-auth-token`);
-        }
-      } catch {
-        /* ignore */
-      }
     }
     toast.success("Bienvenue !");
     navigate({ to: redirect ?? "/profile", replace: true });
@@ -276,14 +263,6 @@ function SignInForm({ redirect }: { redirect?: string }) {
             </button>
           </div>
         </div>
-        <label className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Checkbox
-            checked={remember}
-            onCheckedChange={(v) => setRemember(Boolean(v))}
-            id="remember"
-          />
-          <span>Se souvenir de moi sur cet appareil</span>
-        </label>
         <Button type="submit" className="w-full" disabled={busy}>
           {busy && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Se connecter

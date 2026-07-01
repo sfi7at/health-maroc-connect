@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { PageHeader } from "@/components/common/PageHeader";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
+import { useQueryClient } from "@tanstack/react-query";
 import { buildHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/_authenticated/provider/settings")({
@@ -21,6 +22,7 @@ export const Route = createFileRoute("/_authenticated/provider/settings")({
 function ProviderSettings() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const stored = typeof window !== "undefined" ? window.localStorage : null;
   const [language, setLanguage] = useState(stored?.getItem("hl_lang") ?? "fr");
@@ -114,7 +116,12 @@ function ProviderSettings() {
         <h2 className="mb-2 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-destructive"><ShieldAlert className="h-4 w-4" /> Zone sensible</h2>
         <p className="text-sm text-muted-foreground">La suppression de votre compte est définitive et irréversible.</p>
         <div className="mt-3 flex flex-wrap gap-2">
-          <Button variant="outline" onClick={async () => { await supabase.auth.signOut(); navigate({ to: "/" }); }}>Se déconnecter</Button>
+          <Button variant="outline" onClick={async () => {
+            await queryClient.cancelQueries();
+            queryClient.clear();
+            await supabase.auth.signOut();
+            navigate({ to: "/auth", replace: true });
+          }}>Se déconnecter</Button>
           <Button variant="destructive" className="gap-2" onClick={() => setConfirmDel(true)}><Trash2 className="h-4 w-4" /> Demander la suppression</Button>
         </div>
       </section>
