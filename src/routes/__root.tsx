@@ -19,6 +19,7 @@ import { EmailVerifyBanner } from "@/components/auth/EmailVerifyBanner";
 import { InstallPrompt } from "@/components/pwa/InstallPrompt";
 import { registerPWA } from "@/lib/pwa-register";
 import { installObservability } from "@/lib/observability";
+import { initPreferences } from "@/hooks/use-preferences";
 
 function NotFoundComponent() {
   return (
@@ -161,6 +162,7 @@ function RootComponent() {
   useEffect(() => {
     void registerPWA();
     installObservability();
+    initPreferences();
   }, []);
 
   const isFullscreen =
