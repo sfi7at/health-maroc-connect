@@ -53,6 +53,7 @@ import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedProviderCalendarRouteImport } from './routes/_authenticated/provider-calendar'
 import { Route as AuthenticatedProviderRouteImport } from './routes/_authenticated/provider'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedProRouteImport } from './routes/_authenticated/pro'
 import { Route as AuthenticatedPharmacyDashboardRouteImport } from './routes/_authenticated/pharmacy-dashboard'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedLaboratoryDashboardRouteImport } from './routes/_authenticated/laboratory-dashboard'
@@ -341,6 +342,11 @@ const AuthenticatedProviderRoute = AuthenticatedProviderRouteImport.update({
 const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedProRoute = AuthenticatedProRouteImport.update({
+  id: '/pro',
+  path: '/pro',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedPharmacyDashboardRoute =
@@ -771,6 +777,7 @@ export interface FileRoutesByFullPath {
   '/laboratory-dashboard': typeof AuthenticatedLaboratoryDashboardRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/pharmacy-dashboard': typeof AuthenticatedPharmacyDashboardRoute
+  '/pro': typeof AuthenticatedProRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/provider': typeof AuthenticatedProviderRouteWithChildren
   '/provider-calendar': typeof AuthenticatedProviderCalendarRoute
@@ -884,6 +891,7 @@ export interface FileRoutesByTo {
   '/laboratory-dashboard': typeof AuthenticatedLaboratoryDashboardRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/pharmacy-dashboard': typeof AuthenticatedPharmacyDashboardRoute
+  '/pro': typeof AuthenticatedProRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/provider-calendar': typeof AuthenticatedProviderCalendarRoute
   '/settings': typeof AuthenticatedSettingsRoute
@@ -999,6 +1007,7 @@ export interface FileRoutesById {
   '/_authenticated/laboratory-dashboard': typeof AuthenticatedLaboratoryDashboardRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/pharmacy-dashboard': typeof AuthenticatedPharmacyDashboardRoute
+  '/_authenticated/pro': typeof AuthenticatedProRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/provider': typeof AuthenticatedProviderRouteWithChildren
   '/_authenticated/provider-calendar': typeof AuthenticatedProviderCalendarRoute
@@ -1115,6 +1124,7 @@ export interface FileRouteTypes {
     | '/laboratory-dashboard'
     | '/notifications'
     | '/pharmacy-dashboard'
+    | '/pro'
     | '/profile'
     | '/provider'
     | '/provider-calendar'
@@ -1228,6 +1238,7 @@ export interface FileRouteTypes {
     | '/laboratory-dashboard'
     | '/notifications'
     | '/pharmacy-dashboard'
+    | '/pro'
     | '/profile'
     | '/provider-calendar'
     | '/settings'
@@ -1342,6 +1353,7 @@ export interface FileRouteTypes {
     | '/_authenticated/laboratory-dashboard'
     | '/_authenticated/notifications'
     | '/_authenticated/pharmacy-dashboard'
+    | '/_authenticated/pro'
     | '/_authenticated/profile'
     | '/_authenticated/provider'
     | '/_authenticated/provider-calendar'
@@ -1763,6 +1775,13 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/pro': {
+      id: '/_authenticated/pro'
+      path: '/pro'
+      fullPath: '/pro'
+      preLoaderRoute: typeof AuthenticatedProRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/pharmacy-dashboard': {
@@ -2417,6 +2436,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedLaboratoryDashboardRoute: typeof AuthenticatedLaboratoryDashboardRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedPharmacyDashboardRoute: typeof AuthenticatedPharmacyDashboardRoute
+  AuthenticatedProRoute: typeof AuthenticatedProRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedProviderRoute: typeof AuthenticatedProviderRouteWithChildren
   AuthenticatedProviderCalendarRoute: typeof AuthenticatedProviderCalendarRoute
@@ -2437,6 +2457,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedLaboratoryDashboardRoute: AuthenticatedLaboratoryDashboardRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedPharmacyDashboardRoute: AuthenticatedPharmacyDashboardRoute,
+  AuthenticatedProRoute: AuthenticatedProRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedProviderRoute: AuthenticatedProviderRouteWithChildren,
   AuthenticatedProviderCalendarRoute: AuthenticatedProviderCalendarRoute,
