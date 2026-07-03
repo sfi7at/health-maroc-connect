@@ -2646,47 +2646,87 @@ export type Database = {
       prescriptions: {
         Row: {
           created_at: string
+          diagnosis: string | null
           dosage: string | null
           duration: string | null
+          expires_at: string | null
           frequency: string | null
           id: string
+          items: Json
           medication: string
           notes: string | null
+          patient_age: number | null
+          patient_gender: string | null
+          patient_name: string | null
+          patient_phone: string | null
           prescribed_at: string
           prescribed_by: string | null
+          provider_id: string | null
+          status: string
           storage_path: string | null
-          user_id: string
+          updated_at: string
+          user_id: string | null
+          verification_token: string | null
         }
         Insert: {
           created_at?: string
+          diagnosis?: string | null
           dosage?: string | null
           duration?: string | null
+          expires_at?: string | null
           frequency?: string | null
           id?: string
+          items?: Json
           medication: string
           notes?: string | null
+          patient_age?: number | null
+          patient_gender?: string | null
+          patient_name?: string | null
+          patient_phone?: string | null
           prescribed_at?: string
           prescribed_by?: string | null
+          provider_id?: string | null
+          status?: string
           storage_path?: string | null
-          user_id: string
+          updated_at?: string
+          user_id?: string | null
+          verification_token?: string | null
         }
         Update: {
           created_at?: string
+          diagnosis?: string | null
           dosage?: string | null
           duration?: string | null
+          expires_at?: string | null
           frequency?: string | null
           id?: string
+          items?: Json
           medication?: string
           notes?: string | null
+          patient_age?: number | null
+          patient_gender?: string | null
+          patient_name?: string | null
+          patient_phone?: string | null
           prescribed_at?: string
           prescribed_by?: string | null
+          provider_id?: string | null
+          status?: string
           storage_path?: string | null
-          user_id?: string
+          updated_at?: string
+          user_id?: string | null
+          verification_token?: string | null
         }
         Relationships: [
           {
             foreignKeyName: "prescriptions_prescribed_by_fkey"
             columns: ["prescribed_by"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prescriptions_provider_id_fkey"
+            columns: ["provider_id"]
             isOneToOne: false
             referencedRelation: "providers"
             referencedColumns: ["id"]
@@ -3753,6 +3793,20 @@ export type Database = {
       owns_provider: {
         Args: { _provider_id: string; _user_id: string }
         Returns: boolean
+      }
+      verify_prescription: {
+        Args: { _token: string }
+        Returns: {
+          diagnosis: string
+          expires_at: string
+          id: string
+          items: Json
+          patient_name: string
+          prescribed_at: string
+          provider_name: string
+          provider_verified: boolean
+          status: string
+        }[]
       }
     }
     Enums: {
