@@ -226,16 +226,20 @@ function NewPrescription() {
         <Textarea rows={3} value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Conseils, contrôle, hygiène de vie…" />
       </Card>
 
-      <div className="sticky bottom-4 z-10 flex flex-wrap items-center justify-end gap-2">
-        <Button variant="outline" onClick={() => previewPdf.mutate()} disabled={previewPdf.isPending} className="gap-2">
-          <FileText className="h-4 w-4" /> Prévisualiser
-        </Button>
-        <Button variant="outline" onClick={() => save.mutate({ download: false })} disabled={save.isPending} className="gap-2">
-          <Save className="h-4 w-4" /> Enregistrer
-        </Button>
-        <Button onClick={() => save.mutate({ download: true })} disabled={save.isPending} className="gap-2 shadow-lg">
-          <Download className="h-4 w-4" /> {save.isPending ? "Génération…" : "Enregistrer + PDF"}
-        </Button>
+      <div className="sticky bottom-24 z-20 -mx-4 px-4 sm:mx-0 sm:px-0 lg:bottom-4">
+        <div className="rounded-2xl border border-border bg-background/95 p-2 shadow-lg backdrop-blur sm:border-0 sm:bg-transparent sm:p-0 sm:shadow-none">
+          <div className="grid grid-cols-3 gap-2 sm:flex sm:flex-wrap sm:justify-end">
+            <Button variant="outline" size="sm" onClick={() => previewPdf.mutate()} disabled={previewPdf.isPending} className="gap-1.5 sm:size-default">
+              <FileText className="h-4 w-4" /> <span className="hidden xs:inline sm:inline">Aperçu</span>
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => save.mutate({ download: false })} disabled={save.isPending} className="gap-1.5 sm:size-default">
+              <Save className="h-4 w-4" /> <span>Enregistrer</span>
+            </Button>
+            <Button size="sm" onClick={() => save.mutate({ download: true })} disabled={save.isPending} className="gap-1.5 sm:size-default">
+              <Download className="h-4 w-4" /> <span className="truncate">{save.isPending ? "…" : "PDF"}</span>
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );
