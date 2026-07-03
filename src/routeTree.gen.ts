@@ -43,6 +43,7 @@ import { Route as HospitalsDepartmentsRouteImport } from './routes/hospitals.dep
 import { Route as DoctorsSpecialtiesRouteImport } from './routes/doctors.specialties'
 import { Route as DoctorsSearchRouteImport } from './routes/doctors.search'
 import { Route as DoctorsIdRouteImport } from './routes/doctors.$id'
+import { Route as DoctorLoginRouteImport } from './routes/doctor.login'
 import { Route as ContentSlugRouteImport } from './routes/content.$slug'
 import { Route as BloodRequestRouteImport } from './routes/blood.request'
 import { Route as BloodMapRouteImport } from './routes/blood.map'
@@ -291,6 +292,11 @@ const DoctorsIdRoute = DoctorsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => DoctorsRoute,
+} as any)
+const DoctorLoginRoute = DoctorLoginRouteImport.update({
+  id: '/doctor/login',
+  path: '/doctor/login',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ContentSlugRoute = ContentSlugRouteImport.update({
   id: '/$slug',
@@ -781,6 +787,7 @@ export interface FileRoutesByFullPath {
   '/blood/map': typeof BloodMapRoute
   '/blood/request': typeof BloodRequestRoute
   '/content/$slug': typeof ContentSlugRoute
+  '/doctor/login': typeof DoctorLoginRoute
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
@@ -893,6 +900,7 @@ export interface FileRoutesByTo {
   '/blood/map': typeof BloodMapRoute
   '/blood/request': typeof BloodRequestRoute
   '/content/$slug': typeof ContentSlugRoute
+  '/doctor/login': typeof DoctorLoginRoute
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
@@ -1009,6 +1017,7 @@ export interface FileRoutesById {
   '/blood/map': typeof BloodMapRoute
   '/blood/request': typeof BloodRequestRoute
   '/content/$slug': typeof ContentSlugRoute
+  '/doctor/login': typeof DoctorLoginRoute
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
@@ -1125,6 +1134,7 @@ export interface FileRouteTypes {
     | '/blood/map'
     | '/blood/request'
     | '/content/$slug'
+    | '/doctor/login'
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
@@ -1237,6 +1247,7 @@ export interface FileRouteTypes {
     | '/blood/map'
     | '/blood/request'
     | '/content/$slug'
+    | '/doctor/login'
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
@@ -1352,6 +1363,7 @@ export interface FileRouteTypes {
     | '/blood/map'
     | '/blood/request'
     | '/content/$slug'
+    | '/doctor/login'
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
@@ -1449,6 +1461,7 @@ export interface RootRouteChildren {
   SearchRoute: typeof SearchRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
+  DoctorLoginRoute: typeof DoctorLoginRoute
   ProvidersIdRoute: typeof ProvidersIdRoute
   ApiPublicHealthRoute: typeof ApiPublicHealthRoute
   ApiPublicSitemapDotxmlRoute: typeof ApiPublicSitemapDotxmlRoute
@@ -1694,6 +1707,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/doctors/$id'
       preLoaderRoute: typeof DoctorsIdRouteImport
       parentRoute: typeof DoctorsRoute
+    }
+    '/doctor/login': {
+      id: '/doctor/login'
+      path: '/doctor/login'
+      fullPath: '/doctor/login'
+      preLoaderRoute: typeof DoctorLoginRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/content/$slug': {
       id: '/content/$slug'
@@ -2581,6 +2601,7 @@ const rootRouteChildren: RootRouteChildren = {
   SearchRoute: SearchRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
+  DoctorLoginRoute: DoctorLoginRoute,
   ProvidersIdRoute: ProvidersIdRoute,
   ApiPublicHealthRoute: ApiPublicHealthRoute,
   ApiPublicSitemapDotxmlRoute: ApiPublicSitemapDotxmlRoute,
