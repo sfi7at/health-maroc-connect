@@ -64,6 +64,7 @@ import { Route as AuthenticatedAppointmentsRouteImport } from './routes/_authent
 import { Route as AuthenticatedAiAssistantRouteImport } from './routes/_authenticated/ai-assistant'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedProviderIndexRouteImport } from './routes/_authenticated/provider.index'
+import { Route as AuthenticatedProIndexRouteImport } from './routes/_authenticated/pro.index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as DoctorsSpecialtySlugRouteImport } from './routes/doctors.specialty.$slug'
 import { Route as BloodDonorsIdRouteImport } from './routes/blood.donors.$id'
@@ -407,6 +408,11 @@ const AuthenticatedProviderIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedProviderRoute,
   } as any)
+const AuthenticatedProIndexRoute = AuthenticatedProIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedProRoute,
+} as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -777,7 +783,7 @@ export interface FileRoutesByFullPath {
   '/laboratory-dashboard': typeof AuthenticatedLaboratoryDashboardRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/pharmacy-dashboard': typeof AuthenticatedPharmacyDashboardRoute
-  '/pro': typeof AuthenticatedProRoute
+  '/pro': typeof AuthenticatedProRouteWithChildren
   '/profile': typeof AuthenticatedProfileRoute
   '/provider': typeof AuthenticatedProviderRouteWithChildren
   '/provider-calendar': typeof AuthenticatedProviderCalendarRoute
@@ -856,6 +862,7 @@ export interface FileRoutesByFullPath {
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/pro/': typeof AuthenticatedProIndexRoute
   '/provider/': typeof AuthenticatedProviderIndexRoute
   '/admin/security/blocked': typeof AuthenticatedAdminSecurityBlockedRoute
   '/admin/security/events': typeof AuthenticatedAdminSecurityEventsRoute
@@ -891,7 +898,6 @@ export interface FileRoutesByTo {
   '/laboratory-dashboard': typeof AuthenticatedLaboratoryDashboardRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/pharmacy-dashboard': typeof AuthenticatedPharmacyDashboardRoute
-  '/pro': typeof AuthenticatedProRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/provider-calendar': typeof AuthenticatedProviderCalendarRoute
   '/settings': typeof AuthenticatedSettingsRoute
@@ -969,6 +975,7 @@ export interface FileRoutesByTo {
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
+  '/pro': typeof AuthenticatedProIndexRoute
   '/provider': typeof AuthenticatedProviderIndexRoute
   '/admin/security/blocked': typeof AuthenticatedAdminSecurityBlockedRoute
   '/admin/security/events': typeof AuthenticatedAdminSecurityEventsRoute
@@ -1007,7 +1014,7 @@ export interface FileRoutesById {
   '/_authenticated/laboratory-dashboard': typeof AuthenticatedLaboratoryDashboardRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/pharmacy-dashboard': typeof AuthenticatedPharmacyDashboardRoute
-  '/_authenticated/pro': typeof AuthenticatedProRoute
+  '/_authenticated/pro': typeof AuthenticatedProRouteWithChildren
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/provider': typeof AuthenticatedProviderRouteWithChildren
   '/_authenticated/provider-calendar': typeof AuthenticatedProviderCalendarRoute
@@ -1086,6 +1093,7 @@ export interface FileRoutesById {
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/pro/': typeof AuthenticatedProIndexRoute
   '/_authenticated/provider/': typeof AuthenticatedProviderIndexRoute
   '/_authenticated/admin/security/blocked': typeof AuthenticatedAdminSecurityBlockedRoute
   '/_authenticated/admin/security/events': typeof AuthenticatedAdminSecurityEventsRoute
@@ -1203,6 +1211,7 @@ export interface FileRouteTypes {
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
     | '/admin/'
+    | '/pro/'
     | '/provider/'
     | '/admin/security/blocked'
     | '/admin/security/events'
@@ -1238,7 +1247,6 @@ export interface FileRouteTypes {
     | '/laboratory-dashboard'
     | '/notifications'
     | '/pharmacy-dashboard'
-    | '/pro'
     | '/profile'
     | '/provider-calendar'
     | '/settings'
@@ -1316,6 +1324,7 @@ export interface FileRouteTypes {
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
     | '/admin'
+    | '/pro'
     | '/provider'
     | '/admin/security/blocked'
     | '/admin/security/events'
@@ -1432,6 +1441,7 @@ export interface FileRouteTypes {
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
     | '/_authenticated/admin/'
+    | '/_authenticated/pro/'
     | '/_authenticated/provider/'
     | '/_authenticated/admin/security/blocked'
     | '/_authenticated/admin/security/events'
@@ -1853,6 +1863,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/provider/'
       preLoaderRoute: typeof AuthenticatedProviderIndexRouteImport
       parentRoute: typeof AuthenticatedProviderRoute
+    }
+    '/_authenticated/pro/': {
+      id: '/_authenticated/pro/'
+      path: '/'
+      fullPath: '/pro/'
+      preLoaderRoute: typeof AuthenticatedProIndexRouteImport
+      parentRoute: typeof AuthenticatedProRoute
     }
     '/_authenticated/admin/': {
       id: '/_authenticated/admin/'
@@ -2385,6 +2402,17 @@ const AuthenticatedAppointmentsRouteWithChildren =
     AuthenticatedAppointmentsRouteChildren,
   )
 
+interface AuthenticatedProRouteChildren {
+  AuthenticatedProIndexRoute: typeof AuthenticatedProIndexRoute
+}
+
+const AuthenticatedProRouteChildren: AuthenticatedProRouteChildren = {
+  AuthenticatedProIndexRoute: AuthenticatedProIndexRoute,
+}
+
+const AuthenticatedProRouteWithChildren =
+  AuthenticatedProRoute._addFileChildren(AuthenticatedProRouteChildren)
+
 interface AuthenticatedProviderRouteChildren {
   AuthenticatedProviderAppointmentsRoute: typeof AuthenticatedProviderAppointmentsRoute
   AuthenticatedProviderGalleryRoute: typeof AuthenticatedProviderGalleryRoute
@@ -2436,7 +2464,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedLaboratoryDashboardRoute: typeof AuthenticatedLaboratoryDashboardRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedPharmacyDashboardRoute: typeof AuthenticatedPharmacyDashboardRoute
-  AuthenticatedProRoute: typeof AuthenticatedProRoute
+  AuthenticatedProRoute: typeof AuthenticatedProRouteWithChildren
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedProviderRoute: typeof AuthenticatedProviderRouteWithChildren
   AuthenticatedProviderCalendarRoute: typeof AuthenticatedProviderCalendarRoute
@@ -2457,7 +2485,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedLaboratoryDashboardRoute: AuthenticatedLaboratoryDashboardRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedPharmacyDashboardRoute: AuthenticatedPharmacyDashboardRoute,
-  AuthenticatedProRoute: AuthenticatedProRoute,
+  AuthenticatedProRoute: AuthenticatedProRouteWithChildren,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedProviderRoute: AuthenticatedProviderRouteWithChildren,
   AuthenticatedProviderCalendarRoute: AuthenticatedProviderCalendarRoute,

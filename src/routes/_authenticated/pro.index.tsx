@@ -52,7 +52,7 @@ function ProDashboard() {
         supabase.from("reviews").select("id, rating", { count: "exact" }).eq("provider_id", provider!.id),
         supabase.from("prescriptions").select("id", { count: "exact", head: true }).eq("provider_id", provider!.id),
         supabase.from("notifications").select("id", { count: "exact", head: true })
-          .eq("user_id", provider!.id).eq("read", false),
+          .is("read_at", null),
       ]);
 
       const monthItems = month.data ?? [];
