@@ -43,6 +43,7 @@ import { Route as HospitalsDepartmentsRouteImport } from './routes/hospitals.dep
 import { Route as DoctorsSpecialtiesRouteImport } from './routes/doctors.specialties'
 import { Route as DoctorsSearchRouteImport } from './routes/doctors.search'
 import { Route as DoctorsIdRouteImport } from './routes/doctors.$id'
+import { Route as DoctorRegisterRouteImport } from './routes/doctor.register'
 import { Route as DoctorLoginRouteImport } from './routes/doctor.login'
 import { Route as ContentSlugRouteImport } from './routes/content.$slug'
 import { Route as BloodRequestRouteImport } from './routes/blood.request'
@@ -292,6 +293,11 @@ const DoctorsIdRoute = DoctorsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => DoctorsRoute,
+} as any)
+const DoctorRegisterRoute = DoctorRegisterRouteImport.update({
+  id: '/doctor/register',
+  path: '/doctor/register',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const DoctorLoginRoute = DoctorLoginRouteImport.update({
   id: '/doctor/login',
@@ -788,6 +794,7 @@ export interface FileRoutesByFullPath {
   '/blood/request': typeof BloodRequestRoute
   '/content/$slug': typeof ContentSlugRoute
   '/doctor/login': typeof DoctorLoginRoute
+  '/doctor/register': typeof DoctorRegisterRoute
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
@@ -901,6 +908,7 @@ export interface FileRoutesByTo {
   '/blood/request': typeof BloodRequestRoute
   '/content/$slug': typeof ContentSlugRoute
   '/doctor/login': typeof DoctorLoginRoute
+  '/doctor/register': typeof DoctorRegisterRoute
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
@@ -1018,6 +1026,7 @@ export interface FileRoutesById {
   '/blood/request': typeof BloodRequestRoute
   '/content/$slug': typeof ContentSlugRoute
   '/doctor/login': typeof DoctorLoginRoute
+  '/doctor/register': typeof DoctorRegisterRoute
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
@@ -1135,6 +1144,7 @@ export interface FileRouteTypes {
     | '/blood/request'
     | '/content/$slug'
     | '/doctor/login'
+    | '/doctor/register'
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
@@ -1248,6 +1258,7 @@ export interface FileRouteTypes {
     | '/blood/request'
     | '/content/$slug'
     | '/doctor/login'
+    | '/doctor/register'
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
@@ -1364,6 +1375,7 @@ export interface FileRouteTypes {
     | '/blood/request'
     | '/content/$slug'
     | '/doctor/login'
+    | '/doctor/register'
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
@@ -1462,6 +1474,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   DoctorLoginRoute: typeof DoctorLoginRoute
+  DoctorRegisterRoute: typeof DoctorRegisterRoute
   ProvidersIdRoute: typeof ProvidersIdRoute
   ApiPublicHealthRoute: typeof ApiPublicHealthRoute
   ApiPublicSitemapDotxmlRoute: typeof ApiPublicSitemapDotxmlRoute
@@ -1707,6 +1720,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/doctors/$id'
       preLoaderRoute: typeof DoctorsIdRouteImport
       parentRoute: typeof DoctorsRoute
+    }
+    '/doctor/register': {
+      id: '/doctor/register'
+      path: '/doctor/register'
+      fullPath: '/doctor/register'
+      preLoaderRoute: typeof DoctorRegisterRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/doctor/login': {
       id: '/doctor/login'
@@ -2602,6 +2622,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   DoctorLoginRoute: DoctorLoginRoute,
+  DoctorRegisterRoute: DoctorRegisterRoute,
   ProvidersIdRoute: ProvidersIdRoute,
   ApiPublicHealthRoute: ApiPublicHealthRoute,
   ApiPublicSitemapDotxmlRoute: ApiPublicSitemapDotxmlRoute,
