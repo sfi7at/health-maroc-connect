@@ -2735,6 +2735,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          active_role: string
           avatar_url: string | null
           city: string | null
           city_id: string | null
@@ -2749,6 +2750,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          active_role?: string
           avatar_url?: string | null
           city?: string | null
           city_id?: string | null
@@ -2763,6 +2765,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          active_role?: string
           avatar_url?: string | null
           city?: string | null
           city_id?: string | null
@@ -3034,11 +3037,13 @@ export type Database = {
           average_rating: number
           category: Database["public"]["Enums"]["provider_category"]
           city_id: string | null
+          clinic_logo_url: string | null
           cover_image: string | null
           created_at: string
           description: string | null
           district_id: string | null
           email: string | null
+          google_maps_url: string | null
           id: string
           is_active: boolean
           is_premium: boolean
@@ -3049,6 +3054,7 @@ export type Database = {
           name: string
           owner_id: string | null
           phone: string | null
+          prescription_header: Json
           profile_image: string | null
           reviews_count: number
           slug: string | null
@@ -3067,11 +3073,13 @@ export type Database = {
           average_rating?: number
           category: Database["public"]["Enums"]["provider_category"]
           city_id?: string | null
+          clinic_logo_url?: string | null
           cover_image?: string | null
           created_at?: string
           description?: string | null
           district_id?: string | null
           email?: string | null
+          google_maps_url?: string | null
           id?: string
           is_active?: boolean
           is_premium?: boolean
@@ -3082,6 +3090,7 @@ export type Database = {
           name: string
           owner_id?: string | null
           phone?: string | null
+          prescription_header?: Json
           profile_image?: string | null
           reviews_count?: number
           slug?: string | null
@@ -3100,11 +3109,13 @@ export type Database = {
           average_rating?: number
           category?: Database["public"]["Enums"]["provider_category"]
           city_id?: string | null
+          clinic_logo_url?: string | null
           cover_image?: string | null
           created_at?: string
           description?: string | null
           district_id?: string | null
           email?: string | null
+          google_maps_url?: string | null
           id?: string
           is_active?: boolean
           is_premium?: boolean
@@ -3115,6 +3126,7 @@ export type Database = {
           name?: string
           owner_id?: string | null
           phone?: string | null
+          prescription_header?: Json
           profile_image?: string | null
           reviews_count?: number
           slug?: string | null
