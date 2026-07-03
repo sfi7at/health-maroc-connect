@@ -83,6 +83,7 @@ import { Route as AuthenticatedProviderMessagesRouteImport } from './routes/_aut
 import { Route as AuthenticatedProviderHoursRouteImport } from './routes/_authenticated/provider.hours'
 import { Route as AuthenticatedProviderGalleryRouteImport } from './routes/_authenticated/provider.gallery'
 import { Route as AuthenticatedProviderAppointmentsRouteImport } from './routes/_authenticated/provider.appointments'
+import { Route as AuthenticatedProScheduleRouteImport } from './routes/_authenticated/pro.schedule'
 import { Route as AuthenticatedProPrescriptionsRouteImport } from './routes/_authenticated/pro.prescriptions'
 import { Route as AuthenticatedBloodMeRouteImport } from './routes/_authenticated/blood.me'
 import { Route as AuthenticatedBloodHistoryRouteImport } from './routes/_authenticated/blood.history'
@@ -520,6 +521,12 @@ const AuthenticatedProviderAppointmentsRoute =
     path: '/appointments',
     getParentRoute: () => AuthenticatedProviderRoute,
   } as any)
+const AuthenticatedProScheduleRoute =
+  AuthenticatedProScheduleRouteImport.update({
+    id: '/schedule',
+    path: '/schedule',
+    getParentRoute: () => AuthenticatedProRoute,
+  } as any)
 const AuthenticatedProPrescriptionsRoute =
   AuthenticatedProPrescriptionsRouteImport.update({
     id: '/prescriptions',
@@ -880,6 +887,7 @@ export interface FileRoutesByFullPath {
   '/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/me': typeof AuthenticatedBloodMeRoute
   '/pro/prescriptions': typeof AuthenticatedProPrescriptionsRouteWithChildren
+  '/pro/schedule': typeof AuthenticatedProScheduleRoute
   '/provider/appointments': typeof AuthenticatedProviderAppointmentsRoute
   '/provider/gallery': typeof AuthenticatedProviderGalleryRoute
   '/provider/hours': typeof AuthenticatedProviderHoursRoute
@@ -997,6 +1005,7 @@ export interface FileRoutesByTo {
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/me': typeof AuthenticatedBloodMeRoute
+  '/pro/schedule': typeof AuthenticatedProScheduleRoute
   '/provider/appointments': typeof AuthenticatedProviderAppointmentsRoute
   '/provider/gallery': typeof AuthenticatedProviderGalleryRoute
   '/provider/hours': typeof AuthenticatedProviderHoursRoute
@@ -1120,6 +1129,7 @@ export interface FileRoutesById {
   '/_authenticated/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/_authenticated/blood/me': typeof AuthenticatedBloodMeRoute
   '/_authenticated/pro/prescriptions': typeof AuthenticatedProPrescriptionsRouteWithChildren
+  '/_authenticated/pro/schedule': typeof AuthenticatedProScheduleRoute
   '/_authenticated/provider/appointments': typeof AuthenticatedProviderAppointmentsRoute
   '/_authenticated/provider/gallery': typeof AuthenticatedProviderGalleryRoute
   '/_authenticated/provider/hours': typeof AuthenticatedProviderHoursRoute
@@ -1243,6 +1253,7 @@ export interface FileRouteTypes {
     | '/blood/history'
     | '/blood/me'
     | '/pro/prescriptions'
+    | '/pro/schedule'
     | '/provider/appointments'
     | '/provider/gallery'
     | '/provider/hours'
@@ -1360,6 +1371,7 @@ export interface FileRouteTypes {
     | '/blood/become-donor'
     | '/blood/history'
     | '/blood/me'
+    | '/pro/schedule'
     | '/provider/appointments'
     | '/provider/gallery'
     | '/provider/hours'
@@ -1482,6 +1494,7 @@ export interface FileRouteTypes {
     | '/_authenticated/blood/history'
     | '/_authenticated/blood/me'
     | '/_authenticated/pro/prescriptions'
+    | '/_authenticated/pro/schedule'
     | '/_authenticated/provider/appointments'
     | '/_authenticated/provider/gallery'
     | '/_authenticated/provider/hours'
@@ -2060,6 +2073,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProviderAppointmentsRouteImport
       parentRoute: typeof AuthenticatedProviderRoute
     }
+    '/_authenticated/pro/schedule': {
+      id: '/_authenticated/pro/schedule'
+      path: '/schedule'
+      fullPath: '/pro/schedule'
+      preLoaderRoute: typeof AuthenticatedProScheduleRouteImport
+      parentRoute: typeof AuthenticatedProRoute
+    }
     '/_authenticated/pro/prescriptions': {
       id: '/_authenticated/pro/prescriptions'
       path: '/prescriptions'
@@ -2522,12 +2542,14 @@ const AuthenticatedProPrescriptionsRouteWithChildren =
 
 interface AuthenticatedProRouteChildren {
   AuthenticatedProPrescriptionsRoute: typeof AuthenticatedProPrescriptionsRouteWithChildren
+  AuthenticatedProScheduleRoute: typeof AuthenticatedProScheduleRoute
   AuthenticatedProIndexRoute: typeof AuthenticatedProIndexRoute
 }
 
 const AuthenticatedProRouteChildren: AuthenticatedProRouteChildren = {
   AuthenticatedProPrescriptionsRoute:
     AuthenticatedProPrescriptionsRouteWithChildren,
+  AuthenticatedProScheduleRoute: AuthenticatedProScheduleRoute,
   AuthenticatedProIndexRoute: AuthenticatedProIndexRoute,
 }
 
