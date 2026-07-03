@@ -117,6 +117,7 @@ import { Route as AuthenticatedAdminArticlesRouteImport } from './routes/_authen
 import { Route as AuthenticatedAdminAppointmentsRouteImport } from './routes/_authenticated/admin.appointments'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin.analytics'
 import { Route as ApiPublicCronAppointmentRemindersRouteImport } from './routes/api/public/cron.appointment-reminders'
+import { Route as AuthenticatedProviderPrescriptionsNewRouteImport } from './routes/_authenticated/provider.prescriptions.new'
 import { Route as AuthenticatedBloodChatRequestIdRouteImport } from './routes/_authenticated/blood.chat.$requestId'
 import { Route as AuthenticatedAppointmentsNewProviderIdRouteImport } from './routes/_authenticated/appointments.new.$providerId'
 import { Route as AuthenticatedAppointmentsBookProviderIdRouteImport } from './routes/_authenticated/appointments.book.$providerId'
@@ -714,6 +715,12 @@ const ApiPublicCronAppointmentRemindersRoute =
     path: '/api/public/cron/appointment-reminders',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AuthenticatedProviderPrescriptionsNewRoute =
+  AuthenticatedProviderPrescriptionsNewRouteImport.update({
+    id: '/new',
+    path: '/new',
+    getParentRoute: () => AuthenticatedProviderPrescriptionsRoute,
+  } as any)
 const AuthenticatedBloodChatRequestIdRoute =
   AuthenticatedBloodChatRequestIdRouteImport.update({
     id: '/blood/chat/$requestId',
@@ -844,7 +851,7 @@ export interface FileRoutesByFullPath {
   '/provider/hours': typeof AuthenticatedProviderHoursRoute
   '/provider/messages': typeof AuthenticatedProviderMessagesRoute
   '/provider/notifications': typeof AuthenticatedProviderNotificationsRoute
-  '/provider/prescriptions': typeof AuthenticatedProviderPrescriptionsRoute
+  '/provider/prescriptions': typeof AuthenticatedProviderPrescriptionsRouteWithChildren
   '/provider/profile': typeof AuthenticatedProviderProfileRoute
   '/provider/reviews': typeof AuthenticatedProviderReviewsRoute
   '/provider/services': typeof AuthenticatedProviderServicesRoute
@@ -864,6 +871,7 @@ export interface FileRoutesByFullPath {
   '/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
   '/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
+  '/provider/prescriptions/new': typeof AuthenticatedProviderPrescriptionsNewRoute
   '/api/public/cron/appointment-reminders': typeof ApiPublicCronAppointmentRemindersRoute
 }
 export interface FileRoutesByTo {
@@ -957,7 +965,7 @@ export interface FileRoutesByTo {
   '/provider/hours': typeof AuthenticatedProviderHoursRoute
   '/provider/messages': typeof AuthenticatedProviderMessagesRoute
   '/provider/notifications': typeof AuthenticatedProviderNotificationsRoute
-  '/provider/prescriptions': typeof AuthenticatedProviderPrescriptionsRoute
+  '/provider/prescriptions': typeof AuthenticatedProviderPrescriptionsRouteWithChildren
   '/provider/profile': typeof AuthenticatedProviderProfileRoute
   '/provider/reviews': typeof AuthenticatedProviderReviewsRoute
   '/provider/services': typeof AuthenticatedProviderServicesRoute
@@ -977,6 +985,7 @@ export interface FileRoutesByTo {
   '/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
   '/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
+  '/provider/prescriptions/new': typeof AuthenticatedProviderPrescriptionsNewRoute
   '/api/public/cron/appointment-reminders': typeof ApiPublicCronAppointmentRemindersRoute
 }
 export interface FileRoutesById {
@@ -1074,7 +1083,7 @@ export interface FileRoutesById {
   '/_authenticated/provider/hours': typeof AuthenticatedProviderHoursRoute
   '/_authenticated/provider/messages': typeof AuthenticatedProviderMessagesRoute
   '/_authenticated/provider/notifications': typeof AuthenticatedProviderNotificationsRoute
-  '/_authenticated/provider/prescriptions': typeof AuthenticatedProviderPrescriptionsRoute
+  '/_authenticated/provider/prescriptions': typeof AuthenticatedProviderPrescriptionsRouteWithChildren
   '/_authenticated/provider/profile': typeof AuthenticatedProviderProfileRoute
   '/_authenticated/provider/reviews': typeof AuthenticatedProviderReviewsRoute
   '/_authenticated/provider/services': typeof AuthenticatedProviderServicesRoute
@@ -1094,6 +1103,7 @@ export interface FileRoutesById {
   '/_authenticated/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
   '/_authenticated/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/_authenticated/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
+  '/_authenticated/provider/prescriptions/new': typeof AuthenticatedProviderPrescriptionsNewRoute
   '/api/public/cron/appointment-reminders': typeof ApiPublicCronAppointmentRemindersRoute
 }
 export interface FileRouteTypes {
@@ -1211,6 +1221,7 @@ export interface FileRouteTypes {
     | '/appointments/book/$providerId'
     | '/appointments/new/$providerId'
     | '/blood/chat/$requestId'
+    | '/provider/prescriptions/new'
     | '/api/public/cron/appointment-reminders'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -1324,6 +1335,7 @@ export interface FileRouteTypes {
     | '/appointments/book/$providerId'
     | '/appointments/new/$providerId'
     | '/blood/chat/$requestId'
+    | '/provider/prescriptions/new'
     | '/api/public/cron/appointment-reminders'
   id:
     | '__root__'
@@ -1440,6 +1452,7 @@ export interface FileRouteTypes {
     | '/_authenticated/appointments/book/$providerId'
     | '/_authenticated/appointments/new/$providerId'
     | '/_authenticated/blood/chat/$requestId'
+    | '/_authenticated/provider/prescriptions/new'
     | '/api/public/cron/appointment-reminders'
   fileRoutesById: FileRoutesById
 }
@@ -2226,6 +2239,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicCronAppointmentRemindersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/provider/prescriptions/new': {
+      id: '/_authenticated/provider/prescriptions/new'
+      path: '/new'
+      fullPath: '/provider/prescriptions/new'
+      preLoaderRoute: typeof AuthenticatedProviderPrescriptionsNewRouteImport
+      parentRoute: typeof AuthenticatedProviderPrescriptionsRoute
+    }
     '/_authenticated/blood/chat/$requestId': {
       id: '/_authenticated/blood/chat/$requestId'
       path: '/blood/chat/$requestId'
@@ -2386,13 +2406,28 @@ const AuthenticatedAppointmentsRouteWithChildren =
     AuthenticatedAppointmentsRouteChildren,
   )
 
+interface AuthenticatedProviderPrescriptionsRouteChildren {
+  AuthenticatedProviderPrescriptionsNewRoute: typeof AuthenticatedProviderPrescriptionsNewRoute
+}
+
+const AuthenticatedProviderPrescriptionsRouteChildren: AuthenticatedProviderPrescriptionsRouteChildren =
+  {
+    AuthenticatedProviderPrescriptionsNewRoute:
+      AuthenticatedProviderPrescriptionsNewRoute,
+  }
+
+const AuthenticatedProviderPrescriptionsRouteWithChildren =
+  AuthenticatedProviderPrescriptionsRoute._addFileChildren(
+    AuthenticatedProviderPrescriptionsRouteChildren,
+  )
+
 interface AuthenticatedProviderRouteChildren {
   AuthenticatedProviderAppointmentsRoute: typeof AuthenticatedProviderAppointmentsRoute
   AuthenticatedProviderGalleryRoute: typeof AuthenticatedProviderGalleryRoute
   AuthenticatedProviderHoursRoute: typeof AuthenticatedProviderHoursRoute
   AuthenticatedProviderMessagesRoute: typeof AuthenticatedProviderMessagesRoute
   AuthenticatedProviderNotificationsRoute: typeof AuthenticatedProviderNotificationsRoute
-  AuthenticatedProviderPrescriptionsRoute: typeof AuthenticatedProviderPrescriptionsRoute
+  AuthenticatedProviderPrescriptionsRoute: typeof AuthenticatedProviderPrescriptionsRouteWithChildren
   AuthenticatedProviderProfileRoute: typeof AuthenticatedProviderProfileRoute
   AuthenticatedProviderReviewsRoute: typeof AuthenticatedProviderReviewsRoute
   AuthenticatedProviderServicesRoute: typeof AuthenticatedProviderServicesRoute
@@ -2412,7 +2447,7 @@ const AuthenticatedProviderRouteChildren: AuthenticatedProviderRouteChildren = {
   AuthenticatedProviderNotificationsRoute:
     AuthenticatedProviderNotificationsRoute,
   AuthenticatedProviderPrescriptionsRoute:
-    AuthenticatedProviderPrescriptionsRoute,
+    AuthenticatedProviderPrescriptionsRouteWithChildren,
   AuthenticatedProviderProfileRoute: AuthenticatedProviderProfileRoute,
   AuthenticatedProviderReviewsRoute: AuthenticatedProviderReviewsRoute,
   AuthenticatedProviderServicesRoute: AuthenticatedProviderServicesRoute,
