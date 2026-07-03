@@ -17,6 +17,7 @@ import { primaryNav, secondaryNav, footerNav } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
 import { useNotifications } from "@/hooks/use-notifications";
+import { RoleSwitch } from "@/components/layout/RoleSwitch";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
@@ -73,6 +74,7 @@ export function TopNav() {
             <Search className="h-5 w-5" />
           </Button>
           <NotificationBell />
+          <RoleSwitch />
           <AccountButton />
         </div>
       </div>
