@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Save, UserCog, Upload, Globe, Phone, Mail, MapPin, Languages, Siren } from "lucide-react";
+import { Save, UserCog, Upload, Globe, Phone, Mail, MapPin, Languages, Siren, Map as MapIcon, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -48,11 +48,14 @@ function ProviderProfile() {
     languages: "", services: "", specialties: "",
     consultation_price_mad: "", emergency_available: false,
     profile_image: "", cover_image: "",
+    google_maps_url: "", clinic_logo_url: "",
+    rx_title: "", rx_clinic_name: "", rx_specialty: "", rx_inpe: "",
   });
 
   useEffect(() => {
     if (!data) return;
     const meta = (data.metadata ?? {}) as Meta;
+    const rx = ((data as unknown as { prescription_header?: Record<string, string> }).prescription_header ?? {}) as Record<string, string>;
     setForm({
       name: data.name ?? "",
       description: data.description ?? "",
@@ -67,6 +70,12 @@ function ProviderProfile() {
       emergency_available: !!meta.emergency_available,
       profile_image: data.profile_image ?? "",
       cover_image: data.cover_image ?? "",
+      google_maps_url: (data as unknown as { google_maps_url?: string }).google_maps_url ?? "",
+      clinic_logo_url: (data as unknown as { clinic_logo_url?: string }).clinic_logo_url ?? "",
+      rx_title: rx.title ?? "",
+      rx_clinic_name: rx.clinic_name ?? "",
+      rx_specialty: rx.specialty ?? "",
+      rx_inpe: rx.inpe ?? "",
     });
   }, [data]);
 
@@ -90,6 +99,14 @@ function ProviderProfile() {
         address: form.address.trim() || null,
         profile_image: form.profile_image || null,
         cover_image: form.cover_image || null,
+        google_maps_url: form.google_maps_url.trim() || null,
+        clinic_logo_url: form.clinic_logo_url || null,
+        prescription_header: {
+          title: form.rx_title.trim() || null,
+          clinic_name: form.rx_clinic_name.trim() || null,
+          specialty: form.rx_specialty.trim() || null,
+          inpe: form.rx_inpe.trim() || null,
+        } as never,
         metadata: meta,
       }).eq("id", id);
       if (error) throw error;
@@ -103,7 +120,7 @@ function ProviderProfile() {
     onError: (e: Error) => toast.error(e.message),
   });
 
-  async function uploadTo(field: "profile_image" | "cover_image", file: File) {
+  async function uploadTo(field: "profile_image" | "cover_image" | "clinic_logo_url", file: File) {
     if (!id) return;
     const path = `${id}/${field}/${Date.now()}-${file.name}`;
     const { error } = await supabase.storage.from("providers").upload(path, file, { upsert: true });
@@ -179,6 +196,38 @@ function ProviderProfile() {
             </div>
           </div>
           <Switch checked={form.emergency_available} onCheckedChange={(v) => setForm({ ...form, emergency_available: v })} />
+        </div>
+        <Field label="Lien Google Maps du cabinet" icon={MapIcon}>
+          <Input value={form.google_maps_url} onChange={(e) => setForm({ ...form, google_maps_url: e.target.value })} placeholder="https://maps.google.com/…" />
+        </Field>
+      </section>
+
+      {/* Prescription header settings */}
+      <section className="rounded-3xl border border-border bg-card p-5 shadow-soft">
+        <div className="mb-4 flex items-center gap-2">
+          <FileText className="h-4 w-4 text-primary" />
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">En-tête d'ordonnance</h3>
+        </div>
+        <p className="mb-4 text-xs text-muted-foreground">
+          Ces informations apparaissent en tête de vos ordonnances PDF générées automatiquement.
+        </p>
+        <div className="grid gap-4 lg:grid-cols-2">
+          <div className="lg:col-span-2 flex items-center gap-4 rounded-2xl border border-border bg-muted/30 p-4">
+            <div className="grid h-16 w-16 place-items-center overflow-hidden rounded-xl border border-border bg-background">
+              {form.clinic_logo_url ? <img src={form.clinic_logo_url} alt="" className="h-full w-full object-contain" /> : <FileText className="h-6 w-6 text-muted-foreground" />}
+            </div>
+            <label className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary">
+              <Upload className="h-3.5 w-3.5" /> Logo du cabinet
+              <input type="file" accept="image/*" className="hidden" onChange={(e) => e.target.files?.[0] && uploadTo("clinic_logo_url", e.target.files[0])} />
+            </label>
+            {form.clinic_logo_url && (
+              <Button type="button" size="sm" variant="ghost" onClick={() => setForm({ ...form, clinic_logo_url: "" })}>Retirer</Button>
+            )}
+          </div>
+          <Field label="Titre professionnel"><Input value={form.rx_title} onChange={(e) => setForm({ ...form, rx_title: e.target.value })} placeholder="Docteur en médecine" /></Field>
+          <Field label="Nom du cabinet"><Input value={form.rx_clinic_name} onChange={(e) => setForm({ ...form, rx_clinic_name: e.target.value })} placeholder="Cabinet Médical Al Amal" /></Field>
+          <Field label="Spécialité affichée"><Input value={form.rx_specialty} onChange={(e) => setForm({ ...form, rx_specialty: e.target.value })} placeholder="Cardiologue" /></Field>
+          <Field label="Numéro INPE / Ordre"><Input value={form.rx_inpe} onChange={(e) => setForm({ ...form, rx_inpe: e.target.value })} placeholder="INPE-1234" /></Field>
         </div>
       </section>
 
