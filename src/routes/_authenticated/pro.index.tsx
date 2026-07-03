@@ -29,7 +29,7 @@ function ProDashboard() {
 
   const { data: stats, isLoading } = useQuery({
     queryKey: ["pro", "stats", provider?.id],
-    enabled: !!provider?.id,
+    enabled: !!provider?.id && !!user?.id,
     queryFn: async () => {
       const now = new Date();
       const startDay = new Date(now); startDay.setHours(0, 0, 0, 0);
