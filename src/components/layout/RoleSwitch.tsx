@@ -16,13 +16,13 @@ export function RoleSwitch() {
       asChild
       size="sm"
       variant={onPro ? "outline" : "default"}
-      className="hidden gap-2 rounded-full md:inline-flex"
+      className="gap-2 rounded-full px-2.5 sm:px-3"
       onClick={() => setRole(nextRole).catch(() => {})}
       title={onPro ? "Passer à l'espace patient" : "Passer à l'espace pro / médecin"}
     >
       <Link to={to}>
         {onPro ? <User className="h-4 w-4" /> : <Stethoscope className="h-4 w-4" />}
-        {onPro ? "Espace patient" : "Espace Pro"}
+        <span className="hidden sm:inline">{onPro ? "Espace patient" : "Espace Pro"}</span>
       </Link>
     </Button>
   );
