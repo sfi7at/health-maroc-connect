@@ -115,8 +115,10 @@ function PrescriptionDetail() {
         icon={<FileText className="h-5 w-5" />}
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => del.mutate()} className="gap-2 text-destructive"><Trash2 className="h-4 w-4" />Supprimer</Button>
-            <Button onClick={download} className="gap-2"><Download className="h-4 w-4" /> Télécharger PDF</Button>
+            <Button size="icon" variant="outline" onClick={() => del.mutate()} className="text-destructive sm:hidden" aria-label="Supprimer"><Trash2 className="h-4 w-4" /></Button>
+            <Button variant="outline" onClick={() => del.mutate()} className="hidden gap-2 text-destructive sm:inline-flex"><Trash2 className="h-4 w-4" />Supprimer</Button>
+            <Button size="icon" onClick={download} className="sm:hidden" aria-label="Télécharger PDF"><Download className="h-4 w-4" /></Button>
+            <Button onClick={download} className="hidden gap-2 sm:inline-flex"><Download className="h-4 w-4" /> Télécharger PDF</Button>
           </div>
         }
       />
