@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import {
   LayoutDashboard, UserCog, Images, Clock4, Briefcase, CalendarRange,
   Star, BarChart3, Bell, ShieldCheck, Crown, MessagesSquare, Settings,
-  Stethoscope, BadgeCheck, Building2,
+  Stethoscope, BadgeCheck, Building2, FileText,
 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
@@ -32,6 +32,7 @@ const NAV: NavEntry[] = [
   { to: "/provider/hours", label: "Horaires", icon: Clock4 },
   { to: "/provider/services", label: "Services", icon: Briefcase },
   { to: "/provider/appointments", label: "Rendez-vous", icon: CalendarRange },
+  { to: "/provider/prescriptions", label: "Ordonnances", icon: FileText },
   { to: "/provider/reviews", label: "Avis", icon: Star },
   { to: "/provider/statistics", label: "Statistiques", icon: BarChart3 },
   { to: "/provider/notifications", label: "Notifications", icon: Bell },
