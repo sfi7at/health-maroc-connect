@@ -13,6 +13,9 @@ import {
   User as UserIcon,
   Check,
   Droplet,
+  Stethoscope,
+  BadgeCheck,
+  ArrowRight,
 } from "lucide-react";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -112,6 +115,27 @@ function AuthPage() {
             </Tabs>
           )}
         </div>
+
+        <Link
+          to="/doctor/login"
+          className="group mt-5 flex items-center gap-3 rounded-2xl border border-primary/25 bg-gradient-to-r from-sky-500/10 via-primary/5 to-indigo-500/10 p-4 transition hover:border-primary/50 hover:shadow-soft"
+        >
+          <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 text-white shadow-sm">
+            <Stethoscope className="h-5 w-5" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-1.5">
+              <p className="truncate text-sm font-semibold text-foreground">
+                Vous êtes un professionnel de santé&nbsp;?
+              </p>
+              <BadgeCheck className="h-3.5 w-3.5 text-sky-500" />
+            </div>
+            <p className="truncate text-xs text-muted-foreground">
+              Accédez au Portail Praticien dédié
+            </p>
+          </div>
+          <ArrowRight className="h-4 w-4 text-muted-foreground transition group-hover:translate-x-0.5 group-hover:text-foreground" />
+        </Link>
 
         <p className="mt-6 text-center text-xs text-muted-foreground">
           En continuant, vous acceptez nos{" "}
