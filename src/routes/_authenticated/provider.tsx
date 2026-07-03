@@ -70,15 +70,15 @@ function ProviderLayout() {
   }
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[260px_minmax(0,1fr)]">
-      <aside className="space-y-4 lg:sticky lg:top-20 lg:self-start">
-        <div className="rounded-3xl border border-border bg-gradient-to-br from-primary/10 via-card to-card p-4 shadow-soft">
+    <div className="grid gap-4 lg:gap-6 lg:grid-cols-[260px_minmax(0,1fr)]">
+      <aside className="space-y-3 lg:space-y-4 lg:sticky lg:top-20 lg:self-start">
+        <div className="rounded-2xl border border-border bg-gradient-to-br from-primary/10 via-card to-card p-3 shadow-soft lg:rounded-3xl lg:p-4">
           <div className="flex items-center gap-3">
-            <div className="grid h-12 w-12 place-items-center overflow-hidden rounded-2xl bg-primary/15 text-primary">
+            <div className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-xl bg-primary/15 text-primary lg:h-12 lg:w-12 lg:rounded-2xl">
               {provider?.profile_image ? (
                 <img src={provider.profile_image} alt="" className="h-full w-full object-cover" />
               ) : (
-                <Stethoscope className="h-6 w-6" />
+                <Stethoscope className="h-5 w-5 lg:h-6 lg:w-6" />
               )}
             </div>
             <div className="min-w-0">
@@ -87,8 +87,14 @@ function ProviderLayout() {
                 {provider ? CATEGORY_LABEL[provider.category] ?? provider.category : ""}
               </p>
             </div>
+            <div className="ml-auto flex shrink-0 flex-wrap items-center justify-end gap-1 lg:hidden">
+              {provider?.is_verified ? (
+                <BadgeCheck className="h-4 w-4 text-emerald-600" />
+              ) : null}
+              {provider?.is_premium ? <Crown className="h-4 w-4 text-amber-500" /> : null}
+            </div>
           </div>
-          <div className="mt-3 flex flex-wrap gap-1.5">
+          <div className="mt-3 hidden flex-wrap gap-1.5 lg:flex">
             {provider?.is_verified ? (
               <Badge className="gap-1 border-0 bg-emerald-500/15 text-emerald-700">
                 <BadgeCheck className="h-3 w-3" /> Vérifié
@@ -130,9 +136,9 @@ function ProviderLayout() {
           })}
         </nav>
 
-        {/* Mobile horizontal tabs */}
-        <ScrollArea className="lg:hidden">
-          <div className="flex gap-1.5 pb-2">
+        {/* Mobile horizontal tabs (sticky under top nav for easy access) */}
+        <ScrollArea className="sticky top-16 z-10 -mx-4 bg-background/95 px-4 py-2 backdrop-blur lg:hidden">
+          <div className="flex gap-1.5">
             {NAV.map((item) => {
               const active = item.exact ? pathname === item.to : pathname === item.to || pathname.startsWith(item.to + "/");
               return (
@@ -140,7 +146,7 @@ function ProviderLayout() {
                   key={item.to}
                   to={item.to}
                   className={cn(
-                    "flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
+                    "flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-2 text-xs font-semibold transition-colors",
                     active ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card text-foreground hover:bg-muted",
                   )}
                 >
