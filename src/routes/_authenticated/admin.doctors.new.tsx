@@ -155,10 +155,12 @@ function AdminNewDoctor() {
         </div>
       </Card>
 
-      <div className="sticky bottom-4 z-10 flex justify-end">
-        <Button onClick={() => create.mutate()} disabled={create.isPending || !form.email || !form.full_name} className="gap-2 shadow-lg">
-          <UserPlus className="h-4 w-4" /> {create.isPending ? "Création…" : "Créer le compte médecin"}
-        </Button>
+      <div className="sticky bottom-24 z-20 -mx-4 px-4 sm:mx-0 sm:px-0 lg:bottom-4">
+        <div className="rounded-2xl border border-border bg-background/95 p-2 shadow-lg backdrop-blur sm:border-0 sm:bg-transparent sm:p-0 sm:shadow-none sm:flex sm:justify-end">
+          <Button onClick={() => create.mutate()} disabled={create.isPending || !form.email || !form.full_name} className="w-full gap-2 sm:w-auto">
+            <UserPlus className="h-4 w-4" /> {create.isPending ? "Création…" : "Créer le compte médecin"}
+          </Button>
+        </div>
       </div>
     </div>
   );
