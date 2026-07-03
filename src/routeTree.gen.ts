@@ -66,6 +66,7 @@ import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedProviderIndexRouteImport } from './routes/_authenticated/provider.index'
 import { Route as AuthenticatedProIndexRouteImport } from './routes/_authenticated/pro.index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as VerifyPrescriptionTokenRouteImport } from './routes/verify.prescription.$token'
 import { Route as DoctorsSpecialtySlugRouteImport } from './routes/doctors.specialty.$slug'
 import { Route as BloodDonorsIdRouteImport } from './routes/blood.donors.$id'
 import { Route as ApiPublicSitemapDotxmlRouteImport } from './routes/api/public/sitemap[.]xml'
@@ -420,6 +421,11 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const VerifyPrescriptionTokenRoute = VerifyPrescriptionTokenRouteImport.update({
+  id: '/verify/prescription/$token',
+  path: '/verify/prescription/$token',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const DoctorsSpecialtySlugRoute = DoctorsSpecialtySlugRouteImport.update({
   id: '/specialty/$slug',
@@ -883,6 +889,7 @@ export interface FileRoutesByFullPath {
   '/api/public/sitemap.xml': typeof ApiPublicSitemapDotxmlRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
+  '/verify/prescription/$token': typeof VerifyPrescriptionTokenRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/pro/': typeof AuthenticatedProIndexRoute
   '/provider/': typeof AuthenticatedProviderIndexRoute
@@ -999,6 +1006,7 @@ export interface FileRoutesByTo {
   '/api/public/sitemap.xml': typeof ApiPublicSitemapDotxmlRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
+  '/verify/prescription/$token': typeof VerifyPrescriptionTokenRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/pro': typeof AuthenticatedProIndexRoute
   '/provider': typeof AuthenticatedProviderIndexRoute
@@ -1120,6 +1128,7 @@ export interface FileRoutesById {
   '/api/public/sitemap.xml': typeof ApiPublicSitemapDotxmlRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
+  '/verify/prescription/$token': typeof VerifyPrescriptionTokenRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/pro/': typeof AuthenticatedProIndexRoute
   '/_authenticated/provider/': typeof AuthenticatedProviderIndexRoute
@@ -1241,6 +1250,7 @@ export interface FileRouteTypes {
     | '/api/public/sitemap.xml'
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
+    | '/verify/prescription/$token'
     | '/admin/'
     | '/pro/'
     | '/provider/'
@@ -1357,6 +1367,7 @@ export interface FileRouteTypes {
     | '/api/public/sitemap.xml'
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
+    | '/verify/prescription/$token'
     | '/admin'
     | '/pro'
     | '/provider'
@@ -1477,6 +1488,7 @@ export interface FileRouteTypes {
     | '/api/public/sitemap.xml'
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
+    | '/verify/prescription/$token'
     | '/_authenticated/admin/'
     | '/_authenticated/pro/'
     | '/_authenticated/provider/'
@@ -1513,6 +1525,7 @@ export interface RootRouteChildren {
   ProvidersIdRoute: typeof ProvidersIdRoute
   ApiPublicHealthRoute: typeof ApiPublicHealthRoute
   ApiPublicSitemapDotxmlRoute: typeof ApiPublicSitemapDotxmlRoute
+  VerifyPrescriptionTokenRoute: typeof VerifyPrescriptionTokenRoute
   ApiPublicCronAppointmentRemindersRoute: typeof ApiPublicCronAppointmentRemindersRoute
 }
 
@@ -1916,6 +1929,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/verify/prescription/$token': {
+      id: '/verify/prescription/$token'
+      path: '/verify/prescription/$token'
+      fullPath: '/verify/prescription/$token'
+      preLoaderRoute: typeof VerifyPrescriptionTokenRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/doctors/specialty/$slug': {
       id: '/doctors/specialty/$slug'
@@ -2713,6 +2733,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProvidersIdRoute: ProvidersIdRoute,
   ApiPublicHealthRoute: ApiPublicHealthRoute,
   ApiPublicSitemapDotxmlRoute: ApiPublicSitemapDotxmlRoute,
+  VerifyPrescriptionTokenRoute: VerifyPrescriptionTokenRoute,
   ApiPublicCronAppointmentRemindersRoute:
     ApiPublicCronAppointmentRemindersRoute,
 }
