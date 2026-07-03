@@ -12,7 +12,7 @@ import { useSelectedProvider } from "@/lib/provider-store";
 import { prescriptionsByProviderQuery } from "@/lib/prescriptions";
 import { buildHead } from "@/lib/seo";
 
-export const Route = createFileRoute("/_authenticated/pro/prescriptions")({
+export const Route = createFileRoute("/_authenticated/pro/prescriptions/")({
   head: () => buildHead({
     title: "Ordonnances — HealthLink Pro",
     description: "Émettez et gérez vos ordonnances médicales numériques.",
