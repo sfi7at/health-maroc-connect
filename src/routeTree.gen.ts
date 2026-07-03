@@ -124,6 +124,7 @@ import { Route as AuthenticatedAppointmentsBookProviderIdRouteImport } from './r
 import { Route as AuthenticatedAdminSecurityTrustRouteImport } from './routes/_authenticated/admin.security.trust'
 import { Route as AuthenticatedAdminSecurityEventsRouteImport } from './routes/_authenticated/admin.security.events'
 import { Route as AuthenticatedAdminSecurityBlockedRouteImport } from './routes/_authenticated/admin.security.blocked'
+import { Route as AuthenticatedAdminDoctorsNewRouteImport } from './routes/_authenticated/admin.doctors.new'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -757,6 +758,12 @@ const AuthenticatedAdminSecurityBlockedRoute =
     path: '/blocked',
     getParentRoute: () => AuthenticatedAdminSecurityRoute,
   } as any)
+const AuthenticatedAdminDoctorsNewRoute =
+  AuthenticatedAdminDoctorsNewRouteImport.update({
+    id: '/doctors/new',
+    path: '/doctors/new',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -865,6 +872,7 @@ export interface FileRoutesByFullPath {
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/provider/': typeof AuthenticatedProviderIndexRoute
+  '/admin/doctors/new': typeof AuthenticatedAdminDoctorsNewRoute
   '/admin/security/blocked': typeof AuthenticatedAdminSecurityBlockedRoute
   '/admin/security/events': typeof AuthenticatedAdminSecurityEventsRoute
   '/admin/security/trust': typeof AuthenticatedAdminSecurityTrustRoute
@@ -979,6 +987,7 @@ export interface FileRoutesByTo {
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/provider': typeof AuthenticatedProviderIndexRoute
+  '/admin/doctors/new': typeof AuthenticatedAdminDoctorsNewRoute
   '/admin/security/blocked': typeof AuthenticatedAdminSecurityBlockedRoute
   '/admin/security/events': typeof AuthenticatedAdminSecurityEventsRoute
   '/admin/security/trust': typeof AuthenticatedAdminSecurityTrustRoute
@@ -1097,6 +1106,7 @@ export interface FileRoutesById {
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/provider/': typeof AuthenticatedProviderIndexRoute
+  '/_authenticated/admin/doctors/new': typeof AuthenticatedAdminDoctorsNewRoute
   '/_authenticated/admin/security/blocked': typeof AuthenticatedAdminSecurityBlockedRoute
   '/_authenticated/admin/security/events': typeof AuthenticatedAdminSecurityEventsRoute
   '/_authenticated/admin/security/trust': typeof AuthenticatedAdminSecurityTrustRoute
@@ -1215,6 +1225,7 @@ export interface FileRouteTypes {
     | '/doctors/specialty/$slug'
     | '/admin/'
     | '/provider/'
+    | '/admin/doctors/new'
     | '/admin/security/blocked'
     | '/admin/security/events'
     | '/admin/security/trust'
@@ -1329,6 +1340,7 @@ export interface FileRouteTypes {
     | '/doctors/specialty/$slug'
     | '/admin'
     | '/provider'
+    | '/admin/doctors/new'
     | '/admin/security/blocked'
     | '/admin/security/events'
     | '/admin/security/trust'
@@ -1446,6 +1458,7 @@ export interface FileRouteTypes {
     | '/doctors/specialty/$slug'
     | '/_authenticated/admin/'
     | '/_authenticated/provider/'
+    | '/_authenticated/admin/doctors/new'
     | '/_authenticated/admin/security/blocked'
     | '/_authenticated/admin/security/events'
     | '/_authenticated/admin/security/trust'
@@ -2288,6 +2301,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminSecurityBlockedRouteImport
       parentRoute: typeof AuthenticatedAdminSecurityRoute
     }
+    '/_authenticated/admin/doctors/new': {
+      id: '/_authenticated/admin/doctors/new'
+      path: '/doctors/new'
+      fullPath: '/admin/doctors/new'
+      preLoaderRoute: typeof AuthenticatedAdminDoctorsNewRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
@@ -2343,6 +2363,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminVerificationRoute: typeof AuthenticatedAdminVerificationRoute
   AuthenticatedAdminVersionsRoute: typeof AuthenticatedAdminVersionsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedAdminDoctorsNewRoute: typeof AuthenticatedAdminDoctorsNewRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
@@ -2378,6 +2399,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminVerificationRoute: AuthenticatedAdminVerificationRoute,
   AuthenticatedAdminVersionsRoute: AuthenticatedAdminVersionsRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  AuthenticatedAdminDoctorsNewRoute: AuthenticatedAdminDoctorsNewRoute,
 }
 
 const AuthenticatedAdminRouteWithChildren =
