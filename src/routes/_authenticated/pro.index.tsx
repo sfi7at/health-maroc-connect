@@ -10,6 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { PageHeader } from "@/components/common/PageHeader";
 import { supabase } from "@/integrations/supabase/client";
 import { useSelectedProvider } from "@/lib/provider-store";
+import { useAuth } from "@/hooks/use-auth";
 import { formatDateTimeFr } from "@/lib/format";
 import { buildHead } from "@/lib/seo";
 
@@ -24,6 +25,7 @@ export const Route = createFileRoute("/_authenticated/pro/")({
 
 function ProDashboard() {
   const { provider } = useSelectedProvider();
+  const { user } = useAuth();
 
   const { data: stats, isLoading } = useQuery({
     queryKey: ["pro", "stats", provider?.id],
@@ -52,7 +54,7 @@ function ProDashboard() {
         supabase.from("reviews").select("id, rating", { count: "exact" }).eq("provider_id", provider!.id),
         supabase.from("prescriptions").select("id", { count: "exact", head: true }).eq("provider_id", provider!.id),
         supabase.from("notifications").select("id", { count: "exact", head: true })
-          .eq("user_id", provider!.owner_id ?? provider!.id).eq("is_read", false),
+          .eq("user_id", user!.id).eq("is_read", false),
       ]);
 
       const monthItems = month.data ?? [];
