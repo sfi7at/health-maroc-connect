@@ -199,3 +199,11 @@
 @utility gradient-blood {
   background-image: var(--gradient-blood);
 }
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
