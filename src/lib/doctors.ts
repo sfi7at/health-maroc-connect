@@ -171,12 +171,14 @@ export function doctorByIdQuery(id: string) {
   return queryOptions({
     queryKey: ["doctor", id],
     queryFn: async () => {
+      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+      const column = isUuid ? "id" : "slug";
       const { data, error } = await supabase
         .from("providers")
         .select(
           "*, cities ( id, name_fr ), provider_specialties ( specialty_id, specialties ( id, slug, name_fr ) )",
         )
-        .eq("id", id)
+        .eq(column, id)
         .in("category", ["doctor", "dentist"])
         .maybeSingle();
       if (error) throw error;
@@ -296,4 +298,12 @@ export function directionsUrl(
   }
   const query = [p.name, p.address, p.cities?.name_fr].filter(Boolean).join(", ");
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query || "Maroc")}`;
+}
+
+/**
+ * Preferred route segment for a provider profile — the human-friendly slug
+ * when available, otherwise falls back to the UUID.
+ */
+export function doctorPathId(p: Pick<DoctorRow, "id" | "slug">): string {
+  return p.slug && p.slug.length > 0 ? p.slug : p.id;
 }
