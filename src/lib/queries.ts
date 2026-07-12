@@ -4,7 +4,7 @@ import type { Database } from "@/integrations/supabase/types";
 import type { ProviderCategory } from "./format";
 
 export type ProviderRow = Database["public"]["Tables"]["providers"]["Row"] & {
-  cities?: { id: string; name_fr: string } | null;
+  cities?: { id: string; name_fr: string; latitude?: number | null; longitude?: number | null } | null;
 };
 
 export function providersQuery(params: {
@@ -19,7 +19,7 @@ export function providersQuery(params: {
     queryFn: async () => {
       let q = supabase
         .from("providers")
-        .select("*, cities ( id, name_fr )")
+        .select("*, cities ( id, name_fr, latitude, longitude )")
         .eq("is_active", true)
         .order("is_premium", { ascending: false })
         .order("average_rating", { ascending: false })

@@ -90,7 +90,20 @@ function MapPage() {
     const onDutyOnly = cats.has("pharmacy_on_duty");
 
     providers.forEach((p) => {
-      if (p.latitude == null || p.longitude == null) return;
+      // Fallback to city center (with a small deterministic jitter) when the
+      // provider itself has no GPS — keeps info-only listings visible on the
+      // map without silently mutating the underlying row.
+      let lat = p.latitude;
+      let lng = p.longitude;
+      if ((lat == null || lng == null) && p.cities?.latitude != null && p.cities?.longitude != null) {
+        let h = 0;
+        for (let i = 0; i < p.id.length; i++) h = (h * 31 + p.id.charCodeAt(i)) >>> 0;
+        const jitterLat = (((h & 0xffff) / 0xffff) - 0.5) * 0.03; // ±0.015°  ≈ 1.6km
+        const jitterLng = ((((h >> 16) & 0xffff) / 0xffff) - 0.5) * 0.03;
+        lat = Number(p.cities.latitude) + jitterLat;
+        lng = Number(p.cities.longitude) + jitterLng;
+      }
+      if (lat == null || lng == null) return;
       if (!cats.has(p.category as FilterKey)) return;
       if (onlyVerified && !p.is_verified) return;
       if (onlyFavs && !favorites.isFavorite(p.id)) return;
@@ -102,8 +115,8 @@ function MapPage() {
       if (query.trim().length > 1 && !p.name.toLowerCase().includes(query.toLowerCase())) return;
       out.push({
         id: p.id,
-        lat: p.latitude,
-        lng: p.longitude,
+        lat,
+        lng,
         kind: p.category,
         title: p.name,
         subtitle: p.address ?? p.cities?.name_fr ?? undefined,

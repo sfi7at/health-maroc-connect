@@ -85,13 +85,19 @@ function DoctorsHome() {
             <DoctorSearchBar className="max-w-2xl" />
           </div>
           <div className="mt-4 flex flex-wrap gap-2 text-xs">
-            {["Cardiologue", "Dentiste", "Gynécologue", "Pédiatre", "Dermatologue"].map((t) => (
+            {[
+              { label: "Cardiologue", slug: "cardiology" },
+              { label: "Dentiste", slug: "dentistry" },
+              { label: "Gynécologue", slug: "gynecology" },
+              { label: "Pédiatre", slug: "pediatrics" },
+              { label: "Dermatologue", slug: "dermatology" },
+            ].map((t) => (
               <Link
-                key={t}
-                to="/doctors/search"
-                search={{ q: t }}
+                key={t.slug}
+                to="/doctors/specialty/$slug"
+                params={{ slug: t.slug }}
                 className="rounded-full border border-border bg-card px-3 py-1.5 font-medium text-muted-foreground transition hover:bg-muted"
-              >{t}</Link>
+              >{t.label}</Link>
             ))}
           </div>
         </div>

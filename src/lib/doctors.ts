@@ -130,15 +130,15 @@ export function specialtyBySlugQuery(slug: string) {
 
 export function doctorsQuery(filters: DoctorFiltersValue = {}) {
   const {
-    q, cityId, verified, premium, sort = "relevance",
+    cityId, verified, premium, sort = "relevance",
   } = filters;
   return queryOptions({
-    queryKey: ["doctors", filters],
+    queryKey: ["doctors", { cityId, verified, premium, sort }],
     queryFn: async () => {
       let qb = supabase
         .from("providers")
         .select(
-          "*, cities ( id, name_fr ), provider_specialties ( specialty_id, specialties ( id, slug, name_fr ) )",
+          "*, cities ( id, name_fr, latitude, longitude ), provider_specialties ( specialty_id, specialties ( id, slug, name_fr ) )",
         )
         .in("category", ["doctor", "dentist"])
         .eq("is_active", true)
@@ -147,7 +147,9 @@ export function doctorsQuery(filters: DoctorFiltersValue = {}) {
       if (cityId) qb = qb.eq("city_id", cityId);
       if (verified) qb = qb.eq("is_verified", true);
       if (premium) qb = qb.eq("is_premium", true);
-      if (q && q.trim().length > 1) qb = qb.ilike("name", `%${q.trim()}%`);
+      // Free-text `q` is filtered client-side by matchesDoctorFilters against
+      // name / city / specialty haystack — a server ilike on `name` alone
+      // hides doctors whose specialty matches the query.
 
       if (sort === "rating") qb = qb.order("average_rating", { ascending: false });
       else if (sort === "price_asc") qb = qb.order("is_premium", { ascending: false });
