@@ -19,7 +19,7 @@ export function providersQuery(params: {
     queryFn: async () => {
       let q = supabase
         .from("providers")
-        .select("*, cities ( id, name_fr )")
+        .select("*, cities ( id, name_fr, latitude, longitude )")
         .eq("is_active", true)
         .order("is_premium", { ascending: false })
         .order("average_rating", { ascending: false })
