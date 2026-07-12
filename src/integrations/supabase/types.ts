@@ -3876,6 +3876,10 @@ export type Database = {
         Returns: boolean
       }
       slugify: { Args: { _input: string }; Returns: string }
+      storage_first_folder_owns_provider: {
+        Args: { _name: string; _uid: string }
+        Returns: boolean
+      }
       verify_prescription: {
         Args: { _token: string }
         Returns: {
