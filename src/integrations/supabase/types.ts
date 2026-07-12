@@ -3751,6 +3751,37 @@ export type Database = {
           contact_phone: string
         }[]
       }
+      get_my_blood_request: {
+        Args: { _id: string }
+        Returns: {
+          address: string | null
+          blood_group: Database["public"]["Enums"]["blood_group"]
+          city_id: string | null
+          contact_name: string | null
+          contact_phone: string
+          created_at: string
+          hospital_name: string | null
+          id: string
+          is_emergency: boolean
+          latitude: number | null
+          longitude: number | null
+          needed_by: string | null
+          notes: string | null
+          patient_name: string
+          province_id: string | null
+          requester_id: string
+          status: Database["public"]["Enums"]["blood_request_status"]
+          units_needed: number
+          updated_at: string
+          urgency: Database["public"]["Enums"]["blood_request_urgency"]
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "blood_requests"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       get_my_donor_profile: {
         Args: never
         Returns: {
@@ -3787,6 +3818,30 @@ export type Database = {
           to: "blood_donors"
           isOneToOne: true
           isSetofReturn: false
+        }
+      }
+      get_my_profile: {
+        Args: never
+        Returns: {
+          active_role: string
+          avatar_url: string | null
+          city: string | null
+          city_id: string | null
+          created_at: string
+          first_name: string | null
+          full_name: string | null
+          id: string
+          language: string
+          last_name: string | null
+          phone: string | null
+          terms_accepted_at: string | null
+          updated_at: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "profiles"
+          isOneToOne: false
+          isSetofReturn: true
         }
       }
       has_any_admin_role: { Args: { _user_id: string }; Returns: boolean }
