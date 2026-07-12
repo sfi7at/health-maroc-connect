@@ -108,6 +108,31 @@ export const adminCreateDoctor = createServerFn({ method: "POST" })
       );
     }
 
+    // Default availability so patients can book immediately: Mon-Sat 09-13 / 14-18
+    await supabaseAdmin.from("provider_schedules").insert(
+      [1, 2, 3, 4, 5, 6].map((weekday) => ({
+        provider_id: provider.id,
+        weekday,
+        start_time: "09:00",
+        end_time: "18:00",
+        slot_minutes: 30,
+        break_start: "13:00",
+        break_end: "14:00",
+        is_active: true,
+      })),
+    );
+
+    // Default consultation service
+    await supabaseAdmin.from("provider_services").insert({
+      provider_id: provider.id,
+      name: "Consultation générale",
+      description: "Consultation médicale standard",
+      duration_minutes: 30,
+      is_active: true,
+      is_online_eligible: false,
+      sort_order: 0,
+    });
+
     // Recovery link so the doctor can set their own password
     let recoveryLink: string | null = null;
     try {
