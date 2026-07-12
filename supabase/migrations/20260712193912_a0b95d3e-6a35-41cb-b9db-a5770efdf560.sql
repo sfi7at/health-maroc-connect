@@ -1,0 +1,1 @@
+GRANT EXECUTE ON FUNCTION public.has_any_admin_role(uuid) TO authenticated, anon;
