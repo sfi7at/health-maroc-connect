@@ -86,11 +86,11 @@ function DoctorsHome() {
           </div>
           <div className="mt-4 flex flex-wrap gap-2 text-xs">
             {[
-              { label: "Cardiologue", slug: "cardiologie" },
-              { label: "Dentiste", slug: "dentiste" },
-              { label: "Gynécologue", slug: "gynecologie" },
-              { label: "Pédiatre", slug: "pediatrie" },
-              { label: "Dermatologue", slug: "dermatologie" },
+              { label: "Cardiologue", slug: "cardiology" },
+              { label: "Dentiste", slug: "dentistry" },
+              { label: "Gynécologue", slug: "gynecology" },
+              { label: "Pédiatre", slug: "pediatrics" },
+              { label: "Dermatologue", slug: "dermatology" },
             ].map((t) => (
               <Link
                 key={t.slug}
