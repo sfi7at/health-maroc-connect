@@ -177,7 +177,6 @@ function ApptList({ items, onStatus, onNote, onReschedule }: {
             <div className="min-w-0">
               <p className="font-semibold">{a.profiles?.full_name ?? "Patient"}</p>
               <p className="text-xs text-muted-foreground">{formatDateTimeFr(a.scheduled_for)} · {a.provider_services?.name ?? a.reason ?? "Consultation"}</p>
-              {a.profiles?.phone ? <p className="text-xs text-muted-foreground">Tél: {a.profiles.phone}</p> : null}
             </div>
             <div className="flex flex-wrap items-center gap-1.5">
               <StatusBadge status={a.status} />
