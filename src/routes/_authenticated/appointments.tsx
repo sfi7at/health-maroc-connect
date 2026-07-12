@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { CalendarCheck, Clock, MapPin, Stethoscope } from "lucide-react";
 import { PageHeader } from "@/components/common/PageHeader";
 import { EmptyState } from "@/components/common/EmptyState";
@@ -10,6 +11,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { appointmentsQuery } from "@/lib/queries";
 import { formatDateTimeFr } from "@/lib/format";
 import { buildHead } from "@/lib/seo";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated/appointments")({
   head: () =>
@@ -33,6 +35,24 @@ const STATUS_LABEL: Record<string, { label: string; tone: string }> = {
 function AppointmentsPage() {
   const { user } = useAuth();
   const { data = [], isLoading } = useQuery(appointmentsQuery(user?.id));
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (!user?.id) return;
+    const channel = supabase
+      .channel(`patient-appts-${user.id}`)
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "appointments", filter: `patient_id=eq.${user.id}` },
+        () => {
+          queryClient.invalidateQueries({ queryKey: ["appointments"] });
+        },
+      )
+      .subscribe();
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [user?.id, queryClient]);
 
   const upcoming = data.filter(
     (a) =>
