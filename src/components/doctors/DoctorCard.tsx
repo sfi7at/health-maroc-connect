@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import {
   MapPin, Phone, Star, BadgeCheck, Heart, Navigation, CalendarPlus, Clock,
-  Stethoscope, Crown, Languages as LangIcon,
+  Stethoscope, Crown, Languages as LangIcon, User,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -78,7 +78,11 @@ export function DoctorCard({ doctor, distanceKm, compact }: Props) {
       </div>
 
       <div className="flex flex-1 flex-col gap-3 p-5 pt-9">
-        <div className="min-w-0">
+        <Link
+          to="/doctors/$id"
+          params={{ id: routeId }}
+          className="min-w-0 -m-1 rounded-lg p-1 outline-none transition hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-primary"
+        >
           <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
             <Stethoscope className="h-3.5 w-3.5" />
             {specialties[0] ?? (doctor.category === "dentist" ? "Dentiste" : "Médecin")}
@@ -91,7 +95,7 @@ export function DoctorCard({ doctor, distanceKm, compact }: Props) {
               {specialties.slice(1).join(" · ")}
             </p>
           ) : null}
-        </div>
+        </Link>
 
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
           {doctor.average_rating > 0 ? (
@@ -151,19 +155,11 @@ export function DoctorCard({ doctor, distanceKm, compact }: Props) {
                 <CalendarPlus className="mr-1.5 h-4 w-4" /> Réserver
               </Link>
             </Button>
-          ) : doctor.latitude != null && doctor.longitude != null ? (
-            <Button asChild size="sm" className="flex-1">
-              <a
-                href={buildDirectionsUrl({ lat: Number(doctor.latitude), lng: Number(doctor.longitude) })}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Navigation className="mr-1.5 h-4 w-4" /> Itinéraire
-              </a>
-            </Button>
           ) : (
-            <Button asChild size="sm" variant="outline" className="flex-1">
-              <Link to="/doctors/$id" params={{ id: routeId }}>Voir la fiche</Link>
+            <Button asChild size="sm" className="flex-1">
+              <Link to="/doctors/$id" params={{ id: routeId }}>
+                <User className="mr-1.5 h-4 w-4" /> Voir la fiche
+              </Link>
             </Button>
           )}
           {doctor.phone ? (
@@ -171,7 +167,7 @@ export function DoctorCard({ doctor, distanceKm, compact }: Props) {
               <a href={`tel:${doctor.phone}`}><Phone className="h-4 w-4" /></a>
             </Button>
           ) : null}
-          {bookable && doctor.latitude != null && doctor.longitude != null ? (
+          {doctor.latitude != null && doctor.longitude != null ? (
             <Button asChild size="sm" variant="outline" aria-label="Itinéraire" className="px-3">
               <a href={buildDirectionsUrl({ lat: Number(doctor.latitude), lng: Number(doctor.longitude) })} target="_blank" rel="noreferrer">
                 <Navigation className="h-4 w-4" />
