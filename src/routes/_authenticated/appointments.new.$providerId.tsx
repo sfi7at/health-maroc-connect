@@ -181,7 +181,9 @@ function BookFlow() {
 
       {bookable ? <Stepper steps={STEPS} current={step} /> : null}
 
-      {bookable ? <AnimatePresence mode="wait">
+      {bookable ? (
+      <>
+      <AnimatePresence mode="wait">
         <motion.section
           key={step}
           initial={{ opacity: 0, y: 12 }}
@@ -263,6 +265,8 @@ function BookFlow() {
       <p className="text-center text-xs text-muted-foreground">
         <CalendarPlus className="mr-1 inline h-3 w-3" /> Votre demande est envoyée au cabinet. Vous recevrez une confirmation et un rappel automatique.
       </p>
+      </>
+      ) : null}
     </div>
   );
 }
