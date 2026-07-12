@@ -32,6 +32,8 @@ export interface NavItem {
   to: string;
   icon: LucideIcon;
   badge?: string;
+  /** Restrict visibility to a specific role. Undefined = visible to all. */
+  requires?: "doctor" | "admin";
 }
 
 export const primaryNav: NavItem[] = [
@@ -49,18 +51,13 @@ export const primaryNav: NavItem[] = [
   { label: "Assistant IA", to: "/ai-assistant", icon: Sparkles },
   { label: "Santé & actualités", to: "/content", icon: Newspaper },
   { label: "FAQ", to: "/faq", icon: HelpCircle },
-  { label: "Rendez-vous", to: "/appointments", icon: CalendarCheck },
-  { label: "Calendrier RDV", to: "/appointments/calendar", icon: CalendarRange },
+  { label: "RDV", to: "/appointments", icon: CalendarCheck },
 ];
 
 export const secondaryNav: NavItem[] = [
-  { label: "Profil médical", to: "/profile", icon: User },
-  { label: "Notifications", to: "/notifications", icon: Bell },
-  { label: "Favoris", to: "/favorites", icon: Star },
-  { label: "Espace prestataire", to: "/provider", icon: Stethoscope },
-  { label: "Agenda prestataire", to: "/provider-calendar", icon: CalendarRange },
-  { label: "Console Admin", to: "/admin", icon: ShieldCheck },
-  { label: "Paramètres", to: "/settings", icon: Settings },
+  { label: "Espace prestataire", to: "/provider", icon: Stethoscope, requires: "doctor" },
+  { label: "Agenda prestataire", to: "/provider-calendar", icon: CalendarRange, requires: "doctor" },
+  { label: "Console Admin", to: "/admin", icon: ShieldCheck, requires: "admin" },
 ];
 
 export const footerNav: NavItem[] = [
