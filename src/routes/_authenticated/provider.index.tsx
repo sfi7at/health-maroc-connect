@@ -108,10 +108,7 @@ function ProviderHome() {
               {data.todays.slice(0, 6).map((a) => (
                 <li key={a.id} className="flex items-center justify-between rounded-2xl border border-border bg-background/40 p-3">
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-semibold">
-                      {/* @ts-expect-error nested join */}
-                      {a.profiles?.full_name ?? "Patient"}
-                    </p>
+                    <p className="truncate text-sm font-semibold">{a.profiles?.full_name ?? "Patient"}</p>
                     <p className="text-xs text-muted-foreground">{formatDateTimeFr(a.scheduled_for)}</p>
                   </div>
                   <Badge variant="outline">{a.status}</Badge>
