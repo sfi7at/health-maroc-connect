@@ -1,87 +1,51 @@
-## Doctor Access Module — HealthLink Maroc
+# Doctor booking — integrated vs info-only
 
-Complete "Doctor Access" workflow built on top of the existing `providers`, `appointments`, `prescriptions`, and `user_roles` tables. Nothing is created from scratch when a table already covers the need — we extend and wire it end to end.
+## Diagnosis
 
----
+- Only 2 of 17 doctor/dentist providers have `owner_id` set. The rest are info-only listings that should not accept bookings.
+- Today the `/doctors/$id` page always shows **"Prendre RDV"**, which links to `/appointments/book/$providerId` and inserts an `appointments` row regardless of whether the provider is truly integrated.
+- Appointment RLS allows any authenticated patient to insert against any `provider_id` (fine), but inserts against info-only providers create orphan bookings no one will ever answer — that's the "booking doesn't work" symptom.
+- Two overlapping booking routes exist: `appointments.book.$providerId.tsx` and `appointments.new.$providerId.tsx`. Only the first is linked from the doctor profile; the second is dead code and confuses the flow.
 
-### 1. Database (migration)
+## Definition of "integrated"
 
-Additions only; existing schema is preserved.
+A provider is bookable when **all** of:
+- `category in ('doctor','dentist')`
+- `owner_id is not null` (a real user account owns the profile)
+- `is_active = true`
+- `verification_status <> 'suspended'`
 
-- **`app_role` enum**: add `'doctor'` value (if missing) alongside existing `admin`, `user`, etc.
-- **`providers`**: add `google_maps_url text`, `clinic_logo_url text`, `prescription_header jsonb` (name, title, RPPS/INPE, address, phone, email, specialty snapshot for PDF).
-- **`profiles`**: add `active_role text default 'citizen'` to persist the citizen ↔ pro toggle across sessions.
-- **`prescriptions`** (already exists): confirm columns `provider_id`, `patient_name`, `patient_age`, `patient_gender`, `diagnosis`, `items jsonb`, `notes`, `prescribed_at`, `expires_at`, `pdf_url`, `verification_token`. Add any missing.
-- **RPC `admin_create_doctor(payload jsonb)`** (SECURITY DEFINER, admin-gated via `has_role`):
-  1. Calls `auth.admin.createUser` equivalent via service role (invoked from a server fn — the RPC just prepares the provider row).
-  2. Actually: split into (a) server fn `adminCreateDoctor` that uses `supabaseAdmin.auth.admin.createUser({ email, password, email_confirm: true, user_metadata })` + generates temp password, (b) inserts `providers` row (category `doctor`, `owner_id = new user`), (c) grants `doctor` role in `user_roles`, (d) sends invite email with credentials via `auth.admin.generateLink('invite')`.
-- **GRANTs** on any new columns rely on existing table grants; no new tables needed.
+Everything else is **info-only**: show a Directions CTA instead of Book.
 
-### 2. Server functions (`src/lib/doctor-admin.functions.ts`, `src/lib/prescriptions.functions.ts`)
+Expose this as a single helper `isBookable(provider)` in `src/lib/doctors.ts` so every surface uses the same rule.
 
-- `adminCreateDoctor` — admin-only, creates auth user + provider + role + sends invite. Returns temp credentials once.
-- `adminResendDoctorInvite` — regenerates invite link.
-- `createPrescription` / `updatePrescription` — doctor-owned, writes to `prescriptions`, generates `verification_token`, returns row.
-- `renderPrescriptionPdf` — server fn using `pdf-lib` (Workers-safe) to compose header (logo + doctor details) + patient block + Rx items + signature + QR code (verification URL) → uploads to `prescriptions` bucket, returns signed URL.
+## Changes
 
-### 3. Admin back-office
+### 1. Shared helper — `src/lib/doctors.ts`
+- Add `isBookable(p)` and `directionsUrl(p)` (prefer `google_maps_url`, fall back to `https://www.google.com/maps/search/?api=1&query=<lat>,<lng>` or to an address search).
 
-- New page `src/routes/_authenticated/admin.doctors.new.tsx`: multi-section form (Identity, Contact & clinic, Specialty & languages, Insurances, Publish options). Submits to `adminCreateDoctor`, shows generated credentials in a copyable dialog + "Send invite" button.
-- `admin.providers.tsx` gets a "+ Add doctor" primary CTA linking to the new form.
-- Public directory auto-updates: the provider row is created with `is_active=true`, so it appears immediately in `/doctors` search (already wired via `doctorsQuery`).
+### 2. Doctor profile — `src/routes/doctors.$id.tsx`
+- Replace the hardcoded "Prendre RDV" button with a conditional:
+  - `isBookable(doctor)` → keep the current Link to `/appointments/book/$providerId`.
+  - Otherwise → render an anchor "Itinéraire" opening `directionsUrl(doctor)` in a new tab, plus a subtle note "Ce cabinet n'accepte pas encore la prise de RDV en ligne."
+- Apply the same swap to any sticky mobile CTA on the page.
 
-### 4. Citizen ↔ Pro toggle
+### 3. Doctor card — `src/components/doctors/DoctorCard.tsx` (and `src/components/cards/DoctorCard.tsx`)
+- Same conditional: "Prendre RDV" for integrated, "Itinéraire" for info-only. Keeps list views honest.
 
-- `src/hooks/use-active-role.ts`: reads `profiles.active_role`, exposes `switchRole('citizen' | 'pro')` which updates the profile and navigates.
-- `TopNav.tsx` gets a `<RoleSwitch />` button — visible only when the user has the `doctor` role (`has_role` check via a cached query). One click swaps between `/` (citizen) and `/provider` (pro workspace, already exists).
+### 4. Booking route hardening — `src/routes/_authenticated/appointments.book.$providerId.tsx`
+- On load, if `!isBookable(doctor)`, render a friendly empty state ("Ce médecin n'est pas encore intégré à la prise de RDV en ligne") with a Directions button and a link back to the profile — no form.
+- In the `create` mutation, before insert, refetch the provider and reject if not bookable, so a stale link can't create an orphan appointment.
+- Improve error surfacing: show the Supabase error message in the toast (currently generic) so future RLS/constraint failures are visible.
 
-### 5. Doctor dashboard (reuse + extend `/provider`)
+### 5. Remove dead route
+- Delete `src/routes/_authenticated/appointments.new.$providerId.tsx` (unused, duplicates `.book.`) to avoid two divergent booking flows.
 
-The existing `_authenticated/provider.*` routes already cover overview, profile, gallery, hours, services, appointments, reviews, stats, notifications, verification, subscription, messages, settings. We only add:
+### 6. Verification
+- Manually verify against the currently viewed doctor (`fee82afb-…`, owner set): Book button shows and insert succeeds.
+- Pick one info-only doctor (owner null) and confirm: Directions button shows, `/appointments/book/<id>` displays the blocked state.
+- `tsgo` typecheck.
 
-- **Prescriptions** tab: `src/routes/_authenticated/provider.prescriptions.tsx` (list) + `provider.prescriptions.new.tsx` (composer) + `provider.prescriptions.$id.tsx` (view/print).
-- **Real-time public profile sync**: `provider.profile.tsx` already writes to `providers`; add fields for `google_maps_url` and `clinic_logo_url` + upload widget. Invalidate `doctorsQuery` on save so citizen search reflects instantly.
-
-### 6. Prescription generator UI
-
-`ProvenerPrescriptionComposer`:
-- Header preview (live) built from `providers` row + editable overrides stored in `prescription_header`.
-- Patient block (name, age, gender, weight, allergies free-text).
-- Repeatable Rx line items: drug name (autocomplete against a small local list to start), dosage, form, frequency, duration, notes.
-- Free-text diagnosis + recommendations.
-- Actions: **Save draft**, **Generate PDF** (calls `renderPrescriptionPdf`), **Download**, **Copy verification link**.
-- Print layout mirrors PDF for browser print fallback.
-
-### 7. UI structure summary
-
-```
-Admin
-  /admin/providers           → "+ Add doctor"
-  /admin/doctors/new         → creation form → credentials dialog
-
-Doctor (after login)
-  /                          → Citizen home (default)
-  [TopNav: Switch to Pro]    → toggles active_role, routes to /provider
-  /provider                  → Overview + KPIs
-  /provider/appointments     → Calendar & list
-  /provider/profile          → Public listing editor (logo, maps, contacts)
-  /provider/prescriptions    → List + "New"
-  /provider/prescriptions/new→ Composer + live PDF preview
-```
-
-### 8. Out of scope for this pass
-
-- SMS delivery of credentials (email invite only; SMS can plug into an existing notification path later).
-- E-signature / CNOM cryptographic signing.
-- Drug interaction checker (composer stays free-form + autocomplete).
-
----
-
-### Deliverables in this implementation
-
-1. Migration adding the new columns, enum value, and helper function.
-2. Server functions for admin doctor creation and prescription PDF generation.
-3. Admin "Add doctor" form + credentials dialog.
-4. Role switcher wired into `TopNav`.
-5. Prescription list / composer / viewer routes under `/provider/prescriptions`.
-6. Real-time public-profile sync (logo, Google Maps, contacts) reflected in `/doctors` search.
+## Out of scope
+- No schema change. `owner_id` is already the source of truth; no new `is_integrated` column needed.
+- No changes to appointment RLS or notifications.

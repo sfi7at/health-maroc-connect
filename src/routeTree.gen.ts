@@ -121,7 +121,6 @@ import { Route as AuthenticatedProviderPrescriptionsNewRouteImport } from './rou
 import { Route as AuthenticatedProviderPrescriptionsIdRouteImport } from './routes/_authenticated/provider.prescriptions.$id'
 import { Route as AuthenticatedBloodChatRequestIdRouteImport } from './routes/_authenticated/blood.chat.$requestId'
 import { Route as AuthenticatedAppointmentsNewProviderIdRouteImport } from './routes/_authenticated/appointments.new.$providerId'
-import { Route as AuthenticatedAppointmentsBookProviderIdRouteImport } from './routes/_authenticated/appointments.book.$providerId'
 import { Route as AuthenticatedAdminSecurityTrustRouteImport } from './routes/_authenticated/admin.security.trust'
 import { Route as AuthenticatedAdminSecurityEventsRouteImport } from './routes/_authenticated/admin.security.events'
 import { Route as AuthenticatedAdminSecurityBlockedRouteImport } from './routes/_authenticated/admin.security.blocked'
@@ -741,12 +740,6 @@ const AuthenticatedAppointmentsNewProviderIdRoute =
     path: '/new/$providerId',
     getParentRoute: () => AuthenticatedAppointmentsRoute,
   } as any)
-const AuthenticatedAppointmentsBookProviderIdRoute =
-  AuthenticatedAppointmentsBookProviderIdRouteImport.update({
-    id: '/book/$providerId',
-    path: '/book/$providerId',
-    getParentRoute: () => AuthenticatedAppointmentsRoute,
-  } as any)
 const AuthenticatedAdminSecurityTrustRoute =
   AuthenticatedAdminSecurityTrustRouteImport.update({
     id: '/trust',
@@ -883,7 +876,6 @@ export interface FileRoutesByFullPath {
   '/admin/security/blocked': typeof AuthenticatedAdminSecurityBlockedRoute
   '/admin/security/events': typeof AuthenticatedAdminSecurityEventsRoute
   '/admin/security/trust': typeof AuthenticatedAdminSecurityTrustRoute
-  '/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
   '/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
   '/provider/prescriptions/$id': typeof AuthenticatedProviderPrescriptionsIdRoute
@@ -999,7 +991,6 @@ export interface FileRoutesByTo {
   '/admin/security/blocked': typeof AuthenticatedAdminSecurityBlockedRoute
   '/admin/security/events': typeof AuthenticatedAdminSecurityEventsRoute
   '/admin/security/trust': typeof AuthenticatedAdminSecurityTrustRoute
-  '/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
   '/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
   '/provider/prescriptions/$id': typeof AuthenticatedProviderPrescriptionsIdRoute
@@ -1119,7 +1110,6 @@ export interface FileRoutesById {
   '/_authenticated/admin/security/blocked': typeof AuthenticatedAdminSecurityBlockedRoute
   '/_authenticated/admin/security/events': typeof AuthenticatedAdminSecurityEventsRoute
   '/_authenticated/admin/security/trust': typeof AuthenticatedAdminSecurityTrustRoute
-  '/_authenticated/appointments/book/$providerId': typeof AuthenticatedAppointmentsBookProviderIdRoute
   '/_authenticated/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/_authenticated/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
   '/_authenticated/provider/prescriptions/$id': typeof AuthenticatedProviderPrescriptionsIdRoute
@@ -1239,7 +1229,6 @@ export interface FileRouteTypes {
     | '/admin/security/blocked'
     | '/admin/security/events'
     | '/admin/security/trust'
-    | '/appointments/book/$providerId'
     | '/appointments/new/$providerId'
     | '/blood/chat/$requestId'
     | '/provider/prescriptions/$id'
@@ -1355,7 +1344,6 @@ export interface FileRouteTypes {
     | '/admin/security/blocked'
     | '/admin/security/events'
     | '/admin/security/trust'
-    | '/appointments/book/$providerId'
     | '/appointments/new/$providerId'
     | '/blood/chat/$requestId'
     | '/provider/prescriptions/$id'
@@ -1474,7 +1462,6 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/security/blocked'
     | '/_authenticated/admin/security/events'
     | '/_authenticated/admin/security/trust'
-    | '/_authenticated/appointments/book/$providerId'
     | '/_authenticated/appointments/new/$providerId'
     | '/_authenticated/blood/chat/$requestId'
     | '/_authenticated/provider/prescriptions/$id'
@@ -2293,13 +2280,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppointmentsNewProviderIdRouteImport
       parentRoute: typeof AuthenticatedAppointmentsRoute
     }
-    '/_authenticated/appointments/book/$providerId': {
-      id: '/_authenticated/appointments/book/$providerId'
-      path: '/book/$providerId'
-      fullPath: '/appointments/book/$providerId'
-      preLoaderRoute: typeof AuthenticatedAppointmentsBookProviderIdRouteImport
-      parentRoute: typeof AuthenticatedAppointmentsRoute
-    }
     '/_authenticated/admin/security/trust': {
       id: '/_authenticated/admin/security/trust'
       path: '/trust'
@@ -2428,7 +2408,6 @@ const AuthenticatedAdminRouteWithChildren =
 interface AuthenticatedAppointmentsRouteChildren {
   AuthenticatedAppointmentsIdRoute: typeof AuthenticatedAppointmentsIdRoute
   AuthenticatedAppointmentsCalendarRoute: typeof AuthenticatedAppointmentsCalendarRoute
-  AuthenticatedAppointmentsBookProviderIdRoute: typeof AuthenticatedAppointmentsBookProviderIdRoute
   AuthenticatedAppointmentsNewProviderIdRoute: typeof AuthenticatedAppointmentsNewProviderIdRoute
 }
 
@@ -2437,8 +2416,6 @@ const AuthenticatedAppointmentsRouteChildren: AuthenticatedAppointmentsRouteChil
     AuthenticatedAppointmentsIdRoute: AuthenticatedAppointmentsIdRoute,
     AuthenticatedAppointmentsCalendarRoute:
       AuthenticatedAppointmentsCalendarRoute,
-    AuthenticatedAppointmentsBookProviderIdRoute:
-      AuthenticatedAppointmentsBookProviderIdRoute,
     AuthenticatedAppointmentsNewProviderIdRoute:
       AuthenticatedAppointmentsNewProviderIdRoute,
   }
@@ -2693,13 +2670,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
