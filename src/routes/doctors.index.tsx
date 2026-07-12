@@ -16,7 +16,7 @@ import { haversineKm } from "@/lib/format";
 import { useGeolocation } from "@/hooks/use-geolocation";
 import { buildHead } from "@/lib/seo";
 
-export const Route = createFileRoute("/doctors")({
+export const Route = createFileRoute("/doctors/")({
   head: () =>
     buildHead({
       title: "Médecins au Maroc — Trouvez un spécialiste vérifié",

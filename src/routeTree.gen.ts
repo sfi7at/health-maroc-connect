@@ -19,7 +19,6 @@ import { Route as MapRouteImport } from './routes/map'
 import { Route as LaboratoriesRouteImport } from './routes/laboratories'
 import { Route as HospitalsRouteImport } from './routes/hospitals'
 import { Route as FaqRouteImport } from './routes/faq'
-import { Route as DoctorsRouteImport } from './routes/doctors'
 import { Route as ContentRouteImport } from './routes/content'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BloodRouteImport } from './routes/blood'
@@ -27,6 +26,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DoctorsIndexRouteImport } from './routes/doctors.index'
 import { Route as ProvidersIdRouteImport } from './routes/providers.$id'
 import { Route as PharmaciesSearchRouteImport } from './routes/pharmacies.search'
 import { Route as PharmaciesOpenRouteImport } from './routes/pharmacies.open'
@@ -176,11 +176,6 @@ const FaqRoute = FaqRouteImport.update({
   path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DoctorsRoute = DoctorsRouteImport.update({
-  id: '/doctors',
-  path: '/doctors',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ContentRoute = ContentRouteImport.update({
   id: '/content',
   path: '/content',
@@ -213,6 +208,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DoctorsIndexRoute = DoctorsIndexRouteImport.update({
+  id: '/doctors/',
+  path: '/doctors/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProvidersIdRoute = ProvidersIdRouteImport.update({
@@ -281,19 +281,19 @@ const HospitalsDepartmentsRoute = HospitalsDepartmentsRouteImport.update({
   getParentRoute: () => HospitalsRoute,
 } as any)
 const DoctorsSpecialtiesRoute = DoctorsSpecialtiesRouteImport.update({
-  id: '/specialties',
-  path: '/specialties',
-  getParentRoute: () => DoctorsRoute,
+  id: '/doctors/specialties',
+  path: '/doctors/specialties',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const DoctorsSearchRoute = DoctorsSearchRouteImport.update({
-  id: '/search',
-  path: '/search',
-  getParentRoute: () => DoctorsRoute,
+  id: '/doctors/search',
+  path: '/doctors/search',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const DoctorsIdRoute = DoctorsIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => DoctorsRoute,
+  id: '/doctors/$id',
+  path: '/doctors/$id',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ContentSlugRoute = ContentSlugRouteImport.update({
   id: '/$slug',
@@ -410,9 +410,9 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
 const DoctorsSpecialtySlugRoute = DoctorsSpecialtySlugRouteImport.update({
-  id: '/specialty/$slug',
-  path: '/specialty/$slug',
-  getParentRoute: () => DoctorsRoute,
+  id: '/doctors/specialty/$slug',
+  path: '/doctors/specialty/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BloodDonorsIdRoute = BloodDonorsIdRouteImport.update({
   id: '/$id',
@@ -772,7 +772,6 @@ export interface FileRoutesByFullPath {
   '/blood': typeof BloodRouteWithChildren
   '/contact': typeof ContactRoute
   '/content': typeof ContentRouteWithChildren
-  '/doctors': typeof DoctorsRouteWithChildren
   '/faq': typeof FaqRoute
   '/hospitals': typeof HospitalsRouteWithChildren
   '/laboratories': typeof LaboratoriesRouteWithChildren
@@ -817,6 +816,7 @@ export interface FileRoutesByFullPath {
   '/pharmacies/open': typeof PharmaciesOpenRoute
   '/pharmacies/search': typeof PharmaciesSearchRoute
   '/providers/$id': typeof ProvidersIdRoute
+  '/doctors/': typeof DoctorsIndexRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
   '/admin/articles': typeof AuthenticatedAdminArticlesRoute
@@ -889,7 +889,6 @@ export interface FileRoutesByTo {
   '/blood': typeof BloodRouteWithChildren
   '/contact': typeof ContactRoute
   '/content': typeof ContentRouteWithChildren
-  '/doctors': typeof DoctorsRouteWithChildren
   '/faq': typeof FaqRoute
   '/hospitals': typeof HospitalsRouteWithChildren
   '/laboratories': typeof LaboratoriesRouteWithChildren
@@ -932,6 +931,7 @@ export interface FileRoutesByTo {
   '/pharmacies/open': typeof PharmaciesOpenRoute
   '/pharmacies/search': typeof PharmaciesSearchRoute
   '/providers/$id': typeof ProvidersIdRoute
+  '/doctors': typeof DoctorsIndexRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
   '/admin/articles': typeof AuthenticatedAdminArticlesRoute
@@ -1006,7 +1006,6 @@ export interface FileRoutesById {
   '/blood': typeof BloodRouteWithChildren
   '/contact': typeof ContactRoute
   '/content': typeof ContentRouteWithChildren
-  '/doctors': typeof DoctorsRouteWithChildren
   '/faq': typeof FaqRoute
   '/hospitals': typeof HospitalsRouteWithChildren
   '/laboratories': typeof LaboratoriesRouteWithChildren
@@ -1051,6 +1050,7 @@ export interface FileRoutesById {
   '/pharmacies/open': typeof PharmaciesOpenRoute
   '/pharmacies/search': typeof PharmaciesSearchRoute
   '/providers/$id': typeof ProvidersIdRoute
+  '/doctors/': typeof DoctorsIndexRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/_authenticated/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
   '/_authenticated/admin/articles': typeof AuthenticatedAdminArticlesRoute
@@ -1125,7 +1125,6 @@ export interface FileRouteTypes {
     | '/blood'
     | '/contact'
     | '/content'
-    | '/doctors'
     | '/faq'
     | '/hospitals'
     | '/laboratories'
@@ -1170,6 +1169,7 @@ export interface FileRouteTypes {
     | '/pharmacies/open'
     | '/pharmacies/search'
     | '/providers/$id'
+    | '/doctors/'
     | '/admin/analytics'
     | '/admin/appointments'
     | '/admin/articles'
@@ -1242,7 +1242,6 @@ export interface FileRouteTypes {
     | '/blood'
     | '/contact'
     | '/content'
-    | '/doctors'
     | '/faq'
     | '/hospitals'
     | '/laboratories'
@@ -1285,6 +1284,7 @@ export interface FileRouteTypes {
     | '/pharmacies/open'
     | '/pharmacies/search'
     | '/providers/$id'
+    | '/doctors'
     | '/admin/analytics'
     | '/admin/appointments'
     | '/admin/articles'
@@ -1358,7 +1358,6 @@ export interface FileRouteTypes {
     | '/blood'
     | '/contact'
     | '/content'
-    | '/doctors'
     | '/faq'
     | '/hospitals'
     | '/laboratories'
@@ -1403,6 +1402,7 @@ export interface FileRouteTypes {
     | '/pharmacies/open'
     | '/pharmacies/search'
     | '/providers/$id'
+    | '/doctors/'
     | '/_authenticated/admin/analytics'
     | '/_authenticated/admin/appointments'
     | '/_authenticated/admin/articles'
@@ -1477,7 +1477,6 @@ export interface RootRouteChildren {
   BloodRoute: typeof BloodRouteWithChildren
   ContactRoute: typeof ContactRoute
   ContentRoute: typeof ContentRouteWithChildren
-  DoctorsRoute: typeof DoctorsRouteWithChildren
   FaqRoute: typeof FaqRoute
   HospitalsRoute: typeof HospitalsRouteWithChildren
   LaboratoriesRoute: typeof LaboratoriesRouteWithChildren
@@ -1488,9 +1487,14 @@ export interface RootRouteChildren {
   SearchRoute: typeof SearchRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
+  DoctorsIdRoute: typeof DoctorsIdRoute
+  DoctorsSearchRoute: typeof DoctorsSearchRoute
+  DoctorsSpecialtiesRoute: typeof DoctorsSpecialtiesRoute
   ProvidersIdRoute: typeof ProvidersIdRoute
+  DoctorsIndexRoute: typeof DoctorsIndexRoute
   ApiPublicHealthRoute: typeof ApiPublicHealthRoute
   ApiPublicSitemapDotxmlRoute: typeof ApiPublicSitemapDotxmlRoute
+  DoctorsSpecialtySlugRoute: typeof DoctorsSpecialtySlugRoute
   ApiPublicCronAppointmentRemindersRoute: typeof ApiPublicCronAppointmentRemindersRoute
 }
 
@@ -1566,13 +1570,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/doctors': {
-      id: '/doctors'
-      path: '/doctors'
-      fullPath: '/doctors'
-      preLoaderRoute: typeof DoctorsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/content': {
       id: '/content'
       path: '/content'
@@ -1620,6 +1617,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/doctors/': {
+      id: '/doctors/'
+      path: '/doctors'
+      fullPath: '/doctors/'
+      preLoaderRoute: typeof DoctorsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/providers/$id': {
@@ -1715,24 +1719,24 @@ declare module '@tanstack/react-router' {
     }
     '/doctors/specialties': {
       id: '/doctors/specialties'
-      path: '/specialties'
+      path: '/doctors/specialties'
       fullPath: '/doctors/specialties'
       preLoaderRoute: typeof DoctorsSpecialtiesRouteImport
-      parentRoute: typeof DoctorsRoute
+      parentRoute: typeof rootRouteImport
     }
     '/doctors/search': {
       id: '/doctors/search'
-      path: '/search'
+      path: '/doctors/search'
       fullPath: '/doctors/search'
       preLoaderRoute: typeof DoctorsSearchRouteImport
-      parentRoute: typeof DoctorsRoute
+      parentRoute: typeof rootRouteImport
     }
     '/doctors/$id': {
       id: '/doctors/$id'
-      path: '/$id'
+      path: '/doctors/$id'
       fullPath: '/doctors/$id'
       preLoaderRoute: typeof DoctorsIdRouteImport
-      parentRoute: typeof DoctorsRoute
+      parentRoute: typeof rootRouteImport
     }
     '/content/$slug': {
       id: '/content/$slug'
@@ -1883,10 +1887,10 @@ declare module '@tanstack/react-router' {
     }
     '/doctors/specialty/$slug': {
       id: '/doctors/specialty/$slug'
-      path: '/specialty/$slug'
+      path: '/doctors/specialty/$slug'
       fullPath: '/doctors/specialty/$slug'
       preLoaderRoute: typeof DoctorsSpecialtySlugRouteImport
-      parentRoute: typeof DoctorsRoute
+      parentRoute: typeof rootRouteImport
     }
     '/blood/donors/$id': {
       id: '/blood/donors/$id'
@@ -2559,23 +2563,6 @@ const ContentRouteChildren: ContentRouteChildren = {
 const ContentRouteWithChildren =
   ContentRoute._addFileChildren(ContentRouteChildren)
 
-interface DoctorsRouteChildren {
-  DoctorsIdRoute: typeof DoctorsIdRoute
-  DoctorsSearchRoute: typeof DoctorsSearchRoute
-  DoctorsSpecialtiesRoute: typeof DoctorsSpecialtiesRoute
-  DoctorsSpecialtySlugRoute: typeof DoctorsSpecialtySlugRoute
-}
-
-const DoctorsRouteChildren: DoctorsRouteChildren = {
-  DoctorsIdRoute: DoctorsIdRoute,
-  DoctorsSearchRoute: DoctorsSearchRoute,
-  DoctorsSpecialtiesRoute: DoctorsSpecialtiesRoute,
-  DoctorsSpecialtySlugRoute: DoctorsSpecialtySlugRoute,
-}
-
-const DoctorsRouteWithChildren =
-  DoctorsRoute._addFileChildren(DoctorsRouteChildren)
-
 interface HospitalsRouteChildren {
   HospitalsDepartmentsRoute: typeof HospitalsDepartmentsRoute
   HospitalsEmergencyRoute: typeof HospitalsEmergencyRoute
@@ -2638,7 +2625,6 @@ const rootRouteChildren: RootRouteChildren = {
   BloodRoute: BloodRouteWithChildren,
   ContactRoute: ContactRoute,
   ContentRoute: ContentRouteWithChildren,
-  DoctorsRoute: DoctorsRouteWithChildren,
   FaqRoute: FaqRoute,
   HospitalsRoute: HospitalsRouteWithChildren,
   LaboratoriesRoute: LaboratoriesRouteWithChildren,
@@ -2649,9 +2635,14 @@ const rootRouteChildren: RootRouteChildren = {
   SearchRoute: SearchRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
+  DoctorsIdRoute: DoctorsIdRoute,
+  DoctorsSearchRoute: DoctorsSearchRoute,
+  DoctorsSpecialtiesRoute: DoctorsSpecialtiesRoute,
   ProvidersIdRoute: ProvidersIdRoute,
+  DoctorsIndexRoute: DoctorsIndexRoute,
   ApiPublicHealthRoute: ApiPublicHealthRoute,
   ApiPublicSitemapDotxmlRoute: ApiPublicSitemapDotxmlRoute,
+  DoctorsSpecialtySlugRoute: DoctorsSpecialtySlugRoute,
   ApiPublicCronAppointmentRemindersRoute:
     ApiPublicCronAppointmentRemindersRoute,
 }
