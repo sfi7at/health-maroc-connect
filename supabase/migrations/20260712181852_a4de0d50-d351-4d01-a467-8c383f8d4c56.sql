@@ -1,0 +1,1 @@
+DROP FUNCTION IF EXISTS public.get_provider_booked_slots(uuid, timestamptz, timestamptz);
