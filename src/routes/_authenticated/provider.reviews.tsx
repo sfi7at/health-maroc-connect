@@ -41,11 +41,25 @@ function ProviderReviewsPage() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("reviews")
-        .select("id, rating, comment, created_at, provider_response, provider_response_at, author_id, profiles:author_id(full_name, avatar_url)")
+        .select("id, rating, comment, created_at, provider_response, provider_response_at, author_id")
         .eq("provider_id", id!)
         .order("created_at", { ascending: false });
       if (error) throw error;
-      return (data ?? []) as unknown as ReviewRow[];
+      const rows = data ?? [];
+      const authorIds = [...new Set(rows.map((r) => r.author_id).filter(Boolean))] as string[];
+      const profilesById = new Map<string, { full_name: string | null; avatar_url: string | null }>();
+      if (authorIds.length > 0) {
+        const { data: profiles, error: profilesError } = await supabase
+          .from("profiles")
+          .select("id, full_name, avatar_url")
+          .in("id", authorIds);
+        if (profilesError) throw profilesError;
+        profiles?.forEach((profile) => profilesById.set(profile.id, { full_name: profile.full_name, avatar_url: profile.avatar_url }));
+      }
+      return rows.map((row) => ({
+        ...row,
+        profiles: row.author_id ? profilesById.get(row.author_id) ?? null : null,
+      })) as ReviewRow[];
     },
   });
 

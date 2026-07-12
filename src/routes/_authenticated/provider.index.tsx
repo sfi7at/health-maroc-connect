@@ -47,15 +47,29 @@ function ProviderHome() {
         supabase.from("appointments").select("id, status, scheduled_for, reason, profiles:patient_id(full_name)").eq("provider_id", id!).gte("scheduled_for", todayStart.toISOString()).lte("scheduled_for", todayEnd.toISOString()).order("scheduled_for"),
         supabase.from("appointments").select("id", { count: "exact", head: true }).eq("provider_id", id!).gt("scheduled_for", todayEnd.toISOString()).in("status", ["pending","approved"]),
         supabase.from("favorites").select("provider_id", { count: "exact", head: true }).eq("provider_id", id!),
-        supabase.from("reviews").select("id, rating, comment, created_at, profiles:author_id(full_name, avatar_url)").eq("provider_id", id!).order("created_at", { ascending: false }).limit(3),
+        supabase.from("reviews").select("id, rating, comment, created_at, author_id").eq("provider_id", id!).order("created_at", { ascending: false }).limit(3),
         supabase.from("notifications").select("id", { count: "exact", head: true }).eq("user_id", user!.id).eq("is_read", false),
       ]);
+      const reviewRows = reviews.data ?? [];
+      const authorIds = [...new Set(reviewRows.map((r) => r.author_id).filter(Boolean))] as string[];
+      const reviewerProfilesById = new Map<string, { full_name: string | null; avatar_url: string | null }>();
+      if (authorIds.length > 0) {
+        const { data: reviewerProfiles, error } = await supabase
+          .from("profiles")
+          .select("id, full_name, avatar_url")
+          .in("id", authorIds);
+        if (error) throw error;
+        reviewerProfiles?.forEach((p) => reviewerProfilesById.set(p.id, { full_name: p.full_name, avatar_url: p.avatar_url }));
+      }
       return {
         profile: profile.data,
         todays: todays.data ?? [],
         upcomingCount: upcoming.count ?? 0,
         favoritesCount: favCount.count ?? 0,
-        reviews: reviews.data ?? [],
+        reviews: reviewRows.map((r) => ({
+          ...r,
+          profiles: r.author_id ? reviewerProfilesById.get(r.author_id) ?? null : null,
+        })),
         unread: notif.count ?? 0,
       };
     },
@@ -108,10 +122,7 @@ function ProviderHome() {
               {data.todays.slice(0, 6).map((a) => (
                 <li key={a.id} className="flex items-center justify-between rounded-2xl border border-border bg-background/40 p-3">
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-semibold">
-                      {/* @ts-expect-error nested join */}
-                      {a.profiles?.full_name ?? "Patient"}
-                    </p>
+                    <p className="truncate text-sm font-semibold">{a.profiles?.full_name ?? "Patient"}</p>
                     <p className="text-xs text-muted-foreground">{formatDateTimeFr(a.scheduled_for)}</p>
                   </div>
                   <Badge variant="outline">{a.status}</Badge>
@@ -156,10 +167,7 @@ function ProviderHome() {
             {data.reviews.map((r) => (
               <li key={r.id} className="rounded-2xl border border-border bg-background/40 p-3">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-semibold">
-                    {/* @ts-expect-error nested join */}
-                    {r.profiles?.full_name ?? "Patient"}
-                  </p>
+                  <p className="text-sm font-semibold">{r.profiles?.full_name ?? "Patient"}</p>
                   <div className="flex items-center gap-1 text-amber-500"><Star className="h-3.5 w-3.5 fill-current" /><span className="text-xs font-semibold">{r.rating.toFixed(1)}</span></div>
                 </div>
                 {r.comment ? <p className="mt-1 text-sm text-muted-foreground">{r.comment}</p> : null}

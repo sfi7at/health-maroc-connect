@@ -230,6 +230,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "appointment_waitlist_patient_profile_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "appointment_waitlist_provider_id_fkey"
             columns: ["provider_id"]
             isOneToOne: false
@@ -316,6 +323,13 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "appointments_patient_profile_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "appointments_provider_id_fkey"
             columns: ["provider_id"]

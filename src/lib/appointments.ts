@@ -1,6 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
+import { getBookedSlotsForProvider } from "@/lib/appointment-booking.functions";
 
 export type AppointmentStatus = Database["public"]["Enums"]["appointment_status"] | "rescheduled";
 
@@ -44,7 +45,7 @@ export type BlockedDate = {
 export type AppointmentRow = Database["public"]["Tables"]["appointments"]["Row"] & {
   providers?: { id: string; name: string; category: string; profile_image: string | null; address: string | null; phone: string | null; latitude: number | null; longitude: number | null } | null;
   provider_services?: { id: string; name: string; duration_minutes: number; price_mad: number | null } | null;
-  profiles?: { id: string; full_name: string | null; avatar_url: string | null; phone: string | null } | null;
+  profiles?: { id: string; full_name: string | null; avatar_url: string | null } | null;
 };
 
 // ---------- Queries ----------
@@ -113,7 +114,7 @@ export function providerAppointmentsQuery(providerId: string | undefined, range?
     queryFn: async () => {
       let q = supabase
         .from("appointments")
-        .select("*, profiles:patient_id ( id, full_name, avatar_url, phone ), provider_services:service_id ( id, name, duration_minutes, price_mad )")
+        .select("*, profiles:patient_id ( id, full_name, avatar_url ), provider_services:service_id ( id, name, duration_minutes, price_mad )")
         .eq("provider_id", providerId!)
         .order("scheduled_for", { ascending: true })
         .limit(500);
@@ -148,17 +149,7 @@ export function bookedSlotsQuery(providerId: string | undefined, dateIso: string
     queryKey: ["booked_slots", providerId, dateIso],
     enabled: !!providerId && !!dateIso,
     queryFn: async () => {
-      const start = new Date(`${dateIso}T00:00:00`);
-      const end = new Date(`${dateIso}T23:59:59`);
-      const { data, error } = await supabase
-        .from("appointments")
-        .select("scheduled_for, duration_minutes, status")
-        .eq("provider_id", providerId!)
-        .gte("scheduled_for", start.toISOString())
-        .lte("scheduled_for", end.toISOString())
-        .in("status", ["pending", "approved"]);
-      if (error) throw error;
-      return data ?? [];
+      return getBookedSlotsForProvider({ data: { providerId: providerId!, dateIso } });
     },
     staleTime: 5_000,
   });
@@ -171,11 +162,11 @@ export function waitlistQuery(providerId: string | undefined) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("appointment_waitlist")
-        .select("*, profiles:patient_id ( id, full_name, phone ), provider_services:service_id ( id, name )")
+        .select("*, profiles:patient_id ( id, full_name ), provider_services:service_id ( id, name )")
         .eq("provider_id", providerId!)
         .order("created_at", { ascending: false });
       if (error) throw error;
-      return (data ?? []) as unknown as Array<{ id: string; patient_id: string; provider_id: string; service_id: string | null; preferred_date: string | null; preferred_period: string | null; notes: string | null; status: string; created_at: string; profiles?: { full_name: string | null; phone: string | null } | null; provider_services?: { name: string } | null }>;
+      return (data ?? []) as unknown as Array<{ id: string; patient_id: string; provider_id: string; service_id: string | null; preferred_date: string | null; preferred_period: string | null; notes: string | null; status: string; created_at: string; profiles?: { full_name: string | null } | null; provider_services?: { name: string } | null }>;
     },
   });
 }
