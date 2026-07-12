@@ -35,12 +35,6 @@ export function Sidebar() {
         <SidebarSection label="Aide" items={footerNav} pathname={pathname} className="mt-6" />
       </nav>
 
-      <div className="border-t border-border p-4">
-        <div className="rounded-xl bg-accent/40 p-3 text-xs text-muted-foreground">
-          <p className="font-semibold text-foreground">Version 1.0</p>
-          <p className="mt-1">Tous les services de santé du Maroc, réunis.</p>
-        </div>
-      </div>
     </aside>
   );
 }
