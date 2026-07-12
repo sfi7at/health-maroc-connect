@@ -3070,6 +3070,8 @@ export type Database = {
           phone: string | null
           prescription_header: Json
           profile_image: string | null
+          rating: number | null
+          review_count: number
           reviews_count: number
           slug: string
           suspended_at: string | null
@@ -3106,6 +3108,8 @@ export type Database = {
           phone?: string | null
           prescription_header?: Json
           profile_image?: string | null
+          rating?: number | null
+          review_count?: number
           reviews_count?: number
           slug?: string
           suspended_at?: string | null
@@ -3142,6 +3146,8 @@ export type Database = {
           phone?: string | null
           prescription_header?: Json
           profile_image?: string | null
+          rating?: number | null
+          review_count?: number
           reviews_count?: number
           slug?: string
           suspended_at?: string | null
@@ -3365,44 +3371,110 @@ export type Database = {
         }
         Relationships: []
       }
+      review_reports: {
+        Row: {
+          created_at: string
+          details: string | null
+          id: string
+          reason: string
+          reporter_id: string
+          review_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          details?: string | null
+          id?: string
+          reason: string
+          reporter_id: string
+          review_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          details?: string | null
+          id?: string
+          reason?: string
+          reporter_id?: string
+          review_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "review_reports_review_id_fkey"
+            columns: ["review_id"]
+            isOneToOne: false
+            referencedRelation: "reviews"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reviews: {
         Row: {
+          appointment_id: string | null
           author_id: string
           comment: string | null
           created_at: string
           id: string
+          moderated_at: string | null
+          moderated_by: string | null
+          moderation_reason: string | null
           photos: string[]
           provider_id: string
           provider_response: string | null
           provider_response_at: string | null
           rating: number
+          report_count: number
+          status: string
           updated_at: string
         }
         Insert: {
+          appointment_id?: string | null
           author_id: string
           comment?: string | null
           created_at?: string
           id?: string
+          moderated_at?: string | null
+          moderated_by?: string | null
+          moderation_reason?: string | null
           photos?: string[]
           provider_id: string
           provider_response?: string | null
           provider_response_at?: string | null
           rating: number
+          report_count?: number
+          status?: string
           updated_at?: string
         }
         Update: {
+          appointment_id?: string | null
           author_id?: string
           comment?: string | null
           created_at?: string
           id?: string
+          moderated_at?: string | null
+          moderated_by?: string | null
+          moderation_reason?: string | null
           photos?: string[]
           provider_id?: string
           provider_response?: string | null
           provider_response_at?: string | null
           rating?: number
+          report_count?: number
+          status?: string
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "reviews_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "reviews_provider_id_fkey"
             columns: ["provider_id"]
@@ -3874,6 +3946,10 @@ export type Database = {
       owns_provider: {
         Args: { _provider_id: string; _user_id: string }
         Returns: boolean
+      }
+      refresh_provider_rating: {
+        Args: { _provider: string }
+        Returns: undefined
       }
       slugify: { Args: { _input: string }; Returns: string }
       storage_first_folder_owns_provider: {

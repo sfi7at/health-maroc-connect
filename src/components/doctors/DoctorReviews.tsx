@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Star, ThumbsUp, Flag, MessageSquare } from "lucide-react";
+import { useMemo, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Star, Flag, MessageSquare } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { formatRelativeFr } from "@/lib/format";
@@ -18,6 +19,8 @@ interface ReviewRow {
   provider_response_at: string | null;
   created_at: string;
   author_id: string;
+  status?: string | null;
+  appointment_id?: string | null;
   profiles?: { id: string; full_name: string | null; avatar_url: string | null } | null;
 }
 
@@ -31,14 +34,46 @@ export function DoctorReviews({ providerId, reviews }: Props) {
   const qc = useQueryClient();
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
+  const [reportOpen, setReportOpen] = useState<string | null>(null);
+  const [reportReason, setReportReason] = useState("inappropriate");
+  const [reportDetails, setReportDetails] = useState("");
+
+  // Fetch completed appointments with this provider to check eligibility
+  const eligibility = useQuery({
+    queryKey: ["review_eligibility", providerId, user?.id ?? "anon"],
+    enabled: !!user,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("appointments")
+        .select("id, scheduled_for")
+        .eq("provider_id", providerId)
+        .eq("patient_id", user!.id)
+        .eq("status", "completed")
+        .order("scheduled_for", { ascending: false })
+        .limit(10);
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+  const myExistingReview = useMemo(
+    () => (user ? reviews.find((r) => r.author_id === user.id) : null),
+    [reviews, user],
+  );
+  const eligibleAppts = eligibility.data ?? [];
+  const canReview = !!user && eligibleAppts.length > 0 && !myExistingReview;
 
   const submit = useMutation({
     mutationFn: async () => {
       if (!user) throw new Error("auth");
       if (rating < 1) throw new Error("Sélectionnez une note");
-      const { error } = await supabase.from("reviews").upsert({
-        provider_id: providerId, author_id: user.id, rating, comment: comment.trim() || null,
-      }, { onConflict: "provider_id,author_id" });
+      const appointment_id = eligibleAppts[0]?.id ?? null;
+      const { error } = await supabase.from("reviews").insert({
+        provider_id: providerId,
+        author_id: user.id,
+        rating,
+        comment: comment.trim() || null,
+        appointment_id,
+      });
       if (error) throw error;
     },
     onSuccess: () => {
@@ -46,8 +81,33 @@ export function DoctorReviews({ providerId, reviews }: Props) {
       setComment(""); setRating(0);
       qc.invalidateQueries({ queryKey: ["doctor_reviews", providerId] });
       qc.invalidateQueries({ queryKey: ["doctor", providerId] });
+      qc.invalidateQueries({ queryKey: ["review_eligibility", providerId] });
     },
-    onError: (e: Error) => toast.error(e.message === "auth" ? "Connectez-vous pour laisser un avis" : e.message),
+    onError: (e: Error) => {
+      if (e.message === "auth") toast.error("Connectez-vous pour laisser un avis");
+      else if (/completing an appointment/i.test(e.message)) toast.error("Vous devez avoir un rendez-vous terminé avec ce médecin.");
+      else if (/duplicate|unique/i.test(e.message)) toast.error("Vous avez déjà laissé un avis pour cette visite.");
+      else toast.error(e.message);
+    },
+  });
+
+  const report = useMutation({
+    mutationFn: async () => {
+      if (!user || !reportOpen) throw new Error("auth");
+      const { error } = await supabase.from("review_reports").insert({
+        review_id: reportOpen, reporter_id: user.id,
+        reason: reportReason, details: reportDetails.trim() || null,
+      });
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast.success("Signalement envoyé. Merci !");
+      setReportOpen(null); setReportDetails(""); setReportReason("inappropriate");
+    },
+    onError: (e: Error) => {
+      if (/duplicate|unique/i.test(e.message)) toast.error("Vous avez déjà signalé cet avis.");
+      else toast.error(e.message);
+    },
   });
 
   const dist = [5, 4, 3, 2, 1].map((n) => ({
@@ -82,29 +142,44 @@ export function DoctorReviews({ providerId, reviews }: Props) {
         </ul>
       </section>
 
-      <section className="rounded-3xl border border-border bg-card p-5 shadow-soft">
-        <h3 className="mb-3 text-sm font-semibold">Laisser un avis</h3>
-        <div className="flex items-center gap-1">
-          {[1, 2, 3, 4, 5].map((n) => (
-            <button key={n} type="button" aria-label={`${n} étoiles`} onClick={() => setRating(n)}>
-              <Star className={`h-7 w-7 ${n <= rating ? "fill-amber-400 text-amber-400" : "text-muted-foreground/40"}`} />
-            </button>
-          ))}
-        </div>
-        <Textarea
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          placeholder="Partagez votre expérience…"
-          rows={3}
-          maxLength={500}
-          className="mt-3 rounded-2xl"
-        />
-        <div className="mt-3 flex justify-end">
-          <Button onClick={() => submit.mutate()} disabled={submit.isPending || rating < 1}>
-            Publier
-          </Button>
-        </div>
-      </section>
+      {!user ? (
+        <section className="rounded-3xl border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
+          Connectez-vous après avoir consulté ce médecin pour laisser un avis.
+        </section>
+      ) : myExistingReview ? (
+        <section className="rounded-3xl border border-border bg-card p-5 text-sm text-muted-foreground shadow-soft">
+          Merci — votre avis est publié. Vous pouvez le modifier ou le supprimer pendant 30 jours.
+        </section>
+      ) : canReview ? (
+        <section className="rounded-3xl border border-border bg-card p-5 shadow-soft">
+          <h3 className="mb-3 text-sm font-semibold">Laisser un avis</h3>
+          <div className="flex items-center gap-1">
+            {[1, 2, 3, 4, 5].map((n) => (
+              <button key={n} type="button" aria-label={`${n} étoiles`} onClick={() => setRating(n)} className="p-1">
+                <Star className={`h-8 w-8 sm:h-7 sm:w-7 ${n <= rating ? "fill-amber-400 text-amber-400" : "text-muted-foreground/40"}`} />
+              </button>
+            ))}
+          </div>
+          <Textarea
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            placeholder="Partagez votre expérience (facultatif, 1000 caractères max)…"
+            rows={4}
+            maxLength={1000}
+            className="mt-3 rounded-2xl"
+          />
+          <div className="mt-3 flex items-center justify-between">
+            <p className="text-xs text-muted-foreground">{comment.length}/1000</p>
+            <Button onClick={() => submit.mutate()} disabled={submit.isPending || rating < 1}>
+              Publier
+            </Button>
+          </div>
+        </section>
+      ) : (
+        <section className="rounded-3xl border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
+          Seuls les patients ayant consulté ce médecin peuvent laisser un avis.
+        </section>
+      )}
 
       <section className="space-y-4">
         {!reviews.length ? (
@@ -144,13 +219,52 @@ export function DoctorReviews({ providerId, reviews }: Props) {
                 </div>
               ) : null}
               <div className="mt-3 flex gap-3 text-xs text-muted-foreground">
-                <button className="inline-flex items-center gap-1 hover:text-foreground"><ThumbsUp className="h-3.5 w-3.5" /> Utile</button>
-                <button className="inline-flex items-center gap-1 hover:text-foreground"><Flag className="h-3.5 w-3.5" /> Signaler</button>
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-1 hover:text-foreground disabled:opacity-40"
+                  disabled={!user || r.author_id === user?.id}
+                  onClick={() => setReportOpen(r.id)}
+                >
+                  <Flag className="h-3.5 w-3.5" /> Signaler
+                </button>
               </div>
             </article>
           ))
         )}
       </section>
+
+      <Dialog open={!!reportOpen} onOpenChange={(o) => !o && setReportOpen(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Signaler cet avis</DialogTitle>
+            <DialogDescription>Aidez-nous à garder les avis honnêtes. Un modérateur vérifiera ce signalement.</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3">
+            <Select value={reportReason} onValueChange={setReportReason}>
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="inappropriate">Contenu inapproprié</SelectItem>
+                <SelectItem value="spam">Spam ou publicité</SelectItem>
+                <SelectItem value="fake">Avis manifestement faux</SelectItem>
+                <SelectItem value="hate">Propos haineux</SelectItem>
+                <SelectItem value="personal">Données personnelles</SelectItem>
+                <SelectItem value="other">Autre</SelectItem>
+              </SelectContent>
+            </Select>
+            <Textarea
+              value={reportDetails}
+              onChange={(e) => setReportDetails(e.target.value)}
+              placeholder="Précisions (facultatif)"
+              maxLength={500}
+              rows={3}
+            />
+          </div>
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setReportOpen(null)}>Annuler</Button>
+            <Button onClick={() => report.mutate()} disabled={report.isPending}>Envoyer</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
