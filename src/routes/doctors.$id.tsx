@@ -16,6 +16,9 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { MapView } from "@/components/common/MapView";
 import { EmptyState } from "@/components/common/EmptyState";
 import { DoctorReviews } from "@/components/doctors/DoctorReviews";
+import { PageHero } from "@/components/layout/PageHero";
+import { ActionBar } from "@/components/layout/ActionBar";
+import { StickyMobileCTA } from "@/components/layout/StickyMobileCTA";
 import {
   doctorByIdQuery, doctorReviewsQuery, readDoctorMeta, priceLabel, languageLabel,
   isBookable, directionsUrl,
@@ -75,97 +78,130 @@ function DoctorProfile() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 pb-24 lg:pb-0">
       <Button asChild variant="ghost" size="sm" className="gap-2 self-start">
         <Link to="/doctors"><ArrowLeft className="h-4 w-4" /> Médecins</Link>
       </Button>
 
       {/* HERO */}
-      <motion.section
-        initial={{ opacity: 0, y: 6 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-soft"
-      >
-        <div className="relative h-48 bg-gradient-to-br from-emerald-500 to-teal-600 sm:h-64">
-          {doctor.cover_image ? (
-            <img src={doctor.cover_image} alt="" className="absolute inset-0 h-full w-full object-cover" />
-          ) : null}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-        </div>
-        <div className="relative -mt-16 px-6 pb-6 sm:px-8 sm:pb-8">
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-            <div className="flex items-end gap-4">
-              <div className="grid h-28 w-28 shrink-0 place-items-center overflow-hidden rounded-3xl bg-white text-foreground shadow-elevated ring-4 ring-card">
-                {doctor.profile_image ? (
-                  <img src={doctor.profile_image} alt={doctor.name} className="h-full w-full object-cover" />
-                ) : (
-                  <span className="text-2xl font-bold">{initialsOf(doctor.name)}</span>
-                )}
-              </div>
-              <div className="min-w-0 pb-1">
-                <div className="flex flex-wrap items-center gap-2">
-                  {doctor.is_premium ? <Badge className="gap-1 border-0 bg-amber-400 text-amber-950"><Crown className="h-3 w-3" /> Premium</Badge> : null}
-                  {doctor.is_verified ? <Badge className="gap-1 border-0 bg-white text-foreground"><BadgeCheck className="h-3.5 w-3.5 text-primary" /> Vérifié</Badge> : null}
-                  <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-medium ${openMeta.tint}`}>
-                    <span className={`h-1.5 w-1.5 rounded-full ${openMeta.dot}`} /> {openMeta.label}
-                  </span>
-                </div>
-                <h1 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">
-                  {meta.title ? `${meta.title} ` : "Dr. "}{doctor.name}
-                </h1>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  {specialties.map((s) => s.name_fr).join(" · ") || (doctor.category === "dentist" ? "Dentiste" : "Médecin")}
-                </p>
-                {doctor.average_rating > 0 ? (
-                  <p className="mt-2 inline-flex items-center gap-1 text-sm font-medium">
-                    <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-                    {doctor.average_rating.toFixed(1)}
-                    <span className="text-muted-foreground">({doctor.reviews_count} avis)</span>
-                  </p>
-                ) : null}
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {isBookable(doctor) ? (
-                <Button asChild size="lg" className="gap-2">
-                  <Link to="/appointments/new/$providerId" params={{ providerId: doctor.id }}>
-                    <CalendarPlus className="h-4 w-4" /> Prendre RDV
-                  </Link>
-                </Button>
+      <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}>
+        <PageHero
+          cover={
+            doctor.cover_image ? (
+              <img src={doctor.cover_image} alt="" className="absolute inset-0 h-full w-full object-cover" />
+            ) : null
+          }
+          avatar={
+            <div className="grid h-20 w-20 place-items-center overflow-hidden rounded-3xl bg-white text-foreground shadow-elevated ring-4 ring-card sm:h-28 sm:w-28">
+              {doctor.profile_image ? (
+                <img src={doctor.profile_image} alt={doctor.name} className="h-full w-full object-cover" />
               ) : (
-                <Button asChild size="lg" className="gap-2">
-                  <a href={directionsUrl(doctor)} target="_blank" rel="noreferrer">
-                    <Navigation className="h-4 w-4" /> Itinéraire
-                  </a>
-                </Button>
+                <span className="text-xl font-bold sm:text-2xl">{initialsOf(doctor.name)}</span>
               )}
-              {doctor.phone ? (
-                <Button asChild size="lg" variant="outline" className="gap-2">
-                  <a href={`tel:${doctor.phone}`}><Phone className="h-4 w-4" /> Appeler</a>
-                </Button>
-              ) : null}
-              <Button size="lg" variant="outline" className="px-3" aria-label="Favoris" onClick={() => fav.toggle(doctor.id)}>
-                <Heart className={`h-4 w-4 ${isFav ? "fill-blood text-blood" : ""}`} />
-              </Button>
-              <Button size="lg" variant="outline" className="px-3" aria-label="Partager" onClick={share}>
-                <Share2 className="h-4 w-4" />
-              </Button>
             </div>
-          </div>
-          {!isBookable(doctor) ? (
-            <p className="mt-4 text-xs text-muted-foreground">
-              Ce cabinet n'accepte pas encore la prise de rendez-vous en ligne. Utilisez l'itinéraire ou appelez directement.
-            </p>
-          ) : null}
-
-          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {meta.experience_years ? <Stat icon={Clock} label="Expérience" value={`${meta.experience_years} ans`} /> : null}
-            {price ? <Stat icon={Wallet} label="Consultation" value={price} /> : null}
-            {meta.languages?.length ? <Stat icon={Languages} label="Langues" value={meta.languages.map(languageLabel).join(", ")} /> : null}
-            {doctor.cities?.name_fr ? <Stat icon={MapPin} label="Ville" value={meta.neighborhood ? `${meta.neighborhood}, ${doctor.cities.name_fr}` : doctor.cities.name_fr} /> : null}
-          </div>
-        </div>
-      </motion.section>
+          }
+          badges={
+            <>
+              {doctor.is_premium ? (
+                <Badge className="gap-1 border-0 bg-amber-400 text-amber-950">
+                  <Crown className="h-3 w-3" /> Premium
+                </Badge>
+              ) : null}
+              {doctor.is_verified ? (
+                <Badge className="gap-1 border-0 bg-white text-foreground">
+                  <BadgeCheck className="h-3.5 w-3.5 text-primary" /> Vérifié
+                </Badge>
+              ) : null}
+              <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-medium ${openMeta.tint}`}>
+                <span className={`h-1.5 w-1.5 rounded-full ${openMeta.dot}`} /> {openMeta.label}
+              </span>
+            </>
+          }
+          title={
+            <span className="block truncate">
+              {meta.title ? `${meta.title} ` : "Dr. "}{doctor.name}
+            </span>
+          }
+          subtitle={
+            specialties.map((s) => s.name_fr).join(" · ") ||
+            (doctor.category === "dentist" ? "Dentiste" : "Médecin")
+          }
+          meta={
+            doctor.average_rating > 0 ? (
+              <p className="inline-flex items-center gap-1 text-sm font-medium">
+                <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+                {doctor.average_rating.toFixed(1)}
+                <span className="text-muted-foreground">({doctor.reviews_count} avis)</span>
+              </p>
+            ) : null
+          }
+          actions={
+            <ActionBar
+              primary={
+                isBookable(doctor) ? (
+                  <Button asChild size="lg" className="gap-2">
+                    <Link to="/appointments/new/$providerId" params={{ providerId: doctor.id }}>
+                      <CalendarPlus className="h-4 w-4" /> Prendre RDV
+                    </Link>
+                  </Button>
+                ) : (
+                  <Button asChild size="lg" className="gap-2">
+                    <a href={directionsUrl(doctor)} target="_blank" rel="noreferrer">
+                      <Navigation className="h-4 w-4" /> Itinéraire
+                    </a>
+                  </Button>
+                )
+              }
+              secondary={
+                doctor.phone ? (
+                  <Button asChild size="lg" variant="outline" className="gap-2">
+                    <a href={`tel:${doctor.phone}`}>
+                      <Phone className="h-4 w-4" /> Appeler
+                    </a>
+                  </Button>
+                ) : null
+              }
+              icons={
+                <>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="min-h-11 min-w-11 px-3"
+                    aria-label="Favoris"
+                    onClick={() => fav.toggle(doctor.id)}
+                  >
+                    <Heart className={`h-4 w-4 ${isFav ? "fill-blood text-blood" : ""}`} />
+                  </Button>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="min-h-11 min-w-11 px-3"
+                    aria-label="Partager"
+                    onClick={share}
+                  >
+                    <Share2 className="h-4 w-4" />
+                  </Button>
+                </>
+              }
+            />
+          }
+          footer={
+            <>
+              {!isBookable(doctor) ? (
+                <p className="mt-4 text-xs text-muted-foreground">
+                  Ce cabinet n'accepte pas encore la prise de rendez-vous en ligne. Utilisez l'itinéraire ou appelez directement.
+                </p>
+              ) : null}
+              <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                {meta.experience_years ? <Stat icon={Clock} label="Expérience" value={`${meta.experience_years} ans`} /> : null}
+                {price ? <Stat icon={Wallet} label="Consultation" value={price} /> : null}
+                {meta.languages?.length ? <Stat icon={Languages} label="Langues" value={meta.languages.map(languageLabel).join(", ")} /> : null}
+                {doctor.cities?.name_fr ? <Stat icon={MapPin} label="Ville" value={meta.neighborhood ? `${meta.neighborhood}, ${doctor.cities.name_fr}` : doctor.cities.name_fr} /> : null}
+              </div>
+            </>
+          }
+        />
+      </motion.div>
 
       <Tabs defaultValue="overview" className="w-full">
         <TabsList className="w-full justify-start overflow-x-auto rounded-2xl">
@@ -328,6 +364,32 @@ function DoctorProfile() {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Mobile sticky CTA — only when bookable OR a phone exists */}
+      {(isBookable(doctor) || doctor.phone) ? (
+        <StickyMobileCTA>
+          {isBookable(doctor) ? (
+            <Button asChild size="lg" className="gap-2">
+              <Link to="/appointments/new/$providerId" params={{ providerId: doctor.id }}>
+                <CalendarPlus className="h-4 w-4" /> Prendre RDV
+              </Link>
+            </Button>
+          ) : (
+            <Button asChild size="lg" className="gap-2">
+              <a href={directionsUrl(doctor)} target="_blank" rel="noreferrer">
+                <Navigation className="h-4 w-4" /> Itinéraire
+              </a>
+            </Button>
+          )}
+          {doctor.phone ? (
+            <Button asChild size="lg" variant="outline" className="gap-2">
+              <a href={`tel:${doctor.phone}`}>
+                <Phone className="h-4 w-4" /> Appeler
+              </a>
+            </Button>
+          ) : null}
+        </StickyMobileCTA>
+      ) : null}
     </div>
   );
 }

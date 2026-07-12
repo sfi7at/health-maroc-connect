@@ -1,51 +1,57 @@
-## Context
 
-Wave A (reviews + doctor content parity) is already shipped:
-- 5-star review with optional comment, gated to citizens with a **completed** appointment (DB trigger enforced).
-- Average rating + review count auto-refreshed on `providers` via trigger, shown on the public doctor profile.
-- Doctors cannot edit reviews (only respond); admin moderation live at `/admin/reviews` with reports queue.
-- Public doctor profile (`/doctors/$id`) already renders cover, avatar, bio, specialties, education, certifications, gallery, services, insurance, accessibility, WhatsApp, website, fees, hours, address, map, FAQ.
+## Goal
 
-This plan covers **Wave B** (functional audit) and **Wave C** (mobile-first + UI polish).
+Fix inconsistent button placement, cramped hero areas, wrapping CTAs, and misaligned action rows across the entire platform so every page reads cleanly on mobile (≤430px), tablet (≥640px), and desktop (≥1024px).
 
-## Wave B — Functional audit of the Citizen Portal
+## Root causes found
 
-Route-by-route pass on citizen-facing surfaces. For each route: verify data loads, every button navigates or performs an action, forms validate + submit, empty/error/loading states are correct, and links resolve to real routes.
+1. **Hero rows use `flex flex-wrap` without `min-w-0` / `shrink-0`** — avatar, badges, and title collide on mobile (visible on `/doctors/:id`). Same pattern is copy-pasted into pharmacy/hospital/lab/provider profiles.
+2. **CTA rows use `flex flex-wrap gap-2`** with 3–5 buttons — wraps into a ragged 2+1+2 grid on narrow screens instead of a clean stack.
+3. **No mobile sticky action bar** for the primary CTA (Prendre RDV / Itinéraire) — user must scroll back up.
+4. **BottomNav offset inconsistent** — some pages use `pb-28`, others don't, so sticky bars overlap the tab bar.
+5. **Card action grids** (`DoctorCard`, `PharmacyCard`, `HospitalCard`, `LaboratoryCard`) use `grid-cols-2` even when only one CTA is meaningful → half-width orphan buttons.
+6. **Portal & Admin headers** wrap title + filter + action buttons without the grid guard, so buttons drop below and misalign.
 
-Scope (citizen side only — provider/admin portals are out of scope):
+## Slices (I'll ship them in order, one message each)
 
-1. **Home & Shell** — `/`, `TopNav`, `BottomNav`, `Sidebar`, `GlobalSearchDialog`, `RoleSwitch`, favorites toggle, language + theme toggles.
-2. **Doctors** — `/doctors`, `/doctors/search`, `/doctors/specialties`, `/doctors/specialty/$slug`, `/doctors/$id` (all tabs + share/call/directions/favorite).
-3. **Booking** — `/appointments/new/$providerId` (service → slot → confirm), `/appointments`, `/appointments/calendar`, `/appointments/$id` (cancel/reschedule).
-4. **Pharmacies / Hospitals / Laboratories** — list, search, map, on-duty/emergency, provider sheet CTAs.
-5. **Blood** — `/blood`, `/blood/donors`, `/blood/centers`, `/blood/campaigns`, `/blood/request`, `/blood/map`, `/blood/me`, `/blood/history`, `/blood/chat/$requestId`, become-donor.
-6. **Map** — `/map` filters, marker click, sheet CTAs, geolocation.
-7. **Content & static** — `/content`, `/content/$slug`, `/faq`, `/about`, `/contact`, `/privacy`, `/terms`.
-8. **Account** — `/profile`, `/settings`, `/notifications`, `/favorites`, `/ai-assistant`.
-9. **Auth** — `/auth` (sign-in, sign-up, Google), `/reset-password`, email-verify banner.
+**Slice A — Shared responsive primitives**
+- Add `src/components/layout/PageHero.tsx`: standardized responsive hero (avatar + title + badges + CTAs) using `grid-cols-[auto_minmax(0,1fr)]` on mobile → `flex` on `sm:`, with `min-w-0` / `shrink-0` / `truncate` baked in.
+- Add `src/components/layout/ActionBar.tsx`: primary + secondary + icon actions, auto-stacks on mobile, inline on `sm:`.
+- Add `src/components/layout/StickyMobileCTA.tsx`: fixed bottom bar above BottomNav (safe-area aware, `pb-[env(safe-area-inset-bottom)]`, `bottom-16 lg:hidden`).
+- Normalize `AppShell` main padding to `pb-[calc(5rem+env(safe-area-inset-bottom))] lg:pb-12`.
 
-**Method**: read each route in batches, patch real breakage (dead buttons, wrong `to=`, missing empty states, unhandled errors, RLS/permission errors from console/network). No cosmetic changes in this wave.
+**Slice B — Public profile heroes (fixes the screenshot)**
+- Refactor `doctors.$id.tsx`, `providers.$id.tsx`, and the pharmacy/hospital/lab profile pages to use `PageHero` + `ActionBar` + `StickyMobileCTA`.
+- Badges wrap under the title on mobile; avatar shrinks from 112px → 80px < 400px.
+- Single primary CTA is full-width on mobile, inline on tablet+.
 
-## Wave C — Mobile-first + UI polish
+**Slice C — Cards (list pages)**
+- `DoctorCard`, `PharmacyCard`, `HospitalCard`, `LaboratoryCard`, `ProviderCard`, `PlaceCard`, `ServiceCard`: switch action row to a single primary CTA full-width on mobile with the secondary as a ghost link; keep dual-CTA only when both actions are equally important.
+- Ensure 44×44 tap targets and consistent 12px card padding on mobile → 20px on desktop.
 
-Focused, framework-wide changes (not per-route restyle):
+**Slice D — Portal & Admin headers**
+- `PortalShell` and `AdminShell` page headers: apply the grid guard so title truncates and action buttons stay right-aligned; on mobile, action group wraps below the title on its own row, not squeezed beside it.
+- Provider dashboard cards & appointment list: standardize action button widths and add sticky "New appointment" FAB on mobile.
 
-- **Safe-area insets**: bottom nav respects `env(safe-area-inset-bottom)`; sticky headers respect `env(safe-area-inset-top)`.
-- **Touch targets**: enforce ≥44px on all icon-only buttons in cards, sheets, and nav.
-- **Responsive header pattern**: apply the grid + `min-w-0` + `shrink-0` rule to `PageHeader`, `DoctorCard`, provider hero, appointment cards.
-- **Bottom nav**: hide on scroll-down, show on scroll-up (mobile) so it doesn't cover CTAs.
-- **Sheet/Dialog**: full-height on mobile, centered on desktop; body scroll-lock; close on route change.
-- **Empty/loading/error states**: unified `EmptyState` usage; consistent skeleton widths.
-- **Typography scale**: single `text-*` scale (`text-xs/sm/base/lg/xl/2xl/3xl`) — remove ad-hoc sizes.
-- **Icon sizing**: 14px inline, 16px buttons, 20px section headers, 24px hero — one convention.
-- **Motion**: `prefers-reduced-motion` respected; framer transitions capped at 200ms.
-- **Doctor card / provider card**: unify layout so `/doctors`, `/pharmacies`, `/hospitals`, `/laboratories` share the same visual rhythm.
+**Slice E — Discovery/list pages & filters**
+- Search bars + filter buttons on `/doctors`, `/pharmacies`, `/hospitals`, `/laboratories`, `/blood/*`: filter chip row scrolls horizontally on mobile instead of wrapping into 3 lines; search input is full-width, filter button icon-only on mobile.
 
-## Delivery order
+**Slice F — Global polish pass**
+- Sweep for `pb-28` vs `pb-24` mismatches, missing `safe-area` on fixed elements, `h-screen` → `h-dvh`, and icon-only buttons missing `aria-label`.
+- Verify with Playwright at 390×764 (mobile), 820×1180 (tablet), 1440×900 (desktop) on 6 representative routes.
 
-1. Wave B: shell + doctors + booking (highest-traffic paths).
-2. Wave B: blood + map + pharmacies/hospitals/labs.
-3. Wave B: account + content + auth.
-4. Wave C: framework-wide polish in one pass.
+## Technical notes
 
-At the end of each step I'll report exactly what was broken and what I fixed, then move on. Reply **"go"** to start, or tell me which slice to prioritize (e.g. "booking + doctors only").
+- All changes live in `src/components/layout/*` and presentation files; no business logic, no DB, no auth changes.
+- Tailwind v4 tokens only (no hardcoded colors). Uses existing shadcn Button/Badge/Avatar.
+- Sticky CTA respects existing `BottomNav` height (`h-16`) + `env(safe-area-inset-bottom)`.
+- Grid-guard pattern from the project's `responsive-layout-patterns` rule:
+  ```
+  grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3
+  sm:flex sm:flex-wrap sm:items-center sm:justify-between
+  ```
+- No route file renames; no route tree changes.
+
+## Deliverable this turn
+
+Slice A (shared primitives) + Slice B (public profile heroes, including the doctor page in your screenshot). Reply "continue" after review to roll through C → F.
