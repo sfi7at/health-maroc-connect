@@ -97,7 +97,7 @@ export function MapFilters({ value, onChange }: Props) {
   };
 
   return (
-    <div className="flex gap-1.5 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div className="no-scrollbar flex gap-1.5 overflow-x-auto pb-1">
       {PROVIDER_CHIPS.map(renderChip)}
       <span className="mx-1 my-auto h-5 w-px bg-border" aria-hidden />
       {EXTRA_CHIPS.map(renderChip)}

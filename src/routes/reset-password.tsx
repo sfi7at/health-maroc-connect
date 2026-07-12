@@ -58,11 +58,11 @@ function ResetPasswordPage() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-background">
+    <div className="relative min-h-dvh overflow-hidden bg-background">
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute -top-32 left-1/2 h-[420px] w-[820px] -translate-x-1/2 rounded-full bg-primary/15 blur-3xl" />
       </div>
-      <div className="mx-auto flex min-h-screen w-full max-w-md flex-col items-center justify-center px-5 py-8">
+      <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col items-center justify-center px-5 py-8">
         <div className="mb-6 flex flex-col items-center text-center">
           <div className="grid h-14 w-14 place-items-center rounded-2xl gradient-primary text-primary-foreground shadow-soft">
             <Heart className="h-7 w-7" fill="currentColor" />
