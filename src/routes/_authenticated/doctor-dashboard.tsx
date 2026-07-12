@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   BadgeCheck, CalendarCheck, Users, Star, Stethoscope, Bell, ShieldCheck,
   ArrowRight, Crown, AlertCircle,
@@ -26,8 +27,24 @@ export const Route = createFileRoute("/_authenticated/doctor-dashboard")({
 
 function DoctorDashboard() {
   const { user } = useAuth();
+  const qc = useQueryClient();
   const { data: doctors = [], isLoading } = useQuery(ownedDoctorsQuery(user?.id));
   const profile = doctors[0];
+
+  useEffect(() => {
+    if (!profile?.id) return;
+    const channel = supabase
+      .channel(`doctor-dashboard-${profile.id}`)
+      .on("postgres_changes", { event: "*", schema: "public", table: "appointments", filter: `provider_id=eq.${profile.id}` }, () => {
+        qc.invalidateQueries({ queryKey: ["doctor_dashboard_stats", profile.id] });
+        qc.invalidateQueries({ queryKey: ["provider_appointments", profile.id] });
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [profile?.id, qc]);
 
   const { data: stats } = useQuery({
     queryKey: ["doctor_dashboard_stats", profile?.id ?? "x"],

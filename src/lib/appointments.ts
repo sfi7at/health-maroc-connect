@@ -1,6 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
+import { getBookedSlotsForProvider } from "@/lib/appointment-booking.functions";
 
 export type AppointmentStatus = Database["public"]["Enums"]["appointment_status"] | "rescheduled";
 
@@ -148,17 +149,7 @@ export function bookedSlotsQuery(providerId: string | undefined, dateIso: string
     queryKey: ["booked_slots", providerId, dateIso],
     enabled: !!providerId && !!dateIso,
     queryFn: async () => {
-      const start = new Date(`${dateIso}T00:00:00`);
-      const end = new Date(`${dateIso}T23:59:59`);
-      const { data, error } = await supabase
-        .from("appointments")
-        .select("scheduled_for, duration_minutes, status")
-        .eq("provider_id", providerId!)
-        .gte("scheduled_for", start.toISOString())
-        .lte("scheduled_for", end.toISOString())
-        .in("status", ["pending", "approved"]);
-      if (error) throw error;
-      return data ?? [];
+      return getBookedSlotsForProvider({ data: { providerId: providerId!, dateIso } });
     },
     staleTime: 5_000,
   });

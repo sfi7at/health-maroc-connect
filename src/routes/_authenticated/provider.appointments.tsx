@@ -96,7 +96,7 @@ function ProviderAppointments() {
       const { error } = await supabase.from("appointments").update({
         scheduled_for: newIso,
         status: "rescheduled",
-        rescheduled_from: reschFor.scheduled_for,
+        rescheduled_from: reschFor.id,
       }).eq("id", reschFor.id);
       if (error) throw error;
     },

@@ -74,7 +74,7 @@ function BookFlow() {
   const [slotIso, setSlotIso] = useState<string | null>(null);
   const [notes, setNotes] = useState("");
 
-  const { data: booked = [] } = useQuery(bookedSlotsQuery(providerId, dateIso));
+  const { data: booked = [], isFetching: loadingBookedSlots } = useQuery(bookedSlotsQuery(providerId, dateIso));
   const selectedService = useMemo(() => services.find((s) => s.id === serviceId) ?? null, [services, serviceId]);
   const slotMinutes = selectedService?.duration_minutes;
   const slots = useMemo(
@@ -85,7 +85,11 @@ function BookFlow() {
   const create = useMutation({
     mutationFn: async () => {
       if (!user) throw new Error("Connectez-vous pour réserver.");
+      if (!bookable) throw new Error("Ce praticien n'accepte pas encore les rendez-vous en ligne.");
       if (!slotIso) throw new Error("Sélectionnez un créneau.");
+      if (!slots.some((slot) => slot.iso === slotIso && slot.available)) {
+        throw new Error("Ce créneau n'est plus disponible. Choisissez-en un autre.");
+      }
       const duration = selectedService?.duration_minutes ?? 30;
       const { data, error } = await supabase
         .from("appointments")
@@ -112,6 +116,8 @@ function BookFlow() {
       toast.success("Rendez-vous envoyé");
       qc.invalidateQueries({ queryKey: ["appointments"] });
       qc.invalidateQueries({ queryKey: ["booked_slots"] });
+      qc.invalidateQueries({ queryKey: ["provider_appointments", providerId] });
+      qc.invalidateQueries({ queryKey: ["doctor_dashboard_stats", providerId] });
       navigate({ to: "/appointments/$id", params: { id: row!.id } });
     },
     onError: (e: Error) => toast.error(e.message),
@@ -230,7 +236,7 @@ function BookFlow() {
           {step === 2 && (
             <div className="space-y-4">
               <h2 className="text-base font-semibold">Choisissez un créneau</h2>
-              <SlotGrid slots={slots} selected={slotIso} onSelect={setSlotIso} />
+              {loadingBookedSlots ? <Skeleton className="h-32 rounded-2xl" /> : <SlotGrid slots={slots} selected={slotIso} onSelect={setSlotIso} />}
               {slots.length > 0 && slots.every((s) => !s.available) ? (
                 <div className="flex flex-col items-start gap-2 rounded-2xl border border-warning/40 bg-warning/10 p-3 text-sm text-warning-foreground">
                   <p>Tous les créneaux sont occupés. Rejoignez la liste d'attente pour être prévenu en cas de désistement.</p>
@@ -267,7 +273,7 @@ function BookFlow() {
           <ArrowLeft className="h-4 w-4" /> Précédent
         </Button>
         {step < STEPS.length - 1 ? (
-          <Button size="sm" disabled={!canNext} onClick={() => setStep((s) => Math.min(STEPS.length - 1, s + 1))} className="gap-1">
+          <Button size="sm" disabled={!canNext || loadingBookedSlots} onClick={() => setStep((s) => Math.min(STEPS.length - 1, s + 1))} className="gap-1">
             Suivant <ArrowRight className="h-4 w-4" />
           </Button>
         ) : (
