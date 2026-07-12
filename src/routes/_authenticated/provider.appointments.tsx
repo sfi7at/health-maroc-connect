@@ -116,13 +116,15 @@ function ProviderAppointments() {
       </div>
 
       <Tabs defaultValue="today">
-        <TabsList className="flex-wrap">
-          <TabsTrigger value="today">Aujourd'hui <Badge variant="secondary" className="ml-2">{buckets.today.length}</Badge></TabsTrigger>
-          <TabsTrigger value="upcoming">À venir <Badge variant="secondary" className="ml-2">{buckets.upcoming.length}</Badge></TabsTrigger>
-          <TabsTrigger value="completed">Terminés <Badge variant="secondary" className="ml-2">{buckets.completed.length}</Badge></TabsTrigger>
-          <TabsTrigger value="cancelled">Annulés <Badge variant="secondary" className="ml-2">{buckets.cancelled.length}</Badge></TabsTrigger>
-          <TabsTrigger value="rescheduled">Reprogrammés <Badge variant="secondary" className="ml-2">{buckets.rescheduled.length}</Badge></TabsTrigger>
-        </TabsList>
+        <div className="no-scrollbar -mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
+          <TabsList className="inline-flex w-max min-w-full">
+            <TabsTrigger value="today" className="shrink-0 whitespace-nowrap">Aujourd'hui <Badge variant="secondary" className="ml-2">{buckets.today.length}</Badge></TabsTrigger>
+            <TabsTrigger value="upcoming" className="shrink-0 whitespace-nowrap">À venir <Badge variant="secondary" className="ml-2">{buckets.upcoming.length}</Badge></TabsTrigger>
+            <TabsTrigger value="completed" className="shrink-0 whitespace-nowrap">Terminés <Badge variant="secondary" className="ml-2">{buckets.completed.length}</Badge></TabsTrigger>
+            <TabsTrigger value="cancelled" className="shrink-0 whitespace-nowrap">Annulés <Badge variant="secondary" className="ml-2">{buckets.cancelled.length}</Badge></TabsTrigger>
+            <TabsTrigger value="rescheduled" className="shrink-0 whitespace-nowrap">Reprogrammés <Badge variant="secondary" className="ml-2">{buckets.rescheduled.length}</Badge></TabsTrigger>
+          </TabsList>
+        </div>
         {(["today","upcoming","completed","cancelled","rescheduled"] as const).map((k) => (
           <TabsContent key={k} value={k} className="mt-4">
             {isLoading ? <Skeleton className="h-40 rounded-2xl" /> : (
@@ -173,30 +175,30 @@ function ApptList({ items, onStatus, onNote, onReschedule }: {
     <ul className="space-y-2">
       {items.map((a) => (
         <li key={a.id} className="rounded-2xl border border-border bg-card p-4">
-          <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
             <div className="min-w-0">
-              <p className="font-semibold">{a.profiles?.full_name ?? "Patient"}</p>
-              <p className="text-xs text-muted-foreground">{formatDateTimeFr(a.scheduled_for)} · {a.provider_services?.name ?? a.reason ?? "Consultation"}</p>
+              <p className="truncate font-semibold">{a.profiles?.full_name ?? "Patient"}</p>
+              <p className="mt-0.5 text-xs text-muted-foreground">{formatDateTimeFr(a.scheduled_for)} · {a.provider_services?.name ?? a.reason ?? "Consultation"}</p>
             </div>
-            <div className="flex flex-wrap items-center gap-1.5">
-              <StatusBadge status={a.status} />
-              {a.status === "pending" ? (
-                <>
-                  <Button size="sm" variant="default" className="gap-1" onClick={() => onStatus(a, "approved")}><CheckCircle2 className="h-3.5 w-3.5" />Accepter</Button>
-                  <Button size="sm" variant="ghost" className="gap-1" onClick={() => onStatus(a, "rejected")}><XCircle className="h-3.5 w-3.5" />Refuser</Button>
-                </>
-              ) : null}
-              {["pending","approved"].includes(a.status) ? (
-                <Button size="sm" variant="outline" onClick={() => onReschedule(a)}>Proposer un créneau</Button>
-              ) : null}
-              {a.status === "approved" ? (
-                <Button size="sm" variant="outline" onClick={() => onStatus(a, "completed")}>Terminer</Button>
-              ) : null}
-              {!["cancelled","completed"].includes(a.status) ? (
-                <Button size="sm" variant="ghost" onClick={() => onStatus(a, "cancelled")}>Annuler</Button>
-              ) : null}
-              <Button size="icon" variant="ghost" onClick={() => onNote(a)}><MessageSquare className="h-4 w-4" /></Button>
-            </div>
+            <StatusBadge status={a.status} />
+          </div>
+          <div className="mt-3 flex flex-wrap items-center gap-1.5">
+            {a.status === "pending" ? (
+              <>
+                <Button size="sm" variant="default" className="gap-1" onClick={() => onStatus(a, "approved")}><CheckCircle2 className="h-3.5 w-3.5" />Accepter</Button>
+                <Button size="sm" variant="ghost" className="gap-1" onClick={() => onStatus(a, "rejected")}><XCircle className="h-3.5 w-3.5" />Refuser</Button>
+              </>
+            ) : null}
+            {["pending","approved"].includes(a.status) ? (
+              <Button size="sm" variant="outline" onClick={() => onReschedule(a)}>Proposer un créneau</Button>
+            ) : null}
+            {a.status === "approved" ? (
+              <Button size="sm" variant="outline" onClick={() => onStatus(a, "completed")}>Terminer</Button>
+            ) : null}
+            {!["cancelled","completed"].includes(a.status) ? (
+              <Button size="sm" variant="ghost" onClick={() => onStatus(a, "cancelled")}>Annuler</Button>
+            ) : null}
+            <Button size="icon" variant="ghost" onClick={() => onNote(a)} aria-label="Note interne" className="ml-auto"><MessageSquare className="h-4 w-4" /></Button>
           </div>
           {a.notes ? <p className="mt-2 rounded-xl bg-muted/50 p-2 text-xs text-muted-foreground"><strong>Note: </strong>{a.notes}</p> : null}
         </li>
