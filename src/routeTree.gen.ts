@@ -59,10 +59,10 @@ import { Route as AuthenticatedLaboratoryDashboardRouteImport } from './routes/_
 import { Route as AuthenticatedHospitalDashboardRouteImport } from './routes/_authenticated/hospital-dashboard'
 import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
 import { Route as AuthenticatedDoctorDashboardRouteImport } from './routes/_authenticated/doctor-dashboard'
-import { Route as AuthenticatedAppointmentsRouteImport } from './routes/_authenticated/appointments'
 import { Route as AuthenticatedAiAssistantRouteImport } from './routes/_authenticated/ai-assistant'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedProviderIndexRouteImport } from './routes/_authenticated/provider.index'
+import { Route as AuthenticatedAppointmentsIndexRouteImport } from './routes/_authenticated/appointments.index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as DoctorsSpecialtySlugRouteImport } from './routes/doctors.specialty.$slug'
 import { Route as BloodDonorsIdRouteImport } from './routes/blood.donors.$id'
@@ -381,12 +381,6 @@ const AuthenticatedDoctorDashboardRoute =
     path: '/doctor-dashboard',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedAppointmentsRoute =
-  AuthenticatedAppointmentsRouteImport.update({
-    id: '/appointments',
-    path: '/appointments',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
 const AuthenticatedAiAssistantRoute =
   AuthenticatedAiAssistantRouteImport.update({
     id: '/ai-assistant',
@@ -403,6 +397,12 @@ const AuthenticatedProviderIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedProviderRoute,
+  } as any)
+const AuthenticatedAppointmentsIndexRoute =
+  AuthenticatedAppointmentsIndexRouteImport.update({
+    id: '/appointments/',
+    path: '/appointments/',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   id: '/',
@@ -526,15 +526,15 @@ const AuthenticatedBloodBecomeDonorRoute =
   } as any)
 const AuthenticatedAppointmentsCalendarRoute =
   AuthenticatedAppointmentsCalendarRouteImport.update({
-    id: '/calendar',
-    path: '/calendar',
-    getParentRoute: () => AuthenticatedAppointmentsRoute,
+    id: '/appointments/calendar',
+    path: '/appointments/calendar',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedAppointmentsIdRoute =
   AuthenticatedAppointmentsIdRouteImport.update({
-    id: '/$id',
-    path: '/$id',
-    getParentRoute: () => AuthenticatedAppointmentsRoute,
+    id: '/appointments/$id',
+    path: '/appointments/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedAdminVersionsRoute =
   AuthenticatedAdminVersionsRouteImport.update({
@@ -736,9 +736,9 @@ const AuthenticatedBloodChatRequestIdRoute =
   } as any)
 const AuthenticatedAppointmentsNewProviderIdRoute =
   AuthenticatedAppointmentsNewProviderIdRouteImport.update({
-    id: '/new/$providerId',
-    path: '/new/$providerId',
-    getParentRoute: () => AuthenticatedAppointmentsRoute,
+    id: '/appointments/new/$providerId',
+    path: '/appointments/new/$providerId',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedAdminSecurityTrustRoute =
   AuthenticatedAdminSecurityTrustRouteImport.update({
@@ -785,7 +785,6 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/ai-assistant': typeof AuthenticatedAiAssistantRoute
-  '/appointments': typeof AuthenticatedAppointmentsRouteWithChildren
   '/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/favorites': typeof AuthenticatedFavoritesRoute
   '/hospital-dashboard': typeof AuthenticatedHospitalDashboardRoute
@@ -871,6 +870,7 @@ export interface FileRoutesByFullPath {
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/appointments/': typeof AuthenticatedAppointmentsIndexRoute
   '/provider/': typeof AuthenticatedProviderIndexRoute
   '/admin/doctors/new': typeof AuthenticatedAdminDoctorsNewRoute
   '/admin/security/blocked': typeof AuthenticatedAdminSecurityBlockedRoute
@@ -901,7 +901,6 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/ai-assistant': typeof AuthenticatedAiAssistantRoute
-  '/appointments': typeof AuthenticatedAppointmentsRouteWithChildren
   '/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/favorites': typeof AuthenticatedFavoritesRoute
   '/hospital-dashboard': typeof AuthenticatedHospitalDashboardRoute
@@ -986,6 +985,7 @@ export interface FileRoutesByTo {
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
+  '/appointments': typeof AuthenticatedAppointmentsIndexRoute
   '/provider': typeof AuthenticatedProviderIndexRoute
   '/admin/doctors/new': typeof AuthenticatedAdminDoctorsNewRoute
   '/admin/security/blocked': typeof AuthenticatedAdminSecurityBlockedRoute
@@ -1019,7 +1019,6 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/ai-assistant': typeof AuthenticatedAiAssistantRoute
-  '/_authenticated/appointments': typeof AuthenticatedAppointmentsRouteWithChildren
   '/_authenticated/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/_authenticated/favorites': typeof AuthenticatedFavoritesRoute
   '/_authenticated/hospital-dashboard': typeof AuthenticatedHospitalDashboardRoute
@@ -1105,6 +1104,7 @@ export interface FileRoutesById {
   '/blood/donors/$id': typeof BloodDonorsIdRoute
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/appointments/': typeof AuthenticatedAppointmentsIndexRoute
   '/_authenticated/provider/': typeof AuthenticatedProviderIndexRoute
   '/_authenticated/admin/doctors/new': typeof AuthenticatedAdminDoctorsNewRoute
   '/_authenticated/admin/security/blocked': typeof AuthenticatedAdminSecurityBlockedRoute
@@ -1138,7 +1138,6 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin'
     | '/ai-assistant'
-    | '/appointments'
     | '/doctor-dashboard'
     | '/favorites'
     | '/hospital-dashboard'
@@ -1224,6 +1223,7 @@ export interface FileRouteTypes {
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
     | '/admin/'
+    | '/appointments/'
     | '/provider/'
     | '/admin/doctors/new'
     | '/admin/security/blocked'
@@ -1254,7 +1254,6 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/ai-assistant'
-    | '/appointments'
     | '/doctor-dashboard'
     | '/favorites'
     | '/hospital-dashboard'
@@ -1339,6 +1338,7 @@ export interface FileRouteTypes {
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
     | '/admin'
+    | '/appointments'
     | '/provider'
     | '/admin/doctors/new'
     | '/admin/security/blocked'
@@ -1371,7 +1371,6 @@ export interface FileRouteTypes {
     | '/terms'
     | '/_authenticated/admin'
     | '/_authenticated/ai-assistant'
-    | '/_authenticated/appointments'
     | '/_authenticated/doctor-dashboard'
     | '/_authenticated/favorites'
     | '/_authenticated/hospital-dashboard'
@@ -1457,6 +1456,7 @@ export interface FileRouteTypes {
     | '/blood/donors/$id'
     | '/doctors/specialty/$slug'
     | '/_authenticated/admin/'
+    | '/_authenticated/appointments/'
     | '/_authenticated/provider/'
     | '/_authenticated/admin/doctors/new'
     | '/_authenticated/admin/security/blocked'
@@ -1846,13 +1846,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDoctorDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/appointments': {
-      id: '/_authenticated/appointments'
-      path: '/appointments'
-      fullPath: '/appointments'
-      preLoaderRoute: typeof AuthenticatedAppointmentsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/ai-assistant': {
       id: '/_authenticated/ai-assistant'
       path: '/ai-assistant'
@@ -1873,6 +1866,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/provider/'
       preLoaderRoute: typeof AuthenticatedProviderIndexRouteImport
       parentRoute: typeof AuthenticatedProviderRoute
+    }
+    '/_authenticated/appointments/': {
+      id: '/_authenticated/appointments/'
+      path: '/appointments'
+      fullPath: '/appointments/'
+      preLoaderRoute: typeof AuthenticatedAppointmentsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/admin/': {
       id: '/_authenticated/admin/'
@@ -2023,17 +2023,17 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/appointments/calendar': {
       id: '/_authenticated/appointments/calendar'
-      path: '/calendar'
+      path: '/appointments/calendar'
       fullPath: '/appointments/calendar'
       preLoaderRoute: typeof AuthenticatedAppointmentsCalendarRouteImport
-      parentRoute: typeof AuthenticatedAppointmentsRoute
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/appointments/$id': {
       id: '/_authenticated/appointments/$id'
-      path: '/$id'
+      path: '/appointments/$id'
       fullPath: '/appointments/$id'
       preLoaderRoute: typeof AuthenticatedAppointmentsIdRouteImport
-      parentRoute: typeof AuthenticatedAppointmentsRoute
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/admin/versions': {
       id: '/_authenticated/admin/versions'
@@ -2275,10 +2275,10 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/appointments/new/$providerId': {
       id: '/_authenticated/appointments/new/$providerId'
-      path: '/new/$providerId'
+      path: '/appointments/new/$providerId'
       fullPath: '/appointments/new/$providerId'
       preLoaderRoute: typeof AuthenticatedAppointmentsNewProviderIdRouteImport
-      parentRoute: typeof AuthenticatedAppointmentsRoute
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/admin/security/trust': {
       id: '/_authenticated/admin/security/trust'
@@ -2405,26 +2405,6 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
 const AuthenticatedAdminRouteWithChildren =
   AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
 
-interface AuthenticatedAppointmentsRouteChildren {
-  AuthenticatedAppointmentsIdRoute: typeof AuthenticatedAppointmentsIdRoute
-  AuthenticatedAppointmentsCalendarRoute: typeof AuthenticatedAppointmentsCalendarRoute
-  AuthenticatedAppointmentsNewProviderIdRoute: typeof AuthenticatedAppointmentsNewProviderIdRoute
-}
-
-const AuthenticatedAppointmentsRouteChildren: AuthenticatedAppointmentsRouteChildren =
-  {
-    AuthenticatedAppointmentsIdRoute: AuthenticatedAppointmentsIdRoute,
-    AuthenticatedAppointmentsCalendarRoute:
-      AuthenticatedAppointmentsCalendarRoute,
-    AuthenticatedAppointmentsNewProviderIdRoute:
-      AuthenticatedAppointmentsNewProviderIdRoute,
-  }
-
-const AuthenticatedAppointmentsRouteWithChildren =
-  AuthenticatedAppointmentsRoute._addFileChildren(
-    AuthenticatedAppointmentsRouteChildren,
-  )
-
 interface AuthenticatedProviderPrescriptionsRouteChildren {
   AuthenticatedProviderPrescriptionsIdRoute: typeof AuthenticatedProviderPrescriptionsIdRoute
   AuthenticatedProviderPrescriptionsNewRoute: typeof AuthenticatedProviderPrescriptionsNewRoute
@@ -2490,7 +2470,6 @@ const AuthenticatedProviderRouteWithChildren =
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
   AuthenticatedAiAssistantRoute: typeof AuthenticatedAiAssistantRoute
-  AuthenticatedAppointmentsRoute: typeof AuthenticatedAppointmentsRouteWithChildren
   AuthenticatedDoctorDashboardRoute: typeof AuthenticatedDoctorDashboardRoute
   AuthenticatedFavoritesRoute: typeof AuthenticatedFavoritesRoute
   AuthenticatedHospitalDashboardRoute: typeof AuthenticatedHospitalDashboardRoute
@@ -2501,16 +2480,19 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedProviderRoute: typeof AuthenticatedProviderRouteWithChildren
   AuthenticatedProviderCalendarRoute: typeof AuthenticatedProviderCalendarRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedAppointmentsIdRoute: typeof AuthenticatedAppointmentsIdRoute
+  AuthenticatedAppointmentsCalendarRoute: typeof AuthenticatedAppointmentsCalendarRoute
   AuthenticatedBloodBecomeDonorRoute: typeof AuthenticatedBloodBecomeDonorRoute
   AuthenticatedBloodHistoryRoute: typeof AuthenticatedBloodHistoryRoute
   AuthenticatedBloodMeRoute: typeof AuthenticatedBloodMeRoute
+  AuthenticatedAppointmentsIndexRoute: typeof AuthenticatedAppointmentsIndexRoute
+  AuthenticatedAppointmentsNewProviderIdRoute: typeof AuthenticatedAppointmentsNewProviderIdRoute
   AuthenticatedBloodChatRequestIdRoute: typeof AuthenticatedBloodChatRequestIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
   AuthenticatedAiAssistantRoute: AuthenticatedAiAssistantRoute,
-  AuthenticatedAppointmentsRoute: AuthenticatedAppointmentsRouteWithChildren,
   AuthenticatedDoctorDashboardRoute: AuthenticatedDoctorDashboardRoute,
   AuthenticatedFavoritesRoute: AuthenticatedFavoritesRoute,
   AuthenticatedHospitalDashboardRoute: AuthenticatedHospitalDashboardRoute,
@@ -2521,9 +2503,15 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedProviderRoute: AuthenticatedProviderRouteWithChildren,
   AuthenticatedProviderCalendarRoute: AuthenticatedProviderCalendarRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedAppointmentsIdRoute: AuthenticatedAppointmentsIdRoute,
+  AuthenticatedAppointmentsCalendarRoute:
+    AuthenticatedAppointmentsCalendarRoute,
   AuthenticatedBloodBecomeDonorRoute: AuthenticatedBloodBecomeDonorRoute,
   AuthenticatedBloodHistoryRoute: AuthenticatedBloodHistoryRoute,
   AuthenticatedBloodMeRoute: AuthenticatedBloodMeRoute,
+  AuthenticatedAppointmentsIndexRoute: AuthenticatedAppointmentsIndexRoute,
+  AuthenticatedAppointmentsNewProviderIdRoute:
+    AuthenticatedAppointmentsNewProviderIdRoute,
   AuthenticatedBloodChatRequestIdRoute: AuthenticatedBloodChatRequestIdRoute,
 }
 
