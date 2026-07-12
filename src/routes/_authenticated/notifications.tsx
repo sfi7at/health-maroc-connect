@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import {
@@ -264,13 +264,13 @@ function NotificationList({
               <div className="flex flex-wrap items-center gap-2 pt-1">
                 <span className="text-[11px] text-muted-foreground">{formatRelativeFr(n.created_at)}</span>
                 {n.action_url && (
-                  <Link
-                    to={n.action_url}
+                  <a
+                    href={n.action_url}
                     onClick={() => onClick(n)}
                     className="inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1 text-[11px] font-semibold text-primary-foreground hover:opacity-90"
                   >
                     {n.action_label ?? "Ouvrir"} <ExternalLink className="h-3 w-3" />
-                  </Link>
+                  </a>
                 )}
                 {n.type === "emergency" && (
                   <a
