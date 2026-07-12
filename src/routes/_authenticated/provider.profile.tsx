@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Save, UserCog, Upload, Globe, Phone, Mail, MapPin, Languages, Siren, Map as MapIcon, FileText } from "lucide-react";
+import { Save, UserCog, Upload, Globe, Phone, Mail, MapPin, Languages, Siren, Map as MapIcon, FileText, Link2, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -50,7 +50,10 @@ function ProviderProfile() {
     profile_image: "", cover_image: "",
     google_maps_url: "", clinic_logo_url: "",
     rx_title: "", rx_clinic_name: "", rx_specialty: "", rx_inpe: "",
+    slug: "",
   });
+  const [slugChecking, setSlugChecking] = useState(false);
+  const [slugStatus, setSlugStatus] = useState<null | "available" | "taken" | "invalid" | "current">(null);
 
   useEffect(() => {
     if (!data) return;
@@ -76,8 +79,25 @@ function ProviderProfile() {
       rx_clinic_name: rx.clinic_name ?? "",
       rx_specialty: rx.specialty ?? "",
       rx_inpe: rx.inpe ?? "",
+      slug: (data as unknown as { slug?: string }).slug ?? "",
     });
   }, [data]);
+
+  const currentSlug = (data as unknown as { slug?: string } | null | undefined)?.slug ?? "";
+
+  useEffect(() => {
+    setSlugStatus(null);
+    const s = form.slug.trim().toLowerCase();
+    if (!s || s === currentSlug) { setSlugStatus(s === currentSlug ? "current" : null); return; }
+    if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(s) || s.length < 3 || s.length > 60) { setSlugStatus("invalid"); return; }
+    setSlugChecking(true);
+    const t = setTimeout(async () => {
+      const { data: hit } = await supabase.from("providers").select("id").eq("slug", s).maybeSingle();
+      setSlugChecking(false);
+      setSlugStatus(hit && hit.id !== id ? "taken" : "available");
+    }, 300);
+    return () => clearTimeout(t);
+  }, [form.slug, currentSlug, id]);
 
   const save = useMutation({
     mutationFn: async () => {
@@ -101,6 +121,9 @@ function ProviderProfile() {
         cover_image: form.cover_image || null,
         google_maps_url: form.google_maps_url.trim() || null,
         clinic_logo_url: form.clinic_logo_url || null,
+        ...(form.slug.trim() && form.slug.trim().toLowerCase() !== currentSlug
+          ? { slug: form.slug.trim().toLowerCase() }
+          : {}),
         prescription_header: {
           title: form.rx_title.trim() || null,
           clinic_name: form.rx_clinic_name.trim() || null,
@@ -132,6 +155,10 @@ function ProviderProfile() {
   if (!provider) return null;
   if (isLoading) return <Skeleton className="h-96 rounded-3xl" />;
 
+  const publicUrl = typeof window !== "undefined"
+    ? `${window.location.origin}/doctors/${form.slug || currentSlug || provider?.id}`
+    : "";
+
   return (
     <div className="space-y-6">
       <PageHeader eyebrow="Profil" title="Informations publiques" description="Ces informations sont visibles par les patients." icon={<UserCog className="h-5 w-5" />} />
@@ -160,6 +187,36 @@ function ProviderProfile() {
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
+        <div className="lg:col-span-2 space-y-2 rounded-2xl border border-border bg-card p-4">
+          <Label className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <Link2 className="h-3.5 w-3.5" /> Lien public partageable
+          </Label>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs text-muted-foreground">/doctors/</span>
+            <Input
+              value={form.slug}
+              onChange={(e) => setForm({ ...form, slug: e.target.value.toLowerCase() })}
+              placeholder="dr-ahmed-benali"
+              className="max-w-xs"
+            />
+            {slugChecking ? (
+              <span className="text-xs text-muted-foreground">Vérification…</span>
+            ) : slugStatus === "available" ? (
+              <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600"><Check className="h-3.5 w-3.5" /> Disponible</span>
+            ) : slugStatus === "taken" ? (
+              <span className="inline-flex items-center gap-1 text-xs font-semibold text-destructive"><X className="h-3.5 w-3.5" /> Déjà pris</span>
+            ) : slugStatus === "invalid" ? (
+              <span className="text-xs font-semibold text-destructive">3–60 caractères, minuscules, chiffres et tirets uniquement.</span>
+            ) : slugStatus === "current" ? (
+              <span className="text-xs text-muted-foreground">Lien actuel</span>
+            ) : null}
+          </div>
+          {publicUrl && (
+            <a href={publicUrl} target="_blank" rel="noreferrer" className="block truncate text-xs text-primary hover:underline">
+              {publicUrl}
+            </a>
+          )}
+        </div>
         <Field label="Description" icon={UserCog}>
           <Textarea rows={4} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="Présentez votre cabinet, vos approches, votre expérience…" />
         </Field>
