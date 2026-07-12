@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import {
@@ -70,6 +70,7 @@ const TYPE_LABELS: Record<string, string> = {
 function NotificationsPage() {
   const { user } = useAuth();
   const qc = useQueryClient();
+  const router = useRouter();
   const { all, unread, urgent, pinned, archived, isLoading, unreadCount } = useNotifications();
   const [typeFilter, setTypeFilter] = useState<string>("all");
 
@@ -101,8 +102,22 @@ function NotificationsPage() {
     toast.success(`${ids.length} notification(s) marquée(s) comme lues`);
   };
 
-  const handleClick = (n: NotificationRow) => {
+  const handleClick = (n: NotificationRow, e: React.MouseEvent<HTMLAnchorElement>) => {
     void track({ data: { notification_id: n.id, event_type: "clicked" } }).catch(() => undefined);
+    // Mark as read locally so the row de-highlights immediately.
+    if (!n.is_read) {
+      void supabase
+        .from("notifications")
+        .update({ is_read: true, read_at: new Date().toISOString() })
+        .eq("id", n.id)
+        .then(() => qc.invalidateQueries({ queryKey: ["notifications"] }));
+    }
+    // Client-side navigation for internal URLs (avoid full page reload).
+    const url = n.action_url ?? "";
+    if (url.startsWith("/") && !url.startsWith("//") && !e.defaultPrevented && !e.metaKey && !e.ctrlKey) {
+      e.preventDefault();
+      router.navigate({ to: url });
+    }
   };
 
   const filterByType = (rows: NotificationRow[]) =>
@@ -226,7 +241,7 @@ function NotificationList({
   rows: NotificationRow[];
   onPin: (id: string, value: boolean) => void;
   onArchive: (id: string, value: boolean) => void;
-  onClick: (n: NotificationRow) => void;
+  onClick: (n: NotificationRow, e: React.MouseEvent<HTMLAnchorElement>) => void;
 }) {
   if (rows.length === 0) {
     return (
@@ -266,7 +281,7 @@ function NotificationList({
                 {n.action_url && (
                   <a
                     href={n.action_url}
-                    onClick={() => onClick(n)}
+                    onClick={(e) => onClick(n, e)}
                     className="inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1 text-[11px] font-semibold text-primary-foreground hover:opacity-90"
                   >
                     {n.action_label ?? "Ouvrir"} <ExternalLink className="h-3 w-3" />
