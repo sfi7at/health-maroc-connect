@@ -90,7 +90,6 @@ import { Route as AuthenticatedAdminVersionsRouteImport } from './routes/_authen
 import { Route as AuthenticatedAdminVerificationRouteImport } from './routes/_authenticated/admin.verification'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
-import { Route as AuthenticatedAdminSecurityRouteImport } from './routes/_authenticated/admin.security'
 import { Route as AuthenticatedAdminReviewsRouteImport } from './routes/_authenticated/admin.reviews'
 import { Route as AuthenticatedAdminReportsRouteImport } from './routes/_authenticated/admin.reports'
 import { Route as AuthenticatedAdminQualityRouteImport } from './routes/_authenticated/admin.quality'
@@ -116,6 +115,7 @@ import { Route as AuthenticatedAdminBackupsRouteImport } from './routes/_authent
 import { Route as AuthenticatedAdminArticlesRouteImport } from './routes/_authenticated/admin.articles'
 import { Route as AuthenticatedAdminAppointmentsRouteImport } from './routes/_authenticated/admin.appointments'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin.analytics'
+import { Route as AuthenticatedAdminSecurityIndexRouteImport } from './routes/_authenticated/admin.security.index'
 import { Route as ApiPublicCronAppointmentRemindersRouteImport } from './routes/api/public/cron.appointment-reminders'
 import { Route as AuthenticatedProviderPrescriptionsNewRouteImport } from './routes/_authenticated/provider.prescriptions.new'
 import { Route as AuthenticatedProviderPrescriptionsIdRouteImport } from './routes/_authenticated/provider.prescriptions.$id'
@@ -559,12 +559,6 @@ const AuthenticatedAdminSettingsRoute =
     path: '/settings',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
-const AuthenticatedAdminSecurityRoute =
-  AuthenticatedAdminSecurityRouteImport.update({
-    id: '/security',
-    path: '/security',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
 const AuthenticatedAdminReviewsRoute =
   AuthenticatedAdminReviewsRouteImport.update({
     id: '/reviews',
@@ -710,6 +704,12 @@ const AuthenticatedAdminAnalyticsRoute =
     path: '/analytics',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminSecurityIndexRoute =
+  AuthenticatedAdminSecurityIndexRouteImport.update({
+    id: '/security/',
+    path: '/security/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const ApiPublicCronAppointmentRemindersRoute =
   ApiPublicCronAppointmentRemindersRouteImport.update({
     id: '/api/public/cron/appointment-reminders',
@@ -742,21 +742,21 @@ const AuthenticatedAppointmentsNewProviderIdRoute =
   } as any)
 const AuthenticatedAdminSecurityTrustRoute =
   AuthenticatedAdminSecurityTrustRouteImport.update({
-    id: '/trust',
-    path: '/trust',
-    getParentRoute: () => AuthenticatedAdminSecurityRoute,
+    id: '/security/trust',
+    path: '/security/trust',
+    getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminSecurityEventsRoute =
   AuthenticatedAdminSecurityEventsRouteImport.update({
-    id: '/events',
-    path: '/events',
-    getParentRoute: () => AuthenticatedAdminSecurityRoute,
+    id: '/security/events',
+    path: '/security/events',
+    getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminSecurityBlockedRoute =
   AuthenticatedAdminSecurityBlockedRouteImport.update({
-    id: '/blocked',
-    path: '/blocked',
-    getParentRoute: () => AuthenticatedAdminSecurityRoute,
+    id: '/security/blocked',
+    path: '/security/blocked',
+    getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminDoctorsNewRoute =
   AuthenticatedAdminDoctorsNewRouteImport.update({
@@ -841,7 +841,6 @@ export interface FileRoutesByFullPath {
   '/admin/quality': typeof AuthenticatedAdminQualityRoute
   '/admin/reports': typeof AuthenticatedAdminReportsRoute
   '/admin/reviews': typeof AuthenticatedAdminReviewsRoute
-  '/admin/security': typeof AuthenticatedAdminSecurityRouteWithChildren
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/verification': typeof AuthenticatedAdminVerificationRoute
@@ -881,6 +880,7 @@ export interface FileRoutesByFullPath {
   '/provider/prescriptions/$id': typeof AuthenticatedProviderPrescriptionsIdRoute
   '/provider/prescriptions/new': typeof AuthenticatedProviderPrescriptionsNewRoute
   '/api/public/cron/appointment-reminders': typeof ApiPublicCronAppointmentRemindersRoute
+  '/admin/security/': typeof AuthenticatedAdminSecurityIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -956,7 +956,6 @@ export interface FileRoutesByTo {
   '/admin/quality': typeof AuthenticatedAdminQualityRoute
   '/admin/reports': typeof AuthenticatedAdminReportsRoute
   '/admin/reviews': typeof AuthenticatedAdminReviewsRoute
-  '/admin/security': typeof AuthenticatedAdminSecurityRouteWithChildren
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/verification': typeof AuthenticatedAdminVerificationRoute
@@ -996,6 +995,7 @@ export interface FileRoutesByTo {
   '/provider/prescriptions/$id': typeof AuthenticatedProviderPrescriptionsIdRoute
   '/provider/prescriptions/new': typeof AuthenticatedProviderPrescriptionsNewRoute
   '/api/public/cron/appointment-reminders': typeof ApiPublicCronAppointmentRemindersRoute
+  '/admin/security': typeof AuthenticatedAdminSecurityIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -1075,7 +1075,6 @@ export interface FileRoutesById {
   '/_authenticated/admin/quality': typeof AuthenticatedAdminQualityRoute
   '/_authenticated/admin/reports': typeof AuthenticatedAdminReportsRoute
   '/_authenticated/admin/reviews': typeof AuthenticatedAdminReviewsRoute
-  '/_authenticated/admin/security': typeof AuthenticatedAdminSecurityRouteWithChildren
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/admin/verification': typeof AuthenticatedAdminVerificationRoute
@@ -1115,6 +1114,7 @@ export interface FileRoutesById {
   '/_authenticated/provider/prescriptions/$id': typeof AuthenticatedProviderPrescriptionsIdRoute
   '/_authenticated/provider/prescriptions/new': typeof AuthenticatedProviderPrescriptionsNewRoute
   '/api/public/cron/appointment-reminders': typeof ApiPublicCronAppointmentRemindersRoute
+  '/_authenticated/admin/security/': typeof AuthenticatedAdminSecurityIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -1194,7 +1194,6 @@ export interface FileRouteTypes {
     | '/admin/quality'
     | '/admin/reports'
     | '/admin/reviews'
-    | '/admin/security'
     | '/admin/settings'
     | '/admin/users'
     | '/admin/verification'
@@ -1234,6 +1233,7 @@ export interface FileRouteTypes {
     | '/provider/prescriptions/$id'
     | '/provider/prescriptions/new'
     | '/api/public/cron/appointment-reminders'
+    | '/admin/security/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -1309,7 +1309,6 @@ export interface FileRouteTypes {
     | '/admin/quality'
     | '/admin/reports'
     | '/admin/reviews'
-    | '/admin/security'
     | '/admin/settings'
     | '/admin/users'
     | '/admin/verification'
@@ -1349,6 +1348,7 @@ export interface FileRouteTypes {
     | '/provider/prescriptions/$id'
     | '/provider/prescriptions/new'
     | '/api/public/cron/appointment-reminders'
+    | '/admin/security'
   id:
     | '__root__'
     | '/'
@@ -1427,7 +1427,6 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/quality'
     | '/_authenticated/admin/reports'
     | '/_authenticated/admin/reviews'
-    | '/_authenticated/admin/security'
     | '/_authenticated/admin/settings'
     | '/_authenticated/admin/users'
     | '/_authenticated/admin/verification'
@@ -1467,6 +1466,7 @@ export interface FileRouteTypes {
     | '/_authenticated/provider/prescriptions/$id'
     | '/_authenticated/provider/prescriptions/new'
     | '/api/public/cron/appointment-reminders'
+    | '/_authenticated/admin/security/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -2085,13 +2085,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
-    '/_authenticated/admin/security': {
-      id: '/_authenticated/admin/security'
-      path: '/security'
-      fullPath: '/admin/security'
-      preLoaderRoute: typeof AuthenticatedAdminSecurityRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
     '/_authenticated/admin/reviews': {
       id: '/_authenticated/admin/reviews'
       path: '/reviews'
@@ -2267,6 +2260,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAnalyticsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/security/': {
+      id: '/_authenticated/admin/security/'
+      path: '/security'
+      fullPath: '/admin/security/'
+      preLoaderRoute: typeof AuthenticatedAdminSecurityIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/api/public/cron/appointment-reminders': {
       id: '/api/public/cron/appointment-reminders'
       path: '/api/public/cron/appointment-reminders'
@@ -2304,24 +2304,24 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/admin/security/trust': {
       id: '/_authenticated/admin/security/trust'
-      path: '/trust'
+      path: '/security/trust'
       fullPath: '/admin/security/trust'
       preLoaderRoute: typeof AuthenticatedAdminSecurityTrustRouteImport
-      parentRoute: typeof AuthenticatedAdminSecurityRoute
+      parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/security/events': {
       id: '/_authenticated/admin/security/events'
-      path: '/events'
+      path: '/security/events'
       fullPath: '/admin/security/events'
       preLoaderRoute: typeof AuthenticatedAdminSecurityEventsRouteImport
-      parentRoute: typeof AuthenticatedAdminSecurityRoute
+      parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/security/blocked': {
       id: '/_authenticated/admin/security/blocked'
-      path: '/blocked'
+      path: '/security/blocked'
       fullPath: '/admin/security/blocked'
       preLoaderRoute: typeof AuthenticatedAdminSecurityBlockedRouteImport
-      parentRoute: typeof AuthenticatedAdminSecurityRoute
+      parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/doctors/new': {
       id: '/_authenticated/admin/doctors/new'
@@ -2332,26 +2332,6 @@ declare module '@tanstack/react-router' {
     }
   }
 }
-
-interface AuthenticatedAdminSecurityRouteChildren {
-  AuthenticatedAdminSecurityBlockedRoute: typeof AuthenticatedAdminSecurityBlockedRoute
-  AuthenticatedAdminSecurityEventsRoute: typeof AuthenticatedAdminSecurityEventsRoute
-  AuthenticatedAdminSecurityTrustRoute: typeof AuthenticatedAdminSecurityTrustRoute
-}
-
-const AuthenticatedAdminSecurityRouteChildren: AuthenticatedAdminSecurityRouteChildren =
-  {
-    AuthenticatedAdminSecurityBlockedRoute:
-      AuthenticatedAdminSecurityBlockedRoute,
-    AuthenticatedAdminSecurityEventsRoute:
-      AuthenticatedAdminSecurityEventsRoute,
-    AuthenticatedAdminSecurityTrustRoute: AuthenticatedAdminSecurityTrustRoute,
-  }
-
-const AuthenticatedAdminSecurityRouteWithChildren =
-  AuthenticatedAdminSecurityRoute._addFileChildren(
-    AuthenticatedAdminSecurityRouteChildren,
-  )
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminAnalyticsRoute: typeof AuthenticatedAdminAnalyticsRoute
@@ -2379,13 +2359,16 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminQualityRoute: typeof AuthenticatedAdminQualityRoute
   AuthenticatedAdminReportsRoute: typeof AuthenticatedAdminReportsRoute
   AuthenticatedAdminReviewsRoute: typeof AuthenticatedAdminReviewsRoute
-  AuthenticatedAdminSecurityRoute: typeof AuthenticatedAdminSecurityRouteWithChildren
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAdminVerificationRoute: typeof AuthenticatedAdminVerificationRoute
   AuthenticatedAdminVersionsRoute: typeof AuthenticatedAdminVersionsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdminDoctorsNewRoute: typeof AuthenticatedAdminDoctorsNewRoute
+  AuthenticatedAdminSecurityBlockedRoute: typeof AuthenticatedAdminSecurityBlockedRoute
+  AuthenticatedAdminSecurityEventsRoute: typeof AuthenticatedAdminSecurityEventsRoute
+  AuthenticatedAdminSecurityTrustRoute: typeof AuthenticatedAdminSecurityTrustRoute
+  AuthenticatedAdminSecurityIndexRoute: typeof AuthenticatedAdminSecurityIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
@@ -2415,13 +2398,17 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminQualityRoute: AuthenticatedAdminQualityRoute,
   AuthenticatedAdminReportsRoute: AuthenticatedAdminReportsRoute,
   AuthenticatedAdminReviewsRoute: AuthenticatedAdminReviewsRoute,
-  AuthenticatedAdminSecurityRoute: AuthenticatedAdminSecurityRouteWithChildren,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAdminVerificationRoute: AuthenticatedAdminVerificationRoute,
   AuthenticatedAdminVersionsRoute: AuthenticatedAdminVersionsRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAdminDoctorsNewRoute: AuthenticatedAdminDoctorsNewRoute,
+  AuthenticatedAdminSecurityBlockedRoute:
+    AuthenticatedAdminSecurityBlockedRoute,
+  AuthenticatedAdminSecurityEventsRoute: AuthenticatedAdminSecurityEventsRoute,
+  AuthenticatedAdminSecurityTrustRoute: AuthenticatedAdminSecurityTrustRoute,
+  AuthenticatedAdminSecurityIndexRoute: AuthenticatedAdminSecurityIndexRoute,
 }
 
 const AuthenticatedAdminRouteWithChildren =
