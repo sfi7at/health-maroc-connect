@@ -3710,38 +3710,7 @@ export type Database = {
       }
     }
     Views: {
-      profiles_public: {
-        Row: {
-          avatar_url: string | null
-          city_id: string | null
-          first_name: string | null
-          full_name: string | null
-          id: string | null
-        }
-        Insert: {
-          avatar_url?: string | null
-          city_id?: string | null
-          first_name?: string | null
-          full_name?: string | null
-          id?: string | null
-        }
-        Update: {
-          avatar_url?: string | null
-          city_id?: string | null
-          first_name?: string | null
-          full_name?: string | null
-          id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "profiles_city_id_fkey"
-            columns: ["city_id"]
-            isOneToOne: false
-            referencedRelation: "cities"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
+      [_ in never]: never
     }
     Functions: {
       can_chat_on_request: {
@@ -3849,6 +3818,30 @@ export type Database = {
           to: "blood_donors"
           isOneToOne: true
           isSetofReturn: false
+        }
+      }
+      get_my_profile: {
+        Args: never
+        Returns: {
+          active_role: string
+          avatar_url: string | null
+          city: string | null
+          city_id: string | null
+          created_at: string
+          first_name: string | null
+          full_name: string | null
+          id: string
+          language: string
+          last_name: string | null
+          phone: string | null
+          terms_accepted_at: string | null
+          updated_at: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "profiles"
+          isOneToOne: false
+          isSetofReturn: true
         }
       }
       has_any_admin_role: { Args: { _user_id: string }; Returns: boolean }
