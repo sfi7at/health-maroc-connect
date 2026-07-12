@@ -31,8 +31,11 @@ export function useNotifications() {
 
   useEffect(() => {
     if (!user) return;
+    // Use a unique channel per mount to avoid React 18 StrictMode
+    // "cannot add postgres_changes callbacks after subscribe()" errors.
+    const suffix = Math.random().toString(36).slice(2, 10);
     const ch = supabase
-      .channel(`notif-${user.id}`)
+      .channel(`notif-${user.id}-${suffix}`)
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "notifications", filter: `user_id=eq.${user.id}` },

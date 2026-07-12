@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   readDoctorMeta, priceLabel, languageLabel, type DoctorRow,
-  isBookable,
+  isBookable, doctorPathId,
 } from "@/lib/doctors";
 import { formatDistanceKm, initialsOf } from "@/lib/format";
 import { getOpenStatus, OPEN_STATUS_META, buildDirectionsUrl } from "@/lib/map-utils";
@@ -32,6 +32,7 @@ export function DoctorCard({ doctor, distanceKm, compact }: Props) {
   const price = priceLabel(meta);
   const langs = (meta.languages ?? []).slice(0, 3);
   const bookable = isBookable(doctor);
+  const routeId = doctorPathId(doctor);
 
   return (
     <motion.article
@@ -143,7 +144,10 @@ export function DoctorCard({ doctor, distanceKm, compact }: Props) {
         <div className="mt-auto flex items-center gap-2 pt-2">
           {bookable ? (
             <Button asChild size="sm" className="flex-1">
-              <Link to="/doctors/$id" params={{ id: doctor.id }}>
+              <Link
+                to="/appointments/new/$providerId"
+                params={{ providerId: doctor.id }}
+              >
                 <CalendarPlus className="mr-1.5 h-4 w-4" /> Réserver
               </Link>
             </Button>
@@ -159,7 +163,7 @@ export function DoctorCard({ doctor, distanceKm, compact }: Props) {
             </Button>
           ) : (
             <Button asChild size="sm" variant="outline" className="flex-1">
-              <Link to="/doctors/$id" params={{ id: doctor.id }}>Voir la fiche</Link>
+              <Link to="/doctors/$id" params={{ id: routeId }}>Voir la fiche</Link>
             </Button>
           )}
           {doctor.phone ? (
