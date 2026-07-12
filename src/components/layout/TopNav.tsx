@@ -1,5 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { Bell, Heart, LogOut, Menu, Search, User as UserIcon } from "lucide-react";
+import {
+  Bell, Heart, LogOut, Menu, Search, User as UserIcon,
+  Star, Settings as SettingsIcon, Stethoscope,
+} from "lucide-react";
 import { useState } from "react";
 import { GlobalSearchDialog, useGlobalSearchHotkey } from "@/components/search/GlobalSearchDialog";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -18,6 +21,7 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
 import { useNotifications } from "@/hooks/use-notifications";
 import { RoleSwitch } from "@/components/layout/RoleSwitch";
+import { useIsDoctor } from "@/hooks/use-active-role";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
@@ -91,11 +95,9 @@ function NotificationBell() {
   const { user } = useAuth();
   if (!user) {
     return (
-      <Link to="/auth">
-        <Button variant="ghost" size="icon" aria-label="Notifications" className="relative">
-          <Bell className="h-5 w-5" />
-        </Button>
-      </Link>
+      <Button asChild variant="ghost" size="icon" aria-label="Notifications" className="relative">
+        <Link to="/auth"><Bell className="h-5 w-5" /></Link>
+      </Button>
     );
   }
   return <NotificationBellAuthed />;
@@ -104,8 +106,14 @@ function NotificationBell() {
 function NotificationBellAuthed() {
   const { unreadCount, hasUrgent } = useNotifications();
   return (
-    <Link to="/notifications">
-      <Button variant="ghost" size="icon" aria-label={`Notifications (${unreadCount} non lues)`} className="relative">
+    <Button
+      asChild
+      variant="ghost"
+      size="icon"
+      aria-label={`Notifications (${unreadCount} non lues)`}
+      className="relative"
+    >
+      <Link to="/notifications">
         <Bell className="h-5 w-5" />
         {unreadCount > 0 && (
           <span
@@ -116,13 +124,14 @@ function NotificationBellAuthed() {
             {unreadCount > 9 ? "9+" : unreadCount}
           </span>
         )}
-      </Button>
-    </Link>
+      </Link>
+    </Button>
   );
 }
 
 function AccountButtonInner() {
   const { user, loading } = useAuth();
+  const { data: isDoctor } = useIsDoctor();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -132,11 +141,9 @@ function AccountButtonInner() {
 
   if (!user) {
     return (
-      <Link to="/auth">
-        <Button size="sm" className="rounded-full">
-          Connexion
-        </Button>
-      </Link>
+      <Button asChild size="sm" className="rounded-full">
+        <Link to="/auth">Connexion</Link>
+      </Button>
     );
   }
 
@@ -175,6 +182,31 @@ function AccountButtonInner() {
             <UserIcon className="h-4 w-4" /> Profil médical
           </Link>
         </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link to="/notifications" className="cursor-pointer gap-2">
+            <Bell className="h-4 w-4" /> Notifications
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link to="/favorites" className="cursor-pointer gap-2">
+            <Star className="h-4 w-4" /> Favoris
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link to="/settings" className="cursor-pointer gap-2">
+            <SettingsIcon className="h-4 w-4" /> Paramètres
+          </Link>
+        </DropdownMenuItem>
+        {isDoctor ? (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link to="/provider" className="cursor-pointer gap-2">
+                <Stethoscope className="h-4 w-4" /> Espace Pro
+              </Link>
+            </DropdownMenuItem>
+          </>
+        ) : null}
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={onSignOut} className="cursor-pointer gap-2 text-destructive focus:text-destructive">
           <LogOut className="h-4 w-4" /> Se déconnecter

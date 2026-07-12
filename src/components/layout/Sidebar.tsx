@@ -36,6 +36,15 @@ export function Sidebar() {
   );
 }
 
+function isActiveRoute(pathname: string, to: string, allTos: string[]): boolean {
+  if (to === "/") return pathname === "/";
+  if (pathname !== to && !pathname.startsWith(to + "/")) return false;
+  // longer sibling prefix wins
+  return !allTos.some(
+    (other) => other !== to && other.startsWith(to + "/") && (pathname === other || pathname.startsWith(other + "/")),
+  );
+}
+
 function SidebarSection({
   label,
   items,
@@ -47,6 +56,7 @@ function SidebarSection({
   pathname: string;
   className?: string;
 }) {
+  const allTos = items.map((i) => i.to);
   return (
     <div className={className}>
       <p className="px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
@@ -55,7 +65,7 @@ function SidebarSection({
       <ul className="space-y-1">
         {items.map((item) => {
           const Icon = item.icon;
-          const active = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
+          const active = isActiveRoute(pathname, item.to, allTos);
           return (
             <li key={item.to}>
               <Link
