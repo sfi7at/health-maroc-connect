@@ -28,7 +28,7 @@ import { URGENCY_META } from "@/lib/categories";
 import { formatRelativeFr } from "@/lib/format";
 import { buildHead } from "@/lib/seo";
 
-export const Route = createFileRoute("/blood")({
+export const Route = createFileRoute("/blood/")({
   head: () =>
     buildHead({
       title: "Don du sang au Maroc — HealthLink",

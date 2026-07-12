@@ -32,7 +32,7 @@ import { DONOR_STATUS_META, RECEIVE_FROM } from "@/lib/blood";
 import { formatRelativeFr } from "@/lib/format";
 import { buildHead } from "@/lib/seo";
 
-export const Route = createFileRoute("/blood/donors")({
+export const Route = createFileRoute("/blood/donors/")({
   head: () =>
     buildHead({
       title: "Trouver des donneurs de sang — HealthLink Maroc",
