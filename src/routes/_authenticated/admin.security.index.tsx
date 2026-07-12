@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDateTimeFr } from "@/lib/format";
 
-export const Route = createFileRoute("/_authenticated/admin/security")({
+export const Route = createFileRoute("/_authenticated/admin/security/")({
   component: AdminSecurity,
 });
 
