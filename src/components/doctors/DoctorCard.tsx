@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   readDoctorMeta, priceLabel, languageLabel, type DoctorRow,
+  isBookable,
 } from "@/lib/doctors";
 import { formatDistanceKm, initialsOf } from "@/lib/format";
 import { getOpenStatus, OPEN_STATUS_META, buildDirectionsUrl } from "@/lib/map-utils";
@@ -30,6 +31,7 @@ export function DoctorCard({ doctor, distanceKm, compact }: Props) {
   const isFav = fav.isFavorite(doctor.id);
   const price = priceLabel(meta);
   const langs = (meta.languages ?? []).slice(0, 3);
+  const bookable = isBookable(doctor);
 
   return (
     <motion.article
@@ -139,17 +141,33 @@ export function DoctorCard({ doctor, distanceKm, compact }: Props) {
         </div>
 
         <div className="mt-auto flex items-center gap-2 pt-2">
-          <Button asChild size="sm" className="flex-1">
-            <Link to="/doctors/$id" params={{ id: doctor.id }}>
-              <CalendarPlus className="mr-1.5 h-4 w-4" /> Réserver
-            </Link>
-          </Button>
+          {bookable ? (
+            <Button asChild size="sm" className="flex-1">
+              <Link to="/doctors/$id" params={{ id: doctor.id }}>
+                <CalendarPlus className="mr-1.5 h-4 w-4" /> Réserver
+              </Link>
+            </Button>
+          ) : doctor.latitude != null && doctor.longitude != null ? (
+            <Button asChild size="sm" className="flex-1">
+              <a
+                href={buildDirectionsUrl({ lat: Number(doctor.latitude), lng: Number(doctor.longitude) })}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Navigation className="mr-1.5 h-4 w-4" /> Itinéraire
+              </a>
+            </Button>
+          ) : (
+            <Button asChild size="sm" variant="outline" className="flex-1">
+              <Link to="/doctors/$id" params={{ id: doctor.id }}>Voir la fiche</Link>
+            </Button>
+          )}
           {doctor.phone ? (
             <Button asChild size="sm" variant="outline" aria-label="Appeler" className="px-3">
               <a href={`tel:${doctor.phone}`}><Phone className="h-4 w-4" /></a>
             </Button>
           ) : null}
-          {doctor.latitude != null && doctor.longitude != null ? (
+          {bookable && doctor.latitude != null && doctor.longitude != null ? (
             <Button asChild size="sm" variant="outline" aria-label="Itinéraire" className="px-3">
               <a href={buildDirectionsUrl({ lat: Number(doctor.latitude), lng: Number(doctor.longitude) })} target="_blank" rel="noreferrer">
                 <Navigation className="h-4 w-4" />

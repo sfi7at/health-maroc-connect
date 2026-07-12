@@ -49,7 +49,23 @@ function BookFlow() {
   const { data: provider, isLoading: loadingProvider } = useQuery(providerByIdQuery(providerId));
   const bookable = isBookable(provider as DoctorRow | null | undefined);
   const { data: services = [], isLoading: loadingServices } = useQuery(providerServicesQuery(providerId));
-  const { data: schedules = [] } = useQuery(providerSchedulesQuery(providerId));
+  const { data: schedulesRaw = [] } = useQuery(providerSchedulesQuery(providerId));
+  // Fallback schedule so bookings never dead-end when the doctor has no availability configured
+  const schedules = useMemo(() => {
+    if (schedulesRaw.length > 0) return schedulesRaw;
+    return [1, 2, 3, 4, 5, 6].map((weekday) => ({
+      id: `default-${weekday}`,
+      provider_id: providerId,
+      weekday,
+      start_time: "09:00",
+      end_time: "18:00",
+      slot_minutes: 30,
+      break_start: "13:00",
+      break_end: "14:00",
+      max_per_day: null,
+      is_active: true,
+    }));
+  }, [schedulesRaw, providerId]);
   const { data: blocked = [] } = useQuery(blockedDatesQuery(providerId, new Date().toISOString()));
 
   const [step, setStep] = useState(0);
