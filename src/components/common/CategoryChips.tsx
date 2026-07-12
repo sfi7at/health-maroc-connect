@@ -12,7 +12,7 @@ export function CategoryChips({ value, onChange, options }: CategoryChipsProps) 
   const items: (ProviderCategory | "all")[] =
     options ?? ["all", ...CATEGORY_LIST.map((c) => c.value)];
   return (
-    <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+    <div className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
       {items.map((v) => {
         const meta = v === "all" ? null : CATEGORY_LIST.find((c) => c.value === v);
         const Icon = meta?.icon;
