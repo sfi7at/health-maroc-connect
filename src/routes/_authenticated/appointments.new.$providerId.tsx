@@ -132,6 +132,27 @@ function BookFlow() {
 
       {loadingProvider || !provider ? (
         <Skeleton className="h-32 rounded-3xl" />
+      ) : !bookable ? (
+        <section className="rounded-3xl border border-border bg-card p-6 text-center shadow-soft">
+          <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-muted text-muted-foreground">
+            <Stethoscope className="h-6 w-6" />
+          </div>
+          <h1 className="mt-4 text-lg font-semibold">La prise de rendez-vous en ligne n'est pas disponible</h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            {provider.name} n'est pas encore intégré à notre système de réservation. Vous pouvez consulter l'adresse
+            ou contacter le cabinet directement.
+          </p>
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+            <Button asChild className="gap-2">
+              <a href={directionsUrl(provider as DoctorRow)} target="_blank" rel="noreferrer">
+                <Navigation className="h-4 w-4" /> Itinéraire
+              </a>
+            </Button>
+            <Button asChild variant="outline">
+              <Link to="/doctors/$id" params={{ id: providerId }}>Retour au profil</Link>
+            </Button>
+          </div>
+        </section>
       ) : (
         <motion.section
           initial={{ opacity: 0, y: 6 }}
@@ -158,9 +179,9 @@ function BookFlow() {
         </motion.section>
       )}
 
-      <Stepper steps={STEPS} current={step} />
+      {bookable ? <Stepper steps={STEPS} current={step} /> : null}
 
-      <AnimatePresence mode="wait">
+      {bookable ? <AnimatePresence mode="wait">
         <motion.section
           key={step}
           initial={{ opacity: 0, y: 12 }}
