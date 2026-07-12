@@ -3876,7 +3876,6 @@ export type Database = {
         Returns: boolean
       }
       slugify: { Args: { _input: string }; Returns: string }
-      unaccent: { Args: { "": string }; Returns: string }
       verify_prescription: {
         Args: { _token: string }
         Returns: {
