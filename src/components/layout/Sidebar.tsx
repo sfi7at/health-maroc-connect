@@ -2,9 +2,16 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { Heart } from "lucide-react";
 import { primaryNav, secondaryNav, footerNav } from "@/lib/nav";
 import { cn } from "@/lib/utils";
+import { useIsDoctor } from "@/hooks/use-active-role";
+import { useIsAdmin } from "@/lib/admin";
 
 export function Sidebar() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { data: isDoctor } = useIsDoctor();
+  const { data: isAdmin } = useIsAdmin();
+  const filteredSecondary = secondaryNav.filter((i) =>
+    i.requires === "doctor" ? !!isDoctor : i.requires === "admin" ? !!isAdmin : true,
+  );
 
   return (
     <aside className="fixed inset-y-0 left-0 z-30 hidden w-72 flex-col border-r border-border bg-sidebar lg:flex">
@@ -22,7 +29,9 @@ export function Sidebar() {
 
       <nav className="flex-1 overflow-y-auto px-3 py-5">
         <SidebarSection label="Services" items={primaryNav} pathname={pathname} />
-        <SidebarSection label="Compte" items={secondaryNav} pathname={pathname} className="mt-6" />
+        {filteredSecondary.length > 0 && (
+          <SidebarSection label="Espace pro" items={filteredSecondary} pathname={pathname} className="mt-6" />
+        )}
         <SidebarSection label="Aide" items={footerNav} pathname={pathname} className="mt-6" />
       </nav>
 
