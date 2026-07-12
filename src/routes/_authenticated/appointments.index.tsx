@@ -13,7 +13,7 @@ import { formatDateTimeFr } from "@/lib/format";
 import { buildHead } from "@/lib/seo";
 import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/_authenticated/appointments")({
+export const Route = createFileRoute("/_authenticated/appointments/")({
   head: () =>
     buildHead({
       title: "Mes rendez-vous — HealthLink Maroc",
