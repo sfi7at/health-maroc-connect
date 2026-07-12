@@ -166,7 +166,7 @@ function NotificationsPage() {
       </div>
 
       <Tabs defaultValue={urgent.length > 0 ? "urgent" : "unread"} className="space-y-4">
-        <TabsList className="flex w-full flex-wrap gap-1">
+        <TabsList className="no-scrollbar flex w-full max-w-full items-center justify-start gap-1 overflow-x-auto">
           <TabsTrigger value="urgent" className="gap-2">
             Urgentes {urgent.length > 0 && <Badge variant="destructive">{urgent.length}</Badge>}
           </TabsTrigger>

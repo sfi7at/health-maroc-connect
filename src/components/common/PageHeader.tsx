@@ -15,9 +15,9 @@ export function PageHeader({ eyebrow, title, description, actions, icon }: PageH
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: "easeOut" }}
-      className="mb-8 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 sm:flex sm:flex-wrap sm:items-end sm:justify-between"
+      className="mb-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between"
     >
-      <div className="min-w-0">
+      <div className="min-w-0 flex-1">
         {eyebrow && (
           <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">
             {eyebrow}
@@ -29,13 +29,17 @@ export function PageHeader({ eyebrow, title, description, actions, icon }: PageH
               {icon}
             </div>
           )}
-          <h1 className="truncate text-2xl font-bold tracking-tight sm:text-3xl">{title}</h1>
+          <h1 className="min-w-0 text-balance text-2xl font-bold tracking-tight sm:text-3xl sm:truncate">{title}</h1>
         </div>
         {description && (
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground sm:text-base">{description}</p>
         )}
       </div>
-      {actions && <div className="flex shrink-0 items-center gap-2">{actions}</div>}
+      {actions && (
+        <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:shrink-0 [&>*]:flex-1 sm:[&>*]:flex-none">
+          {actions}
+        </div>
+      )}
     </motion.header>
   );
 }
