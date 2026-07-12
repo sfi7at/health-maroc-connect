@@ -3844,6 +3844,14 @@ export type Database = {
           isSetofReturn: true
         }
       }
+      get_provider_booked_slots: {
+        Args: { _from: string; _provider_id: string; _to: string }
+        Returns: {
+          duration_minutes: number
+          scheduled_for: string
+          status: Database["public"]["Enums"]["appointment_status"]
+        }[]
+      }
       has_any_admin_role: { Args: { _user_id: string }; Returns: boolean }
       has_role: {
         Args: {
