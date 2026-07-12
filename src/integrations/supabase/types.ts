@@ -3107,7 +3107,7 @@ export type Database = {
           prescription_header?: Json
           profile_image?: string | null
           reviews_count?: number
-          slug: string
+          slug?: string
           suspended_at?: string | null
           suspension_reason?: string | null
           updated_at?: string
