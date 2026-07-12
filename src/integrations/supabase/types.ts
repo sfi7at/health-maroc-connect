@@ -3071,7 +3071,7 @@ export type Database = {
           prescription_header: Json
           profile_image: string | null
           reviews_count: number
-          slug: string | null
+          slug: string
           suspended_at: string | null
           suspension_reason: string | null
           updated_at: string
@@ -3107,7 +3107,7 @@ export type Database = {
           prescription_header?: Json
           profile_image?: string | null
           reviews_count?: number
-          slug?: string | null
+          slug: string
           suspended_at?: string | null
           suspension_reason?: string | null
           updated_at?: string
@@ -3143,7 +3143,7 @@ export type Database = {
           prescription_header?: Json
           profile_image?: string | null
           reviews_count?: number
-          slug?: string | null
+          slug?: string
           suspended_at?: string | null
           suspension_reason?: string | null
           updated_at?: string
@@ -3875,6 +3875,8 @@ export type Database = {
         Args: { _provider_id: string; _user_id: string }
         Returns: boolean
       }
+      slugify: { Args: { _input: string }; Returns: string }
+      unaccent: { Args: { "": string }; Returns: string }
       verify_prescription: {
         Args: { _token: string }
         Returns: {
