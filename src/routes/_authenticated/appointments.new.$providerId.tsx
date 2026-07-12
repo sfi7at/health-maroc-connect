@@ -149,7 +149,7 @@ function BookFlow() {
   return (
     <div className="mx-auto max-w-3xl space-y-6">
       <Button asChild variant="ghost" size="sm" className="gap-2 self-start">
-        <Link to="/providers/$id" params={{ id: providerId }}><ArrowLeft className="h-4 w-4" /> Retour</Link>
+        <Link to="/doctors/$id" params={{ id: providerId }}><ArrowLeft className="h-4 w-4" /> Retour</Link>
       </Button>
 
       {loadingProvider || !provider ? (
