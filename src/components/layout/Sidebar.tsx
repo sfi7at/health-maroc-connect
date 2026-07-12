@@ -8,9 +8,9 @@ import { useIsAdmin } from "@/lib/admin";
 export function Sidebar() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { data: isDoctor } = useIsDoctor();
-  const { data: isAdmin } = useIsAdmin();
+  const { isStaff } = useIsAdmin();
   const filteredSecondary = secondaryNav.filter((i) =>
-    i.requires === "doctor" ? !!isDoctor : i.requires === "admin" ? !!isAdmin : true,
+    i.requires === "doctor" ? !!isDoctor : i.requires === "admin" ? isStaff : true,
   );
 
   return (
