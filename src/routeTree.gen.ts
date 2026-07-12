@@ -43,6 +43,7 @@ import { Route as HospitalsDepartmentsRouteImport } from './routes/hospitals.dep
 import { Route as DoctorsSpecialtiesRouteImport } from './routes/doctors.specialties'
 import { Route as DoctorsSearchRouteImport } from './routes/doctors.search'
 import { Route as DoctorsIdRouteImport } from './routes/doctors.$id'
+import { Route as DevTypographyRouteImport } from './routes/dev.typography'
 import { Route as ContentSlugRouteImport } from './routes/content.$slug'
 import { Route as BloodRequestRouteImport } from './routes/blood.request'
 import { Route as BloodMapRouteImport } from './routes/blood.map'
@@ -293,6 +294,11 @@ const DoctorsSearchRoute = DoctorsSearchRouteImport.update({
 const DoctorsIdRoute = DoctorsIdRouteImport.update({
   id: '/doctors/$id',
   path: '/doctors/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DevTypographyRoute = DevTypographyRouteImport.update({
+  id: '/dev/typography',
+  path: '/dev/typography',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContentSlugRoute = ContentSlugRouteImport.update({
@@ -795,6 +801,7 @@ export interface FileRoutesByFullPath {
   '/blood/map': typeof BloodMapRoute
   '/blood/request': typeof BloodRequestRoute
   '/content/$slug': typeof ContentSlugRoute
+  '/dev/typography': typeof DevTypographyRoute
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
@@ -910,6 +917,7 @@ export interface FileRoutesByTo {
   '/blood/map': typeof BloodMapRoute
   '/blood/request': typeof BloodRequestRoute
   '/content/$slug': typeof ContentSlugRoute
+  '/dev/typography': typeof DevTypographyRoute
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
@@ -1029,6 +1037,7 @@ export interface FileRoutesById {
   '/blood/map': typeof BloodMapRoute
   '/blood/request': typeof BloodRequestRoute
   '/content/$slug': typeof ContentSlugRoute
+  '/dev/typography': typeof DevTypographyRoute
   '/doctors/$id': typeof DoctorsIdRoute
   '/doctors/search': typeof DoctorsSearchRoute
   '/doctors/specialties': typeof DoctorsSpecialtiesRoute
@@ -1148,6 +1157,7 @@ export interface FileRouteTypes {
     | '/blood/map'
     | '/blood/request'
     | '/content/$slug'
+    | '/dev/typography'
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
@@ -1263,6 +1273,7 @@ export interface FileRouteTypes {
     | '/blood/map'
     | '/blood/request'
     | '/content/$slug'
+    | '/dev/typography'
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
@@ -1381,6 +1392,7 @@ export interface FileRouteTypes {
     | '/blood/map'
     | '/blood/request'
     | '/content/$slug'
+    | '/dev/typography'
     | '/doctors/$id'
     | '/doctors/search'
     | '/doctors/specialties'
@@ -1487,6 +1499,7 @@ export interface RootRouteChildren {
   BloodCentersRoute: typeof BloodCentersRoute
   BloodMapRoute: typeof BloodMapRoute
   BloodRequestRoute: typeof BloodRequestRoute
+  DevTypographyRoute: typeof DevTypographyRoute
   DoctorsIdRoute: typeof DoctorsIdRoute
   DoctorsSearchRoute: typeof DoctorsSearchRoute
   DoctorsSpecialtiesRoute: typeof DoctorsSpecialtiesRoute
@@ -1754,6 +1767,13 @@ declare module '@tanstack/react-router' {
       path: '/doctors/$id'
       fullPath: '/doctors/$id'
       preLoaderRoute: typeof DoctorsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dev/typography': {
+      id: '/dev/typography'
+      path: '/dev/typography'
+      fullPath: '/dev/typography'
+      preLoaderRoute: typeof DevTypographyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/content/$slug': {
@@ -2556,6 +2576,7 @@ const rootRouteChildren: RootRouteChildren = {
   BloodCentersRoute: BloodCentersRoute,
   BloodMapRoute: BloodMapRoute,
   BloodRequestRoute: BloodRequestRoute,
+  DevTypographyRoute: DevTypographyRoute,
   DoctorsIdRoute: DoctorsIdRoute,
   DoctorsSearchRoute: DoctorsSearchRoute,
   DoctorsSpecialtiesRoute: DoctorsSpecialtiesRoute,
