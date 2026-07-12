@@ -4,7 +4,7 @@ import type { Database } from "@/integrations/supabase/types";
 import type { ProviderCategory } from "./format";
 
 export type ProviderRow = Database["public"]["Tables"]["providers"]["Row"] & {
-  cities?: { id: string; name_fr: string } | null;
+  cities?: { id: string; name_fr: string; latitude?: number | null; longitude?: number | null } | null;
 };
 
 export function providersQuery(params: {
