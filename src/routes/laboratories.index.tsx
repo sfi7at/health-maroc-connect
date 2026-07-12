@@ -5,62 +5,55 @@ import { motion } from "framer-motion";
 import {
   ArrowRight,
   Clock,
+  FlaskConical,
   Map as MapIcon,
-  Moon,
-  Pill,
+  Microscope,
+  Siren,
   Sparkles,
   Star,
   Truck,
-  Zap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { PharmacyCard } from "@/components/pharmacies/PharmacyCard";
-import { PharmacySearchBar } from "@/components/pharmacies/PharmacySearchBar";
+import { LaboratoryCard } from "@/components/laboratories/LaboratoryCard";
+import { LaboratorySearchBar } from "@/components/laboratories/LaboratorySearchBar";
 import { EmptyState } from "@/components/common/EmptyState";
 import { useGeolocation } from "@/hooks/use-geolocation";
 import { useFavorites } from "@/hooks/use-favorites";
 import { getOpenStatus } from "@/lib/map-utils";
 import { haversineKm } from "@/lib/format";
-import {
-  onDutyTodayProviderIdsQuery,
-  pharmaciesQuery,
-  readPharmacyMeta,
-  type PharmacyRow,
-} from "@/lib/pharmacies";
+import { LAB_ANALYSES, laboratoriesQuery, type LabRow } from "@/lib/laboratories";
 import { buildHead } from "@/lib/seo";
 
-export const Route = createFileRoute("/pharmacies")({
+export const Route = createFileRoute("/laboratories/")({
   head: () =>
     buildHead({
-      title: "Pharmacies au Maroc — Proches, ouvertes & de garde",
+      title: "Laboratoires d'analyses au Maroc — HealthLink Maroc",
       description:
-        "Trouvez instantanément une pharmacie au Maroc : proximité GPS, ouvertes maintenant, de garde de nuit, livraison à domicile et vérifiées.",
-      path: "/pharmacies",
+        "Trouvez le laboratoire d'analyses médicales idéal au Maroc : proximité, ouvert maintenant, prélèvement à domicile, PCR, COVID et plus.",
+      path: "/laboratories",
     }),
-  component: PharmaciesHome,
+  component: LaboratoriesHome,
 });
 
 const CATEGORY_CHIPS: Array<{
   label: string;
-  to: "/pharmacies/on-duty" | "/pharmacies/open" | "/pharmacies/search" | "/pharmacies/map";
+  to: "/laboratories/search" | "/laboratories/open" | "/laboratories/map" | "/laboratories/analyses";
   search?: Record<string, unknown>;
-  icon: typeof Pill;
+  icon: typeof FlaskConical;
   tint: string;
 }> = [
-  { label: "De garde", to: "/pharmacies/on-duty", icon: Moon, tint: "bg-indigo-500/10 text-indigo-600" },
-  { label: "Ouvertes maintenant", to: "/pharmacies/open", icon: Clock, tint: "bg-emerald-500/10 text-emerald-600" },
-  { label: "24h / 24", to: "/pharmacies/search", search: { open24h: true }, icon: Zap, tint: "bg-amber-500/10 text-amber-600" },
-  { label: "Livraison", to: "/pharmacies/search", search: { delivery: true }, icon: Truck, tint: "bg-sky-500/10 text-sky-600" },
-  { label: "Vérifiées", to: "/pharmacies/search", search: { verified: true }, icon: Sparkles, tint: "bg-fuchsia-500/10 text-fuchsia-600" },
-  { label: "Carte", to: "/pharmacies/map", icon: MapIcon, tint: "bg-rose-500/10 text-rose-600" },
+  { label: "Ouverts maintenant", to: "/laboratories/open", icon: Clock, tint: "bg-emerald-500/10 text-emerald-600" },
+  { label: "À domicile", to: "/laboratories/search", search: { homeSampling: true }, icon: Truck, tint: "bg-sky-500/10 text-sky-600" },
+  { label: "Urgences", to: "/laboratories/search", search: { emergency: true }, icon: Siren, tint: "bg-red-500/10 text-red-600" },
+  { label: "PCR / COVID", to: "/laboratories/search", search: { covid: true }, icon: Microscope, tint: "bg-indigo-500/10 text-indigo-600" },
+  { label: "Analyses", to: "/laboratories/analyses", icon: FlaskConical, tint: "bg-amber-500/10 text-amber-600" },
+  { label: "Carte", to: "/laboratories/map", icon: MapIcon, tint: "bg-rose-500/10 text-rose-600" },
 ];
 
-function PharmaciesHome() {
+function LaboratoriesHome() {
   const { position } = useGeolocation();
-  const today = new Date().toISOString().slice(0, 10);
-  const { data: all = [], isLoading } = useQuery(pharmaciesQuery({}, 120));
-  const { data: dutyIds } = useQuery(onDutyTodayProviderIdsQuery(today));
+  const { data: all = [], isLoading } = useQuery(laboratoriesQuery({}, 120));
   const { isFavorite, toggle } = useFavorites();
 
   const enriched = useMemo(() => {
@@ -70,26 +63,29 @@ function PharmaciesHome() {
           ? haversineKm({ lat: position.lat, lng: position.lng }, { lat: p.latitude, lng: p.longitude })
           : null;
       const openStatus = getOpenStatus(p.working_hours);
-      const onDuty = dutyIds?.has(p.id) ?? false;
-      return { p, distance, openStatus, onDuty };
+      return { p, distance, openStatus };
     });
-  }, [all, dutyIds, position]);
+  }, [all, position]);
 
   const nearby = useMemo(
-    () => [...enriched].filter((e) => e.distance != null).sort((a, b) => (a.distance! - b.distance!)).slice(0, 6),
+    () =>
+      [...enriched].filter((e) => e.distance != null).sort((a, b) => a.distance! - b.distance!).slice(0, 6),
     [enriched],
   );
   const openNow = useMemo(
     () => enriched.filter((e) => e.openStatus === "open" || e.openStatus === "closing_soon").slice(0, 6),
     [enriched],
   );
-  const onDuty = useMemo(() => enriched.filter((e) => e.onDuty).slice(0, 6), [enriched]);
   const topRated = useMemo(
-    () => [...all].filter((p) => p.average_rating > 0).sort((a, b) => b.average_rating - a.average_rating).slice(0, 6),
+    () =>
+      [...all]
+        .filter((p) => p.average_rating > 0)
+        .sort((a, b) => b.average_rating - a.average_rating)
+        .slice(0, 6),
     [all],
   );
-  const recent = useMemo(
-    () => [...all].sort((a, b) => +new Date(b.created_at) - +new Date(a.created_at)).slice(0, 6),
+  const featured = useMemo(
+    () => [...all].filter((p) => p.is_premium || p.is_verified).slice(0, 6),
     [all],
   );
 
@@ -97,7 +93,10 @@ function PharmaciesHome() {
     <div className="space-y-12">
       <Hero />
 
-      <section aria-label="Catégories" className="-mx-1 flex snap-x snap-mandatory gap-3 overflow-x-auto px-1 pb-1">
+      <section
+        aria-label="Catégories"
+        className="-mx-1 flex snap-x snap-mandatory gap-3 overflow-x-auto px-1 pb-1"
+      >
         {CATEGORY_CHIPS.map((c) => {
           const Icon = c.icon;
           return (
@@ -119,56 +118,47 @@ function PharmaciesHome() {
 
       <Carousel
         title="À proximité"
-        description={position ? "Triées par distance depuis votre position." : "Activez votre position pour voir les pharmacies proches."}
-        href="/pharmacies/map"
+        description={position ? "Triés par distance depuis votre position." : "Activez votre position pour voir les laboratoires proches."}
+        href="/laboratories/map"
         items={nearby}
         loading={isLoading}
-        emptyLabel="Aucune pharmacie géolocalisée à proximité."
-        favoriteFn={(id) => toggle(id)}
+        emptyLabel="Aucun laboratoire géolocalisé à proximité."
+        favoriteFn={toggle}
         isFavorite={isFavorite}
       />
 
       <Carousel
-        title="Ouvertes maintenant"
+        title="Ouverts maintenant"
         description="Selon les horaires d'ouverture déclarés."
-        href="/pharmacies/open"
+        href="/laboratories/open"
         items={openNow}
         loading={isLoading}
-        emptyLabel="Aucune pharmacie marquée ouverte pour le moment."
-        favoriteFn={(id) => toggle(id)}
-        isFavorite={isFavorite}
-      />
-
-      <Carousel
-        title="De garde aujourd'hui"
-        description="Mises à jour quotidiennement selon les arrêtés régionaux marocains."
-        href="/pharmacies/on-duty"
-        items={onDuty}
-        loading={isLoading}
-        emptyLabel="Aucune pharmacie de garde répertoriée pour aujourd'hui."
-        favoriteFn={(id) => toggle(id)}
+        emptyLabel="Aucun laboratoire marqué ouvert pour le moment."
+        favoriteFn={toggle}
         isFavorite={isFavorite}
       />
 
       <SimpleGrid
-        title="Les mieux notées"
-        description="Pharmacies préférées de la communauté."
+        title="Les mieux notés"
+        description="Laboratoires préférés de la communauté."
         icon={Star}
         items={topRated}
         loading={isLoading}
-        favoriteFn={(id) => toggle(id)}
+        favoriteFn={toggle}
         isFavorite={isFavorite}
       />
 
       <SimpleGrid
-        title="Récemment ajoutées"
-        description="Nouveaux établissements vérifiés sur HealthLink Maroc."
+        title="Mis en avant"
+        description="Établissements vérifiés et partenaires HealthLink."
         icon={Sparkles}
-        items={recent}
+        items={featured}
         loading={isLoading}
-        favoriteFn={(id) => toggle(id)}
+        favoriteFn={toggle}
         isFavorite={isFavorite}
       />
+
+      <AnalysisGrid />
     </div>
   );
 }
@@ -179,7 +169,7 @@ function Hero() {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-indigo-600 via-violet-600 to-fuchsia-600 p-8 text-white shadow-elevated sm:p-12"
+      className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-amber-500 via-orange-500 to-rose-600 p-8 text-white shadow-elevated sm:p-12"
     >
       <div
         aria-hidden
@@ -187,26 +177,26 @@ function Hero() {
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -bottom-24 -left-10 h-72 w-72 rounded-full bg-fuchsia-300/30 blur-3xl"
+        className="pointer-events-none absolute -bottom-24 -left-10 h-72 w-72 rounded-full bg-rose-300/30 blur-3xl"
       />
       <div className="relative max-w-2xl">
         <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider backdrop-blur">
-          <Pill className="h-3.5 w-3.5" /> Pharmacies — Maroc
+          <FlaskConical className="h-3.5 w-3.5" /> Laboratoires — Maroc
         </p>
         <h1 className="text-3xl font-bold leading-tight sm:text-4xl">
-          Toutes les pharmacies du Maroc, à portée de main.
+          Tous les laboratoires d'analyses du Maroc, en un seul endroit.
         </h1>
         <p className="mt-3 text-white/85 sm:text-lg">
-          Proximité GPS, garde de nuit, ouvertes 24h/24, livraison à domicile et vaccination —
-          retrouvez la bonne pharmacie en quelques secondes.
+          Proximité GPS, prélèvement à domicile, PCR, tests COVID, hormones et plus —
+          trouvez le bon laboratoire en quelques secondes.
         </p>
         <div className="mt-6">
-          <PharmacySearchBar placeholder="Pharmacie, ville, quartier, service…" />
+          <LaboratorySearchBar placeholder="Laboratoire, ville, analyse…" />
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
           <Button asChild variant="secondary" className="rounded-full">
-            <Link to="/pharmacies/on-duty">
-              <Moon className="mr-1 h-4 w-4" /> Pharmacies de garde
+            <Link to="/laboratories/analyses">
+              <Microscope className="mr-1 h-4 w-4" /> Toutes les analyses
             </Link>
           </Button>
           <Button
@@ -214,7 +204,7 @@ function Hero() {
             variant="outline"
             className="rounded-full border-white/40 bg-white/10 text-white hover:bg-white/20"
           >
-            <Link to="/pharmacies/map">
+            <Link to="/laboratories/map">
               <MapIcon className="mr-1 h-4 w-4" /> Voir sur la carte
             </Link>
           </Button>
@@ -225,10 +215,9 @@ function Hero() {
 }
 
 type EnrichedItem = {
-  p: PharmacyRow;
+  p: LabRow;
   distance: number | null;
   openStatus: ReturnType<typeof getOpenStatus>;
-  onDuty: boolean;
 };
 
 function Carousel({
@@ -243,7 +232,7 @@ function Carousel({
 }: {
   title: string;
   description?: string;
-  href: "/pharmacies/on-duty" | "/pharmacies/open" | "/pharmacies/map" | "/pharmacies/search";
+  href: "/laboratories/open" | "/laboratories/map" | "/laboratories/search";
   items: EnrichedItem[];
   loading: boolean;
   emptyLabel: string;
@@ -267,11 +256,10 @@ function Carousel({
         <div className="-mx-1 flex snap-x snap-mandatory gap-4 overflow-x-auto px-1 pb-2">
           {items.map((it) => (
             <div key={it.p.id} className="w-[300px] shrink-0 snap-start sm:w-[320px]">
-              <PharmacyCard
-                pharmacy={it.p}
+              <LaboratoryCard
+                laboratory={it.p}
                 distanceKm={it.distance}
                 openStatus={it.openStatus}
-                onDuty={it.onDuty}
                 isFavorite={isFavorite(it.p.id)}
                 onToggleFavorite={favoriteFn}
               />
@@ -295,7 +283,7 @@ function SimpleGrid({
   title: string;
   description?: string;
   icon: typeof Star;
-  items: PharmacyRow[];
+  items: LabRow[];
   loading: boolean;
   favoriteFn: (id: string) => void;
   isFavorite: (id: string) => boolean;
@@ -319,26 +307,62 @@ function SimpleGrid({
       ) : items.length === 0 ? (
         <EmptyState
           icon={Icon}
-          title="Aucune pharmacie pour l'instant"
+          title="Aucun laboratoire pour l'instant"
           description="Revenez bientôt — l'annuaire s'enrichit chaque semaine."
         />
       ) : (
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {items.map((p) => {
-            const meta = readPharmacyMeta(p);
-            void meta;
-            return (
-              <PharmacyCard
-                key={p.id}
-                pharmacy={p}
-                openStatus={getOpenStatus(p.working_hours)}
-                isFavorite={isFavorite(p.id)}
-                onToggleFavorite={favoriteFn}
-              />
-            );
-          })}
+          {items.map((p) => (
+            <LaboratoryCard
+              key={p.id}
+              laboratory={p}
+              openStatus={getOpenStatus(p.working_hours)}
+              isFavorite={isFavorite(p.id)}
+              onToggleFavorite={favoriteFn}
+            />
+          ))}
         </div>
       )}
+    </section>
+  );
+}
+
+function AnalysisGrid() {
+  return (
+    <section>
+      <header className="mb-4 flex items-end justify-between gap-2">
+        <div>
+          <h2 className="flex items-center gap-2 text-xl font-semibold">
+            <Microscope className="h-5 w-5 text-primary" /> Analyses médicales
+          </h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Trouvez les laboratoires qui réalisent l'analyse dont vous avez besoin.
+          </p>
+        </div>
+        <Button asChild variant="ghost" size="sm" className="gap-1">
+          <Link to="/laboratories/analyses">
+            Tout voir <ArrowRight className="h-4 w-4" />
+          </Link>
+        </Button>
+      </header>
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+        {LAB_ANALYSES.slice(0, 8).map((a) => {
+          const Icon = a.icon;
+          return (
+            <Link
+              key={a.value}
+              to="/laboratories/search"
+              search={{ analysis: a.value }}
+              className="group flex items-center gap-3 rounded-2xl border border-border bg-card p-4 shadow-soft transition hover:shadow-elevated"
+            >
+              <span className={`grid h-10 w-10 place-items-center rounded-xl ${a.tint}`}>
+                <Icon className="h-5 w-5" />
+              </span>
+              <span className="text-sm font-medium">{a.label}</span>
+            </Link>
+          );
+        })}
+      </div>
     </section>
   );
 }
@@ -350,7 +374,7 @@ function SectionHeader({
 }: {
   title: string;
   description?: string;
-  href: "/pharmacies/on-duty" | "/pharmacies/open" | "/pharmacies/map" | "/pharmacies/search";
+  href: "/laboratories/open" | "/laboratories/map" | "/laboratories/search";
 }) {
   return (
     <header className="mb-4 flex items-end justify-between gap-2">
