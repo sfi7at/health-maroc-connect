@@ -1,68 +1,51 @@
-# Citizen Portal — Production Polish (3 Waves)
+## Context
 
-Scope reaffirmed. I'll ship in three waves so each is reviewable and reversible. I'll start Wave A immediately after you approve.
+Wave A (reviews + doctor content parity) is already shipped:
+- 5-star review with optional comment, gated to citizens with a **completed** appointment (DB trigger enforced).
+- Average rating + review count auto-refreshed on `providers` via trigger, shown on the public doctor profile.
+- Doctors cannot edit reviews (only respond); admin moderation live at `/admin/reviews` with reports queue.
+- Public doctor profile (`/doctors/$id`) already renders cover, avatar, bio, specialties, education, certifications, gallery, services, insurance, accessibility, WhatsApp, website, fees, hours, address, map, FAQ.
 
-## Wave A — Reviews + Doctor Content Parity
+This plan covers **Wave B** (functional audit) and **Wave C** (mobile-first + UI polish).
 
-**Reviews (DB-enforced)**
-- Migration on `public.reviews`:
-  - Add `status` (`pending` | `approved` | `rejected` | `hidden`, default `approved` for now — flip to `pending` if you want pre-moderation), `moderation_reason`, `appointment_id` (FK to `appointments`, nullable for legacy rows), `updated_at`.
-  - Trigger `reviews_require_completed_appointment` on INSERT/UPDATE: rejects unless an `appointments` row exists with `patient_id = auth.uid()`, `provider_id = NEW.provider_id`, `status = 'completed'`, and (if `appointment_id` set) matches. Info-only providers → no completed appointments → no reviews possible. This is the "must have consulted" rule.
-  - Unique `(provider_id, patient_id, appointment_id)` so one review per visit; edits allowed by author within 30 days, then locked.
-  - RLS: public SELECT only `status='approved'`; author SELECT/UPDATE/DELETE own; admins/moderators full access via `has_any_admin_role`. Doctors have no UPDATE/DELETE on reviews (already the case; verified).
-- View `provider_review_stats` (provider_id, avg_rating, review_count) over approved reviews, plus a `refresh_provider_rating()` trigger updating `providers.rating` + `providers.review_count` for fast card reads.
-- Server fns in `src/lib/reviews.functions.ts`: `getProviderReviews`, `getMyReviewableAppointments`, `submitReview`, `updateMyReview`, `deleteMyReview`, `adminModerateReview`.
+## Wave B — Functional audit of the Citizen Portal
 
-**Citizen surfaces**
-- On `/appointments` completed tab: "Laisser un avis" CTA per eligible appointment.
-- New `ReviewDialog` (1–5 stars + optional 1000-char comment, zod-validated).
-- On `/doctors/$id` public profile: dedicated Reviews section — avg + count, distribution bars, paginated list, "Signaler" (report) action.
+Route-by-route pass on citizen-facing surfaces. For each route: verify data loads, every button navigates or performs an action, forms validate + submit, empty/error/loading states are correct, and links resolve to real routes.
 
-**Admin moderation**
-- New route `_authenticated/admin/reviews.tsx` (gated by `has_any_admin_role`): queue of reported/pending reviews with Approve / Hide / Delete + reason, wired to audit log.
+Scope (citizen side only — provider/admin portals are out of scope):
 
-**Doctor content parity on `/doctors/$id`**
-- Rewrite `src/routes/doctors.$id.tsx` to render every field the doctor manages:
-  - Hero: cover image, profile picture, name, specialties badges, verification + trust level, avg rating.
-  - Sections: Bio, Services + fees, Consultation types, Insurance accepted, Languages, Opening hours, Address + map, Gallery (clinic photos), Certificates (when `show_certificates` on), Contact (respecting visibility flags), Sub-specialties, Equipment.
-  - Sticky booking CTA (integrated) or Directions/Call (info-only), matching the existing rule.
-- Uses a single server fn `getPublicProviderProfile(idOrSlug)` that joins all safe public fields in one round-trip; realtime channel on `providers` + `provider_services` + `provider_schedules` + `reviews` so the page updates immediately after a doctor edit.
+1. **Home & Shell** — `/`, `TopNav`, `BottomNav`, `Sidebar`, `GlobalSearchDialog`, `RoleSwitch`, favorites toggle, language + theme toggles.
+2. **Doctors** — `/doctors`, `/doctors/search`, `/doctors/specialties`, `/doctors/specialty/$slug`, `/doctors/$id` (all tabs + share/call/directions/favorite).
+3. **Booking** — `/appointments/new/$providerId` (service → slot → confirm), `/appointments`, `/appointments/calendar`, `/appointments/$id` (cancel/reschedule).
+4. **Pharmacies / Hospitals / Laboratories** — list, search, map, on-duty/emergency, provider sheet CTAs.
+5. **Blood** — `/blood`, `/blood/donors`, `/blood/centers`, `/blood/campaigns`, `/blood/request`, `/blood/map`, `/blood/me`, `/blood/history`, `/blood/chat/$requestId`, become-donor.
+6. **Map** — `/map` filters, marker click, sheet CTAs, geolocation.
+7. **Content & static** — `/content`, `/content/$slug`, `/faq`, `/about`, `/contact`, `/privacy`, `/terms`.
+8. **Account** — `/profile`, `/settings`, `/notifications`, `/favorites`, `/ai-assistant`.
+9. **Auth** — `/auth` (sign-in, sign-up, Google), `/reset-password`, email-verify banner.
 
-## Wave B — Functional Audit (citizen routes)
+**Method**: read each route in batches, patch real breakage (dead buttons, wrong `to=`, missing empty states, unhandled errors, RLS/permission errors from console/network). No cosmetic changes in this wave.
 
-Route-by-route pass on every citizen-facing surface, fixing real breakage rather than a blind rewrite:
+## Wave C — Mobile-first + UI polish
 
-```text
-/ (home)                     /search                 /doctors, /doctors/$id
-/pharmacies, /pharmacies/*   /hospitals, /hospitals/*   /labs, /labs/*
-/emergency                   /blood/*                /articles, /articles/$slug
-/map                         /appointments (+ detail)   /notifications
-/favorites                   /profile, /profile/edit    /settings, /settings/*
-/medical (profile, docs, allergies, conditions, vaccinations)
-/auth (+ callback, reset)
-```
+Focused, framework-wide changes (not per-route restyle):
 
-For each: buttons resolve, links go somewhere real, forms validate + submit, modals open/close/trap focus, empty states, error boundaries, loading skeletons, permission errors surfaced clearly. I'll log every fix in the response so you can spot-check.
-
-## Wave C — Mobile-First + UI Polish
-
-- Bottom-nav safe-area (`env(safe-area-inset-bottom)`), 44px min touch targets, thumb-reachable primary actions.
-- Mobile-specific patterns: sheet-based filters instead of scaled desktop dropdowns, sticky booking bar on doctor profile, swipeable image gallery, pull-to-refresh on lists.
-- Design-token sweep: replace any lingering hardcoded colors with semantic tokens; unify card, input, modal styles; verify RTL (Arabic) and dark mode across every citizen route.
-- Framer Motion: consistent enter/exit on route/section changes, respect `prefers-reduced-motion`.
+- **Safe-area insets**: bottom nav respects `env(safe-area-inset-bottom)`; sticky headers respect `env(safe-area-inset-top)`.
+- **Touch targets**: enforce ≥44px on all icon-only buttons in cards, sheets, and nav.
+- **Responsive header pattern**: apply the grid + `min-w-0` + `shrink-0` rule to `PageHeader`, `DoctorCard`, provider hero, appointment cards.
+- **Bottom nav**: hide on scroll-down, show on scroll-up (mobile) so it doesn't cover CTAs.
+- **Sheet/Dialog**: full-height on mobile, centered on desktop; body scroll-lock; close on route change.
+- **Empty/loading/error states**: unified `EmptyState` usage; consistent skeleton widths.
+- **Typography scale**: single `text-*` scale (`text-xs/sm/base/lg/xl/2xl/3xl`) — remove ad-hoc sizes.
+- **Icon sizing**: 14px inline, 16px buttons, 20px section headers, 24px hero — one convention.
+- **Motion**: `prefers-reduced-motion` respected; framer transitions capped at 200ms.
+- **Doctor card / provider card**: unify layout so `/doctors`, `/pharmacies`, `/hospitals`, `/laboratories` share the same visual rhythm.
 
 ## Delivery order
 
-1. Wave A migration (needs your approval to run).
-2. Wave A server fns + citizen UI + admin moderation.
-3. Verify with Playwright (submit review → see it on profile → moderate → hidden).
-4. Wave B audit — I'll send fixes in batches so you can review as we go.
-5. Wave C polish pass with before/after screenshots on mobile + desktop.
+1. Wave B: shell + doctors + booking (highest-traffic paths).
+2. Wave B: blood + map + pharmacies/hospitals/labs.
+3. Wave B: account + content + auth.
+4. Wave C: framework-wide polish in one pass.
 
-## Open decisions (default I'll take if you don't answer)
-
-- **Moderation model**: default `approved` on submit + report-driven takedown (fast, standard). Reply "pre-moderate" to flip to `pending`-until-approved.
-- **Review edit window**: 30 days after submission, then locked. Reply with a different number to change.
-- **Info-only doctors**: no reviews at all (they have no completed appointments on the platform). Confirmed by your rule; leaving it as-is.
-
-Reply **"go"** and I'll start Wave A with the migration.
+At the end of each step I'll report exactly what was broken and what I fixed, then move on. Reply **"go"** to start, or tell me which slice to prioritize (e.g. "booking + doctors only").
