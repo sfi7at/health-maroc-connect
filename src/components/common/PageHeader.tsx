@@ -19,9 +19,7 @@ export function PageHeader({ eyebrow, title, description, actions, icon }: PageH
     >
       <div className="min-w-0 flex-1">
         {eyebrow && (
-          <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">
-            {eyebrow}
-          </p>
+          <p className="t-eyebrow mb-2">{eyebrow}</p>
         )}
         <div className="flex min-w-0 items-center gap-3">
           {icon && (
@@ -29,10 +27,10 @@ export function PageHeader({ eyebrow, title, description, actions, icon }: PageH
               {icon}
             </div>
           )}
-          <h1 className="min-w-0 text-balance text-2xl font-bold tracking-tight sm:text-3xl sm:truncate">{title}</h1>
+          <h1 className="t-h1 min-w-0 text-balance sm:t-display sm:truncate">{title}</h1>
         </div>
         {description && (
-          <p className="mt-2 max-w-2xl text-sm text-muted-foreground sm:text-base">{description}</p>
+          <p className="t-body-sm sm:t-body mt-2 max-w-2xl">{description}</p>
         )}
       </div>
       {actions && (
