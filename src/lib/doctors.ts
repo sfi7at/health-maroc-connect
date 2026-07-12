@@ -263,3 +263,37 @@ export function priceLabel(m: DoctorMeta): string | null {
 export function languageLabel(code: string): string {
   return LANGUAGES.find((l) => l.value === code)?.label ?? code.toUpperCase();
 }
+
+/**
+ * A doctor/dentist provider is "integrated" (i.e. accepts online booking on
+ * the platform) only when a real user account owns the profile and the
+ * listing is active + not suspended. All other providers are info-only
+ * listings and must show a Directions CTA instead of a Book CTA.
+ */
+export function isBookable(
+  p: Pick<DoctorRow, "owner_id" | "is_active" | "verification_status" | "category"> | null | undefined,
+): boolean {
+  if (!p) return false;
+  if (p.category !== "doctor" && p.category !== "dentist") return false;
+  if (!p.owner_id) return false;
+  if (p.is_active === false) return false;
+  if (p.verification_status === "suspended") return false;
+  return true;
+}
+
+/**
+ * Best-effort Google Maps URL for a provider: stored google_maps_url first,
+ * then GPS coordinates, then a text search on the address / name / city.
+ */
+export function directionsUrl(
+  p: Pick<DoctorRow, "google_maps_url" | "latitude" | "longitude" | "address" | "name"> & {
+    cities?: { name_fr: string } | null;
+  },
+): string {
+  if (p.google_maps_url) return p.google_maps_url;
+  if (p.latitude != null && p.longitude != null) {
+    return `https://www.google.com/maps/dir/?api=1&destination=${p.latitude},${p.longitude}`;
+  }
+  const query = [p.name, p.address, p.cities?.name_fr].filter(Boolean).join(", ");
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query || "Maroc")}`;
+}
