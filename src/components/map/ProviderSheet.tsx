@@ -24,6 +24,7 @@ import {
   OPEN_STATUS_META,
 } from "@/lib/map-utils";
 import { formatDistanceKm, haversineKm, initialsOf } from "@/lib/format";
+import { isBookable, directionsUrl as providerDirectionsUrl, doctorPathId } from "@/lib/doctors";
 
 interface Props {
   provider: ProviderRow | null;
@@ -63,6 +64,13 @@ function Sheet({ provider, userPosition, isFavorite, onToggleFavorite, onClose }
     userPosition && provider!.latitude != null && provider!.longitude != null
       ? haversineKm(userPosition, { lat: provider!.latitude, lng: provider!.longitude })
       : null;
+  const bookable = isBookable(provider as never);
+  const isDoctorLike = provider!.category === "doctor" || provider!.category === "dentist";
+  const profileTo = isDoctorLike ? "/doctors/$id" : "/providers/$id";
+  const profileParams = isDoctorLike
+    ? { id: doctorPathId(provider as never) }
+    : { id: provider!.id };
+  const directions = providerDirectionsUrl(provider as never);
 
   async function share() {
     const url = typeof window !== "undefined" ? `${window.location.origin}/providers/${provider!.id}` : "";
@@ -182,10 +190,27 @@ function Sheet({ provider, userPosition, isFavorite, onToggleFavorite, onClose }
         </div>
 
         <div className="flex items-center gap-2">
-          <Button asChild className="flex-1" size="sm">
-            <Link to="/providers/$id" params={{ id: provider!.id }}>
-              Voir la fiche complète <Navigation className="ml-1 h-3.5 w-3.5" />
-            </Link>
+          {bookable ? (
+            <Button asChild className="flex-1" size="sm">
+              <Link to="/appointments/new/$providerId" params={{ providerId: provider!.id }}>
+                Réserver <Navigation className="ml-1 h-3.5 w-3.5" />
+              </Link>
+            </Button>
+          ) : isDoctorLike ? (
+            <Button asChild className="flex-1" size="sm">
+              <a href={directions} target="_blank" rel="noreferrer noopener">
+                Itinéraire <ExternalLink className="ml-1 h-3.5 w-3.5" />
+              </a>
+            </Button>
+          ) : (
+            <Button asChild className="flex-1" size="sm">
+              <Link to={profileTo} params={profileParams as never}>
+                Voir la fiche <Navigation className="ml-1 h-3.5 w-3.5" />
+              </Link>
+            </Button>
+          )}
+          <Button asChild variant="outline" size="sm">
+            <Link to={profileTo} params={profileParams as never}>Fiche</Link>
           </Button>
           {onToggleFavorite ? (
             <Button
