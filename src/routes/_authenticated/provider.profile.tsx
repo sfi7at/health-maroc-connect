@@ -290,7 +290,11 @@ function ProviderProfile() {
 
       <div className="sticky bottom-24 z-20 -mx-4 flex justify-end px-4 sm:mx-0 sm:px-0 lg:bottom-4">
         <div className="w-full rounded-2xl border border-border bg-background/95 p-2 shadow-lg backdrop-blur sm:w-auto sm:border-0 sm:bg-transparent sm:p-0 sm:shadow-none">
-          <Button onClick={() => save.mutate()} disabled={save.isPending} className="w-full gap-2 sm:w-auto">
+          <Button
+            onClick={() => save.mutate()}
+            disabled={save.isPending || slugStatus === "taken" || slugStatus === "invalid"}
+            className="w-full gap-2 sm:w-auto"
+          >
             <Save className="h-4 w-4" /> {save.isPending ? "Enregistrement…" : "Enregistrer"}
           </Button>
         </div>
