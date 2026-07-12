@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, CalendarPlus, CheckCircle2, Loader2, Stethoscope, MapPin, ListPlus } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarPlus, CheckCircle2, Loader2, Stethoscope, MapPin, ListPlus, Navigation } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { providerByIdQuery } from "@/lib/queries";
+import { isBookable, directionsUrl, type DoctorRow } from "@/lib/doctors";
 import { buildHead } from "@/lib/seo";
 import { initialsOf, formatDateTimeFr } from "@/lib/format";
 import {
@@ -46,6 +47,7 @@ function BookFlow() {
   const qc = useQueryClient();
 
   const { data: provider, isLoading: loadingProvider } = useQuery(providerByIdQuery(providerId));
+  const bookable = isBookable(provider as DoctorRow | null | undefined);
   const { data: services = [], isLoading: loadingServices } = useQuery(providerServicesQuery(providerId));
   const { data: schedules = [] } = useQuery(providerSchedulesQuery(providerId));
   const { data: blocked = [] } = useQuery(blockedDatesQuery(providerId, new Date().toISOString()));
