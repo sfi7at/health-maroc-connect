@@ -153,10 +153,7 @@ function ProviderHome() {
             {data.reviews.map((r) => (
               <li key={r.id} className="rounded-2xl border border-border bg-background/40 p-3">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-semibold">
-                    {/* @ts-expect-error nested join */}
-                    {r.profiles?.full_name ?? "Patient"}
-                  </p>
+                  <p className="text-sm font-semibold">{r.profiles?.full_name ?? "Patient"}</p>
                   <div className="flex items-center gap-1 text-amber-500"><Star className="h-3.5 w-3.5 fill-current" /><span className="text-xs font-semibold">{r.rating.toFixed(1)}</span></div>
                 </div>
                 {r.comment ? <p className="mt-1 text-sm text-muted-foreground">{r.comment}</p> : null}
