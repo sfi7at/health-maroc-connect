@@ -22,6 +22,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useNotifications } from "@/hooks/use-notifications";
 import { RoleSwitch } from "@/components/layout/RoleSwitch";
 import { useIsDoctor } from "@/hooks/use-active-role";
+import { useIsAdmin } from "@/lib/admin";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
@@ -217,6 +218,11 @@ function AccountButtonInner() {
 }
 
 function MobileMenu({ onNavigate }: { onNavigate: () => void }) {
+  const { data: isDoctor } = useIsDoctor();
+  const { isStaff } = useIsAdmin();
+  const filteredSecondary = secondaryNav.filter((i) =>
+    i.requires === "doctor" ? !!isDoctor : i.requires === "admin" ? isStaff : true,
+  );
   return (
     <div className="flex h-full flex-col">
       <div className="flex h-16 items-center gap-2 border-b border-border px-5">
@@ -232,7 +238,9 @@ function MobileMenu({ onNavigate }: { onNavigate: () => void }) {
       </div>
       <nav className="flex-1 overflow-y-auto px-3 py-4">
         <MenuGroup label="Services" items={primaryNav} onNavigate={onNavigate} />
-        <MenuGroup label="Compte" items={secondaryNav} onNavigate={onNavigate} className="mt-5" />
+        {filteredSecondary.length > 0 && (
+          <MenuGroup label="Espace pro" items={filteredSecondary} onNavigate={onNavigate} className="mt-5" />
+        )}
         <MenuGroup label="Aide" items={footerNav} onNavigate={onNavigate} className="mt-5" />
       </nav>
     </div>
