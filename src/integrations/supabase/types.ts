@@ -3710,7 +3710,38 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      profiles_public: {
+        Row: {
+          avatar_url: string | null
+          city_id: string | null
+          first_name: string | null
+          full_name: string | null
+          id: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          city_id?: string | null
+          first_name?: string | null
+          full_name?: string | null
+          id?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          city_id?: string | null
+          first_name?: string | null
+          full_name?: string | null
+          id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       can_chat_on_request: {
@@ -3750,6 +3781,37 @@ export type Database = {
           contact_email: string
           contact_phone: string
         }[]
+      }
+      get_my_blood_request: {
+        Args: { _id: string }
+        Returns: {
+          address: string | null
+          blood_group: Database["public"]["Enums"]["blood_group"]
+          city_id: string | null
+          contact_name: string | null
+          contact_phone: string
+          created_at: string
+          hospital_name: string | null
+          id: string
+          is_emergency: boolean
+          latitude: number | null
+          longitude: number | null
+          needed_by: string | null
+          notes: string | null
+          patient_name: string
+          province_id: string | null
+          requester_id: string
+          status: Database["public"]["Enums"]["blood_request_status"]
+          units_needed: number
+          updated_at: string
+          urgency: Database["public"]["Enums"]["blood_request_urgency"]
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "blood_requests"
+          isOneToOne: false
+          isSetofReturn: true
+        }
       }
       get_my_donor_profile: {
         Args: never
