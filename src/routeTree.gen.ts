@@ -301,24 +301,24 @@ const ContentSlugRoute = ContentSlugRouteImport.update({
   getParentRoute: () => ContentRoute,
 } as any)
 const BloodRequestRoute = BloodRequestRouteImport.update({
-  id: '/request',
-  path: '/request',
-  getParentRoute: () => BloodRoute,
+  id: '/blood/request',
+  path: '/blood/request',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BloodMapRoute = BloodMapRouteImport.update({
-  id: '/map',
-  path: '/map',
-  getParentRoute: () => BloodRoute,
+  id: '/blood/map',
+  path: '/blood/map',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BloodCentersRoute = BloodCentersRouteImport.update({
-  id: '/centers',
-  path: '/centers',
-  getParentRoute: () => BloodRoute,
+  id: '/blood/centers',
+  path: '/blood/centers',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BloodCampaignsRoute = BloodCampaignsRouteImport.update({
-  id: '/campaigns',
-  path: '/campaigns',
-  getParentRoute: () => BloodRoute,
+  id: '/blood/campaigns',
+  path: '/blood/campaigns',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   id: '/settings',
@@ -415,9 +415,9 @@ const DoctorsSpecialtySlugRoute = DoctorsSpecialtySlugRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const BloodDonorsIdRoute = BloodDonorsIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => BloodDonorsRoute,
+  id: '/blood/donors/$id',
+  path: '/blood/donors/$id',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicSitemapDotxmlRoute = ApiPublicSitemapDotxmlRouteImport.update({
   id: '/api/public/sitemap.xml',
@@ -1483,6 +1483,10 @@ export interface RootRouteChildren {
   SearchRoute: typeof SearchRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
+  BloodCampaignsRoute: typeof BloodCampaignsRoute
+  BloodCentersRoute: typeof BloodCentersRoute
+  BloodMapRoute: typeof BloodMapRoute
+  BloodRequestRoute: typeof BloodRequestRoute
   DoctorsIdRoute: typeof DoctorsIdRoute
   DoctorsSearchRoute: typeof DoctorsSearchRoute
   DoctorsSpecialtiesRoute: typeof DoctorsSpecialtiesRoute
@@ -1506,6 +1510,7 @@ export interface RootRouteChildren {
   PharmaciesIndexRoute: typeof PharmaciesIndexRoute
   ApiPublicHealthRoute: typeof ApiPublicHealthRoute
   ApiPublicSitemapDotxmlRoute: typeof ApiPublicSitemapDotxmlRoute
+  BloodDonorsIdRoute: typeof BloodDonorsIdRoute
   DoctorsSpecialtySlugRoute: typeof DoctorsSpecialtySlugRoute
   BloodDonorsIndexRoute: typeof BloodDonorsIndexRoute
   ApiPublicCronAppointmentRemindersRoute: typeof ApiPublicCronAppointmentRemindersRoute
@@ -1760,31 +1765,31 @@ declare module '@tanstack/react-router' {
     }
     '/blood/request': {
       id: '/blood/request'
-      path: '/request'
+      path: '/blood/request'
       fullPath: '/blood/request'
       preLoaderRoute: typeof BloodRequestRouteImport
-      parentRoute: typeof BloodRoute
+      parentRoute: typeof rootRouteImport
     }
     '/blood/map': {
       id: '/blood/map'
-      path: '/map'
+      path: '/blood/map'
       fullPath: '/blood/map'
       preLoaderRoute: typeof BloodMapRouteImport
-      parentRoute: typeof BloodRoute
+      parentRoute: typeof rootRouteImport
     }
     '/blood/centers': {
       id: '/blood/centers'
-      path: '/centers'
+      path: '/blood/centers'
       fullPath: '/blood/centers'
       preLoaderRoute: typeof BloodCentersRouteImport
-      parentRoute: typeof BloodRoute
+      parentRoute: typeof rootRouteImport
     }
     '/blood/campaigns': {
       id: '/blood/campaigns'
-      path: '/campaigns'
+      path: '/blood/campaigns'
       fullPath: '/blood/campaigns'
       preLoaderRoute: typeof BloodCampaignsRouteImport
-      parentRoute: typeof BloodRoute
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/settings': {
       id: '/_authenticated/settings'
@@ -1907,10 +1912,10 @@ declare module '@tanstack/react-router' {
     }
     '/blood/donors/$id': {
       id: '/blood/donors/$id'
-      path: '/$id'
+      path: '/blood/donors/$id'
       fullPath: '/blood/donors/$id'
       preLoaderRoute: typeof BloodDonorsIdRouteImport
-      parentRoute: typeof BloodDonorsRoute
+      parentRoute: typeof rootRouteImport
     }
     '/api/public/sitemap.xml': {
       id: '/api/public/sitemap.xml'
@@ -2560,6 +2565,10 @@ const rootRouteChildren: RootRouteChildren = {
   SearchRoute: SearchRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
+  BloodCampaignsRoute: BloodCampaignsRoute,
+  BloodCentersRoute: BloodCentersRoute,
+  BloodMapRoute: BloodMapRoute,
+  BloodRequestRoute: BloodRequestRoute,
   DoctorsIdRoute: DoctorsIdRoute,
   DoctorsSearchRoute: DoctorsSearchRoute,
   DoctorsSpecialtiesRoute: DoctorsSpecialtiesRoute,
@@ -2583,6 +2592,7 @@ const rootRouteChildren: RootRouteChildren = {
   PharmaciesIndexRoute: PharmaciesIndexRoute,
   ApiPublicHealthRoute: ApiPublicHealthRoute,
   ApiPublicSitemapDotxmlRoute: ApiPublicSitemapDotxmlRoute,
+  BloodDonorsIdRoute: BloodDonorsIdRoute,
   DoctorsSpecialtySlugRoute: DoctorsSpecialtySlugRoute,
   BloodDonorsIndexRoute: BloodDonorsIndexRoute,
   ApiPublicCronAppointmentRemindersRoute:
@@ -2591,13 +2601,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
