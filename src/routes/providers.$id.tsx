@@ -26,6 +26,9 @@ import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { buildHead } from "@/lib/seo";
 import { initialsOf } from "@/lib/format";
+import { PageHero } from "@/components/layout/PageHero";
+import { ActionBar } from "@/components/layout/ActionBar";
+import { StickyMobileCTA } from "@/components/layout/StickyMobileCTA";
 
 export const Route = createFileRoute("/providers/$id")({
   head: ({ params }) =>
@@ -125,7 +128,7 @@ function ProviderDetailPage() {
   const wa = provider.phone ? provider.phone.replace(/[^0-9]/g, "") : null;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 pb-24 lg:pb-0">
       <Link
         to="/"
         className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-foreground"
@@ -133,31 +136,25 @@ function ProviderDetailPage() {
         <ArrowLeft className="h-4 w-4" /> Retour
       </Link>
 
-      <motion.section
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-soft"
-      >
-        <div className={`relative h-48 bg-gradient-to-br ${meta.gradient} sm:h-60`}>
-          {provider.cover_image ? (
-            <img
-              src={provider.cover_image}
-              alt=""
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-          ) : null}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
-        </div>
-        <div className="-mt-12 flex flex-col gap-5 px-6 pb-6 sm:flex-row sm:items-end sm:px-8 sm:pb-8">
-          <div className="grid h-24 w-24 shrink-0 place-items-center overflow-hidden rounded-3xl bg-white text-foreground shadow-elevated ring-1 ring-black/5 sm:h-28 sm:w-28">
-            {provider.profile_image ? (
-              <img src={provider.profile_image} alt="" className="h-full w-full object-cover" />
-            ) : (
-              <span className="text-2xl font-bold">{initialsOf(provider.name)}</span>
-            )}
-          </div>
-          <div className="min-w-0 flex-1">
-            <div className="flex flex-wrap items-center gap-2">
+      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
+        <PageHero
+          coverGradientClass={`bg-gradient-to-br ${meta.gradient}`}
+          cover={
+            provider.cover_image ? (
+              <img src={provider.cover_image} alt="" className="absolute inset-0 h-full w-full object-cover" />
+            ) : null
+          }
+          avatar={
+            <div className="grid h-20 w-20 place-items-center overflow-hidden rounded-3xl bg-white text-foreground shadow-elevated ring-1 ring-black/5 sm:h-28 sm:w-28">
+              {provider.profile_image ? (
+                <img src={provider.profile_image} alt="" className="h-full w-full object-cover" />
+              ) : (
+                <span className="text-xl font-bold sm:text-2xl">{initialsOf(provider.name)}</span>
+              )}
+            </div>
+          }
+          badges={
+            <>
               <Badge variant="secondary" className="gap-1">
                 <Icon className="h-3.5 w-3.5" /> {meta.label}
               </Badge>
@@ -169,9 +166,11 @@ function ProviderDetailPage() {
               {provider.is_premium ? (
                 <Badge className="border-0 bg-amber-400 text-amber-950">Premium</Badge>
               ) : null}
-            </div>
-            <h1 className="mt-2 truncate text-2xl font-bold sm:text-3xl">{provider.name}</h1>
-            <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
+            </>
+          }
+          title={<span className="block truncate">{provider.name}</span>}
+          meta={
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
               {provider.average_rating > 0 ? (
                 <span className="inline-flex items-center gap-1 font-medium text-foreground">
                   <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
@@ -185,23 +184,45 @@ function ProviderDetailPage() {
                 </span>
               ) : null}
             </div>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <Button
-              onClick={() => toggleFav.mutate()}
-              variant={favorited ? "default" : "outline"}
-              className="gap-2"
-              disabled={toggleFav.isPending}
-            >
-              <Heart className={`h-4 w-4 ${favorited ? "fill-current" : ""}`} />
-              {favorited ? "Favori" : "Favoris"}
-            </Button>
-            <Button variant="outline" onClick={handleShare} className="gap-2" aria-label="Partager">
-              <Share2 className="h-4 w-4" /> Partager
-            </Button>
-          </div>
-        </div>
-      </motion.section>
+          }
+          actions={
+            <ActionBar
+              primary={
+                provider.phone ? (
+                  <Button asChild size="lg" className="gap-2">
+                    <a href={`tel:${provider.phone}`}>
+                      <Phone className="h-4 w-4" /> Appeler
+                    </a>
+                  </Button>
+                ) : null
+              }
+              secondary={
+                <Button
+                  onClick={() => toggleFav.mutate()}
+                  variant={favorited ? "default" : "outline"}
+                  size="lg"
+                  className="gap-2"
+                  disabled={toggleFav.isPending}
+                >
+                  <Heart className={`h-4 w-4 ${favorited ? "fill-current" : ""}`} />
+                  {favorited ? "Favori" : "Favoris"}
+                </Button>
+              }
+              icons={
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="min-h-11 min-w-11 px-3"
+                  onClick={handleShare}
+                  aria-label="Partager"
+                >
+                  <Share2 className="h-4 w-4" />
+                </Button>
+              }
+            />
+          }
+        />
+      </motion.div>
 
       <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
         <div className="space-y-6">
@@ -321,6 +342,23 @@ function ProviderDetailPage() {
           ) : null}
         </aside>
       </div>
+
+      {provider.phone ? (
+        <StickyMobileCTA>
+          <Button asChild size="lg" className="gap-2">
+            <a href={`tel:${provider.phone}`}>
+              <Phone className="h-4 w-4" /> Appeler
+            </a>
+          </Button>
+          {wa ? (
+            <Button asChild size="lg" variant="outline" className="gap-2">
+              <a href={`https://wa.me/${wa}`} target="_blank" rel="noreferrer">
+                <MessageCircle className="h-4 w-4" /> WhatsApp
+              </a>
+            </Button>
+          ) : null}
+        </StickyMobileCTA>
+      ) : null}
     </div>
   );
 }
