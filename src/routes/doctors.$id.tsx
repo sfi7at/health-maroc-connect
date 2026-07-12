@@ -18,6 +18,7 @@ import { EmptyState } from "@/components/common/EmptyState";
 import { DoctorReviews } from "@/components/doctors/DoctorReviews";
 import {
   doctorByIdQuery, doctorReviewsQuery, readDoctorMeta, priceLabel, languageLabel,
+  isBookable, directionsUrl,
 } from "@/lib/doctors";
 import { initialsOf } from "@/lib/format";
 import { getOpenStatus, OPEN_STATUS_META, buildDirectionsUrl } from "@/lib/map-utils";
@@ -125,11 +126,19 @@ function DoctorProfile() {
               </div>
             </div>
             <div className="flex flex-wrap gap-2">
-              <Button asChild size="lg" className="gap-2">
-                <Link to="/appointments/book/$providerId" params={{ providerId: doctor.id }}>
-                  <CalendarPlus className="h-4 w-4" /> Prendre RDV
-                </Link>
-              </Button>
+              {isBookable(doctor) ? (
+                <Button asChild size="lg" className="gap-2">
+                  <Link to="/appointments/new/$providerId" params={{ providerId: doctor.id }}>
+                    <CalendarPlus className="h-4 w-4" /> Prendre RDV
+                  </Link>
+                </Button>
+              ) : (
+                <Button asChild size="lg" className="gap-2">
+                  <a href={directionsUrl(doctor)} target="_blank" rel="noreferrer">
+                    <Navigation className="h-4 w-4" /> Itinéraire
+                  </a>
+                </Button>
+              )}
               {doctor.phone ? (
                 <Button asChild size="lg" variant="outline" className="gap-2">
                   <a href={`tel:${doctor.phone}`}><Phone className="h-4 w-4" /> Appeler</a>
@@ -143,6 +152,11 @@ function DoctorProfile() {
               </Button>
             </div>
           </div>
+          {!isBookable(doctor) ? (
+            <p className="mt-4 text-xs text-muted-foreground">
+              Ce cabinet n'accepte pas encore la prise de rendez-vous en ligne. Utilisez l'itinéraire ou appelez directement.
+            </p>
+          ) : null}
 
           <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {meta.experience_years ? <Stat icon={Clock} label="Expérience" value={`${meta.experience_years} ans`} /> : null}
