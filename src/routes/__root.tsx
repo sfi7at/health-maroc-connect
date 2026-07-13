@@ -20,6 +20,7 @@ import { InstallPrompt } from "@/components/pwa/InstallPrompt";
 import { registerPWA } from "@/lib/pwa-register";
 import { installObservability } from "@/lib/observability";
 import { initPreferences } from "@/hooks/use-preferences";
+import { medianOneSignalLogin, medianOneSignalLogout } from "@/lib/median";
 
 function NotFoundComponent() {
   return (
@@ -155,6 +156,17 @@ function RootComponent() {
       if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
       router.invalidate();
       if (event !== "SIGNED_OUT") queryClient.invalidateQueries();
+      if (event === "SIGNED_IN") {
+        supabase.auth.getUser().then(({ data }) => {
+          medianOneSignalLogin(data.user?.email ?? null);
+        });
+      } else if (event === "SIGNED_OUT") {
+        medianOneSignalLogout();
+      }
+    });
+    // Register the current session on initial mount (e.g. app relaunch).
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user?.email) medianOneSignalLogin(data.user.email);
     });
     return () => sub.subscription.unsubscribe();
   }, [router, queryClient]);
