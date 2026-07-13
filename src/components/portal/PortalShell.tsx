@@ -52,6 +52,7 @@ import { useNotifications } from "@/hooks/use-notifications";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
+import { Logo } from "@/components/brand/Logo";
 
 type NavItem = { to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean };
 
@@ -218,9 +219,7 @@ function DesktopSidebar({ pathname }: { pathname: string }) {
     <aside className="fixed inset-y-0 left-0 z-30 hidden w-72 flex-col border-r border-border bg-card lg:flex">
       <div className="border-b border-border p-4">
         <Link to="/" className="flex items-center gap-2 text-sm font-bold">
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary text-primary-foreground">
-            <Stethoscope className="h-4 w-4" />
-          </span>
+          <Logo className="h-9 w-9" />
           <span className="flex flex-col leading-tight">
             <span className="text-[15px] font-black tracking-tight">Vytalma</span>
             <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
