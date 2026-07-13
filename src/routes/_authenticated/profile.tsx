@@ -80,7 +80,7 @@ function ProfilePage() {
         actions={
           <div className="flex gap-2">
             <Button asChild variant="outline" className="gap-2">
-              <Link to="/_authenticated/settings"><Settings className="h-4 w-4" /> Paramètres</Link>
+              <Link to="/settings"><Settings className="h-4 w-4" /> Paramètres</Link>
             </Button>
             <Button variant="outline" onClick={handleSignOut} className="gap-2">
               <LogOut className="h-4 w-4" /> Déconnexion
@@ -115,8 +115,8 @@ function ProfilePage() {
         </div>
         <div className="grid grid-cols-3 gap-2 text-center sm:flex sm:flex-col sm:items-end sm:gap-1">
           <ProfileStat icon={<Heart className="h-4 w-4" />} label="Dons" to="/blood" />
-          <ProfileStat icon={<Calendar className="h-4 w-4" />} label="RDV" to="/_authenticated/appointments" />
-          <ProfileStat icon={<Star className="h-4 w-4" />} label="Favoris" to="/_authenticated/favorites" />
+          <ProfileStat icon={<Calendar className="h-4 w-4" />} label="RDV" to="/appointments" />
+          <ProfileStat icon={<Star className="h-4 w-4" />} label="Favoris" to="/favorites" />
         </div>
       </motion.section>
 
@@ -166,7 +166,7 @@ function ProfilePage() {
       />
 
       <section className="rounded-3xl border border-border bg-card shadow-soft">
-        <Link to="/_authenticated/notifications" className="flex items-center gap-4 p-5 transition hover:bg-accent/40">
+        <Link to="/notifications" className="flex items-center gap-4 p-5 transition hover:bg-accent/40">
           <div className="grid h-10 w-10 place-items-center rounded-xl bg-primary/10 text-primary"><Bell className="h-5 w-5" /></div>
           <div className="flex-1"><p className="text-sm font-semibold">Notifications</p><p className="text-xs text-muted-foreground">Voir vos alertes et rappels</p></div>
         </Link>
