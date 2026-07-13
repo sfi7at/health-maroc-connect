@@ -175,11 +175,14 @@ export function PortalShell({ children }: { children: ReactNode }) {
 
       {/* Mobile "Plus" drawer with full nav */}
       <Sheet open={mobileNavOpen} onOpenChange={setMobileNavOpen}>
-        <SheetContent side="left" className="w-[85vw] max-w-sm p-0">
-          <SheetHeader className="border-b border-border p-4">
+        <SheetContent side="left" className="flex w-[85vw] max-w-sm flex-col p-0">
+          <SheetHeader className="shrink-0 border-b border-border p-4">
             <SheetTitle>Espace pro</SheetTitle>
           </SheetHeader>
-          <div className="flex flex-col gap-1 overflow-y-auto p-3">
+          <div
+            className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto overscroll-contain p-3"
+            style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 1rem)" }}
+          >
             <ProviderCard
               provider={provider}
               providers={providers}
