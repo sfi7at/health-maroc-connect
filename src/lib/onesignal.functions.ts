@@ -43,3 +43,39 @@ export const sendOneSignalPushToUsers = createServerFn({ method: "POST" })
     });
     return { ...result, targeted: ids.length };
   });
+
+/**
+ * Send a test push notification to the currently authenticated user.
+ * Resolves the recipient via profiles.onesignal_external_user_id.
+ */
+export const sendTestPushToSelf = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d) =>
+    z
+      .object({
+        title: z.string().min(1).max(160).optional(),
+        message: z.string().min(1).max(2000).optional(),
+      })
+      .parse(d ?? {}),
+  )
+  .handler(async ({ data, context }) => {
+    const { supabase, userId } = context;
+    const { data: profile, error } = await supabase
+      .from("profiles")
+      .select("onesignal_external_user_id")
+      .eq("id", userId)
+      .maybeSingle();
+    if (error) throw error;
+    const externalId = profile?.onesignal_external_user_id ?? null;
+    if (!externalId) {
+      return { ok: false, skipped: "no_external_id" as const };
+    }
+    const { sendOneSignalPush } = await import("@/lib/onesignal.server");
+    const result = await sendOneSignalPush({
+      externalUserIds: [externalId],
+      title: data.title ?? "Test Notification",
+      body: data.message ?? "Push notifications are working!",
+      priority: "normal",
+    });
+    return { ...result, targeted: 1 };
+  });
