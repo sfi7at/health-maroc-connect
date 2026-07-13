@@ -117,6 +117,7 @@ import { Route as AuthenticatedAdminArticlesRouteImport } from './routes/_authen
 import { Route as AuthenticatedAdminAppointmentsRouteImport } from './routes/_authenticated/admin.appointments'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin.analytics'
 import { Route as AuthenticatedAdminSecurityIndexRouteImport } from './routes/_authenticated/admin.security.index'
+import { Route as ApiPublicProviderCalendarTokenDoticsRouteImport } from './routes/api/public/provider-calendar.$token[.]ics'
 import { Route as ApiPublicCronAppointmentRemindersRouteImport } from './routes/api/public/cron.appointment-reminders'
 import { Route as AuthenticatedProviderPrescriptionsNewRouteImport } from './routes/_authenticated/provider.prescriptions.new'
 import { Route as AuthenticatedProviderPrescriptionsIdRouteImport } from './routes/_authenticated/provider.prescriptions.$id'
@@ -717,6 +718,12 @@ const AuthenticatedAdminSecurityIndexRoute =
     path: '/security/',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const ApiPublicProviderCalendarTokenDoticsRoute =
+  ApiPublicProviderCalendarTokenDoticsRouteImport.update({
+    id: '/api/public/provider-calendar/$token.ics',
+    path: '/api/public/provider-calendar/$token.ics',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicCronAppointmentRemindersRoute =
   ApiPublicCronAppointmentRemindersRouteImport.update({
     id: '/api/public/cron/appointment-reminders',
@@ -895,6 +902,7 @@ export interface FileRoutesByFullPath {
   '/provider/prescriptions/$id': typeof AuthenticatedProviderPrescriptionsIdRoute
   '/provider/prescriptions/new': typeof AuthenticatedProviderPrescriptionsNewRoute
   '/api/public/cron/appointment-reminders': typeof ApiPublicCronAppointmentRemindersRoute
+  '/api/public/provider-calendar/$token.ics': typeof ApiPublicProviderCalendarTokenDoticsRoute
   '/admin/security/': typeof AuthenticatedAdminSecurityIndexRoute
 }
 export interface FileRoutesByTo {
@@ -1012,6 +1020,7 @@ export interface FileRoutesByTo {
   '/provider/prescriptions/$id': typeof AuthenticatedProviderPrescriptionsIdRoute
   '/provider/prescriptions/new': typeof AuthenticatedProviderPrescriptionsNewRoute
   '/api/public/cron/appointment-reminders': typeof ApiPublicCronAppointmentRemindersRoute
+  '/api/public/provider-calendar/$token.ics': typeof ApiPublicProviderCalendarTokenDoticsRoute
   '/admin/security': typeof AuthenticatedAdminSecurityIndexRoute
 }
 export interface FileRoutesById {
@@ -1133,6 +1142,7 @@ export interface FileRoutesById {
   '/_authenticated/provider/prescriptions/$id': typeof AuthenticatedProviderPrescriptionsIdRoute
   '/_authenticated/provider/prescriptions/new': typeof AuthenticatedProviderPrescriptionsNewRoute
   '/api/public/cron/appointment-reminders': typeof ApiPublicCronAppointmentRemindersRoute
+  '/api/public/provider-calendar/$token.ics': typeof ApiPublicProviderCalendarTokenDoticsRoute
   '/_authenticated/admin/security/': typeof AuthenticatedAdminSecurityIndexRoute
 }
 export interface FileRouteTypes {
@@ -1254,6 +1264,7 @@ export interface FileRouteTypes {
     | '/provider/prescriptions/$id'
     | '/provider/prescriptions/new'
     | '/api/public/cron/appointment-reminders'
+    | '/api/public/provider-calendar/$token.ics'
     | '/admin/security/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -1371,6 +1382,7 @@ export interface FileRouteTypes {
     | '/provider/prescriptions/$id'
     | '/provider/prescriptions/new'
     | '/api/public/cron/appointment-reminders'
+    | '/api/public/provider-calendar/$token.ics'
     | '/admin/security'
   id:
     | '__root__'
@@ -1491,6 +1503,7 @@ export interface FileRouteTypes {
     | '/_authenticated/provider/prescriptions/$id'
     | '/_authenticated/provider/prescriptions/new'
     | '/api/public/cron/appointment-reminders'
+    | '/api/public/provider-calendar/$token.ics'
     | '/_authenticated/admin/security/'
   fileRoutesById: FileRoutesById
 }
@@ -1541,6 +1554,7 @@ export interface RootRouteChildren {
   DoctorsSpecialtySlugRoute: typeof DoctorsSpecialtySlugRoute
   BloodDonorsIndexRoute: typeof BloodDonorsIndexRoute
   ApiPublicCronAppointmentRemindersRoute: typeof ApiPublicCronAppointmentRemindersRoute
+  ApiPublicProviderCalendarTokenDoticsRoute: typeof ApiPublicProviderCalendarTokenDoticsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -2301,6 +2315,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminSecurityIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/api/public/provider-calendar/$token.ics': {
+      id: '/api/public/provider-calendar/$token.ics'
+      path: '/api/public/provider-calendar/$token.ics'
+      fullPath: '/api/public/provider-calendar/$token.ics'
+      preLoaderRoute: typeof ApiPublicProviderCalendarTokenDoticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/cron/appointment-reminders': {
       id: '/api/public/cron/appointment-reminders'
       path: '/api/public/cron/appointment-reminders'
@@ -2618,6 +2639,8 @@ const rootRouteChildren: RootRouteChildren = {
   BloodDonorsIndexRoute: BloodDonorsIndexRoute,
   ApiPublicCronAppointmentRemindersRoute:
     ApiPublicCronAppointmentRemindersRoute,
+  ApiPublicProviderCalendarTokenDoticsRoute:
+    ApiPublicProviderCalendarTokenDoticsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
