@@ -1,5 +1,5 @@
-import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { createFileRoute, Link, useRouter, useNavigate } from "@tanstack/react-router";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   ArrowLeft,
   Droplet,
@@ -11,16 +11,31 @@ import {
   User,
   Copy,
   MessageCircle,
+  Trash2,
+  Loader2,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { PageHeader } from "@/components/common/PageHeader";
 import { bloodRequestByIdQuery } from "@/lib/blood-queries";
 import { URGENCY_META } from "@/lib/categories";
 import { formatRelativeFr } from "@/lib/format";
 import { buildHead } from "@/lib/seo";
+import { useAuth } from "@/hooks/use-auth";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated/blood/requests/$id")({
   head: () =>
@@ -47,10 +62,27 @@ function NotFound() {
 function RequestDetailPage() {
   const { id } = Route.useParams();
   const router = useRouter();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
   const { data: req, isLoading } = useQuery(bloodRequestByIdQuery(id));
+
+  const del = useMutation({
+    mutationFn: async () => {
+      const { error } = await supabase.from("blood_requests").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast.success("Annonce supprimée");
+      queryClient.invalidateQueries({ queryKey: ["blood_requests"] });
+      navigate({ to: "/blood" });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
 
   if (isLoading) return <Skeleton className="h-96 rounded-3xl" />;
   if (!req) return <NotFound />;
+  const isOwner = !!user && req.requester_id === user.id;
 
   const u = URGENCY_META[req.urgency as keyof typeof URGENCY_META];
   const phone = req.contact_phone ?? "";
@@ -68,9 +100,42 @@ function RequestDetailPage() {
 
   return (
     <div className="space-y-6">
-      <Button variant="ghost" className="gap-2" onClick={() => router.history.back()}>
-        <ArrowLeft className="h-4 w-4" /> Retour
-      </Button>
+      <div className="flex items-center justify-between gap-2">
+        <Button variant="ghost" className="gap-2" onClick={() => router.history.back()}>
+          <ArrowLeft className="h-4 w-4" /> Retour
+        </Button>
+        {isOwner && (
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="outline" className="gap-2 text-rose-600 hover:text-rose-700">
+                <Trash2 className="h-4 w-4" /> Supprimer
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Supprimer cette annonce ?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Cette action est irréversible. Les donneurs ne pourront plus voir votre demande.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Annuler</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={(e) => {
+                    e.preventDefault();
+                    del.mutate();
+                  }}
+                  disabled={del.isPending}
+                  className="gap-2 bg-rose-600 text-white hover:bg-rose-700"
+                >
+                  {del.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+                  Supprimer
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        )}
+      </div>
 
       <PageHeader
         eyebrow="Demande de sang"
