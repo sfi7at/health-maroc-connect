@@ -5,8 +5,12 @@
  */
 
 type MedianOneSignal = {
-  login?: (opts: { externalId: string }) => void;
+  login?: (externalId: string) => void;
   logout?: () => void;
+  externalUserId?: {
+    set?: (opts: { externalId: string }) => void;
+    remove?: () => void;
+  };
 };
 
 type MedianBridge = {
@@ -29,8 +33,12 @@ export function medianOneSignalLogin(email: string | null | undefined): void {
   if (!email) return;
   try {
     const m = getMedian();
-    if (!m?.onesignal?.login) return;
-    m.onesignal.login({ externalId: email });
+    if (!m?.onesignal) return;
+    if (m.onesignal.login) {
+      m.onesignal.login(email);
+      return;
+    }
+    m.onesignal.externalUserId?.set?.({ externalId: email });
   } catch (err) {
     console.warn("[median] onesignal.login failed", err);
   }
@@ -39,8 +47,12 @@ export function medianOneSignalLogin(email: string | null | undefined): void {
 export function medianOneSignalLogout(): void {
   try {
     const m = getMedian();
-    if (!m?.onesignal?.logout) return;
-    m.onesignal.logout();
+    if (!m?.onesignal) return;
+    if (m.onesignal.logout) {
+      m.onesignal.logout();
+      return;
+    }
+    m.onesignal.externalUserId?.remove?.();
   } catch (err) {
     console.warn("[median] onesignal.logout failed", err);
   }
