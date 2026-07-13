@@ -364,7 +364,6 @@ function PortalTopBar({
   pathname: string;
   onOpenMobileNav: () => void;
 }) {
-  const label = currentPageLabel(pathname);
   const { unreadCount } = useNotifications();
   const { user } = useAuth();
 
@@ -382,12 +381,7 @@ function PortalTopBar({
           <Menu className="h-5 w-5" />
         </Button>
 
-        <div className="min-w-0 flex-1">
-          <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
-            Espace pro
-          </p>
-          <h1 className="truncate text-base font-black sm:text-lg">{label}</h1>
-        </div>
+        <div className="min-w-0 flex-1" />
 
         {/* Quick create */}
         <DropdownMenu>
