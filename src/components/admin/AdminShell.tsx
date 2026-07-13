@@ -20,6 +20,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
+import { Logo } from "@/components/brand/Logo";
 
 interface NavGroup {
   label: string;
@@ -122,9 +123,7 @@ function SidebarContents({ onNav }: { onNav?: () => void }) {
   return (
     <div className="flex h-full flex-col gap-1 overflow-y-auto px-3 py-4">
       <Link to="/admin" onClick={onNav} className="mb-4 flex items-center gap-3 px-2">
-        <div className="grid h-10 w-10 place-items-center rounded-2xl bg-gradient-to-br from-primary to-emerald-600 text-primary-foreground shadow-lg">
-          <ShieldCheck className="h-5 w-5" />
-        </div>
+        <Logo className="h-10 w-10" />
         <div>
           <div className="text-sm font-bold leading-tight">Vytalma</div>
           <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Console admin</div>

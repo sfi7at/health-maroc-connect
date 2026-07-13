@@ -3,7 +3,7 @@ import { primaryNav, secondaryNav, footerNav } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 import { useIsDoctor } from "@/hooks/use-active-role";
 import { useIsAdmin } from "@/lib/admin";
-import vytalmaLogo from "@/assets/vytalma-logo.png.asset.json";
+import { Logo } from "@/components/brand/Logo";
 
 export function Sidebar() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -17,11 +17,7 @@ export function Sidebar() {
     <aside className="fixed inset-y-0 left-0 z-30 hidden w-72 flex-col border-r border-border bg-sidebar lg:flex">
       <div className="flex h-16 items-center gap-2 border-b border-border px-6">
         <Link to="/" className="flex items-center gap-2.5">
-          <img
-            src={vytalmaLogo.url}
-            alt="Vytalma"
-            className="h-9 w-9 rounded-xl object-cover shadow-soft"
-          />
+          <Logo className="h-9 w-9" />
           <span className="text-lg font-bold tracking-tight">Vytalma</span>
         </Link>
       </div>

@@ -27,7 +27,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
-import vytalmaLogo from "@/assets/vytalma-logo.png.asset.json";
+import { Logo } from "@/components/brand/Logo";
 
 export function TopNav() {
   const [open, setOpen] = useState(false);
@@ -50,7 +50,7 @@ export function TopNav() {
             </SheetContent>
           </Sheet>
           <Link to="/" className="flex items-center gap-2">
-            <img src={vytalmaLogo.url} alt="Vytalma" className="h-8 w-8 rounded-lg object-cover" />
+            <Logo className="h-8 w-8" />
             <span className="text-base font-bold tracking-tight">Vytalma</span>
           </Link>
         </div>
@@ -225,7 +225,7 @@ function MobileMenu({ onNavigate }: { onNavigate: () => void }) {
   return (
     <div className="flex h-full flex-col">
       <div className="flex h-16 items-center gap-2 border-b border-border px-5">
-        <img src={vytalmaLogo.url} alt="Vytalma" className="h-9 w-9 rounded-xl object-cover shadow-soft" />
+        <Logo className="h-9 w-9" />
         <span className="text-lg font-bold tracking-tight">Vytalma</span>
       </div>
       <nav className="flex-1 overflow-y-auto px-3 py-4">

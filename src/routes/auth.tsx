@@ -34,6 +34,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { citiesQuery } from "@/lib/queries";
 import { buildHead } from "@/lib/seo";
+import { Logo } from "@/components/brand/Logo";
 
 const searchSchema = z.object({
   redirect: z.string().optional(),
@@ -76,11 +77,7 @@ function AuthPage() {
         </Link>
 
         <div className="my-8 flex flex-col items-center text-center">
-          <img
-            src="/vytalma-logo.png"
-            alt="Vytalma"
-            className="h-14 w-14 rounded-2xl object-cover shadow-soft"
-          />
+          <Logo className="h-14 w-14" />
           <h1 className="mt-4 text-2xl font-bold tracking-tight">Vytalma</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             Votre santé, centralisée et sécurisée.
