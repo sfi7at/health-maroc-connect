@@ -101,6 +101,7 @@ import { Route as AuthenticatedAdminProvidersRouteImport } from './routes/_authe
 import { Route as AuthenticatedAdminPerformanceRouteImport } from './routes/_authenticated/admin.performance'
 import { Route as AuthenticatedAdminNotificationsRouteImport } from './routes/_authenticated/admin.notifications'
 import { Route as AuthenticatedAdminMonitoringRouteImport } from './routes/_authenticated/admin.monitoring'
+import { Route as AuthenticatedAdminMedicationsRouteImport } from './routes/_authenticated/admin.medications'
 import { Route as AuthenticatedAdminMasterDataRouteImport } from './routes/_authenticated/admin.master-data'
 import { Route as AuthenticatedAdminLogsRouteImport } from './routes/_authenticated/admin.logs'
 import { Route as AuthenticatedAdminLaunchRouteImport } from './routes/_authenticated/admin.launch'
@@ -627,6 +628,12 @@ const AuthenticatedAdminMonitoringRoute =
     path: '/monitoring',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminMedicationsRoute =
+  AuthenticatedAdminMedicationsRouteImport.update({
+    id: '/medications',
+    path: '/medications',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminMasterDataRoute =
   AuthenticatedAdminMasterDataRouteImport.update({
     id: '/master-data',
@@ -868,6 +875,7 @@ export interface FileRoutesByFullPath {
   '/admin/launch': typeof AuthenticatedAdminLaunchRoute
   '/admin/logs': typeof AuthenticatedAdminLogsRoute
   '/admin/master-data': typeof AuthenticatedAdminMasterDataRoute
+  '/admin/medications': typeof AuthenticatedAdminMedicationsRoute
   '/admin/monitoring': typeof AuthenticatedAdminMonitoringRoute
   '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/admin/performance': typeof AuthenticatedAdminPerformanceRoute
@@ -988,6 +996,7 @@ export interface FileRoutesByTo {
   '/admin/launch': typeof AuthenticatedAdminLaunchRoute
   '/admin/logs': typeof AuthenticatedAdminLogsRoute
   '/admin/master-data': typeof AuthenticatedAdminMasterDataRoute
+  '/admin/medications': typeof AuthenticatedAdminMedicationsRoute
   '/admin/monitoring': typeof AuthenticatedAdminMonitoringRoute
   '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/admin/performance': typeof AuthenticatedAdminPerformanceRoute
@@ -1112,6 +1121,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/launch': typeof AuthenticatedAdminLaunchRoute
   '/_authenticated/admin/logs': typeof AuthenticatedAdminLogsRoute
   '/_authenticated/admin/master-data': typeof AuthenticatedAdminMasterDataRoute
+  '/_authenticated/admin/medications': typeof AuthenticatedAdminMedicationsRoute
   '/_authenticated/admin/monitoring': typeof AuthenticatedAdminMonitoringRoute
   '/_authenticated/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/_authenticated/admin/performance': typeof AuthenticatedAdminPerformanceRoute
@@ -1236,6 +1246,7 @@ export interface FileRouteTypes {
     | '/admin/launch'
     | '/admin/logs'
     | '/admin/master-data'
+    | '/admin/medications'
     | '/admin/monitoring'
     | '/admin/notifications'
     | '/admin/performance'
@@ -1356,6 +1367,7 @@ export interface FileRouteTypes {
     | '/admin/launch'
     | '/admin/logs'
     | '/admin/master-data'
+    | '/admin/medications'
     | '/admin/monitoring'
     | '/admin/notifications'
     | '/admin/performance'
@@ -1479,6 +1491,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/launch'
     | '/_authenticated/admin/logs'
     | '/_authenticated/admin/master-data'
+    | '/_authenticated/admin/medications'
     | '/_authenticated/admin/monitoring'
     | '/_authenticated/admin/notifications'
     | '/_authenticated/admin/performance'
@@ -2229,6 +2242,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminMonitoringRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/medications': {
+      id: '/_authenticated/admin/medications'
+      path: '/medications'
+      fullPath: '/admin/medications'
+      preLoaderRoute: typeof AuthenticatedAdminMedicationsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/master-data': {
       id: '/_authenticated/admin/master-data'
       path: '/master-data'
@@ -2454,6 +2474,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminLaunchRoute: typeof AuthenticatedAdminLaunchRoute
   AuthenticatedAdminLogsRoute: typeof AuthenticatedAdminLogsRoute
   AuthenticatedAdminMasterDataRoute: typeof AuthenticatedAdminMasterDataRoute
+  AuthenticatedAdminMedicationsRoute: typeof AuthenticatedAdminMedicationsRoute
   AuthenticatedAdminMonitoringRoute: typeof AuthenticatedAdminMonitoringRoute
   AuthenticatedAdminNotificationsRoute: typeof AuthenticatedAdminNotificationsRoute
   AuthenticatedAdminPerformanceRoute: typeof AuthenticatedAdminPerformanceRoute
@@ -2493,6 +2514,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminLaunchRoute: AuthenticatedAdminLaunchRoute,
   AuthenticatedAdminLogsRoute: AuthenticatedAdminLogsRoute,
   AuthenticatedAdminMasterDataRoute: AuthenticatedAdminMasterDataRoute,
+  AuthenticatedAdminMedicationsRoute: AuthenticatedAdminMedicationsRoute,
   AuthenticatedAdminMonitoringRoute: AuthenticatedAdminMonitoringRoute,
   AuthenticatedAdminNotificationsRoute: AuthenticatedAdminNotificationsRoute,
   AuthenticatedAdminPerformanceRoute: AuthenticatedAdminPerformanceRoute,
