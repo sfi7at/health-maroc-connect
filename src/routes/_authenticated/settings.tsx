@@ -1,6 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Bell, Globe, Lock, MapPin, Moon, ShieldCheck, Stethoscope, UserCog } from "lucide-react";
+import { ArrowRight, Bell, Globe, Lock, MapPin, Moon, Send, ShieldCheck, Stethoscope, UserCog } from "lucide-react";
 import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { toast } from "sonner";
+import { sendTestPushToSelf } from "@/lib/onesignal.functions";
 import { useLanguage, useTheme, type AppLang } from "@/hooks/use-preferences";
 import { PageHeader } from "@/components/common/PageHeader";
 import { Switch } from "@/components/ui/switch";
@@ -32,6 +35,32 @@ function SettingsPage() {
   const [locShare, setLocShare] = useState(true);
   const { isStaff } = useIsAdmin();
   const { data: isDoctor } = useIsDoctor();
+  const sendTest = useServerFn(sendTestPushToSelf);
+  const [testing, setTesting] = useState(false);
+
+  async function handleTestPush() {
+    setTesting(true);
+    try {
+      const res = await sendTest({
+        data: { title: "Test Notification", message: "Push notifications are working!" },
+      });
+      if (res.ok) {
+        toast.success("Notification de test envoyée");
+      } else if (res.skipped === "no_external_id") {
+        toast.error("Aucun identifiant push enregistré. Ouvrez l'app mobile et connectez-vous.");
+      } else if (res.skipped === "missing_credentials") {
+        toast.error("Identifiants OneSignal manquants côté serveur.");
+      } else if (res.skipped === "no_recipients") {
+        toast.error("Aucun destinataire éligible.");
+      } else {
+        toast.error(`Échec de l'envoi (${res.error ?? "inconnu"})`);
+      }
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Erreur lors de l'envoi");
+    } finally {
+      setTesting(false);
+    }
+  }
 
   return (
     <div className="space-y-8">
@@ -122,6 +151,17 @@ function SettingsPage() {
           description="Soyez prévenu lors d'une demande compatible près de vous"
         >
           <Switch checked={bloodAlerts} onCheckedChange={setBloodAlerts} aria-label="Alertes don du sang" />
+        </SettingRow>
+        <Separator />
+        <SettingRow
+          icon={<Send className="h-5 w-5" />}
+          title="Tester les notifications push"
+          description="Envoie une notification de test à votre appareil"
+        >
+          <Button size="sm" onClick={handleTestPush} disabled={testing} className="gap-2">
+            <Send className="h-4 w-4" />
+            {testing ? "Envoi…" : "Envoyer"}
+          </Button>
         </SettingRow>
       </section>
 
