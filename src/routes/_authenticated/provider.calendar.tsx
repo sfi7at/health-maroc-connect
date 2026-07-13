@@ -176,7 +176,7 @@ function ProviderCalendarView() {
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <Input readOnly value={feedUrl} className="h-9 flex-1 min-w-64 font-mono text-xs" />
+            <Input readOnly value={feedUrl} className="h-9 w-full flex-1 min-w-0 font-mono text-xs sm:w-auto" />
             <Button size="sm" variant="outline" className="gap-1.5" onClick={copyFeed}>
               <Copy className="h-3.5 w-3.5" /> Copier
             </Button>
