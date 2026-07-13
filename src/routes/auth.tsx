@@ -34,6 +34,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { citiesQuery } from "@/lib/queries";
 import { buildHead } from "@/lib/seo";
+import { Logo } from "@/components/brand/Logo";
 
 const searchSchema = z.object({
   redirect: z.string().optional(),
