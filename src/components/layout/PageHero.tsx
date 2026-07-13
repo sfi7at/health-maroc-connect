@@ -50,9 +50,11 @@ export function PageHero({
       </div>
 
       <div className="relative -mt-14 px-4 pb-5 sm:-mt-16 sm:px-8 sm:pb-8">
-        {/* Mobile: single column stack. Tablet+: avatar + text row with actions to the right */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-4">
+        {/* Mobile & narrow desktop: stack. Wide (xl+): avatar + text on the
+            left, actions on the right — prevents icon buttons from being
+            clipped when the sidebar constrains the content width. */}
+        <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between xl:gap-6">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-4 min-w-0">
             <div className="shrink-0">{avatar}</div>
             <div className="min-w-0 sm:pb-1">
               {badges ? (
@@ -68,7 +70,7 @@ export function PageHero({
             </div>
           </div>
           {actions ? (
-            <div className="w-full sm:w-auto sm:shrink-0">{actions}</div>
+            <div className="w-full xl:w-auto xl:shrink-0">{actions}</div>
           ) : null}
         </div>
 
