@@ -2262,6 +2262,69 @@ export type Database = {
         }
         Relationships: []
       }
+      medications: {
+        Row: {
+          brand_name: string
+          created_at: string
+          dci: string | null
+          dosage: string | null
+          form: string | null
+          id: string
+          indication: string | null
+          is_active: boolean
+          laboratory: string | null
+          packaging: string | null
+          presentation: string | null
+          public_price: number | null
+          schedule_table: string | null
+          shelf_life: string | null
+          specification: string | null
+          sub_class: string | null
+          therapeutic_class: string | null
+          updated_at: string
+        }
+        Insert: {
+          brand_name: string
+          created_at?: string
+          dci?: string | null
+          dosage?: string | null
+          form?: string | null
+          id?: string
+          indication?: string | null
+          is_active?: boolean
+          laboratory?: string | null
+          packaging?: string | null
+          presentation?: string | null
+          public_price?: number | null
+          schedule_table?: string | null
+          shelf_life?: string | null
+          specification?: string | null
+          sub_class?: string | null
+          therapeutic_class?: string | null
+          updated_at?: string
+        }
+        Update: {
+          brand_name?: string
+          created_at?: string
+          dci?: string | null
+          dosage?: string | null
+          form?: string | null
+          id?: string
+          indication?: string | null
+          is_active?: boolean
+          laboratory?: string | null
+          packaging?: string | null
+          presentation?: string | null
+          public_price?: number | null
+          schedule_table?: string | null
+          shelf_life?: string | null
+          specification?: string | null
+          sub_class?: string | null
+          therapeutic_class?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       notification_categories: {
         Row: {
           created_at: string

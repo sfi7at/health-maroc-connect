@@ -22,6 +22,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PharmaciesIndexRouteImport } from './routes/pharmacies.index'
+import { Route as MedicamentsIndexRouteImport } from './routes/medicaments.index'
 import { Route as LaboratoriesIndexRouteImport } from './routes/laboratories.index'
 import { Route as HospitalsIndexRouteImport } from './routes/hospitals.index'
 import { Route as DoctorsIndexRouteImport } from './routes/doctors.index'
@@ -32,6 +33,7 @@ import { Route as PharmaciesSearchRouteImport } from './routes/pharmacies.search
 import { Route as PharmaciesOpenRouteImport } from './routes/pharmacies.open'
 import { Route as PharmaciesOnDutyRouteImport } from './routes/pharmacies.on-duty'
 import { Route as PharmaciesMapRouteImport } from './routes/pharmacies.map'
+import { Route as MedicamentsIdRouteImport } from './routes/medicaments.$id'
 import { Route as LaboratoriesSearchRouteImport } from './routes/laboratories.search'
 import { Route as LaboratoriesOpenRouteImport } from './routes/laboratories.open'
 import { Route as LaboratoriesMapRouteImport } from './routes/laboratories.map'
@@ -193,6 +195,11 @@ const PharmaciesIndexRoute = PharmaciesIndexRouteImport.update({
   path: '/pharmacies/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MedicamentsIndexRoute = MedicamentsIndexRouteImport.update({
+  id: '/medicaments/',
+  path: '/medicaments/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LaboratoriesIndexRoute = LaboratoriesIndexRouteImport.update({
   id: '/laboratories/',
   path: '/laboratories/',
@@ -241,6 +248,11 @@ const PharmaciesOnDutyRoute = PharmaciesOnDutyRouteImport.update({
 const PharmaciesMapRoute = PharmaciesMapRouteImport.update({
   id: '/pharmacies/map',
   path: '/pharmacies/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MedicamentsIdRoute = MedicamentsIdRouteImport.update({
+  id: '/medicaments/$id',
+  path: '/medicaments/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LaboratoriesSearchRoute = LaboratoriesSearchRouteImport.update({
@@ -825,6 +837,7 @@ export interface FileRoutesByFullPath {
   '/laboratories/map': typeof LaboratoriesMapRoute
   '/laboratories/open': typeof LaboratoriesOpenRoute
   '/laboratories/search': typeof LaboratoriesSearchRoute
+  '/medicaments/$id': typeof MedicamentsIdRoute
   '/pharmacies/map': typeof PharmaciesMapRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/pharmacies/open': typeof PharmaciesOpenRoute
@@ -835,6 +848,7 @@ export interface FileRoutesByFullPath {
   '/doctors/': typeof DoctorsIndexRoute
   '/hospitals/': typeof HospitalsIndexRoute
   '/laboratories/': typeof LaboratoriesIndexRoute
+  '/medicaments/': typeof MedicamentsIndexRoute
   '/pharmacies/': typeof PharmaciesIndexRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
@@ -943,6 +957,7 @@ export interface FileRoutesByTo {
   '/laboratories/map': typeof LaboratoriesMapRoute
   '/laboratories/open': typeof LaboratoriesOpenRoute
   '/laboratories/search': typeof LaboratoriesSearchRoute
+  '/medicaments/$id': typeof MedicamentsIdRoute
   '/pharmacies/map': typeof PharmaciesMapRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/pharmacies/open': typeof PharmaciesOpenRoute
@@ -953,6 +968,7 @@ export interface FileRoutesByTo {
   '/doctors': typeof DoctorsIndexRoute
   '/hospitals': typeof HospitalsIndexRoute
   '/laboratories': typeof LaboratoriesIndexRoute
+  '/medicaments': typeof MedicamentsIndexRoute
   '/pharmacies': typeof PharmaciesIndexRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
@@ -1065,6 +1081,7 @@ export interface FileRoutesById {
   '/laboratories/map': typeof LaboratoriesMapRoute
   '/laboratories/open': typeof LaboratoriesOpenRoute
   '/laboratories/search': typeof LaboratoriesSearchRoute
+  '/medicaments/$id': typeof MedicamentsIdRoute
   '/pharmacies/map': typeof PharmaciesMapRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/pharmacies/open': typeof PharmaciesOpenRoute
@@ -1075,6 +1092,7 @@ export interface FileRoutesById {
   '/doctors/': typeof DoctorsIndexRoute
   '/hospitals/': typeof HospitalsIndexRoute
   '/laboratories/': typeof LaboratoriesIndexRoute
+  '/medicaments/': typeof MedicamentsIndexRoute
   '/pharmacies/': typeof PharmaciesIndexRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/_authenticated/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
@@ -1187,6 +1205,7 @@ export interface FileRouteTypes {
     | '/laboratories/map'
     | '/laboratories/open'
     | '/laboratories/search'
+    | '/medicaments/$id'
     | '/pharmacies/map'
     | '/pharmacies/on-duty'
     | '/pharmacies/open'
@@ -1197,6 +1216,7 @@ export interface FileRouteTypes {
     | '/doctors/'
     | '/hospitals/'
     | '/laboratories/'
+    | '/medicaments/'
     | '/pharmacies/'
     | '/admin/analytics'
     | '/admin/appointments'
@@ -1305,6 +1325,7 @@ export interface FileRouteTypes {
     | '/laboratories/map'
     | '/laboratories/open'
     | '/laboratories/search'
+    | '/medicaments/$id'
     | '/pharmacies/map'
     | '/pharmacies/on-duty'
     | '/pharmacies/open'
@@ -1315,6 +1336,7 @@ export interface FileRouteTypes {
     | '/doctors'
     | '/hospitals'
     | '/laboratories'
+    | '/medicaments'
     | '/pharmacies'
     | '/admin/analytics'
     | '/admin/appointments'
@@ -1426,6 +1448,7 @@ export interface FileRouteTypes {
     | '/laboratories/map'
     | '/laboratories/open'
     | '/laboratories/search'
+    | '/medicaments/$id'
     | '/pharmacies/map'
     | '/pharmacies/on-duty'
     | '/pharmacies/open'
@@ -1436,6 +1459,7 @@ export interface FileRouteTypes {
     | '/doctors/'
     | '/hospitals/'
     | '/laboratories/'
+    | '/medicaments/'
     | '/pharmacies/'
     | '/_authenticated/admin/analytics'
     | '/_authenticated/admin/appointments'
@@ -1537,6 +1561,7 @@ export interface RootRouteChildren {
   LaboratoriesMapRoute: typeof LaboratoriesMapRoute
   LaboratoriesOpenRoute: typeof LaboratoriesOpenRoute
   LaboratoriesSearchRoute: typeof LaboratoriesSearchRoute
+  MedicamentsIdRoute: typeof MedicamentsIdRoute
   PharmaciesMapRoute: typeof PharmaciesMapRoute
   PharmaciesOnDutyRoute: typeof PharmaciesOnDutyRoute
   PharmaciesOpenRoute: typeof PharmaciesOpenRoute
@@ -1547,6 +1572,7 @@ export interface RootRouteChildren {
   DoctorsIndexRoute: typeof DoctorsIndexRoute
   HospitalsIndexRoute: typeof HospitalsIndexRoute
   LaboratoriesIndexRoute: typeof LaboratoriesIndexRoute
+  MedicamentsIndexRoute: typeof MedicamentsIndexRoute
   PharmaciesIndexRoute: typeof PharmaciesIndexRoute
   ApiPublicHealthRoute: typeof ApiPublicHealthRoute
   ApiPublicProviderCalendarDoticsRoute: typeof ApiPublicProviderCalendarDoticsRoute
@@ -1650,6 +1676,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PharmaciesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/medicaments/': {
+      id: '/medicaments/'
+      path: '/medicaments'
+      fullPath: '/medicaments/'
+      preLoaderRoute: typeof MedicamentsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/laboratories/': {
       id: '/laboratories/'
       path: '/laboratories'
@@ -1718,6 +1751,13 @@ declare module '@tanstack/react-router' {
       path: '/pharmacies/map'
       fullPath: '/pharmacies/map'
       preLoaderRoute: typeof PharmaciesMapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/medicaments/$id': {
+      id: '/medicaments/$id'
+      path: '/medicaments/$id'
+      fullPath: '/medicaments/$id'
+      preLoaderRoute: typeof MedicamentsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/laboratories/search': {
@@ -2621,6 +2661,7 @@ const rootRouteChildren: RootRouteChildren = {
   LaboratoriesMapRoute: LaboratoriesMapRoute,
   LaboratoriesOpenRoute: LaboratoriesOpenRoute,
   LaboratoriesSearchRoute: LaboratoriesSearchRoute,
+  MedicamentsIdRoute: MedicamentsIdRoute,
   PharmaciesMapRoute: PharmaciesMapRoute,
   PharmaciesOnDutyRoute: PharmaciesOnDutyRoute,
   PharmaciesOpenRoute: PharmaciesOpenRoute,
@@ -2631,6 +2672,7 @@ const rootRouteChildren: RootRouteChildren = {
   DoctorsIndexRoute: DoctorsIndexRoute,
   HospitalsIndexRoute: HospitalsIndexRoute,
   LaboratoriesIndexRoute: LaboratoriesIndexRoute,
+  MedicamentsIndexRoute: MedicamentsIndexRoute,
   PharmaciesIndexRoute: PharmaciesIndexRoute,
   ApiPublicHealthRoute: ApiPublicHealthRoute,
   ApiPublicProviderCalendarDoticsRoute: ApiPublicProviderCalendarDoticsRoute,
