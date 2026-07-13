@@ -12,7 +12,7 @@ export const Route = createFileRoute("/reset-password")({
   head: () =>
     buildHead({
       title: "Réinitialiser le mot de passe",
-      description: "Définissez un nouveau mot de passe pour votre compte HealthLink Maroc.",
+      description: "Définissez un nouveau mot de passe pour votre compte Vytalma.",
       path: "/reset-password",
     }),
   component: ResetPasswordPage,

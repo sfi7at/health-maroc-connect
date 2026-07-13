@@ -42,7 +42,7 @@ export const Route = createFileRoute("/search")({
   validateSearch: searchSchema,
   head: () =>
     buildHead({
-      title: "Recherche universelle — HealthLink Maroc",
+      title: "Recherche universelle — Vytalma",
       description:
         "Trouvez instantanément médecins, pharmacies, hôpitaux, laboratoires, urgences et services de santé au Maroc.",
       path: "/search",

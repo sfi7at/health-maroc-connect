@@ -31,7 +31,7 @@ import { SlotGrid } from "@/components/appointments/SlotGrid";
 export const Route = createFileRoute("/_authenticated/appointments/new/$providerId")({
   head: () =>
     buildHead({
-      title: "Réserver un rendez-vous — HealthLink Maroc",
+      title: "Réserver un rendez-vous — Vytalma",
       description: "Choisissez votre service, votre date et votre créneau auprès d'un professionnel vérifié.",
       path: "/appointments/new",
     }),

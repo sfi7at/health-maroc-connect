@@ -18,7 +18,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/")({
   head: () =>
     buildHead({
-      title: "HealthLink Maroc — Tous les services de santé en une app",
+      title: "Vytalma — Tous les services de santé en une app",
       description:
         "Médecins, pharmacies de garde, hôpitaux, laboratoires, don du sang et téléconsultation au Maroc.",
       path: "/",

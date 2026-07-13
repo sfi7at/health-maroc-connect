@@ -16,7 +16,7 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/_authenticated/appointments/")({
   head: () =>
     buildHead({
-      title: "Mes rendez-vous — HealthLink Maroc",
+      title: "Mes rendez-vous — Vytalma",
       description: "Gérez vos rendez-vous médicaux : à venir, passés, annulations et rappels.",
       path: "/appointments",
     }),

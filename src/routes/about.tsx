@@ -7,20 +7,20 @@ export const Route = createFileRoute("/about")({
   head: () =>
     buildHead({
       title: "À propos",
-      description: "HealthLink Maroc : la première Health Super App marocaine.",
+      description: "Vytalma : la première Health Super App marocaine.",
       path: "/about",
     }),
   component: () => (
     <div className="space-y-6">
       <PageHeader
         eyebrow="Notre mission"
-        title="À propos de HealthLink"
+        title="À propos de Vytalma"
         description="Rendre la santé accessible à chaque Marocain, depuis son téléphone."
         icon={<Info className="h-5 w-5" />}
       />
       <article className="prose prose-slate max-w-none rounded-3xl border border-border bg-card p-8 shadow-soft dark:prose-invert">
         <p>
-          <strong>HealthLink Maroc</strong> est la première application qui centralise tous les
+          <strong>Vytalma</strong> est la première application qui centralise tous les
           services de santé du Royaume : médecins, pharmacies, hôpitaux, laboratoires, don du sang,
           téléconsultation et orientation par intelligence artificielle.
         </p>

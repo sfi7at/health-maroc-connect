@@ -39,7 +39,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/_authenticated/laboratory-dashboard")({
   head: () =>
     buildHead({
-      title: "Espace laboratoire — HealthLink Maroc",
+      title: "Espace laboratoire — Vytalma",
       description: "Gérez votre laboratoire : profil, analyses, photos, avis et vérification.",
       path: "/laboratory-dashboard",
     }),

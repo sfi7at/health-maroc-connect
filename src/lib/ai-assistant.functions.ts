@@ -48,7 +48,7 @@ function buildSystemPrompt(ctx?: z.infer<typeof ContextSchema>): string {
   if (ctx?.favorites?.length) ctxLines.push(`- Favoris santé : ${ctx.favorites.join(", ")}`);
   if (ctx?.recent_searches?.length) ctxLines.push(`- Recherches récentes : ${ctx.recent_searches.join(", ")}`);
 
-  return `Tu es l'assistant santé contextuel de HealthLink Maroc — la super-app santé du Maroc.
+  return `Tu es l'assistant santé contextuel de Vytalma — la super-app santé du Maroc.
 
 RÈGLES ABSOLUES
 - Réponds en ${langName}.
@@ -154,7 +154,7 @@ function buildSuggestions(
   }
   // Always offer global search as fallback
   if (out.length === 0) {
-    out.push({ label: "Rechercher dans HealthLink", to: `/search?q=${encodeURIComponent(text)}` });
+    out.push({ label: "Rechercher dans Vytalma", to: `/search?q=${encodeURIComponent(text)}` });
   }
   return out.slice(0, 4);
 }

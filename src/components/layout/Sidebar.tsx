@@ -21,7 +21,7 @@ export function Sidebar() {
             <Heart className="h-5 w-5" fill="currentColor" />
           </div>
           <div className="flex flex-col leading-tight">
-            <span className="text-base font-bold tracking-tight">HealthLink</span>
+            <span className="text-base font-bold tracking-tight">Vytalma</span>
             <span className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Maroc</span>
           </div>
         </Link>

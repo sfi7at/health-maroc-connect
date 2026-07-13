@@ -55,7 +55,7 @@ export const Route = createFileRoute("/pharmacies/search")({
   validateSearch: zodValidator(searchSchema),
   head: () =>
     buildHead({
-      title: "Recherche de pharmacies — HealthLink Maroc",
+      title: "Recherche de pharmacies — Vytalma",
       description:
         "Filtrez les pharmacies du Maroc par ville, quartier, services, livraison, vaccination et plus.",
       path: "/pharmacies/search",

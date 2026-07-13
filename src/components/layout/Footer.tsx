@@ -6,7 +6,7 @@ export function Footer() {
     <footer className="border-t border-border bg-muted/30 py-6 pb-[calc(4.5rem+env(safe-area-inset-bottom))] lg:pb-6">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 sm:flex-row sm:px-6 lg:px-10">
         <p className="text-xs text-muted-foreground">
-          © {new Date().getFullYear()} HealthLink Maroc. Tous droits réservés.
+          © {new Date().getFullYear()} Vytalma. Tous droits réservés.
         </p>
         <nav aria-label="Mentions légales" className="flex flex-wrap items-center justify-center gap-4">
           {legalNav.map((item) => (

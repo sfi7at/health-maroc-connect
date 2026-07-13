@@ -11,7 +11,7 @@ export const Route = createFileRoute("/faq")({
   component: FaqPage,
   head: () => ({
     meta: [
-      { title: "FAQ — Questions fréquentes — HealthLink Maroc" },
+      { title: "FAQ — Questions fréquentes — Vytalma" },
       { name: "description", content: "Réponses aux questions fréquentes : rendez-vous, don du sang, pharmacies de garde, urgences." },
     ],
   }),
@@ -42,7 +42,7 @@ function FaqPage() {
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
-      <PageHeader icon={<HelpCircle className="h-5 w-5" />} title="Questions fréquentes" description="Tout ce qu'il faut savoir sur HealthLink Maroc." />
+      <PageHeader icon={<HelpCircle className="h-5 w-5" />} title="Questions fréquentes" description="Tout ce qu'il faut savoir sur Vytalma." />
       {items.isLoading ? (
         <div className="space-y-2">{Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-14 rounded-xl" />)}</div>
       ) : Object.keys(grouped).length === 0 ? (

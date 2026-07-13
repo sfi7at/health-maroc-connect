@@ -34,7 +34,7 @@ export const Route = createFileRoute("/doctors/search")({
   validateSearch: zodValidator(searchSchema),
   head: () =>
     buildHead({
-      title: "Rechercher un médecin — HealthLink Maroc",
+      title: "Rechercher un médecin — Vytalma",
       description: "Filtres avancés : spécialité, ville, langue, assurance, prix, disponibilité.",
       path: "/doctors/search",
     }),

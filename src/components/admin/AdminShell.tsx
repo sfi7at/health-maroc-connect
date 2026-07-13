@@ -126,7 +126,7 @@ function SidebarContents({ onNav }: { onNav?: () => void }) {
           <ShieldCheck className="h-5 w-5" />
         </div>
         <div>
-          <div className="text-sm font-bold leading-tight">HealthLink</div>
+          <div className="text-sm font-bold leading-tight">Vytalma</div>
           <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Console admin</div>
         </div>
       </Link>
@@ -214,7 +214,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
           </div>
           <h1 className="text-2xl font-bold">Accès refusé</h1>
           <p className="text-muted-foreground">
-            Cette console est réservée aux administrateurs. Si vous pensez qu'il s'agit d'une erreur, contactez l'équipe HealthLink Maroc.
+            Cette console est réservée aux administrateurs. Si vous pensez qu'il s'agit d'une erreur, contactez l'équipe Vytalma.
           </p>
           <Badge variant="outline">403 — Forbidden</Badge>
           <div>

@@ -18,7 +18,7 @@ import { formatDateTimeFr } from "@/lib/format";
 
 export const Route = createFileRoute("/_authenticated/doctor-dashboard")({
   head: () => buildHead({
-    title: "Espace praticien — HealthLink Maroc",
+    title: "Espace praticien — Vytalma",
     description: "Gérez votre profil, vos rendez-vous, vos avis et votre vérification.",
     path: "/doctor-dashboard",
   }),
@@ -92,7 +92,7 @@ function DoctorDashboard() {
       <PageHeader
         eyebrow="Espace praticien"
         title={`Dr. ${profile.name}`}
-        description="Vue d'ensemble de votre activité sur HealthLink Maroc."
+        description="Vue d'ensemble de votre activité sur Vytalma."
         icon={<Stethoscope className="h-5 w-5" />}
         actions={
           <Button asChild variant="outline" className="gap-2">

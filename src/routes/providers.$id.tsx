@@ -33,7 +33,7 @@ import { StickyMobileCTA } from "@/components/layout/StickyMobileCTA";
 export const Route = createFileRoute("/providers/$id")({
   head: ({ params }) =>
     buildHead({
-      title: "Détails du prestataire — HealthLink Maroc",
+      title: "Détails du prestataire — Vytalma",
       description: "Coordonnées, services et avis vérifiés.",
       path: `/providers/${params.id}`,
     }),

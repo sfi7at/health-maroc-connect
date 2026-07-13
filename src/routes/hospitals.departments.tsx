@@ -7,7 +7,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/hospitals/departments")({
   head: () =>
     buildHead({
-      title: "Départements & services hospitaliers — HealthLink Maroc",
+      title: "Départements & services hospitaliers — Vytalma",
       description: "Explorez tous les départements et services médicaux des hôpitaux et cliniques au Maroc.",
       path: "/hospitals/departments",
     }),

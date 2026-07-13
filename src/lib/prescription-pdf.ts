@@ -211,7 +211,7 @@ export async function generatePrescriptionPdf(p: PrescriptionPayload): Promise<B
   doc.line(M, pageH - 60, pageW - M, pageH - 60);
   doc.setFontSize(8);
   doc.setTextColor(120, 120, 120);
-  doc.text("Ordonnance générée via HealthLink Maroc — healthlink.ma", M, pageH - 42);
+  doc.text("Ordonnance générée via Vytalma — healthlink.ma", M, pageH - 42);
   if (p.verification_url) {
     doc.text("Vérification : " + p.verification_url, M, pageH - 30);
   }

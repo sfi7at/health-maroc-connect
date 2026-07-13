@@ -207,7 +207,7 @@ export function HealthMap({
       className={className}
       style={{ width: "100%", height: "100%", borderRadius: "inherit", overflow: "hidden" }}
       role="region"
-      aria-label="Carte interactive HealthLink Maroc"
+      aria-label="Carte interactive Vytalma"
     />
   );
 }

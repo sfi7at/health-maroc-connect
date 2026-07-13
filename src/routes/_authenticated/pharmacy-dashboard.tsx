@@ -45,7 +45,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/_authenticated/pharmacy-dashboard")({
   head: () =>
     buildHead({
-      title: "Espace pharmacie — HealthLink Maroc",
+      title: "Espace pharmacie — Vytalma",
       description: "Gérez votre pharmacie : profil, horaires, services, photos, avis et vérification.",
       path: "/pharmacy-dashboard",
     }),

@@ -13,7 +13,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/doctors/specialties")({
   head: () =>
     buildHead({
-      title: "Spécialités médicales — HealthLink Maroc",
+      title: "Spécialités médicales — Vytalma",
       description: "Toutes les spécialités médicales disponibles au Maroc : cardiologie, dermatologie, pédiatrie, et plus.",
       path: "/doctors/specialties",
     }),

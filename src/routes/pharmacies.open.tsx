@@ -18,7 +18,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/pharmacies/open")({
   head: () =>
     buildHead({
-      title: "Pharmacies ouvertes maintenant — HealthLink Maroc",
+      title: "Pharmacies ouvertes maintenant — Vytalma",
       description:
         "Liste en direct des pharmacies ouvertes actuellement au Maroc, avec distance et horaires.",
       path: "/pharmacies/open",

@@ -22,7 +22,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/pharmacies/map")({
   head: () =>
     buildHead({
-      title: "Carte des pharmacies — HealthLink Maroc",
+      title: "Carte des pharmacies — Vytalma",
       description: "Localisez toutes les pharmacies du Maroc sur une carte interactive.",
       path: "/pharmacies/map",
     }),

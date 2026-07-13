@@ -90,7 +90,7 @@ export const Route = createFileRoute("/hospitals/search")({
   validateSearch: zodValidator(searchSchema),
   head: () =>
     buildHead({
-      title: "Recherche d'hôpitaux & cliniques — HealthLink Maroc",
+      title: "Recherche d'hôpitaux & cliniques — Vytalma",
       description: "Filtrez les hôpitaux et cliniques du Maroc par ville, département, service et plus.",
       path: "/hospitals/search",
     }),

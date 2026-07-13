@@ -20,7 +20,7 @@ import { useSearchHistory } from "@/hooks/use-search-history";
 export const Route = createFileRoute("/_authenticated/ai-assistant")({
   head: () =>
     buildHead({
-      title: "Assistant IA santé — HealthLink Maroc",
+      title: "Assistant IA santé — Vytalma",
       description:
         "Assistant santé contextuel : symptômes, urgences, pharmacies, médecins, dons de sang. Réponses informatives, jamais un diagnostic.",
       path: "/ai-assistant",
@@ -139,7 +139,7 @@ function AssistantPage() {
     <div className="space-y-6">
       <PageHeader
         eyebrow="Intelligence santé"
-        title="Assistant IA HealthLink"
+        title="Assistant IA Vytalma"
         description="Contextuel, multilingue (FR/AR/EN), urgence-aware. Réponses informatives uniquement."
         icon={<Sparkles className="h-5 w-5" />}
       />
@@ -181,7 +181,7 @@ function AssistantPage() {
               <div className="max-w-md">
                 <h2 className="text-lg font-semibold">Bonjour 👋</h2>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Posez votre question — symptôme, pharmacie de garde, médecin, don de sang… Je vous oriente vers la bonne ressource HealthLink.
+                  Posez votre question — symptôme, pharmacie de garde, médecin, don de sang… Je vous oriente vers la bonne ressource Vytalma.
                 </p>
               </div>
               <div className="grid w-full max-w-xl gap-2 sm:grid-cols-2">

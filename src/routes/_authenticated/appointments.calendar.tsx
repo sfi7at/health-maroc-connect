@@ -17,7 +17,7 @@ import { AppointmentCard } from "@/components/appointments/AppointmentCard";
 import { isUpcoming, type AppointmentRow } from "@/lib/appointments";
 
 export const Route = createFileRoute("/_authenticated/appointments/calendar")({
-  head: () => buildHead({ title: "Calendrier des rendez-vous — HealthLink Maroc", description: "Visualisez vos rendez-vous en mode jour, semaine, mois ou agenda.", path: "/appointments/calendar" }),
+  head: () => buildHead({ title: "Calendrier des rendez-vous — Vytalma", description: "Visualisez vos rendez-vous en mode jour, semaine, mois ou agenda.", path: "/appointments/calendar" }),
   component: CalendarPage,
 });
 

@@ -17,7 +17,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/laboratories/open")({
   head: () =>
     buildHead({
-      title: "Laboratoires ouverts maintenant — HealthLink Maroc",
+      title: "Laboratoires ouverts maintenant — Vytalma",
       description: "Liste en direct des laboratoires d'analyses médicales actuellement ouverts au Maroc.",
       path: "/laboratories/open",
     }),

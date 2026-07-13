@@ -60,7 +60,7 @@ function AdminLaunch() {
 
   return (
     <div className="space-y-6">
-      <AdminHeader icon={Rocket} title="Checklist de lancement" description="Préparez HealthLink Maroc pour la production nationale." />
+      <AdminHeader icon={Rocket} title="Checklist de lancement" description="Préparez Vytalma pour la production nationale." />
 
       <Card className="p-5">
         <div className="flex items-center justify-between">

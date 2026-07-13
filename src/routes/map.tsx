@@ -35,7 +35,7 @@ export const Route = createFileRoute("/map")({
   ssr: false,
   head: () =>
     buildHead({
-      title: "Carte santé — HealthLink Maroc",
+      title: "Carte santé — Vytalma",
       description:
         "Trouvez médecins, pharmacies, hôpitaux, laboratoires et centres de don du sang autour de vous au Maroc.",
       path: "/map",

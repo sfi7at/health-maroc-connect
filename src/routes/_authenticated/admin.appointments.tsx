@@ -18,7 +18,7 @@ import { StatusBadge } from "@/components/appointments/StatusBadge";
 import type { AppointmentRow } from "@/lib/appointments";
 
 export const Route = createFileRoute("/_authenticated/admin/appointments")({
-  head: () => buildHead({ title: "Administration RDV — HealthLink Maroc", description: "Vue d'ensemble et gestion globale des rendez-vous.", path: "/admin/appointments" }),
+  head: () => buildHead({ title: "Administration RDV — Vytalma", description: "Vue d'ensemble et gestion globale des rendez-vous.", path: "/admin/appointments" }),
   component: AdminAppointments,
 });
 
@@ -72,7 +72,7 @@ function AdminAppointments() {
 
   if (checkingRole) return <Skeleton className="h-40 rounded-2xl" />;
   if (!isAdmin) {
-    return <EmptyState icon={ShieldCheck} title="Accès réservé" description="Cette section est réservée aux administrateurs HealthLink." />;
+    return <EmptyState icon={ShieldCheck} title="Accès réservé" description="Cette section est réservée aux administrateurs Vytalma." />;
   }
 
   const exportCsv = () => {

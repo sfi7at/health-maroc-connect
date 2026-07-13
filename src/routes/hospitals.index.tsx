@@ -33,7 +33,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/hospitals/")({
   head: () =>
     buildHead({
-      title: "Hôpitaux & cliniques au Maroc — HealthLink Maroc",
+      title: "Hôpitaux & cliniques au Maroc — Vytalma",
       description:
         "Découvrez tous les hôpitaux publics, cliniques privées et CHU du Maroc : urgences, départements, services et itinéraires en un clic.",
       path: "/hospitals",
@@ -226,7 +226,7 @@ function HospitalsHome() {
 
       <SimpleGrid
         title="Récemment ajoutés"
-        description="Les nouveaux établissements sur HealthLink Maroc."
+        description="Les nouveaux établissements sur Vytalma."
         icon={Sparkles}
         items={recent}
         loading={isLoading}

@@ -24,7 +24,7 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/_authenticated/notifications")({
   head: () =>
     buildHead({
-      title: "Notifications — HealthLink Maroc",
+      title: "Notifications — Vytalma",
       description: "Centre de notifications intelligent : urgences, rendez-vous, don de sang, pharmacies de garde, conseils santé.",
       path: "/notifications",
     }),

@@ -23,7 +23,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/blood/donors/$id")({
   head: () =>
     buildHead({
-      title: "Profil donneur — HealthLink Maroc",
+      title: "Profil donneur — Vytalma",
       description: "Profil public d'un donneur de sang vérifié. Vos coordonnées restent privées.",
     }),
   component: DonorProfilePage,

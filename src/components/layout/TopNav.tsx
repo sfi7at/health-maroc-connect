@@ -52,7 +52,7 @@ export function TopNav() {
             <div className="grid h-8 w-8 place-items-center rounded-lg gradient-primary text-primary-foreground">
               <Heart className="h-4 w-4" fill="currentColor" />
             </div>
-            <span className="text-sm font-bold tracking-tight">HealthLink</span>
+            <span className="text-sm font-bold tracking-tight">Vytalma</span>
           </Link>
         </div>
 
@@ -230,7 +230,7 @@ function MobileMenu({ onNavigate }: { onNavigate: () => void }) {
           <Heart className="h-5 w-5" fill="currentColor" />
         </div>
         <div className="flex flex-col leading-tight">
-          <span className="text-base font-bold tracking-tight">HealthLink</span>
+          <span className="text-base font-bold tracking-tight">Vytalma</span>
           <span className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
             Maroc
           </span>

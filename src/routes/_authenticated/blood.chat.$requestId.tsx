@@ -25,7 +25,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/_authenticated/blood/chat/$requestId")({
   head: () =>
     buildHead({
-      title: "Discussion sécurisée — HealthLink Maroc",
+      title: "Discussion sécurisée — Vytalma",
       description: "Discussion privée entre demandeur et donneur de sang.",
     }),
   component: ChatPage,
