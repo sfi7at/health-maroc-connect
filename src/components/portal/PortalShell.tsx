@@ -364,7 +364,6 @@ function PortalTopBar({
   pathname: string;
   onOpenMobileNav: () => void;
 }) {
-  const label = currentPageLabel(pathname);
   const { unreadCount } = useNotifications();
   const { user } = useAuth();
 
