@@ -212,34 +212,6 @@ function MapPage() {
         </IconBtn>
       </div>
 
-      {/* Location prompt fallback */}
-      {status === "denied" || status === "unavailable" ? (
-        <motion.div
-          initial={{ opacity: 0, y: -8 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="pointer-events-auto absolute left-1/2 top-40 z-[1100] w-[min(92vw,28rem)] -translate-x-1/2 rounded-2xl border border-border bg-card/95 p-3 text-xs shadow-elevated backdrop-blur sm:top-44"
-        >
-          <p className="mb-2 font-medium">Choisissez une ville pour explorer la carte</p>
-          <div className="flex flex-wrap gap-1.5">
-            {cities.slice(0, 8).map((c) => (
-              <button
-                key={c.id}
-                onClick={() => {
-                  setCityId(c.id);
-                  setCenter(DEFAULT_MAP_CENTER);
-                }}
-                className={cn(
-                  "rounded-full border border-border px-2.5 py-1 hover:bg-muted",
-                  cityId === c.id && "bg-foreground text-background",
-                )}
-              >
-                {c.name_fr}
-              </button>
-            ))}
-          </div>
-        </motion.div>
-      ) : null}
-
       {/* Loading badge */}
       {isLoading ? (
         <div className="pointer-events-none absolute left-1/2 top-44 z-[1090] -translate-x-1/2 rounded-full bg-card/90 px-3 py-1 text-xs text-muted-foreground shadow-soft">
