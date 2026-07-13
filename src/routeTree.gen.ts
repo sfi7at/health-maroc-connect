@@ -302,9 +302,9 @@ const DevTypographyRoute = DevTypographyRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContentSlugRoute = ContentSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => ContentRoute,
+  id: '/content/$slug',
+  path: '/content/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BloodRequestRoute = BloodRequestRouteImport.update({
   id: '/blood/request',
@@ -1498,6 +1498,7 @@ export interface RootRouteChildren {
   BloodCentersRoute: typeof BloodCentersRoute
   BloodMapRoute: typeof BloodMapRoute
   BloodRequestRoute: typeof BloodRequestRoute
+  ContentSlugRoute: typeof ContentSlugRoute
   DevTypographyRoute: typeof DevTypographyRoute
   DoctorsIdRoute: typeof DoctorsIdRoute
   DoctorsSearchRoute: typeof DoctorsSearchRoute
@@ -1778,10 +1779,10 @@ declare module '@tanstack/react-router' {
     }
     '/content/$slug': {
       id: '/content/$slug'
-      path: '/$slug'
+      path: '/content/$slug'
       fullPath: '/content/$slug'
       preLoaderRoute: typeof ContentSlugRouteImport
-      parentRoute: typeof ContentRoute
+      parentRoute: typeof rootRouteImport
     }
     '/blood/request': {
       id: '/blood/request'
@@ -2564,6 +2565,7 @@ const rootRouteChildren: RootRouteChildren = {
   BloodCentersRoute: BloodCentersRoute,
   BloodMapRoute: BloodMapRoute,
   BloodRequestRoute: BloodRequestRoute,
+  ContentSlugRoute: ContentSlugRoute,
   DevTypographyRoute: DevTypographyRoute,
   DoctorsIdRoute: DoctorsIdRoute,
   DoctorsSearchRoute: DoctorsSearchRoute,
