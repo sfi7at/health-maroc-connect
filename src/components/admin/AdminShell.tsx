@@ -70,6 +70,7 @@ const NAV: NavGroup[] = [
     items: [
       { to: "/admin/import", label: "Centre d'import", icon: Upload },
       { to: "/admin/imports", label: "Historique imports", icon: History },
+      { to: "/admin/medications", label: "Médicaments (CSV)", icon: Upload },
       { to: "/admin/master-data", label: "Données maîtres", icon: Database },
       { to: "/admin/quality", label: "Qualité des données", icon: Gauge },
       { to: "/admin/claims", label: "Revendications", icon: ShieldCheck },
