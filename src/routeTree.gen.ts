@@ -70,6 +70,7 @@ import { Route as DoctorsSpecialtySlugRouteImport } from './routes/doctors.speci
 import { Route as BloodDonorsIdRouteImport } from './routes/blood.donors.$id'
 import { Route as ApiPublicSitemapDotxmlRouteImport } from './routes/api/public/sitemap[.]xml'
 import { Route as ApiPublicProviderCalendarDoticsRouteImport } from './routes/api/public/provider-calendar[.]ics'
+import { Route as ApiPublicNotifyPushRouteImport } from './routes/api/public/notify-push'
 import { Route as ApiPublicHealthRouteImport } from './routes/api/public/health'
 import { Route as AuthenticatedProviderVerificationRouteImport } from './routes/_authenticated/provider.verification'
 import { Route as AuthenticatedProviderSubscriptionRouteImport } from './routes/_authenticated/provider.subscription'
@@ -445,6 +446,11 @@ const ApiPublicProviderCalendarDoticsRoute =
     path: '/api/public/provider-calendar.ics',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicNotifyPushRoute = ApiPublicNotifyPushRouteImport.update({
+  id: '/api/public/notify-push',
+  path: '/api/public/notify-push',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicHealthRoute = ApiPublicHealthRouteImport.update({
   id: '/api/public/health',
   path: '/api/public/health',
@@ -907,6 +913,7 @@ export interface FileRoutesByFullPath {
   '/provider/subscription': typeof AuthenticatedProviderSubscriptionRoute
   '/provider/verification': typeof AuthenticatedProviderVerificationRoute
   '/api/public/health': typeof ApiPublicHealthRoute
+  '/api/public/notify-push': typeof ApiPublicNotifyPushRoute
   '/api/public/provider-calendar.ics': typeof ApiPublicProviderCalendarDoticsRoute
   '/api/public/sitemap.xml': typeof ApiPublicSitemapDotxmlRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
@@ -1028,6 +1035,7 @@ export interface FileRoutesByTo {
   '/provider/subscription': typeof AuthenticatedProviderSubscriptionRoute
   '/provider/verification': typeof AuthenticatedProviderVerificationRoute
   '/api/public/health': typeof ApiPublicHealthRoute
+  '/api/public/notify-push': typeof ApiPublicNotifyPushRoute
   '/api/public/provider-calendar.ics': typeof ApiPublicProviderCalendarDoticsRoute
   '/api/public/sitemap.xml': typeof ApiPublicSitemapDotxmlRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
@@ -1153,6 +1161,7 @@ export interface FileRoutesById {
   '/_authenticated/provider/subscription': typeof AuthenticatedProviderSubscriptionRoute
   '/_authenticated/provider/verification': typeof AuthenticatedProviderVerificationRoute
   '/api/public/health': typeof ApiPublicHealthRoute
+  '/api/public/notify-push': typeof ApiPublicNotifyPushRoute
   '/api/public/provider-calendar.ics': typeof ApiPublicProviderCalendarDoticsRoute
   '/api/public/sitemap.xml': typeof ApiPublicSitemapDotxmlRoute
   '/blood/donors/$id': typeof BloodDonorsIdRoute
@@ -1278,6 +1287,7 @@ export interface FileRouteTypes {
     | '/provider/subscription'
     | '/provider/verification'
     | '/api/public/health'
+    | '/api/public/notify-push'
     | '/api/public/provider-calendar.ics'
     | '/api/public/sitemap.xml'
     | '/blood/donors/$id'
@@ -1399,6 +1409,7 @@ export interface FileRouteTypes {
     | '/provider/subscription'
     | '/provider/verification'
     | '/api/public/health'
+    | '/api/public/notify-push'
     | '/api/public/provider-calendar.ics'
     | '/api/public/sitemap.xml'
     | '/blood/donors/$id'
@@ -1523,6 +1534,7 @@ export interface FileRouteTypes {
     | '/_authenticated/provider/subscription'
     | '/_authenticated/provider/verification'
     | '/api/public/health'
+    | '/api/public/notify-push'
     | '/api/public/provider-calendar.ics'
     | '/api/public/sitemap.xml'
     | '/blood/donors/$id'
@@ -1588,6 +1600,7 @@ export interface RootRouteChildren {
   MedicamentsIndexRoute: typeof MedicamentsIndexRoute
   PharmaciesIndexRoute: typeof PharmaciesIndexRoute
   ApiPublicHealthRoute: typeof ApiPublicHealthRoute
+  ApiPublicNotifyPushRoute: typeof ApiPublicNotifyPushRoute
   ApiPublicProviderCalendarDoticsRoute: typeof ApiPublicProviderCalendarDoticsRoute
   ApiPublicSitemapDotxmlRoute: typeof ApiPublicSitemapDotxmlRoute
   BloodDonorsIdRoute: typeof BloodDonorsIdRoute
@@ -2023,6 +2036,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/provider-calendar.ics'
       fullPath: '/api/public/provider-calendar.ics'
       preLoaderRoute: typeof ApiPublicProviderCalendarDoticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/notify-push': {
+      id: '/api/public/notify-push'
+      path: '/api/public/notify-push'
+      fullPath: '/api/public/notify-push'
+      preLoaderRoute: typeof ApiPublicNotifyPushRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/health': {
@@ -2697,6 +2717,7 @@ const rootRouteChildren: RootRouteChildren = {
   MedicamentsIndexRoute: MedicamentsIndexRoute,
   PharmaciesIndexRoute: PharmaciesIndexRoute,
   ApiPublicHealthRoute: ApiPublicHealthRoute,
+  ApiPublicNotifyPushRoute: ApiPublicNotifyPushRoute,
   ApiPublicProviderCalendarDoticsRoute: ApiPublicProviderCalendarDoticsRoute,
   ApiPublicSitemapDotxmlRoute: ApiPublicSitemapDotxmlRoute,
   BloodDonorsIdRoute: BloodDonorsIdRoute,
