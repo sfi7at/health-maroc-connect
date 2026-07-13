@@ -41,7 +41,7 @@ const DAYS = [
 export const Route = createFileRoute("/doctors/$id")({
   head: ({ params }) =>
     buildHead({
-      title: "Profil du médecin — HealthLink Maroc",
+      title: "Profil du médecin — Vytalma",
       description: "Profil vérifié, horaires, prix, avis et prise de rendez-vous.",
       path: `/doctors/${params.id}`,
     }),

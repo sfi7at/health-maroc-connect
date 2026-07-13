@@ -8,7 +8,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/laboratories/analyses")({
   head: () =>
     buildHead({
-      title: "Analyses médicales — HealthLink Maroc",
+      title: "Analyses médicales — Vytalma",
       description: "Toutes les catégories d'analyses médicales disponibles au Maroc.",
       path: "/laboratories/analyses",
     }),

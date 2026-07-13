@@ -42,7 +42,7 @@ export const Route = createFileRoute("/blood/request")({
   validateSearch: (s) => searchSchema.parse(s),
   head: () =>
     buildHead({
-      title: "Publier une demande de sang — HealthLink Maroc",
+      title: "Publier une demande de sang — Vytalma",
       description: "Publiez une demande de don de sang. Les donneurs compatibles seront notifiés.",
       path: "/blood/request",
     }),

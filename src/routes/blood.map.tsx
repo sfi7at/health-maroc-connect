@@ -13,7 +13,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/blood/map")({
   head: () =>
     buildHead({
-      title: "Carte du don du sang — HealthLink Maroc",
+      title: "Carte du don du sang — Vytalma",
       description: "Visualisez les demandes urgentes et les centres de don du sang sur la carte.",
       path: "/blood/map",
     }),

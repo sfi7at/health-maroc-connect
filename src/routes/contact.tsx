@@ -11,7 +11,7 @@ export const Route = createFileRoute("/contact")({
   head: () =>
     buildHead({
       title: "Contact",
-      description: "Contactez l'équipe HealthLink Maroc.",
+      description: "Contactez l'équipe Vytalma.",
       path: "/contact",
     }),
   component: ContactPage,

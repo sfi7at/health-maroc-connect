@@ -6,7 +6,7 @@ export interface SeoMeta {
 }
 
 export function buildHead({ title, description, image, path }: SeoMeta) {
-  const fullTitle = title.includes("HealthLink") ? title : `${title} — HealthLink Maroc`;
+  const fullTitle = title.includes("Vytalma") ? title : `${title} — Vytalma`;
   const meta = [
     { title: fullTitle },
     { name: "description", content: description },

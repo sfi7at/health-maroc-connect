@@ -21,7 +21,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/hospitals/map")({
   head: () =>
     buildHead({
-      title: "Carte des hôpitaux & cliniques — HealthLink Maroc",
+      title: "Carte des hôpitaux & cliniques — Vytalma",
       description: "Localisez tous les hôpitaux et cliniques du Maroc sur une carte interactive.",
       path: "/hospitals/map",
     }),

@@ -1,5 +1,5 @@
 /**
- * Production observability layer for HealthLink Maroc.
+ * Production observability layer for Vytalma.
  * - Client-side error capture (deduped via fingerprint)
  * - API latency tracking
  * - Web Vitals reporting

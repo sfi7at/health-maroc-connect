@@ -48,7 +48,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/_authenticated/hospital-dashboard")({
   head: () =>
     buildHead({
-      title: "Espace hôpital — HealthLink Maroc",
+      title: "Espace hôpital — Vytalma",
       description: "Gérez votre hôpital ou clinique : profil, départements, services, photos, avis et vérification.",
       path: "/hospital-dashboard",
     }),

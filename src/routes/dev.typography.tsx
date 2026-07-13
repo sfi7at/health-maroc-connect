@@ -36,7 +36,7 @@ import {
 export const Route = createFileRoute("/dev/typography")({
   head: () => ({
     meta: [
-      { title: "Typography Showcase — HealthLink Maroc" },
+      { title: "Typography Showcase — Vytalma" },
       { name: "robots", content: "noindex,nofollow" },
     ],
   }),

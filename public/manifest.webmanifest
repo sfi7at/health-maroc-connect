@@ -1,6 +1,6 @@
 {
-  "name": "HealthLink Maroc",
-  "short_name": "HealthLink",
+  "name": "Vytalma",
+  "short_name": "Vytalma",
   "description": "Tous les services de santé du Maroc, dans une seule application.",
   "start_url": "/",
   "scope": "/",

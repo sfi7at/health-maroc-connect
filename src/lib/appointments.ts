@@ -277,7 +277,7 @@ export function buildIcs(a: {
   return [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//HealthLink Maroc//Appointments//FR",
+    "PRODID:-//Vytalma//Appointments//FR",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
     "BEGIN:VEVENT",

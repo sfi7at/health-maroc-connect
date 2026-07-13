@@ -35,7 +35,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/blood/donors/")({
   head: () =>
     buildHead({
-      title: "Trouver des donneurs de sang — HealthLink Maroc",
+      title: "Trouver des donneurs de sang — Vytalma",
       description:
         "Recherchez des donneurs de sang vérifiés et disponibles au Maroc selon la compatibilité, la ville et le statut.",
       path: "/blood/donors",

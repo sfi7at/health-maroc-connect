@@ -52,7 +52,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/_authenticated/blood/me")({
   head: () =>
     buildHead({
-      title: "Mon profil donneur — HealthLink Maroc",
+      title: "Mon profil donneur — Vytalma",
       description:
         "Consultez et modifiez vos informations de donneur de sang en toute sécurité.",
     }),

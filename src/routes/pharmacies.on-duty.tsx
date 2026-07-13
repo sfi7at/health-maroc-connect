@@ -12,7 +12,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/pharmacies/on-duty")({
   head: () =>
     buildHead({
-      title: "Pharmacies de garde — HealthLink Maroc",
+      title: "Pharmacies de garde — Vytalma",
       description: "Liste des pharmacies de garde ouvertes au Maroc, mises à jour quotidiennement.",
       path: "/pharmacies/on-duty",
     }),

@@ -28,7 +28,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/laboratories/")({
   head: () =>
     buildHead({
-      title: "Laboratoires d'analyses au Maroc — HealthLink Maroc",
+      title: "Laboratoires d'analyses au Maroc — Vytalma",
       description:
         "Trouvez le laboratoire d'analyses médicales idéal au Maroc : proximité, ouvert maintenant, prélèvement à domicile, PCR, COVID et plus.",
       path: "/laboratories",
@@ -150,7 +150,7 @@ function LaboratoriesHome() {
 
       <SimpleGrid
         title="Mis en avant"
-        description="Établissements vérifiés et partenaires HealthLink."
+        description="Établissements vérifiés et partenaires Vytalma."
         icon={Sparkles}
         items={featured}
         loading={isLoading}

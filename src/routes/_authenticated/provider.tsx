@@ -6,7 +6,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/_authenticated/provider")({
   head: () =>
     buildHead({
-      title: "Espace pro — HealthLink Maroc",
+      title: "Espace pro — Vytalma",
       description:
         "Pilotez votre cabinet : agenda, patients, ordonnances, profil public, avis et statistiques.",
       path: "/provider",

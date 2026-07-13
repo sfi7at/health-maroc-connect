@@ -34,7 +34,7 @@ import { CalendarView, type CalendarMode } from "@/components/appointments/Calen
 import { CalendarControls } from "@/components/appointments/CalendarControls";
 
 export const Route = createFileRoute("/_authenticated/provider-calendar")({
-  head: () => buildHead({ title: "Espace prestataire — HealthLink Maroc", description: "Gérez votre agenda, vos services et vos rendez-vous.", path: "/provider-calendar" }),
+  head: () => buildHead({ title: "Espace prestataire — Vytalma", description: "Gérez votre agenda, vos services et vos rendez-vous.", path: "/provider-calendar" }),
   component: ProviderCalendarPage,
 });
 

@@ -40,7 +40,7 @@ export function InstallPrompt() {
           <Download className="h-5 w-5" />
         </div>
         <div className="flex-1">
-          <p className="text-sm font-semibold">Installer HealthLink Maroc</p>
+          <p className="text-sm font-semibold">Installer Vytalma</p>
           <p className="mt-0.5 text-xs text-muted-foreground">
             Accès rapide, notifications et mode hors-ligne — comme une vraie app.
           </p>

@@ -28,7 +28,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/_authenticated/blood/become-donor")({
   head: () =>
     buildHead({
-      title: "Devenir donneur de sang — HealthLink Maroc",
+      title: "Devenir donneur de sang — Vytalma",
       description: "Inscrivez-vous comme donneur de sang au Maroc et sauvez des vies.",
     }),
   component: BecomeDonorPage,
@@ -295,7 +295,7 @@ function BecomeDonorPage() {
           />
           <span>
             J'accepte les <a className="underline" href="/terms">conditions</a> et la{" "}
-            <a className="underline" href="/privacy">politique de confidentialité</a> de HealthLink Maroc.
+            <a className="underline" href="/privacy">politique de confidentialité</a> de Vytalma.
           </span>
         </label>
 

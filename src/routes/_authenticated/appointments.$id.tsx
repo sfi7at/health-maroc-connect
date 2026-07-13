@@ -15,7 +15,7 @@ import { StatusBadge } from "@/components/appointments/StatusBadge";
 import { CalendarExportMenu } from "@/components/appointments/CalendarExportMenu";
 
 export const Route = createFileRoute("/_authenticated/appointments/$id")({
-  head: () => buildHead({ title: "Détails du rendez-vous — HealthLink Maroc", description: "Détails de votre rendez-vous médical.", path: "/appointments" }),
+  head: () => buildHead({ title: "Détails du rendez-vous — Vytalma", description: "Détails de votre rendez-vous médical.", path: "/appointments" }),
   component: AppointmentDetail,
 });
 

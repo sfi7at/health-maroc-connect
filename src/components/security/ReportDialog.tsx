@@ -71,7 +71,7 @@ export function ReportDialog({
         <DialogHeader>
           <DialogTitle>Signaler ce contenu</DialogTitle>
           <DialogDescription>
-            Aidez-nous à maintenir la qualité de HealthLink Maroc. Votre signalement reste confidentiel.
+            Aidez-nous à maintenir la qualité de Vytalma. Votre signalement reste confidentiel.
           </DialogDescription>
         </DialogHeader>
 

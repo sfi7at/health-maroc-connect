@@ -25,7 +25,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/_authenticated/profile")({
   head: () =>
     buildHead({
-      title: "Profil médical — HealthLink Maroc",
+      title: "Profil médical — Vytalma",
       description: "Vos informations de santé, allergies, vaccinations, contacts d'urgence — chiffrées et privées.",
       path: "/profile",
     }),

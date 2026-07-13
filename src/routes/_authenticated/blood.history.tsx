@@ -14,7 +14,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/_authenticated/blood/history")({
   head: () =>
     buildHead({
-      title: "Historique de don — HealthLink Maroc",
+      title: "Historique de don — Vytalma",
       description: "Suivez vos dons de sang, vos accomplissements et votre impact.",
     }),
   component: HistoryPage,

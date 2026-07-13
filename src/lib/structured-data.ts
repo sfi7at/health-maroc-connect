@@ -3,7 +3,7 @@ export function organizationLd() {
   return {
     "@context": "https://schema.org",
     "@type": "MedicalOrganization",
-    name: "HealthLink Maroc",
+    name: "Vytalma",
     url: "https://health-maroc-connect.lovable.app",
     logo: "https://health-maroc-connect.lovable.app/icon-512.png",
     areaServed: { "@type": "Country", name: "Morocco" },

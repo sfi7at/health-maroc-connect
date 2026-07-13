@@ -77,7 +77,7 @@ export const Route = createFileRoute("/laboratories/search")({
   validateSearch: zodValidator(searchSchema),
   head: () =>
     buildHead({
-      title: "Recherche de laboratoires — HealthLink Maroc",
+      title: "Recherche de laboratoires — Vytalma",
       description: "Filtrez les laboratoires du Maroc par ville, analyse, services et plus.",
       path: "/laboratories/search",
     }),

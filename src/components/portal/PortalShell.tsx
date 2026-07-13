@@ -222,7 +222,7 @@ function DesktopSidebar({ pathname }: { pathname: string }) {
             <Stethoscope className="h-4 w-4" />
           </span>
           <span className="flex flex-col leading-tight">
-            <span className="text-[15px] font-black tracking-tight">HealthLink</span>
+            <span className="text-[15px] font-black tracking-tight">Vytalma</span>
             <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
               Espace pro
             </span>

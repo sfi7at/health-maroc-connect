@@ -89,7 +89,7 @@ function AdminDashboard() {
       <AdminHeader
         icon={ShieldCheck}
         title="Tableau de bord"
-        description="Vue d'ensemble en temps réel de la plateforme HealthLink Maroc."
+        description="Vue d'ensemble en temps réel de la plateforme Vytalma."
         badge="Live"
       />
 

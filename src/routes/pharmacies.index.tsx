@@ -162,7 +162,7 @@ function PharmaciesHome() {
 
       <SimpleGrid
         title="Récemment ajoutées"
-        description="Nouveaux établissements vérifiés sur HealthLink Maroc."
+        description="Nouveaux établissements vérifiés sur Vytalma."
         icon={Sparkles}
         items={recent}
         loading={isLoading}

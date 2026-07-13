@@ -13,7 +13,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/_authenticated/favorites")({
   head: () =>
     buildHead({
-      title: "Mes favoris — HealthLink Maroc",
+      title: "Mes favoris — Vytalma",
       description: "Vos médecins, pharmacies et établissements de santé favoris.",
       path: "/favorites",
     }),

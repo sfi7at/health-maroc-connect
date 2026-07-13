@@ -15,7 +15,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/blood/campaigns")({
   head: () =>
     buildHead({
-      title: "Campagnes de don du sang — HealthLink Maroc",
+      title: "Campagnes de don du sang — Vytalma",
       description: "Découvrez les prochaines collectes et campagnes de don du sang au Maroc.",
       path: "/blood/campaigns",
     }),

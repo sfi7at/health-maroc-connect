@@ -90,7 +90,7 @@ function ProviderSettings() {
         <h2 className="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-muted-foreground"><Bell className="h-4 w-4" /> Notifications</h2>
         <Row label="Nouveaux rendez-vous" checked={notif.appointments} onChange={(v) => setNotif((n) => ({ ...n, appointments: v }))} />
         <Row label="Nouveaux avis" checked={notif.reviews} onChange={(v) => setNotif((n) => ({ ...n, reviews: v }))} />
-        <Row label="Actualités & promotions HealthLink" checked={notif.marketing} onChange={(v) => setNotif((n) => ({ ...n, marketing: v }))} />
+        <Row label="Actualités & promotions Vytalma" checked={notif.marketing} onChange={(v) => setNotif((n) => ({ ...n, marketing: v }))} />
       </section>
 
       <section className="rounded-3xl border border-border bg-card p-5 shadow-soft">

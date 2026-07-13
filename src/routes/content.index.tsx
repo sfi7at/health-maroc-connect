@@ -14,9 +14,9 @@ export const Route = createFileRoute("/content/")({
   component: ContentPage,
   head: () => ({
     meta: [
-      { title: "Articles santé & actualités médicales — HealthLink Maroc" },
+      { title: "Articles santé & actualités médicales — Vytalma" },
       { name: "description", content: "Conseils santé, campagnes, alertes et guides médicaux validés pour le Maroc." },
-      { property: "og:title", content: "Articles santé — HealthLink Maroc" },
+      { property: "og:title", content: "Articles santé — Vytalma" },
       { property: "og:description", content: "Actualités médicales, prévention et campagnes nationales de santé au Maroc." },
     ],
   }),

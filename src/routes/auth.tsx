@@ -45,7 +45,7 @@ export const Route = createFileRoute("/auth")({
   head: () =>
     buildHead({
       title: "Connexion",
-      description: "Connectez-vous à HealthLink Maroc pour accéder à votre profil médical.",
+      description: "Connectez-vous à Vytalma pour accéder à votre profil médical.",
       path: "/auth",
     }),
   component: AuthPage,
@@ -76,10 +76,12 @@ function AuthPage() {
         </Link>
 
         <div className="my-8 flex flex-col items-center text-center">
-          <div className="grid h-14 w-14 place-items-center rounded-2xl gradient-primary text-primary-foreground shadow-soft">
-            <Heart className="h-7 w-7" fill="currentColor" />
-          </div>
-          <h1 className="mt-4 text-2xl font-bold tracking-tight">HealthLink Maroc</h1>
+          <img
+            src="/vytalma-logo.png"
+            alt="Vytalma"
+            className="h-14 w-14 rounded-2xl object-cover shadow-soft"
+          />
+          <h1 className="mt-4 text-2xl font-bold tracking-tight">Vytalma</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             Votre santé, centralisée et sécurisée.
           </p>
@@ -377,7 +379,7 @@ function SignUpForm() {
       navigate({ to: "/auth", search: { mode: "signin" }, replace: true });
       return;
     }
-    toast.success("Bienvenue sur HealthLink Maroc.");
+    toast.success("Bienvenue sur Vytalma.");
     navigate({ to: "/profile", replace: true });
   };
 

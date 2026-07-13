@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/_authenticated/settings")({
   head: () =>
     buildHead({
-      title: "Paramètres — HealthLink Maroc",
+      title: "Paramètres — Vytalma",
       description: "Langue, mode sombre, notifications, confidentialité, compte.",
       path: "/settings",
     }),
@@ -38,7 +38,7 @@ function SettingsPage() {
       <PageHeader
         eyebrow="Préférences"
         title="Paramètres"
-        description="Personnalisez votre expérience HealthLink — langue, apparence et confidentialité."
+        description="Personnalisez votre expérience Vytalma — langue, apparence et confidentialité."
         icon={<UserCog className="h-5 w-5" />}
       />
 

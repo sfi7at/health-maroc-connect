@@ -31,7 +31,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/blood/")({
   head: () =>
     buildHead({
-      title: "Don du sang au Maroc — HealthLink",
+      title: "Don du sang au Maroc — Vytalma",
       description:
         "Donnez votre sang, sauvez des vies. Trouvez des donneurs ou devenez donneur en quelques clics au Maroc.",
       path: "/blood",
@@ -82,7 +82,7 @@ function Hero() {
       >
         <div className="max-w-2xl">
           <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] backdrop-blur">
-            <Heart className="h-3.5 w-3.5" fill="currentColor" /> HealthLink Maroc
+            <Heart className="h-3.5 w-3.5" fill="currentColor" /> Vytalma
           </span>
           <h1 className="mt-4 text-[2.2rem] font-bold leading-[1.05] tracking-tight sm:text-5xl">
             Donnez votre sang.

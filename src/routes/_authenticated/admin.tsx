@@ -5,7 +5,7 @@ import { buildHead } from "@/lib/seo";
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => buildHead({
     title: "Console d'administration",
-    description: "Console centralisée pour la gestion de la plateforme HealthLink Maroc.",
+    description: "Console centralisée pour la gestion de la plateforme Vytalma.",
     path: "/admin",
   }),
   component: () => (
