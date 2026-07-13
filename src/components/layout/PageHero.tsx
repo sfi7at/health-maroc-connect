@@ -54,9 +54,12 @@ export function PageHero({
             left, actions on the right — prevents icon buttons from being
             clipped when the sidebar constrains the content width. */}
         <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between xl:gap-6">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-4 min-w-0">
+          {/* Always stack avatar on top of the text block until xl. Going
+              horizontal earlier pulls the title UP into the cover image
+              whenever the sidebar constrains the available width. */}
+          <div className="flex flex-col gap-3 xl:flex-row xl:items-end xl:gap-4 min-w-0">
             <div className="shrink-0">{avatar}</div>
-            <div className="min-w-0 sm:pb-1">
+            <div className="min-w-0 xl:pb-1">
               {badges ? (
                 <div className="flex flex-wrap items-center gap-1.5">{badges}</div>
               ) : null}
