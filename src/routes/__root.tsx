@@ -158,13 +158,13 @@ function RootComponent() {
       if (event !== "SIGNED_OUT") queryClient.invalidateQueries();
       if (event === "SIGNED_IN") {
         supabase.auth.getUser().then(({ data }) => {
-          const email = data.user?.email ?? null;
-          medianOneSignalLogin(email);
-          if (data.user?.id && email) {
+          const userId = data.user?.id ?? null;
+          medianOneSignalLogin(userId);
+          if (userId) {
             void supabase
               .from("profiles")
-              .update({ onesignal_external_user_id: email })
-              .eq("id", data.user.id);
+              .update({ onesignal_external_user_id: userId })
+              .eq("id", userId);
           }
         });
       } else if (event === "SIGNED_OUT") {
@@ -173,11 +173,11 @@ function RootComponent() {
     });
     // Register the current session on initial mount (e.g. app relaunch).
     supabase.auth.getUser().then(({ data }) => {
-      if (data.user?.email) {
-        medianOneSignalLogin(data.user.email);
+      if (data.user?.id) {
+        medianOneSignalLogin(data.user.id);
         void supabase
           .from("profiles")
-          .update({ onesignal_external_user_id: data.user.email })
+          .update({ onesignal_external_user_id: data.user.id })
           .eq("id", data.user.id);
       }
     });
