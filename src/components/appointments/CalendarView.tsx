@@ -112,7 +112,8 @@ function WeekView({ cursor, appointments }: { cursor: Date; appointments: Appoin
   const days = Array.from({ length: 7 }).map((_, i) => addDays(start, i));
   const byDay = groupByDay(appointments);
   return (
-    <div className="grid grid-cols-7 gap-2">
+    <div className="-mx-1 overflow-x-auto px-1 pb-1">
+    <div className="grid min-w-[720px] grid-cols-7 gap-2">
       {days.map((d) => {
         const key = d.toISOString().slice(0, 10);
         const items = byDay.get(key) ?? [];
@@ -141,6 +142,7 @@ function WeekView({ cursor, appointments }: { cursor: Date; appointments: Appoin
         );
       })}
     </div>
+    </div>
   );
 }
 
@@ -154,10 +156,11 @@ function MonthView({ cursor, appointments, onPickDay }: { cursor: Date; appointm
   const monthIndex = cursor.getMonth();
   return (
     <div>
-      <div className="mb-2 grid grid-cols-7 gap-2 text-center text-[10px] uppercase tracking-wide text-muted-foreground">
+      <div className="-mx-1 overflow-x-auto px-1">
+      <div className="mb-2 grid min-w-[560px] grid-cols-7 gap-2 text-center text-[10px] uppercase tracking-wide text-muted-foreground">
         {["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"].map((d) => <span key={d}>{d}</span>)}
       </div>
-      <div className="grid grid-cols-7 gap-2">
+      <div className="grid min-w-[560px] grid-cols-7 gap-2">
         {grid.map((d) => {
           const key = d.toISOString().slice(0, 10);
           const items = byDay.get(key) ?? [];
@@ -185,6 +188,7 @@ function MonthView({ cursor, appointments, onPickDay }: { cursor: Date; appointm
             </motion.button>
           );
         })}
+      </div>
       </div>
     </div>
   );
