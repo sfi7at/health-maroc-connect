@@ -29,16 +29,16 @@ function getMedian(): MedianBridge | undefined {
   return m;
 }
 
-export function medianOneSignalLogin(email: string | null | undefined): void {
-  if (!email) return;
+export function medianOneSignalLogin(externalId: string | null | undefined): void {
+  if (!externalId) return;
   try {
     const m = getMedian();
     if (!m?.onesignal) return;
     if (m.onesignal.login) {
-      m.onesignal.login(email);
+      m.onesignal.login(externalId);
       return;
     }
-    m.onesignal.externalUserId?.set?.({ externalId: email });
+    m.onesignal.externalUserId?.set?.({ externalId });
   } catch (err) {
     console.warn("[median] onesignal.login failed", err);
   }

@@ -19,12 +19,14 @@ export type OneSignalPushInput = {
  */
 export async function sendOneSignalPush(
   input: OneSignalPushInput,
-): Promise<{ ok: boolean; skipped?: string; id?: string; error?: string }> {
+): Promise<{ ok: boolean; skipped?: string; id?: string; error?: string; recipients?: number }> {
   const appId = process.env.ONESIGNAL_APP_ID;
   const apiKey = process.env.ONESIGNAL_REST_API_KEY;
   if (!appId || !apiKey) return { ok: false, skipped: "missing_credentials" };
 
-  const recipients = input.externalUserIds.filter((v): v is string => !!v && v.length > 0);
+  const recipients = Array.from(
+    new Set(input.externalUserIds.map((v) => v?.trim()).filter((v): v is string => !!v && v.length > 0)),
+  );
   if (recipients.length === 0) return { ok: false, skipped: "no_recipients" };
 
   const isUrgent = input.priority === "urgent" || input.priority === "critical";
@@ -54,7 +56,10 @@ export async function sendOneSignalPush(
       console.warn("[onesignal] send failed", res.status, json);
       return { ok: false, error: `http_${res.status}` };
     }
-    return { ok: true, id: json.id };
+    if (!json.id) {
+      return { ok: false, skipped: "no_matching_subscription", recipients: recipients.length };
+    }
+    return { ok: true, id: json.id, recipients: recipients.length };
   } catch (err) {
     console.warn("[onesignal] send threw", err);
     return { ok: false, error: "network" };
