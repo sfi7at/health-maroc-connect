@@ -101,13 +101,12 @@ export function myBloodDonorQuery(userId: string | undefined) {
     queryKey: ["blood_donor", userId ?? "anon"],
     enabled: !!userId,
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("blood_donors")
-        .select("*")
-        .eq("id", userId!)
-        .maybeSingle();
+      // Sensitive donor fields (phone, email, weight, exact location) are
+      // hidden from direct SELECT; use the SECURITY DEFINER RPC to fetch the
+      // authenticated user's own row in full.
+      const { data, error } = await supabase.rpc("get_my_donor_profile");
       if (error) throw error;
-      return data;
+      return data ?? null;
     },
   });
 }
