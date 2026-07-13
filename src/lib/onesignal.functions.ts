@@ -28,9 +28,7 @@ export const sendOneSignalPushToUsers = createServerFn({ method: "POST" })
       .select("id, onesignal_external_user_id")
       .in("id", data.user_ids);
     if (error) throw error;
-    const ids = (rows ?? [])
-      .map((r) => r.onesignal_external_user_id)
-      .filter((v): v is string => !!v && v.length > 0);
+    const ids = (rows ?? []).flatMap((r) => [r.id, r.onesignal_external_user_id].filter(Boolean) as string[]);
 
     const { sendOneSignalPush } = await import("@/lib/onesignal.server");
     const result = await sendOneSignalPush({
@@ -41,7 +39,7 @@ export const sendOneSignalPushToUsers = createServerFn({ method: "POST" })
       priority: data.priority ?? "normal",
       data: data.data ?? null,
     });
-    return { ...result, targeted: ids.length };
+    return { ...result, targeted: new Set(ids).size };
   });
 
 /**
@@ -66,16 +64,13 @@ export const sendTestPushToSelf = createServerFn({ method: "POST" })
       .eq("id", userId)
       .maybeSingle();
     if (error) throw error;
-    const externalId = profile?.onesignal_external_user_id ?? null;
-    if (!externalId) {
-      return { ok: false, skipped: "no_external_id" as const };
-    }
+    const externalIds = [userId, profile?.onesignal_external_user_id].filter(Boolean) as string[];
     const { sendOneSignalPush } = await import("@/lib/onesignal.server");
     const result = await sendOneSignalPush({
-      externalUserIds: [externalId],
+      externalUserIds: externalIds,
       title: data.title ?? "Test Notification",
       body: data.message ?? "Push notifications are working!",
       priority: "normal",
     });
-    return { ...result, targeted: 1 };
+    return { ...result, targeted: new Set(externalIds).size };
   });

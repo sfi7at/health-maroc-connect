@@ -47,12 +47,11 @@ export const Route = createFileRoute("/api/public/notify-push")({
           .select("onesignal_external_user_id")
           .eq("id", n.user_id)
           .maybeSingle();
-        const externalId = profile?.onesignal_external_user_id ?? null;
-        if (!externalId) return Response.json({ ok: false, skipped: "no_external_id" });
+        const externalIds = [n.user_id, profile?.onesignal_external_user_id].filter(Boolean) as string[];
 
         const { sendOneSignalPush } = await import("@/lib/onesignal.server");
         const result = await sendOneSignalPush({
-          externalUserIds: [externalId],
+          externalUserIds: externalIds,
           title: n.title,
           body: n.body ?? null,
           url: n.action_url ?? null,

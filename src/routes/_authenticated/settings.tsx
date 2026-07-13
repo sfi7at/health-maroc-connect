@@ -48,6 +48,8 @@ function SettingsPage() {
         toast.success("Notification de test envoyée");
       } else if (res.skipped === "no_external_id") {
         toast.error("Aucun identifiant push enregistré. Ouvrez l'app mobile et connectez-vous.");
+      } else if (res.skipped === "no_matching_subscription") {
+        toast.error("Aucun appareil mobile OneSignal trouvé. Ouvrez l'app Median puis reconnectez-vous.");
       } else if (res.skipped === "missing_credentials") {
         toast.error("Identifiants OneSignal manquants côté serveur.");
       } else if (res.skipped === "no_recipients") {
