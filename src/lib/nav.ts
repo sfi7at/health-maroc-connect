@@ -55,8 +55,11 @@ export const secondaryNav: NavItem[] = [
 export const footerNav: NavItem[] = [
   { label: "À propos", to: "/about", icon: Info },
   { label: "Contact", to: "/contact", icon: Mail },
+];
+
+export const legalNav: NavItem[] = [
   { label: "Confidentialité", to: "/privacy", icon: Shield },
-  { label: "Conditions", to: "/terms", icon: FileText },
+  { label: "Conditions d'utilisation", to: "/terms", icon: FileText },
 ];
 
 export const mobileBottomNav: NavItem[] = [
