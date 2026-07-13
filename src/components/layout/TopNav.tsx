@@ -225,7 +225,7 @@ function MobileMenu({ onNavigate }: { onNavigate: () => void }) {
   return (
     <div className="flex h-full flex-col">
       <div className="flex h-16 items-center gap-2 border-b border-border px-5">
-        <img src={vytalmaLogo.url} alt="Vytalma" className="h-9 w-9 rounded-xl object-cover shadow-soft" />
+        <Logo className="h-9 w-9" />
         <span className="text-lg font-bold tracking-tight">Vytalma</span>
       </div>
       <nav className="flex-1 overflow-y-auto px-3 py-4">
