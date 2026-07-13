@@ -33,6 +33,7 @@ import { Route as PharmaciesSearchRouteImport } from './routes/pharmacies.search
 import { Route as PharmaciesOpenRouteImport } from './routes/pharmacies.open'
 import { Route as PharmaciesOnDutyRouteImport } from './routes/pharmacies.on-duty'
 import { Route as PharmaciesMapRouteImport } from './routes/pharmacies.map'
+import { Route as MedicamentsIdRouteImport } from './routes/medicaments.$id'
 import { Route as LaboratoriesSearchRouteImport } from './routes/laboratories.search'
 import { Route as LaboratoriesOpenRouteImport } from './routes/laboratories.open'
 import { Route as LaboratoriesMapRouteImport } from './routes/laboratories.map'
@@ -247,6 +248,11 @@ const PharmaciesOnDutyRoute = PharmaciesOnDutyRouteImport.update({
 const PharmaciesMapRoute = PharmaciesMapRouteImport.update({
   id: '/pharmacies/map',
   path: '/pharmacies/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MedicamentsIdRoute = MedicamentsIdRouteImport.update({
+  id: '/medicaments/$id',
+  path: '/medicaments/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LaboratoriesSearchRoute = LaboratoriesSearchRouteImport.update({
@@ -831,6 +837,7 @@ export interface FileRoutesByFullPath {
   '/laboratories/map': typeof LaboratoriesMapRoute
   '/laboratories/open': typeof LaboratoriesOpenRoute
   '/laboratories/search': typeof LaboratoriesSearchRoute
+  '/medicaments/$id': typeof MedicamentsIdRoute
   '/pharmacies/map': typeof PharmaciesMapRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/pharmacies/open': typeof PharmaciesOpenRoute
@@ -950,6 +957,7 @@ export interface FileRoutesByTo {
   '/laboratories/map': typeof LaboratoriesMapRoute
   '/laboratories/open': typeof LaboratoriesOpenRoute
   '/laboratories/search': typeof LaboratoriesSearchRoute
+  '/medicaments/$id': typeof MedicamentsIdRoute
   '/pharmacies/map': typeof PharmaciesMapRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/pharmacies/open': typeof PharmaciesOpenRoute
@@ -1073,6 +1081,7 @@ export interface FileRoutesById {
   '/laboratories/map': typeof LaboratoriesMapRoute
   '/laboratories/open': typeof LaboratoriesOpenRoute
   '/laboratories/search': typeof LaboratoriesSearchRoute
+  '/medicaments/$id': typeof MedicamentsIdRoute
   '/pharmacies/map': typeof PharmaciesMapRoute
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/pharmacies/open': typeof PharmaciesOpenRoute
@@ -1196,6 +1205,7 @@ export interface FileRouteTypes {
     | '/laboratories/map'
     | '/laboratories/open'
     | '/laboratories/search'
+    | '/medicaments/$id'
     | '/pharmacies/map'
     | '/pharmacies/on-duty'
     | '/pharmacies/open'
@@ -1315,6 +1325,7 @@ export interface FileRouteTypes {
     | '/laboratories/map'
     | '/laboratories/open'
     | '/laboratories/search'
+    | '/medicaments/$id'
     | '/pharmacies/map'
     | '/pharmacies/on-duty'
     | '/pharmacies/open'
@@ -1437,6 +1448,7 @@ export interface FileRouteTypes {
     | '/laboratories/map'
     | '/laboratories/open'
     | '/laboratories/search'
+    | '/medicaments/$id'
     | '/pharmacies/map'
     | '/pharmacies/on-duty'
     | '/pharmacies/open'
@@ -1549,6 +1561,7 @@ export interface RootRouteChildren {
   LaboratoriesMapRoute: typeof LaboratoriesMapRoute
   LaboratoriesOpenRoute: typeof LaboratoriesOpenRoute
   LaboratoriesSearchRoute: typeof LaboratoriesSearchRoute
+  MedicamentsIdRoute: typeof MedicamentsIdRoute
   PharmaciesMapRoute: typeof PharmaciesMapRoute
   PharmaciesOnDutyRoute: typeof PharmaciesOnDutyRoute
   PharmaciesOpenRoute: typeof PharmaciesOpenRoute
@@ -1738,6 +1751,13 @@ declare module '@tanstack/react-router' {
       path: '/pharmacies/map'
       fullPath: '/pharmacies/map'
       preLoaderRoute: typeof PharmaciesMapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/medicaments/$id': {
+      id: '/medicaments/$id'
+      path: '/medicaments/$id'
+      fullPath: '/medicaments/$id'
+      preLoaderRoute: typeof MedicamentsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/laboratories/search': {
@@ -2641,6 +2661,7 @@ const rootRouteChildren: RootRouteChildren = {
   LaboratoriesMapRoute: LaboratoriesMapRoute,
   LaboratoriesOpenRoute: LaboratoriesOpenRoute,
   LaboratoriesSearchRoute: LaboratoriesSearchRoute,
+  MedicamentsIdRoute: MedicamentsIdRoute,
   PharmaciesMapRoute: PharmaciesMapRoute,
   PharmaciesOnDutyRoute: PharmaciesOnDutyRoute,
   PharmaciesOpenRoute: PharmaciesOpenRoute,
