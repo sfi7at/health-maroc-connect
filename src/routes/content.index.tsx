@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute("/content")({
+export const Route = createFileRoute("/content/")({
   component: ContentPage,
   head: () => ({
     meta: [
