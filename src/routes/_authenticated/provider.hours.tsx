@@ -34,7 +34,7 @@ function ProviderHours() {
         icon={<Clock4 className="h-5 w-5" />}
         actions={
           <Button asChild variant="outline" className="gap-2">
-            <Link to="/provider-calendar">Agenda complet <ArrowRight className="h-4 w-4" /></Link>
+            <Link to="/provider/calendar">Agenda complet <ArrowRight className="h-4 w-4" /></Link>
           </Button>
         }
       />

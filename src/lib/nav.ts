@@ -48,7 +48,7 @@ export const primaryNav: NavItem[] = [
 
 export const secondaryNav: NavItem[] = [
   { label: "Espace prestataire", to: "/provider", icon: Stethoscope, requires: "doctor" },
-  { label: "Agenda prestataire", to: "/provider-calendar", icon: CalendarRange, requires: "doctor" },
+  { label: "Agenda prestataire", to: "/provider/calendar", icon: CalendarRange, requires: "doctor" },
   { label: "Console Admin", to: "/admin", icon: ShieldCheck, requires: "admin" },
 ];
 
