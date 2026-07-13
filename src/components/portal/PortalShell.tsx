@@ -62,6 +62,7 @@ const NAV_SECTIONS: Array<{ label: string; items: NavItem[] }> = [
     items: [
       { to: "/provider", label: "Vue d'ensemble", icon: LayoutDashboard, exact: true },
       { to: "/provider/appointments", label: "Rendez-vous", icon: CalendarRange },
+      { to: "/provider/calendar", label: "Calendrier", icon: CalendarRange },
       { to: "/provider/messages", label: "Messagerie", icon: MessagesSquare },
     ],
   },
