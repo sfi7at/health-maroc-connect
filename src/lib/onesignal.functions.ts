@@ -19,7 +19,7 @@ export const sendOneSignalPushToUsers = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => SendInput.parse(d))
   .handler(async ({ data, context }) => {
-    const { supabase, userId, claims } = context;
+    const { supabase, userId } = context;
     const { data: isAdmin } = await supabase.rpc("has_role", { _user_id: userId, _role: "admin" });
     if (!isAdmin) throw new Error("Forbidden");
 
@@ -57,7 +57,7 @@ export const sendTestPushToSelf = createServerFn({ method: "POST" })
       .parse(d ?? {}),
   )
   .handler(async ({ data, context }) => {
-    const { supabase, userId } = context;
+    const { supabase, userId, claims } = context;
     const { data: profile, error } = await supabase
       .from("profiles")
       .select("onesignal_external_user_id")
