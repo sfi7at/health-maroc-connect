@@ -80,7 +80,7 @@ function ProfilePage() {
         actions={
           <div className="flex gap-2">
             <Button asChild variant="outline" className="gap-2">
-              <Link to="/_authenticated/settings"><Settings className="h-4 w-4" /> Paramètres</Link>
+              <Link to="/settings"><Settings className="h-4 w-4" /> Paramètres</Link>
             </Button>
             <Button variant="outline" onClick={handleSignOut} className="gap-2">
               <LogOut className="h-4 w-4" /> Déconnexion
