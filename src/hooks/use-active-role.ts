@@ -11,12 +11,19 @@ export function useIsDoctor() {
     enabled: !!user,
     staleTime: 5 * 60_000,
     queryFn: async () => {
-      const { data } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", user!.id)
-        .in("role", ["doctor", "dentist", "pharmacist"]);
-      return (data ?? []).length > 0;
+      const [roles, owned] = await Promise.all([
+        supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", user!.id)
+          .in("role", ["doctor", "dentist", "pharmacist"]),
+        supabase
+          .from("providers")
+          .select("id")
+          .eq("owner_id", user!.id)
+          .limit(1),
+      ]);
+      return (roles.data ?? []).length > 0 || (owned.data ?? []).length > 0;
     },
   });
 }
