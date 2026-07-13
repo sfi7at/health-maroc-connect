@@ -272,10 +272,11 @@ function EmergencyStrip({ requests, loading }: { requests: ReqRow[]; loading: bo
           {requests.map((r) => {
             const u = URGENCY_META[r.urgency];
             return (
-              <motion.article
-                key={r.id}
-                whileHover={{ y: -3 }}
-                className="flex flex-col gap-3 rounded-3xl border border-border bg-card p-4 shadow-soft"
+              <motion.div key={r.id} whileHover={{ y: -3 }}>
+              <Link
+                to="/blood/requests/$id"
+                params={{ id: r.id }}
+                className="flex flex-col gap-3 rounded-3xl border border-border bg-card p-4 shadow-soft transition hover:shadow-elevated"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="grid h-12 w-12 place-items-center rounded-2xl bg-rose-500/10 text-rose-600">
@@ -304,7 +305,8 @@ function EmergencyStrip({ requests, loading }: { requests: ReqRow[]; loading: bo
                     <Clock className="h-3.5 w-3.5" /> {formatRelativeFr(r.created_at)}
                   </span>
                 </div>
-              </motion.article>
+              </Link>
+              </motion.div>
             );
           })}
         </div>
