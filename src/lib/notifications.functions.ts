@@ -72,33 +72,9 @@ export const createNotification = createServerFn({ method: "POST" })
       throw error;
     }
 
-    // Fire-and-forget OneSignal push (never blocks the in-app write).
-    try {
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("onesignal_external_user_id")
-        .eq("id", data.user_id)
-        .maybeSingle();
-      const externalId = profile?.onesignal_external_user_id;
-      if (externalId) {
-        const { sendOneSignalPush } = await import("@/lib/onesignal.server");
-        await sendOneSignalPush({
-          externalUserIds: [externalId],
-          title: data.title,
-          body: data.body ?? null,
-          url: data.action_url ?? null,
-          priority: data.priority ?? "normal",
-          data: {
-            notification_id: row?.id ?? null,
-            type: data.type,
-            ...(data.data ?? {}),
-          },
-        });
-      }
-    } catch (err) {
-      console.warn("[notifications] onesignal push skipped", err);
-    }
-
+    // Push delivery is handled by the `trg_dispatch_notification_push` DB
+    // trigger, which fires on every INSERT into public.notifications
+    // (including inserts from DB triggers, edge functions, and this fn).
     return { id: row?.id ?? null, deduplicated: false };
   });
 
