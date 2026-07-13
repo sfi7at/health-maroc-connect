@@ -21,6 +21,6 @@ export const getProviderCalendarFeed = createServerFn({ method: "POST" })
     const secret = process.env.CRON_SECRET;
     if (!secret) throw new Error("Calendar signing key is not configured");
     const token = signProviderCalendarToken(prov.id, secret);
-    const path = `/api/public/provider-calendar/${token}.ics`;
+    const path = `/api/public/provider-calendar.ics?token=${encodeURIComponent(token)}`;
     return { token, path };
   });
