@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import {
-  Bell, Heart, LogOut, Menu, Search, User as UserIcon,
+  Bell, LogOut, Menu, Search, User as UserIcon,
   Star, Settings as SettingsIcon, Stethoscope,
 } from "lucide-react";
 import { useState } from "react";
@@ -27,6 +27,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
+import vytalmaLogo from "@/assets/vytalma-logo.png.asset.json";
 
 export function TopNav() {
   const [open, setOpen] = useState(false);
@@ -49,10 +50,8 @@ export function TopNav() {
             </SheetContent>
           </Sheet>
           <Link to="/" className="flex items-center gap-2">
-            <div className="grid h-8 w-8 place-items-center rounded-lg gradient-primary text-primary-foreground">
-              <Heart className="h-4 w-4" fill="currentColor" />
-            </div>
-            <span className="text-sm font-bold tracking-tight">Vytalma</span>
+            <img src={vytalmaLogo.url} alt="Vytalma" className="h-8 w-8 rounded-lg object-cover" />
+            <span className="text-base font-bold tracking-tight">Vytalma</span>
           </Link>
         </div>
 
@@ -226,15 +225,8 @@ function MobileMenu({ onNavigate }: { onNavigate: () => void }) {
   return (
     <div className="flex h-full flex-col">
       <div className="flex h-16 items-center gap-2 border-b border-border px-5">
-        <div className="grid h-9 w-9 place-items-center rounded-xl gradient-primary text-primary-foreground">
-          <Heart className="h-5 w-5" fill="currentColor" />
-        </div>
-        <div className="flex flex-col leading-tight">
-          <span className="text-base font-bold tracking-tight">Vytalma</span>
-          <span className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
-            Maroc
-          </span>
-        </div>
+        <img src={vytalmaLogo.url} alt="Vytalma" className="h-9 w-9 rounded-xl object-cover shadow-soft" />
+        <span className="text-lg font-bold tracking-tight">Vytalma</span>
       </div>
       <nav className="flex-1 overflow-y-auto px-3 py-4">
         <MenuGroup label="Services" items={primaryNav} onNavigate={onNavigate} />
