@@ -302,9 +302,9 @@ const DevTypographyRoute = DevTypographyRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContentSlugRoute = ContentSlugRouteImport.update({
-  id: '/content/$slug',
-  path: '/content/$slug',
-  getParentRoute: () => rootRouteImport,
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ContentRoute,
 } as any)
 const BloodRequestRoute = BloodRequestRouteImport.update({
   id: '/blood/request',
@@ -1498,7 +1498,6 @@ export interface RootRouteChildren {
   BloodCentersRoute: typeof BloodCentersRoute
   BloodMapRoute: typeof BloodMapRoute
   BloodRequestRoute: typeof BloodRequestRoute
-  ContentSlugRoute: typeof ContentSlugRoute
   DevTypographyRoute: typeof DevTypographyRoute
   DoctorsIdRoute: typeof DoctorsIdRoute
   DoctorsSearchRoute: typeof DoctorsSearchRoute
@@ -1779,10 +1778,10 @@ declare module '@tanstack/react-router' {
     }
     '/content/$slug': {
       id: '/content/$slug'
-      path: '/content/$slug'
+      path: '/$slug'
       fullPath: '/content/$slug'
       preLoaderRoute: typeof ContentSlugRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ContentRoute
     }
     '/blood/request': {
       id: '/blood/request'
@@ -2565,7 +2564,6 @@ const rootRouteChildren: RootRouteChildren = {
   BloodCentersRoute: BloodCentersRoute,
   BloodMapRoute: BloodMapRoute,
   BloodRequestRoute: BloodRequestRoute,
-  ContentSlugRoute: ContentSlugRoute,
   DevTypographyRoute: DevTypographyRoute,
   DoctorsIdRoute: DoctorsIdRoute,
   DoctorsSearchRoute: DoctorsSearchRoute,
@@ -2600,3 +2598,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
