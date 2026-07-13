@@ -16,7 +16,6 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as MapRouteImport } from './routes/map'
 import { Route as FaqRouteImport } from './routes/faq'
-import { Route as ContentRouteImport } from './routes/content'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
@@ -26,6 +25,7 @@ import { Route as PharmaciesIndexRouteImport } from './routes/pharmacies.index'
 import { Route as LaboratoriesIndexRouteImport } from './routes/laboratories.index'
 import { Route as HospitalsIndexRouteImport } from './routes/hospitals.index'
 import { Route as DoctorsIndexRouteImport } from './routes/doctors.index'
+import { Route as ContentIndexRouteImport } from './routes/content.index'
 import { Route as BloodIndexRouteImport } from './routes/blood.index'
 import { Route as ProvidersIdRouteImport } from './routes/providers.$id'
 import { Route as PharmaciesSearchRouteImport } from './routes/pharmacies.search'
@@ -162,11 +162,6 @@ const FaqRoute = FaqRouteImport.update({
   path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ContentRoute = ContentRouteImport.update({
-  id: '/content',
-  path: '/content',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -209,6 +204,11 @@ const HospitalsIndexRoute = HospitalsIndexRouteImport.update({
 const DoctorsIndexRoute = DoctorsIndexRouteImport.update({
   id: '/doctors/',
   path: '/doctors/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContentIndexRoute = ContentIndexRouteImport.update({
+  id: '/content/',
+  path: '/content/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BloodIndexRoute = BloodIndexRouteImport.update({
@@ -302,9 +302,9 @@ const DevTypographyRoute = DevTypographyRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContentSlugRoute = ContentSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => ContentRoute,
+  id: '/content/$slug',
+  path: '/content/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BloodRequestRoute = BloodRequestRouteImport.update({
   id: '/blood/request',
@@ -776,7 +776,6 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
-  '/content': typeof ContentRouteWithChildren
   '/faq': typeof FaqRoute
   '/map': typeof MapRoute
   '/privacy': typeof PrivacyRoute
@@ -819,6 +818,7 @@ export interface FileRoutesByFullPath {
   '/pharmacies/search': typeof PharmaciesSearchRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/blood/': typeof BloodIndexRoute
+  '/content/': typeof ContentIndexRoute
   '/doctors/': typeof DoctorsIndexRoute
   '/hospitals/': typeof HospitalsIndexRoute
   '/laboratories/': typeof LaboratoriesIndexRoute
@@ -894,7 +894,6 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
-  '/content': typeof ContentRouteWithChildren
   '/faq': typeof FaqRoute
   '/map': typeof MapRoute
   '/privacy': typeof PrivacyRoute
@@ -935,6 +934,7 @@ export interface FileRoutesByTo {
   '/pharmacies/search': typeof PharmaciesSearchRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/blood': typeof BloodIndexRoute
+  '/content': typeof ContentIndexRoute
   '/doctors': typeof DoctorsIndexRoute
   '/hospitals': typeof HospitalsIndexRoute
   '/laboratories': typeof LaboratoriesIndexRoute
@@ -1012,7 +1012,6 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
-  '/content': typeof ContentRouteWithChildren
   '/faq': typeof FaqRoute
   '/map': typeof MapRoute
   '/privacy': typeof PrivacyRoute
@@ -1055,6 +1054,7 @@ export interface FileRoutesById {
   '/pharmacies/search': typeof PharmaciesSearchRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/blood/': typeof BloodIndexRoute
+  '/content/': typeof ContentIndexRoute
   '/doctors/': typeof DoctorsIndexRoute
   '/hospitals/': typeof HospitalsIndexRoute
   '/laboratories/': typeof LaboratoriesIndexRoute
@@ -1132,7 +1132,6 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/contact'
-    | '/content'
     | '/faq'
     | '/map'
     | '/privacy'
@@ -1175,6 +1174,7 @@ export interface FileRouteTypes {
     | '/pharmacies/search'
     | '/providers/$id'
     | '/blood/'
+    | '/content/'
     | '/doctors/'
     | '/hospitals/'
     | '/laboratories/'
@@ -1250,7 +1250,6 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/contact'
-    | '/content'
     | '/faq'
     | '/map'
     | '/privacy'
@@ -1291,6 +1290,7 @@ export interface FileRouteTypes {
     | '/pharmacies/search'
     | '/providers/$id'
     | '/blood'
+    | '/content'
     | '/doctors'
     | '/hospitals'
     | '/laboratories'
@@ -1367,7 +1367,6 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/contact'
-    | '/content'
     | '/faq'
     | '/map'
     | '/privacy'
@@ -1410,6 +1409,7 @@ export interface FileRouteTypes {
     | '/pharmacies/search'
     | '/providers/$id'
     | '/blood/'
+    | '/content/'
     | '/doctors/'
     | '/hospitals/'
     | '/laboratories/'
@@ -1487,7 +1487,6 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
-  ContentRoute: typeof ContentRouteWithChildren
   FaqRoute: typeof FaqRoute
   MapRoute: typeof MapRoute
   PrivacyRoute: typeof PrivacyRoute
@@ -1499,6 +1498,7 @@ export interface RootRouteChildren {
   BloodCentersRoute: typeof BloodCentersRoute
   BloodMapRoute: typeof BloodMapRoute
   BloodRequestRoute: typeof BloodRequestRoute
+  ContentSlugRoute: typeof ContentSlugRoute
   DevTypographyRoute: typeof DevTypographyRoute
   DoctorsIdRoute: typeof DoctorsIdRoute
   DoctorsSearchRoute: typeof DoctorsSearchRoute
@@ -1517,6 +1517,7 @@ export interface RootRouteChildren {
   PharmaciesSearchRoute: typeof PharmaciesSearchRoute
   ProvidersIdRoute: typeof ProvidersIdRoute
   BloodIndexRoute: typeof BloodIndexRoute
+  ContentIndexRoute: typeof ContentIndexRoute
   DoctorsIndexRoute: typeof DoctorsIndexRoute
   HospitalsIndexRoute: typeof HospitalsIndexRoute
   LaboratoriesIndexRoute: typeof LaboratoriesIndexRoute
@@ -1580,13 +1581,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/content': {
-      id: '/content'
-      path: '/content'
-      fullPath: '/content'
-      preLoaderRoute: typeof ContentRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -1648,6 +1642,13 @@ declare module '@tanstack/react-router' {
       path: '/doctors'
       fullPath: '/doctors/'
       preLoaderRoute: typeof DoctorsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/content/': {
+      id: '/content/'
+      path: '/content'
+      fullPath: '/content/'
+      preLoaderRoute: typeof ContentIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blood/': {
@@ -1778,10 +1779,10 @@ declare module '@tanstack/react-router' {
     }
     '/content/$slug': {
       id: '/content/$slug'
-      path: '/$slug'
+      path: '/content/$slug'
       fullPath: '/content/$slug'
       preLoaderRoute: typeof ContentSlugRouteImport
-      parentRoute: typeof ContentRoute
+      parentRoute: typeof rootRouteImport
     }
     '/blood/request': {
       id: '/blood/request'
@@ -2547,24 +2548,12 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
-interface ContentRouteChildren {
-  ContentSlugRoute: typeof ContentSlugRoute
-}
-
-const ContentRouteChildren: ContentRouteChildren = {
-  ContentSlugRoute: ContentSlugRoute,
-}
-
-const ContentRouteWithChildren =
-  ContentRoute._addFileChildren(ContentRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
-  ContentRoute: ContentRouteWithChildren,
   FaqRoute: FaqRoute,
   MapRoute: MapRoute,
   PrivacyRoute: PrivacyRoute,
@@ -2576,6 +2565,7 @@ const rootRouteChildren: RootRouteChildren = {
   BloodCentersRoute: BloodCentersRoute,
   BloodMapRoute: BloodMapRoute,
   BloodRequestRoute: BloodRequestRoute,
+  ContentSlugRoute: ContentSlugRoute,
   DevTypographyRoute: DevTypographyRoute,
   DoctorsIdRoute: DoctorsIdRoute,
   DoctorsSearchRoute: DoctorsSearchRoute,
@@ -2594,6 +2584,7 @@ const rootRouteChildren: RootRouteChildren = {
   PharmaciesSearchRoute: PharmaciesSearchRoute,
   ProvidersIdRoute: ProvidersIdRoute,
   BloodIndexRoute: BloodIndexRoute,
+  ContentIndexRoute: ContentIndexRoute,
   DoctorsIndexRoute: DoctorsIndexRoute,
   HospitalsIndexRoute: HospitalsIndexRoute,
   LaboratoriesIndexRoute: LaboratoriesIndexRoute,
@@ -2609,3 +2600,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
