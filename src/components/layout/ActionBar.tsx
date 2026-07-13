@@ -36,7 +36,7 @@ export function ActionBar({
         </div>
       ) : null}
       {secondary || icons ? (
-        <div className="flex flex-wrap items-center gap-2 sm:flex-nowrap">
+        <div className="flex flex-wrap items-center gap-2">
           {secondary}
           {icons}
         </div>
