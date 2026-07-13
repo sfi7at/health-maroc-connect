@@ -2822,6 +2822,7 @@ export type Database = {
           id: string
           language: string
           last_name: string | null
+          onesignal_external_user_id: string | null
           phone: string | null
           terms_accepted_at: string | null
           updated_at: string
@@ -2837,6 +2838,7 @@ export type Database = {
           id: string
           language?: string
           last_name?: string | null
+          onesignal_external_user_id?: string | null
           phone?: string | null
           terms_accepted_at?: string | null
           updated_at?: string
@@ -2852,6 +2854,7 @@ export type Database = {
           id?: string
           language?: string
           last_name?: string | null
+          onesignal_external_user_id?: string | null
           phone?: string | null
           terms_accepted_at?: string | null
           updated_at?: string
@@ -3982,6 +3985,7 @@ export type Database = {
           id: string
           language: string
           last_name: string | null
+          onesignal_external_user_id: string | null
           phone: string | null
           terms_accepted_at: string | null
           updated_at: string

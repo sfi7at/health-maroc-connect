@@ -1,0 +1,2 @@
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS onesignal_external_user_id TEXT;
+CREATE INDEX IF NOT EXISTS idx_profiles_onesignal_external_user_id ON public.profiles (onesignal_external_user_id);
