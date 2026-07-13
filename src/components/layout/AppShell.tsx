@@ -2,6 +2,7 @@ import { type ReactNode } from "react";
 import { Sidebar } from "./Sidebar";
 import { TopNav } from "./TopNav";
 import { BottomNav } from "./BottomNav";
+import { Footer } from "./Footer";
 
 export function AppShell({ children }: { children: ReactNode }) {
   return (
