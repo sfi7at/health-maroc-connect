@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Bell, Globe, Lock, MapPin, Moon, ShieldCheck, UserCog } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight, Bell, Globe, Lock, MapPin, Moon, ShieldCheck, Stethoscope, UserCog } from "lucide-react";
 import { useState } from "react";
 import { useLanguage, useTheme, type AppLang } from "@/hooks/use-preferences";
 import { PageHeader } from "@/components/common/PageHeader";
@@ -8,6 +8,9 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { buildHead } from "@/lib/seo";
+import { useIsAdmin } from "@/lib/admin";
+import { useIsDoctor } from "@/hooks/use-active-role";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_authenticated/settings")({
   head: () =>
@@ -27,6 +30,8 @@ function SettingsPage() {
   const [emailAlerts, setEmailAlerts] = useState(true);
   const [bloodAlerts, setBloodAlerts] = useState(true);
   const [locShare, setLocShare] = useState(true);
+  const { isStaff } = useIsAdmin();
+  const { data: isDoctor } = useIsDoctor();
 
   return (
     <div className="space-y-8">
@@ -36,6 +41,34 @@ function SettingsPage() {
         description="Personnalisez votre expérience HealthLink — langue, apparence et confidentialité."
         icon={<UserCog className="h-5 w-5" />}
       />
+
+      {isStaff || isDoctor ? (
+        <section className="rounded-3xl border border-border bg-card shadow-soft">
+          {isStaff ? (
+            <SettingRow
+              icon={<ShieldCheck className="h-5 w-5" />}
+              title="Console Admin"
+              description="Accéder au tableau de bord d'administration"
+            >
+              <Button asChild size="sm" className="gap-2">
+                <Link to="/admin">Ouvrir <ArrowRight className="h-4 w-4" /></Link>
+              </Button>
+            </SettingRow>
+          ) : null}
+          {isStaff && isDoctor ? <Separator /> : null}
+          {isDoctor ? (
+            <SettingRow
+              icon={<Stethoscope className="h-5 w-5" />}
+              title="Espace prestataire"
+              description="Accéder à votre panneau de gestion médicale"
+            >
+              <Button asChild size="sm" className="gap-2">
+                <Link to="/provider">Ouvrir <ArrowRight className="h-4 w-4" /></Link>
+              </Button>
+            </SettingRow>
+          ) : null}
+        </section>
+      ) : null}
 
       <section className="rounded-3xl border border-border bg-card shadow-soft">
         <SettingRow
