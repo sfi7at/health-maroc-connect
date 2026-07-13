@@ -53,7 +53,8 @@ function SettingsPage() {
       } else if (res.skipped === "no_recipients") {
         toast.error("Aucun destinataire éligible.");
       } else {
-        toast.error(`Échec de l'envoi (${res.error ?? "inconnu"})`);
+        const err = "error" in res ? res.error : undefined;
+        toast.error(`Échec de l'envoi (${err ?? "inconnu"})`);
       }
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Erreur lors de l'envoi");
