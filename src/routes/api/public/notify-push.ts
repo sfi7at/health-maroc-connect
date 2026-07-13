@@ -47,7 +47,8 @@ export const Route = createFileRoute("/api/public/notify-push")({
           .select("onesignal_external_user_id")
           .eq("id", n.user_id)
           .maybeSingle();
-        const externalIds = [n.user_id, profile?.onesignal_external_user_id].filter(Boolean) as string[];
+        const { data: authUser } = await supabaseAdmin.auth.admin.getUserById(n.user_id);
+        const externalIds = [n.user_id, profile?.onesignal_external_user_id, authUser.user?.email].filter(Boolean) as string[];
 
         const { sendOneSignalPush } = await import("@/lib/onesignal.server");
         const result = await sendOneSignalPush({
