@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Stethoscope, Download, Search as SearchIcon, MoreHorizontal, Check, X, Trash2, ShieldCheck, Star, UserPlus } from "lucide-react";
+import { Stethoscope, Download, Search as SearchIcon, MoreHorizontal, Check, X, Trash2, ShieldCheck, Star, UserPlus, Pill } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { AdminHeader } from "@/components/admin/AdminShell";
@@ -94,6 +94,7 @@ function AdminProviders() {
         actions={
           <div className="flex flex-wrap gap-2">
             <Button asChild className="gap-2"><Link to="/admin/doctors/new"><UserPlus className="h-4 w-4" /> Ajouter un médecin</Link></Button>
+            <Button asChild variant="secondary" className="gap-2"><Link to="/admin/pharmacies/new"><Pill className="h-4 w-4" /> Ajouter une pharmacie</Link></Button>
             <Button onClick={exportCsv} variant="outline" className="gap-2"><Download className="h-4 w-4" /> Export CSV</Button>
           </div>
         }
