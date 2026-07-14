@@ -36,6 +36,7 @@ export interface DoctorMeta {
   accessibility?: string[];
   parking?: string;
   title?: string; // Dr., Pr., etc.
+  services?: string[];
 }
 
 export function readDoctorMeta(p: { metadata: unknown }): DoctorMeta {
