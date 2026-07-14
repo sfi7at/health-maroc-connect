@@ -100,7 +100,7 @@ function OnDutyPage() {
                   ) : null}
                   {p?.id ? (
                     <Button asChild size="sm" variant="ghost">
-                      <Link to="/providers/$id" params={{ id: p.id }}>Détails</Link>
+                      <Link to="/pharmacy/$slug" params={{ slug: (p as { slug?: string | null }).slug ?? p.id }}>Détails</Link>
                     </Button>
                   ) : null}
                 </div>
