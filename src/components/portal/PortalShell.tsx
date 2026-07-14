@@ -26,6 +26,8 @@ import {
   LogOut,
   ExternalLink,
   Building2,
+  Package,
+  ShoppingBag,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -56,7 +58,9 @@ import { Logo } from "@/components/brand/Logo";
 
 type NavItem = { to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean };
 
-const NAV_SECTIONS: Array<{ label: string; items: NavItem[] }> = [
+type ProviderKind = "pharmacy" | "medical";
+
+const NAV_SECTIONS_MEDICAL: Array<{ label: string; items: NavItem[] }> = [
   {
     label: "Aujourd'hui",
     items: [
@@ -94,14 +98,67 @@ const NAV_SECTIONS: Array<{ label: string; items: NavItem[] }> = [
   },
 ];
 
-const ALL_ITEMS = NAV_SECTIONS.flatMap((s) => s.items);
-
-const BOTTOM_TABS: NavItem[] = [
-  { to: "/provider", label: "Accueil", icon: LayoutDashboard, exact: true },
-  { to: "/provider/appointments", label: "RDV", icon: CalendarRange },
-  { to: "/provider/messages", label: "Msgs", icon: MessagesSquare },
-  { to: "/provider/prescriptions", label: "Ordonn.", icon: FileText },
+const NAV_SECTIONS_PHARMACY: Array<{ label: string; items: NavItem[] }> = [
+  {
+    label: "Aujourd'hui",
+    items: [
+      { to: "/provider", label: "Vue d'ensemble", icon: LayoutDashboard, exact: true },
+      { to: "/provider/orders", label: "Commandes", icon: ShoppingBag },
+      { to: "/provider/messages", label: "Messagerie", icon: MessagesSquare },
+    ],
+  },
+  {
+    label: "Boutique",
+    items: [
+      { to: "/provider/products", label: "Produits", icon: Package },
+      { to: "/provider/services", label: "Services", icon: Briefcase },
+      { to: "/provider/hours", label: "Horaires", icon: Clock4 },
+    ],
+  },
+  {
+    label: "Établissement",
+    items: [
+      { to: "/provider/profile", label: "Profil public", icon: UserCog },
+      { to: "/provider/gallery", label: "Galerie", icon: Images },
+      { to: "/provider/reviews", label: "Avis clients", icon: Star },
+    ],
+  },
+  {
+    label: "Pilotage",
+    items: [
+      { to: "/provider/statistics", label: "Statistiques", icon: BarChart3 },
+      { to: "/provider/notifications", label: "Notifications", icon: Bell },
+      { to: "/provider/verification", label: "Vérification", icon: ShieldCheck },
+      { to: "/provider/subscription", label: "Abonnement", icon: Crown },
+      { to: "/provider/settings", label: "Paramètres", icon: Settings },
+    ],
+  },
 ];
+
+function getNavSections(kind: ProviderKind) {
+  return kind === "pharmacy" ? NAV_SECTIONS_PHARMACY : NAV_SECTIONS_MEDICAL;
+}
+
+function getBottomTabs(kind: ProviderKind): NavItem[] {
+  if (kind === "pharmacy") {
+    return [
+      { to: "/provider", label: "Accueil", icon: LayoutDashboard, exact: true },
+      { to: "/provider/orders", label: "Cmdes", icon: ShoppingBag },
+      { to: "/provider/products", label: "Produits", icon: Package },
+      { to: "/provider/messages", label: "Msgs", icon: MessagesSquare },
+    ];
+  }
+  return [
+    { to: "/provider", label: "Accueil", icon: LayoutDashboard, exact: true },
+    { to: "/provider/appointments", label: "RDV", icon: CalendarRange },
+    { to: "/provider/messages", label: "Msgs", icon: MessagesSquare },
+    { to: "/provider/prescriptions", label: "Ordonn.", icon: FileText },
+  ];
+}
+
+function providerKind(category: string | undefined | null): ProviderKind {
+  return category === "pharmacy" ? "pharmacy" : "medical";
+}
 
 const CATEGORY_LABEL: Record<string, string> = {
   doctor: "Médecin",
@@ -118,15 +175,13 @@ function isActive(pathname: string, item: NavItem) {
   return pathname === item.to || pathname.startsWith(item.to + "/");
 }
 
-function currentPageLabel(pathname: string): string {
-  const match = ALL_ITEMS.find((i) => isActive(pathname, i));
-  return match?.label ?? "Espace pro";
-}
-
 export function PortalShell({ children }: { children: ReactNode }) {
   const { provider, providers, isLoading } = useSelectedProvider();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const kind = providerKind(provider?.category);
+  const sections = getNavSections(kind);
+  const bottomTabs = getBottomTabs(kind);
 
   if (isLoading) {
     return (
@@ -157,12 +212,13 @@ export function PortalShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-dvh bg-muted/30 text-foreground">
       {/* Desktop sidebar */}
-      <DesktopSidebar pathname={pathname} />
+      <DesktopSidebar pathname={pathname} sections={sections} />
 
       <div className="lg:pl-72">
         <PortalTopBar
           pathname={pathname}
           onOpenMobileNav={() => setMobileNavOpen(true)}
+          kind={kind}
         />
 
         <main className="mx-auto w-full max-w-7xl px-4 pb-28 pt-4 sm:px-6 sm:pt-6 lg:px-10 lg:pb-12">
@@ -171,7 +227,7 @@ export function PortalShell({ children }: { children: ReactNode }) {
       </div>
 
       {/* Mobile bottom nav */}
-      <MobileBottomNav pathname={pathname} onMore={() => setMobileNavOpen(true)} />
+      <MobileBottomNav pathname={pathname} onMore={() => setMobileNavOpen(true)} tabs={bottomTabs} />
 
       {/* Mobile "Plus" drawer with full nav */}
       <Sheet open={mobileNavOpen} onOpenChange={setMobileNavOpen}>
@@ -192,7 +248,7 @@ export function PortalShell({ children }: { children: ReactNode }) {
               }}
             />
             <nav aria-label="Navigation portail" className="mt-3 flex flex-col gap-4">
-              {NAV_SECTIONS.map((section) => (
+              {sections.map((section) => (
                 <div key={section.label}>
                   <p className="px-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                     {section.label}
@@ -217,7 +273,13 @@ export function PortalShell({ children }: { children: ReactNode }) {
   );
 }
 
-function DesktopSidebar({ pathname }: { pathname: string }) {
+function DesktopSidebar({
+  pathname,
+  sections,
+}: {
+  pathname: string;
+  sections: Array<{ label: string; items: NavItem[] }>;
+}) {
   const { provider, providers } = useSelectedProvider();
   return (
     <aside className="fixed inset-y-0 left-0 z-30 hidden w-72 flex-col border-r border-border bg-card lg:flex">
@@ -245,7 +307,7 @@ function DesktopSidebar({ pathname }: { pathname: string }) {
         aria-label="Navigation portail"
         className="flex flex-1 flex-col gap-4 overflow-y-auto p-3"
       >
-        {NAV_SECTIONS.map((section) => (
+        {sections.map((section) => (
           <div key={section.label}>
             <p className="px-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
               {section.label}
@@ -363,9 +425,11 @@ function ProviderCard({
 function PortalTopBar({
   pathname,
   onOpenMobileNav,
+  kind,
 }: {
   pathname: string;
   onOpenMobileNav: () => void;
+  kind: ProviderKind;
 }) {
   const { unreadCount } = useNotifications();
   const { user } = useAuth();
@@ -398,21 +462,43 @@ function PortalTopBar({
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuLabel>Créer</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <Link to="/provider/prescriptions/new">
-                <FileText className="mr-2 h-4 w-4" /> Nouvelle ordonnance
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link to="/provider/services">
-                <Briefcase className="mr-2 h-4 w-4" /> Nouveau service
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link to="/provider/hours">
-                <Clock4 className="mr-2 h-4 w-4" /> Modifier les horaires
-              </Link>
-            </DropdownMenuItem>
+            {kind === "pharmacy" ? (
+              <>
+                <DropdownMenuItem asChild>
+                  <Link to="/provider/products/new">
+                    <Package className="mr-2 h-4 w-4" /> Nouveau produit
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/provider/orders">
+                    <ShoppingBag className="mr-2 h-4 w-4" /> Voir les commandes
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/provider/hours">
+                    <Clock4 className="mr-2 h-4 w-4" /> Modifier les horaires
+                  </Link>
+                </DropdownMenuItem>
+              </>
+            ) : (
+              <>
+                <DropdownMenuItem asChild>
+                  <Link to="/provider/prescriptions/new">
+                    <FileText className="mr-2 h-4 w-4" /> Nouvelle ordonnance
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/provider/services">
+                    <Briefcase className="mr-2 h-4 w-4" /> Nouveau service
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/provider/hours">
+                    <Clock4 className="mr-2 h-4 w-4" /> Modifier les horaires
+                  </Link>
+                </DropdownMenuItem>
+              </>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
 
@@ -477,9 +563,11 @@ function PortalTopBar({
 function MobileBottomNav({
   pathname,
   onMore,
+  tabs,
 }: {
   pathname: string;
   onMore: () => void;
+  tabs: NavItem[];
 }) {
   return (
     <nav
@@ -488,7 +576,7 @@ function MobileBottomNav({
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
       <ul className="grid h-16 grid-cols-5">
-        {BOTTOM_TABS.map((item) => {
+        {tabs.map((item) => {
           const Icon = item.icon;
           const active = isActive(pathname, item);
           return (

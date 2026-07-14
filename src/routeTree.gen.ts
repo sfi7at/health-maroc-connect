@@ -21,6 +21,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as PharmaciesIndexRouteImport } from './routes/pharmacies.index'
 import { Route as MedicamentsIndexRouteImport } from './routes/medicaments.index'
 import { Route as LaboratoriesIndexRouteImport } from './routes/laboratories.index'
@@ -29,6 +30,7 @@ import { Route as DoctorsIndexRouteImport } from './routes/doctors.index'
 import { Route as ContentIndexRouteImport } from './routes/content.index'
 import { Route as BloodIndexRouteImport } from './routes/blood.index'
 import { Route as ProvidersIdRouteImport } from './routes/providers.$id'
+import { Route as ProductsIdRouteImport } from './routes/products.$id'
 import { Route as PharmaciesSearchRouteImport } from './routes/pharmacies.search'
 import { Route as PharmaciesOpenRouteImport } from './routes/pharmacies.open'
 import { Route as PharmaciesOnDutyRouteImport } from './routes/pharmacies.on-duty'
@@ -60,10 +62,12 @@ import { Route as AuthenticatedLaboratoryDashboardRouteImport } from './routes/_
 import { Route as AuthenticatedHospitalDashboardRouteImport } from './routes/_authenticated/hospital-dashboard'
 import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
 import { Route as AuthenticatedDoctorDashboardRouteImport } from './routes/_authenticated/doctor-dashboard'
+import { Route as AuthenticatedCartRouteImport } from './routes/_authenticated/cart'
 import { Route as AuthenticatedAiAssistantRouteImport } from './routes/_authenticated/ai-assistant'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as BloodDonorsIndexRouteImport } from './routes/blood.donors.index'
 import { Route as AuthenticatedProviderIndexRouteImport } from './routes/_authenticated/provider.index'
+import { Route as AuthenticatedOrdersIndexRouteImport } from './routes/_authenticated/orders.index'
 import { Route as AuthenticatedAppointmentsIndexRouteImport } from './routes/_authenticated/appointments.index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as DoctorsSpecialtySlugRouteImport } from './routes/doctors.specialty.$slug'
@@ -79,13 +83,16 @@ import { Route as AuthenticatedProviderSettingsRouteImport } from './routes/_aut
 import { Route as AuthenticatedProviderServicesRouteImport } from './routes/_authenticated/provider.services'
 import { Route as AuthenticatedProviderReviewsRouteImport } from './routes/_authenticated/provider.reviews'
 import { Route as AuthenticatedProviderProfileRouteImport } from './routes/_authenticated/provider.profile'
+import { Route as AuthenticatedProviderProductsRouteImport } from './routes/_authenticated/provider.products'
 import { Route as AuthenticatedProviderPrescriptionsRouteImport } from './routes/_authenticated/provider.prescriptions'
+import { Route as AuthenticatedProviderOrdersRouteImport } from './routes/_authenticated/provider.orders'
 import { Route as AuthenticatedProviderNotificationsRouteImport } from './routes/_authenticated/provider.notifications'
 import { Route as AuthenticatedProviderMessagesRouteImport } from './routes/_authenticated/provider.messages'
 import { Route as AuthenticatedProviderHoursRouteImport } from './routes/_authenticated/provider.hours'
 import { Route as AuthenticatedProviderGalleryRouteImport } from './routes/_authenticated/provider.gallery'
 import { Route as AuthenticatedProviderCalendarRouteImport } from './routes/_authenticated/provider.calendar'
 import { Route as AuthenticatedProviderAppointmentsRouteImport } from './routes/_authenticated/provider.appointments'
+import { Route as AuthenticatedOrdersIdRouteImport } from './routes/_authenticated/orders.$id'
 import { Route as AuthenticatedBloodMeRouteImport } from './routes/_authenticated/blood.me'
 import { Route as AuthenticatedBloodHistoryRouteImport } from './routes/_authenticated/blood.history'
 import { Route as AuthenticatedBloodBecomeDonorRouteImport } from './routes/_authenticated/blood.become-donor'
@@ -125,6 +132,7 @@ import { Route as AuthenticatedAdminSecurityIndexRouteImport } from './routes/_a
 import { Route as ApiPublicCronAppointmentRemindersRouteImport } from './routes/api/public/cron.appointment-reminders'
 import { Route as AuthenticatedProviderPrescriptionsNewRouteImport } from './routes/_authenticated/provider.prescriptions.new'
 import { Route as AuthenticatedProviderPrescriptionsIdRouteImport } from './routes/_authenticated/provider.prescriptions.$id'
+import { Route as AuthenticatedProviderOrdersIdRouteImport } from './routes/_authenticated/provider.orders.$id'
 import { Route as AuthenticatedBloodRequestsIdRouteImport } from './routes/_authenticated/blood.requests.$id'
 import { Route as AuthenticatedBloodChatRequestIdRouteImport } from './routes/_authenticated/blood.chat.$requestId'
 import { Route as AuthenticatedAppointmentsNewProviderIdRouteImport } from './routes/_authenticated/appointments.new.$providerId'
@@ -192,6 +200,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProductsIndexRoute = ProductsIndexRouteImport.update({
+  id: '/products/',
+  path: '/products/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PharmaciesIndexRoute = PharmaciesIndexRouteImport.update({
   id: '/pharmacies/',
   path: '/pharmacies/',
@@ -230,6 +243,11 @@ const BloodIndexRoute = BloodIndexRouteImport.update({
 const ProvidersIdRoute = ProvidersIdRouteImport.update({
   id: '/providers/$id',
   path: '/providers/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsIdRoute = ProductsIdRouteImport.update({
+  id: '/products/$id',
+  path: '/products/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PharmaciesSearchRoute = PharmaciesSearchRouteImport.update({
@@ -392,6 +410,11 @@ const AuthenticatedDoctorDashboardRoute =
     path: '/doctor-dashboard',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedCartRoute = AuthenticatedCartRouteImport.update({
+  id: '/cart',
+  path: '/cart',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAiAssistantRoute =
   AuthenticatedAiAssistantRouteImport.update({
     id: '/ai-assistant',
@@ -413,6 +436,12 @@ const AuthenticatedProviderIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedProviderRoute,
+  } as any)
+const AuthenticatedOrdersIndexRoute =
+  AuthenticatedOrdersIndexRouteImport.update({
+    id: '/orders/',
+    path: '/orders/',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedAppointmentsIndexRoute =
   AuthenticatedAppointmentsIndexRouteImport.update({
@@ -498,10 +527,22 @@ const AuthenticatedProviderProfileRoute =
     path: '/profile',
     getParentRoute: () => AuthenticatedProviderRoute,
   } as any)
+const AuthenticatedProviderProductsRoute =
+  AuthenticatedProviderProductsRouteImport.update({
+    id: '/products',
+    path: '/products',
+    getParentRoute: () => AuthenticatedProviderRoute,
+  } as any)
 const AuthenticatedProviderPrescriptionsRoute =
   AuthenticatedProviderPrescriptionsRouteImport.update({
     id: '/prescriptions',
     path: '/prescriptions',
+    getParentRoute: () => AuthenticatedProviderRoute,
+  } as any)
+const AuthenticatedProviderOrdersRoute =
+  AuthenticatedProviderOrdersRouteImport.update({
+    id: '/orders',
+    path: '/orders',
     getParentRoute: () => AuthenticatedProviderRoute,
   } as any)
 const AuthenticatedProviderNotificationsRoute =
@@ -540,6 +581,11 @@ const AuthenticatedProviderAppointmentsRoute =
     path: '/appointments',
     getParentRoute: () => AuthenticatedProviderRoute,
   } as any)
+const AuthenticatedOrdersIdRoute = AuthenticatedOrdersIdRouteImport.update({
+  id: '/orders/$id',
+  path: '/orders/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedBloodMeRoute = AuthenticatedBloodMeRouteImport.update({
   id: '/blood/me',
   path: '/blood/me',
@@ -767,6 +813,12 @@ const AuthenticatedProviderPrescriptionsIdRoute =
     path: '/$id',
     getParentRoute: () => AuthenticatedProviderPrescriptionsRoute,
   } as any)
+const AuthenticatedProviderOrdersIdRoute =
+  AuthenticatedProviderOrdersIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedProviderOrdersRoute,
+  } as any)
 const AuthenticatedBloodRequestsIdRoute =
   AuthenticatedBloodRequestsIdRouteImport.update({
     id: '/blood/requests/$id',
@@ -824,6 +876,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/ai-assistant': typeof AuthenticatedAiAssistantRoute
+  '/cart': typeof AuthenticatedCartRoute
   '/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/favorites': typeof AuthenticatedFavoritesRoute
   '/hospital-dashboard': typeof AuthenticatedHospitalDashboardRoute
@@ -855,6 +908,7 @@ export interface FileRoutesByFullPath {
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/pharmacies/open': typeof PharmaciesOpenRoute
   '/pharmacies/search': typeof PharmaciesSearchRoute
+  '/products/$id': typeof ProductsIdRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/blood/': typeof BloodIndexRoute
   '/content/': typeof ContentIndexRoute
@@ -863,6 +917,7 @@ export interface FileRoutesByFullPath {
   '/laboratories/': typeof LaboratoriesIndexRoute
   '/medicaments/': typeof MedicamentsIndexRoute
   '/pharmacies/': typeof PharmaciesIndexRoute
+  '/products/': typeof ProductsIndexRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
   '/admin/articles': typeof AuthenticatedAdminArticlesRoute
@@ -898,13 +953,16 @@ export interface FileRoutesByFullPath {
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/me': typeof AuthenticatedBloodMeRoute
+  '/orders/$id': typeof AuthenticatedOrdersIdRoute
   '/provider/appointments': typeof AuthenticatedProviderAppointmentsRoute
   '/provider/calendar': typeof AuthenticatedProviderCalendarRoute
   '/provider/gallery': typeof AuthenticatedProviderGalleryRoute
   '/provider/hours': typeof AuthenticatedProviderHoursRoute
   '/provider/messages': typeof AuthenticatedProviderMessagesRoute
   '/provider/notifications': typeof AuthenticatedProviderNotificationsRoute
+  '/provider/orders': typeof AuthenticatedProviderOrdersRouteWithChildren
   '/provider/prescriptions': typeof AuthenticatedProviderPrescriptionsRouteWithChildren
+  '/provider/products': typeof AuthenticatedProviderProductsRoute
   '/provider/profile': typeof AuthenticatedProviderProfileRoute
   '/provider/reviews': typeof AuthenticatedProviderReviewsRoute
   '/provider/services': typeof AuthenticatedProviderServicesRoute
@@ -920,6 +978,7 @@ export interface FileRoutesByFullPath {
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/appointments/': typeof AuthenticatedAppointmentsIndexRoute
+  '/orders/': typeof AuthenticatedOrdersIndexRoute
   '/provider/': typeof AuthenticatedProviderIndexRoute
   '/blood/donors/': typeof BloodDonorsIndexRoute
   '/admin/doctors/new': typeof AuthenticatedAdminDoctorsNewRoute
@@ -929,6 +988,7 @@ export interface FileRoutesByFullPath {
   '/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
   '/blood/requests/$id': typeof AuthenticatedBloodRequestsIdRoute
+  '/provider/orders/$id': typeof AuthenticatedProviderOrdersIdRoute
   '/provider/prescriptions/$id': typeof AuthenticatedProviderPrescriptionsIdRoute
   '/provider/prescriptions/new': typeof AuthenticatedProviderPrescriptionsNewRoute
   '/api/public/cron/appointment-reminders': typeof ApiPublicCronAppointmentRemindersRoute
@@ -947,6 +1007,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/ai-assistant': typeof AuthenticatedAiAssistantRoute
+  '/cart': typeof AuthenticatedCartRoute
   '/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/favorites': typeof AuthenticatedFavoritesRoute
   '/hospital-dashboard': typeof AuthenticatedHospitalDashboardRoute
@@ -977,6 +1038,7 @@ export interface FileRoutesByTo {
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/pharmacies/open': typeof PharmaciesOpenRoute
   '/pharmacies/search': typeof PharmaciesSearchRoute
+  '/products/$id': typeof ProductsIdRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/blood': typeof BloodIndexRoute
   '/content': typeof ContentIndexRoute
@@ -985,6 +1047,7 @@ export interface FileRoutesByTo {
   '/laboratories': typeof LaboratoriesIndexRoute
   '/medicaments': typeof MedicamentsIndexRoute
   '/pharmacies': typeof PharmaciesIndexRoute
+  '/products': typeof ProductsIndexRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
   '/admin/articles': typeof AuthenticatedAdminArticlesRoute
@@ -1020,13 +1083,16 @@ export interface FileRoutesByTo {
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/me': typeof AuthenticatedBloodMeRoute
+  '/orders/$id': typeof AuthenticatedOrdersIdRoute
   '/provider/appointments': typeof AuthenticatedProviderAppointmentsRoute
   '/provider/calendar': typeof AuthenticatedProviderCalendarRoute
   '/provider/gallery': typeof AuthenticatedProviderGalleryRoute
   '/provider/hours': typeof AuthenticatedProviderHoursRoute
   '/provider/messages': typeof AuthenticatedProviderMessagesRoute
   '/provider/notifications': typeof AuthenticatedProviderNotificationsRoute
+  '/provider/orders': typeof AuthenticatedProviderOrdersRouteWithChildren
   '/provider/prescriptions': typeof AuthenticatedProviderPrescriptionsRouteWithChildren
+  '/provider/products': typeof AuthenticatedProviderProductsRoute
   '/provider/profile': typeof AuthenticatedProviderProfileRoute
   '/provider/reviews': typeof AuthenticatedProviderReviewsRoute
   '/provider/services': typeof AuthenticatedProviderServicesRoute
@@ -1042,6 +1108,7 @@ export interface FileRoutesByTo {
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/appointments': typeof AuthenticatedAppointmentsIndexRoute
+  '/orders': typeof AuthenticatedOrdersIndexRoute
   '/provider': typeof AuthenticatedProviderIndexRoute
   '/blood/donors': typeof BloodDonorsIndexRoute
   '/admin/doctors/new': typeof AuthenticatedAdminDoctorsNewRoute
@@ -1051,6 +1118,7 @@ export interface FileRoutesByTo {
   '/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
   '/blood/requests/$id': typeof AuthenticatedBloodRequestsIdRoute
+  '/provider/orders/$id': typeof AuthenticatedProviderOrdersIdRoute
   '/provider/prescriptions/$id': typeof AuthenticatedProviderPrescriptionsIdRoute
   '/provider/prescriptions/new': typeof AuthenticatedProviderPrescriptionsNewRoute
   '/api/public/cron/appointment-reminders': typeof ApiPublicCronAppointmentRemindersRoute
@@ -1072,6 +1140,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/ai-assistant': typeof AuthenticatedAiAssistantRoute
+  '/_authenticated/cart': typeof AuthenticatedCartRoute
   '/_authenticated/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/_authenticated/favorites': typeof AuthenticatedFavoritesRoute
   '/_authenticated/hospital-dashboard': typeof AuthenticatedHospitalDashboardRoute
@@ -1103,6 +1172,7 @@ export interface FileRoutesById {
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/pharmacies/open': typeof PharmaciesOpenRoute
   '/pharmacies/search': typeof PharmaciesSearchRoute
+  '/products/$id': typeof ProductsIdRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/blood/': typeof BloodIndexRoute
   '/content/': typeof ContentIndexRoute
@@ -1111,6 +1181,7 @@ export interface FileRoutesById {
   '/laboratories/': typeof LaboratoriesIndexRoute
   '/medicaments/': typeof MedicamentsIndexRoute
   '/pharmacies/': typeof PharmaciesIndexRoute
+  '/products/': typeof ProductsIndexRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/_authenticated/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
   '/_authenticated/admin/articles': typeof AuthenticatedAdminArticlesRoute
@@ -1146,13 +1217,16 @@ export interface FileRoutesById {
   '/_authenticated/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/_authenticated/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/_authenticated/blood/me': typeof AuthenticatedBloodMeRoute
+  '/_authenticated/orders/$id': typeof AuthenticatedOrdersIdRoute
   '/_authenticated/provider/appointments': typeof AuthenticatedProviderAppointmentsRoute
   '/_authenticated/provider/calendar': typeof AuthenticatedProviderCalendarRoute
   '/_authenticated/provider/gallery': typeof AuthenticatedProviderGalleryRoute
   '/_authenticated/provider/hours': typeof AuthenticatedProviderHoursRoute
   '/_authenticated/provider/messages': typeof AuthenticatedProviderMessagesRoute
   '/_authenticated/provider/notifications': typeof AuthenticatedProviderNotificationsRoute
+  '/_authenticated/provider/orders': typeof AuthenticatedProviderOrdersRouteWithChildren
   '/_authenticated/provider/prescriptions': typeof AuthenticatedProviderPrescriptionsRouteWithChildren
+  '/_authenticated/provider/products': typeof AuthenticatedProviderProductsRoute
   '/_authenticated/provider/profile': typeof AuthenticatedProviderProfileRoute
   '/_authenticated/provider/reviews': typeof AuthenticatedProviderReviewsRoute
   '/_authenticated/provider/services': typeof AuthenticatedProviderServicesRoute
@@ -1168,6 +1242,7 @@ export interface FileRoutesById {
   '/doctors/specialty/$slug': typeof DoctorsSpecialtySlugRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/appointments/': typeof AuthenticatedAppointmentsIndexRoute
+  '/_authenticated/orders/': typeof AuthenticatedOrdersIndexRoute
   '/_authenticated/provider/': typeof AuthenticatedProviderIndexRoute
   '/blood/donors/': typeof BloodDonorsIndexRoute
   '/_authenticated/admin/doctors/new': typeof AuthenticatedAdminDoctorsNewRoute
@@ -1177,6 +1252,7 @@ export interface FileRoutesById {
   '/_authenticated/appointments/new/$providerId': typeof AuthenticatedAppointmentsNewProviderIdRoute
   '/_authenticated/blood/chat/$requestId': typeof AuthenticatedBloodChatRequestIdRoute
   '/_authenticated/blood/requests/$id': typeof AuthenticatedBloodRequestsIdRoute
+  '/_authenticated/provider/orders/$id': typeof AuthenticatedProviderOrdersIdRoute
   '/_authenticated/provider/prescriptions/$id': typeof AuthenticatedProviderPrescriptionsIdRoute
   '/_authenticated/provider/prescriptions/new': typeof AuthenticatedProviderPrescriptionsNewRoute
   '/api/public/cron/appointment-reminders': typeof ApiPublicCronAppointmentRemindersRoute
@@ -1198,6 +1274,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin'
     | '/ai-assistant'
+    | '/cart'
     | '/doctor-dashboard'
     | '/favorites'
     | '/hospital-dashboard'
@@ -1229,6 +1306,7 @@ export interface FileRouteTypes {
     | '/pharmacies/on-duty'
     | '/pharmacies/open'
     | '/pharmacies/search'
+    | '/products/$id'
     | '/providers/$id'
     | '/blood/'
     | '/content/'
@@ -1237,6 +1315,7 @@ export interface FileRouteTypes {
     | '/laboratories/'
     | '/medicaments/'
     | '/pharmacies/'
+    | '/products/'
     | '/admin/analytics'
     | '/admin/appointments'
     | '/admin/articles'
@@ -1272,13 +1351,16 @@ export interface FileRouteTypes {
     | '/blood/become-donor'
     | '/blood/history'
     | '/blood/me'
+    | '/orders/$id'
     | '/provider/appointments'
     | '/provider/calendar'
     | '/provider/gallery'
     | '/provider/hours'
     | '/provider/messages'
     | '/provider/notifications'
+    | '/provider/orders'
     | '/provider/prescriptions'
+    | '/provider/products'
     | '/provider/profile'
     | '/provider/reviews'
     | '/provider/services'
@@ -1294,6 +1376,7 @@ export interface FileRouteTypes {
     | '/doctors/specialty/$slug'
     | '/admin/'
     | '/appointments/'
+    | '/orders/'
     | '/provider/'
     | '/blood/donors/'
     | '/admin/doctors/new'
@@ -1303,6 +1386,7 @@ export interface FileRouteTypes {
     | '/appointments/new/$providerId'
     | '/blood/chat/$requestId'
     | '/blood/requests/$id'
+    | '/provider/orders/$id'
     | '/provider/prescriptions/$id'
     | '/provider/prescriptions/new'
     | '/api/public/cron/appointment-reminders'
@@ -1321,6 +1405,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/ai-assistant'
+    | '/cart'
     | '/doctor-dashboard'
     | '/favorites'
     | '/hospital-dashboard'
@@ -1351,6 +1436,7 @@ export interface FileRouteTypes {
     | '/pharmacies/on-duty'
     | '/pharmacies/open'
     | '/pharmacies/search'
+    | '/products/$id'
     | '/providers/$id'
     | '/blood'
     | '/content'
@@ -1359,6 +1445,7 @@ export interface FileRouteTypes {
     | '/laboratories'
     | '/medicaments'
     | '/pharmacies'
+    | '/products'
     | '/admin/analytics'
     | '/admin/appointments'
     | '/admin/articles'
@@ -1394,13 +1481,16 @@ export interface FileRouteTypes {
     | '/blood/become-donor'
     | '/blood/history'
     | '/blood/me'
+    | '/orders/$id'
     | '/provider/appointments'
     | '/provider/calendar'
     | '/provider/gallery'
     | '/provider/hours'
     | '/provider/messages'
     | '/provider/notifications'
+    | '/provider/orders'
     | '/provider/prescriptions'
+    | '/provider/products'
     | '/provider/profile'
     | '/provider/reviews'
     | '/provider/services'
@@ -1416,6 +1506,7 @@ export interface FileRouteTypes {
     | '/doctors/specialty/$slug'
     | '/admin'
     | '/appointments'
+    | '/orders'
     | '/provider'
     | '/blood/donors'
     | '/admin/doctors/new'
@@ -1425,6 +1516,7 @@ export interface FileRouteTypes {
     | '/appointments/new/$providerId'
     | '/blood/chat/$requestId'
     | '/blood/requests/$id'
+    | '/provider/orders/$id'
     | '/provider/prescriptions/$id'
     | '/provider/prescriptions/new'
     | '/api/public/cron/appointment-reminders'
@@ -1445,6 +1537,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/_authenticated/admin'
     | '/_authenticated/ai-assistant'
+    | '/_authenticated/cart'
     | '/_authenticated/doctor-dashboard'
     | '/_authenticated/favorites'
     | '/_authenticated/hospital-dashboard'
@@ -1476,6 +1569,7 @@ export interface FileRouteTypes {
     | '/pharmacies/on-duty'
     | '/pharmacies/open'
     | '/pharmacies/search'
+    | '/products/$id'
     | '/providers/$id'
     | '/blood/'
     | '/content/'
@@ -1484,6 +1578,7 @@ export interface FileRouteTypes {
     | '/laboratories/'
     | '/medicaments/'
     | '/pharmacies/'
+    | '/products/'
     | '/_authenticated/admin/analytics'
     | '/_authenticated/admin/appointments'
     | '/_authenticated/admin/articles'
@@ -1519,13 +1614,16 @@ export interface FileRouteTypes {
     | '/_authenticated/blood/become-donor'
     | '/_authenticated/blood/history'
     | '/_authenticated/blood/me'
+    | '/_authenticated/orders/$id'
     | '/_authenticated/provider/appointments'
     | '/_authenticated/provider/calendar'
     | '/_authenticated/provider/gallery'
     | '/_authenticated/provider/hours'
     | '/_authenticated/provider/messages'
     | '/_authenticated/provider/notifications'
+    | '/_authenticated/provider/orders'
     | '/_authenticated/provider/prescriptions'
+    | '/_authenticated/provider/products'
     | '/_authenticated/provider/profile'
     | '/_authenticated/provider/reviews'
     | '/_authenticated/provider/services'
@@ -1541,6 +1639,7 @@ export interface FileRouteTypes {
     | '/doctors/specialty/$slug'
     | '/_authenticated/admin/'
     | '/_authenticated/appointments/'
+    | '/_authenticated/orders/'
     | '/_authenticated/provider/'
     | '/blood/donors/'
     | '/_authenticated/admin/doctors/new'
@@ -1550,6 +1649,7 @@ export interface FileRouteTypes {
     | '/_authenticated/appointments/new/$providerId'
     | '/_authenticated/blood/chat/$requestId'
     | '/_authenticated/blood/requests/$id'
+    | '/_authenticated/provider/orders/$id'
     | '/_authenticated/provider/prescriptions/$id'
     | '/_authenticated/provider/prescriptions/new'
     | '/api/public/cron/appointment-reminders'
@@ -1591,6 +1691,7 @@ export interface RootRouteChildren {
   PharmaciesOnDutyRoute: typeof PharmaciesOnDutyRoute
   PharmaciesOpenRoute: typeof PharmaciesOpenRoute
   PharmaciesSearchRoute: typeof PharmaciesSearchRoute
+  ProductsIdRoute: typeof ProductsIdRoute
   ProvidersIdRoute: typeof ProvidersIdRoute
   BloodIndexRoute: typeof BloodIndexRoute
   ContentIndexRoute: typeof ContentIndexRoute
@@ -1599,6 +1700,7 @@ export interface RootRouteChildren {
   LaboratoriesIndexRoute: typeof LaboratoriesIndexRoute
   MedicamentsIndexRoute: typeof MedicamentsIndexRoute
   PharmaciesIndexRoute: typeof PharmaciesIndexRoute
+  ProductsIndexRoute: typeof ProductsIndexRoute
   ApiPublicHealthRoute: typeof ApiPublicHealthRoute
   ApiPublicNotifyPushRoute: typeof ApiPublicNotifyPushRoute
   ApiPublicProviderCalendarDoticsRoute: typeof ApiPublicProviderCalendarDoticsRoute
@@ -1695,6 +1797,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/products/': {
+      id: '/products/'
+      path: '/products'
+      fullPath: '/products/'
+      preLoaderRoute: typeof ProductsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pharmacies/': {
       id: '/pharmacies/'
       path: '/pharmacies'
@@ -1749,6 +1858,13 @@ declare module '@tanstack/react-router' {
       path: '/providers/$id'
       fullPath: '/providers/$id'
       preLoaderRoute: typeof ProvidersIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products/$id': {
+      id: '/products/$id'
+      path: '/products/$id'
+      fullPath: '/products/$id'
+      preLoaderRoute: typeof ProductsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pharmacies/search': {
@@ -1968,6 +2084,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDoctorDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/cart': {
+      id: '/_authenticated/cart'
+      path: '/cart'
+      fullPath: '/cart'
+      preLoaderRoute: typeof AuthenticatedCartRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/ai-assistant': {
       id: '/_authenticated/ai-assistant'
       path: '/ai-assistant'
@@ -1995,6 +2118,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/provider/'
       preLoaderRoute: typeof AuthenticatedProviderIndexRouteImport
       parentRoute: typeof AuthenticatedProviderRoute
+    }
+    '/_authenticated/orders/': {
+      id: '/_authenticated/orders/'
+      path: '/orders'
+      fullPath: '/orders/'
+      preLoaderRoute: typeof AuthenticatedOrdersIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/appointments/': {
       id: '/_authenticated/appointments/'
@@ -2101,11 +2231,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProviderProfileRouteImport
       parentRoute: typeof AuthenticatedProviderRoute
     }
+    '/_authenticated/provider/products': {
+      id: '/_authenticated/provider/products'
+      path: '/products'
+      fullPath: '/provider/products'
+      preLoaderRoute: typeof AuthenticatedProviderProductsRouteImport
+      parentRoute: typeof AuthenticatedProviderRoute
+    }
     '/_authenticated/provider/prescriptions': {
       id: '/_authenticated/provider/prescriptions'
       path: '/prescriptions'
       fullPath: '/provider/prescriptions'
       preLoaderRoute: typeof AuthenticatedProviderPrescriptionsRouteImport
+      parentRoute: typeof AuthenticatedProviderRoute
+    }
+    '/_authenticated/provider/orders': {
+      id: '/_authenticated/provider/orders'
+      path: '/orders'
+      fullPath: '/provider/orders'
+      preLoaderRoute: typeof AuthenticatedProviderOrdersRouteImport
       parentRoute: typeof AuthenticatedProviderRoute
     }
     '/_authenticated/provider/notifications': {
@@ -2149,6 +2293,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/provider/appointments'
       preLoaderRoute: typeof AuthenticatedProviderAppointmentsRouteImport
       parentRoute: typeof AuthenticatedProviderRoute
+    }
+    '/_authenticated/orders/$id': {
+      id: '/_authenticated/orders/$id'
+      path: '/orders/$id'
+      fullPath: '/orders/$id'
+      preLoaderRoute: typeof AuthenticatedOrdersIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/blood/me': {
       id: '/_authenticated/blood/me'
@@ -2423,6 +2574,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProviderPrescriptionsIdRouteImport
       parentRoute: typeof AuthenticatedProviderPrescriptionsRoute
     }
+    '/_authenticated/provider/orders/$id': {
+      id: '/_authenticated/provider/orders/$id'
+      path: '/$id'
+      fullPath: '/provider/orders/$id'
+      preLoaderRoute: typeof AuthenticatedProviderOrdersIdRouteImport
+      parentRoute: typeof AuthenticatedProviderOrdersRoute
+    }
     '/_authenticated/blood/requests/$id': {
       id: '/_authenticated/blood/requests/$id'
       path: '/blood/requests/$id'
@@ -2558,6 +2716,20 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
 const AuthenticatedAdminRouteWithChildren =
   AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
 
+interface AuthenticatedProviderOrdersRouteChildren {
+  AuthenticatedProviderOrdersIdRoute: typeof AuthenticatedProviderOrdersIdRoute
+}
+
+const AuthenticatedProviderOrdersRouteChildren: AuthenticatedProviderOrdersRouteChildren =
+  {
+    AuthenticatedProviderOrdersIdRoute: AuthenticatedProviderOrdersIdRoute,
+  }
+
+const AuthenticatedProviderOrdersRouteWithChildren =
+  AuthenticatedProviderOrdersRoute._addFileChildren(
+    AuthenticatedProviderOrdersRouteChildren,
+  )
+
 interface AuthenticatedProviderPrescriptionsRouteChildren {
   AuthenticatedProviderPrescriptionsIdRoute: typeof AuthenticatedProviderPrescriptionsIdRoute
   AuthenticatedProviderPrescriptionsNewRoute: typeof AuthenticatedProviderPrescriptionsNewRoute
@@ -2583,7 +2755,9 @@ interface AuthenticatedProviderRouteChildren {
   AuthenticatedProviderHoursRoute: typeof AuthenticatedProviderHoursRoute
   AuthenticatedProviderMessagesRoute: typeof AuthenticatedProviderMessagesRoute
   AuthenticatedProviderNotificationsRoute: typeof AuthenticatedProviderNotificationsRoute
+  AuthenticatedProviderOrdersRoute: typeof AuthenticatedProviderOrdersRouteWithChildren
   AuthenticatedProviderPrescriptionsRoute: typeof AuthenticatedProviderPrescriptionsRouteWithChildren
+  AuthenticatedProviderProductsRoute: typeof AuthenticatedProviderProductsRoute
   AuthenticatedProviderProfileRoute: typeof AuthenticatedProviderProfileRoute
   AuthenticatedProviderReviewsRoute: typeof AuthenticatedProviderReviewsRoute
   AuthenticatedProviderServicesRoute: typeof AuthenticatedProviderServicesRoute
@@ -2603,8 +2777,11 @@ const AuthenticatedProviderRouteChildren: AuthenticatedProviderRouteChildren = {
   AuthenticatedProviderMessagesRoute: AuthenticatedProviderMessagesRoute,
   AuthenticatedProviderNotificationsRoute:
     AuthenticatedProviderNotificationsRoute,
+  AuthenticatedProviderOrdersRoute:
+    AuthenticatedProviderOrdersRouteWithChildren,
   AuthenticatedProviderPrescriptionsRoute:
     AuthenticatedProviderPrescriptionsRouteWithChildren,
+  AuthenticatedProviderProductsRoute: AuthenticatedProviderProductsRoute,
   AuthenticatedProviderProfileRoute: AuthenticatedProviderProfileRoute,
   AuthenticatedProviderReviewsRoute: AuthenticatedProviderReviewsRoute,
   AuthenticatedProviderServicesRoute: AuthenticatedProviderServicesRoute,
@@ -2625,6 +2802,7 @@ const AuthenticatedProviderRouteWithChildren =
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
   AuthenticatedAiAssistantRoute: typeof AuthenticatedAiAssistantRoute
+  AuthenticatedCartRoute: typeof AuthenticatedCartRoute
   AuthenticatedDoctorDashboardRoute: typeof AuthenticatedDoctorDashboardRoute
   AuthenticatedFavoritesRoute: typeof AuthenticatedFavoritesRoute
   AuthenticatedHospitalDashboardRoute: typeof AuthenticatedHospitalDashboardRoute
@@ -2639,7 +2817,9 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedBloodBecomeDonorRoute: typeof AuthenticatedBloodBecomeDonorRoute
   AuthenticatedBloodHistoryRoute: typeof AuthenticatedBloodHistoryRoute
   AuthenticatedBloodMeRoute: typeof AuthenticatedBloodMeRoute
+  AuthenticatedOrdersIdRoute: typeof AuthenticatedOrdersIdRoute
   AuthenticatedAppointmentsIndexRoute: typeof AuthenticatedAppointmentsIndexRoute
+  AuthenticatedOrdersIndexRoute: typeof AuthenticatedOrdersIndexRoute
   AuthenticatedAppointmentsNewProviderIdRoute: typeof AuthenticatedAppointmentsNewProviderIdRoute
   AuthenticatedBloodChatRequestIdRoute: typeof AuthenticatedBloodChatRequestIdRoute
   AuthenticatedBloodRequestsIdRoute: typeof AuthenticatedBloodRequestsIdRoute
@@ -2648,6 +2828,7 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
   AuthenticatedAiAssistantRoute: AuthenticatedAiAssistantRoute,
+  AuthenticatedCartRoute: AuthenticatedCartRoute,
   AuthenticatedDoctorDashboardRoute: AuthenticatedDoctorDashboardRoute,
   AuthenticatedFavoritesRoute: AuthenticatedFavoritesRoute,
   AuthenticatedHospitalDashboardRoute: AuthenticatedHospitalDashboardRoute,
@@ -2663,7 +2844,9 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBloodBecomeDonorRoute: AuthenticatedBloodBecomeDonorRoute,
   AuthenticatedBloodHistoryRoute: AuthenticatedBloodHistoryRoute,
   AuthenticatedBloodMeRoute: AuthenticatedBloodMeRoute,
+  AuthenticatedOrdersIdRoute: AuthenticatedOrdersIdRoute,
   AuthenticatedAppointmentsIndexRoute: AuthenticatedAppointmentsIndexRoute,
+  AuthenticatedOrdersIndexRoute: AuthenticatedOrdersIndexRoute,
   AuthenticatedAppointmentsNewProviderIdRoute:
     AuthenticatedAppointmentsNewProviderIdRoute,
   AuthenticatedBloodChatRequestIdRoute: AuthenticatedBloodChatRequestIdRoute,
@@ -2708,6 +2891,7 @@ const rootRouteChildren: RootRouteChildren = {
   PharmaciesOnDutyRoute: PharmaciesOnDutyRoute,
   PharmaciesOpenRoute: PharmaciesOpenRoute,
   PharmaciesSearchRoute: PharmaciesSearchRoute,
+  ProductsIdRoute: ProductsIdRoute,
   ProvidersIdRoute: ProvidersIdRoute,
   BloodIndexRoute: BloodIndexRoute,
   ContentIndexRoute: ContentIndexRoute,
@@ -2716,6 +2900,7 @@ const rootRouteChildren: RootRouteChildren = {
   LaboratoriesIndexRoute: LaboratoriesIndexRoute,
   MedicamentsIndexRoute: MedicamentsIndexRoute,
   PharmaciesIndexRoute: PharmaciesIndexRoute,
+  ProductsIndexRoute: ProductsIndexRoute,
   ApiPublicHealthRoute: ApiPublicHealthRoute,
   ApiPublicNotifyPushRoute: ApiPublicNotifyPushRoute,
   ApiPublicProviderCalendarDoticsRoute: ApiPublicProviderCalendarDoticsRoute,
@@ -2729,13 +2914,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

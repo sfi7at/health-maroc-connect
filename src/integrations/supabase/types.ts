@@ -1020,6 +1020,72 @@ export type Database = {
         }
         Relationships: []
       }
+      cart_items: {
+        Row: {
+          cart_id: string
+          created_at: string
+          id: string
+          product_id: string
+          qty: number
+          unit_price_snapshot: number
+          updated_at: string
+        }
+        Insert: {
+          cart_id: string
+          created_at?: string
+          id?: string
+          product_id: string
+          qty: number
+          unit_price_snapshot: number
+          updated_at?: string
+        }
+        Update: {
+          cart_id?: string
+          created_at?: string
+          id?: string
+          product_id?: string
+          qty?: number
+          unit_price_snapshot?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cart_items_cart_id_fkey"
+            columns: ["cart_id"]
+            isOneToOne: false
+            referencedRelation: "carts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cart_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "pharmacy_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      carts: {
+        Row: {
+          created_at: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       cities: {
         Row: {
           created_at: string
@@ -2516,6 +2582,226 @@ export type Database = {
         }
         Relationships: []
       }
+      order_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          from_status: Database["public"]["Enums"]["order_status"] | null
+          id: string
+          note: string | null
+          order_id: string
+          to_status: Database["public"]["Enums"]["order_status"]
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          from_status?: Database["public"]["Enums"]["order_status"] | null
+          id?: string
+          note?: string | null
+          order_id: string
+          to_status: Database["public"]["Enums"]["order_status"]
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          from_status?: Database["public"]["Enums"]["order_status"] | null
+          id?: string
+          note?: string | null
+          order_id?: string
+          to_status?: Database["public"]["Enums"]["order_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_events_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      order_items: {
+        Row: {
+          created_at: string
+          id: string
+          image_snapshot: string | null
+          name_snapshot: string
+          order_id: string
+          product_id: string | null
+          qty: number
+          requires_prescription: boolean
+          unit_price: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image_snapshot?: string | null
+          name_snapshot: string
+          order_id: string
+          product_id?: string | null
+          qty: number
+          requires_prescription?: boolean
+          unit_price: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image_snapshot?: string | null
+          name_snapshot?: string
+          order_id?: string
+          product_id?: string | null
+          qty?: number
+          requires_prescription?: boolean
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "pharmacy_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      order_prescriptions: {
+        Row: {
+          created_at: string
+          file_path: string
+          id: string
+          mime: string | null
+          order_id: string
+          review_notes: string | null
+          review_status: Database["public"]["Enums"]["prescription_review_status"]
+          reviewed_at: string | null
+          reviewed_by: string | null
+          updated_at: string
+          uploaded_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          file_path: string
+          id?: string
+          mime?: string | null
+          order_id: string
+          review_notes?: string | null
+          review_status?: Database["public"]["Enums"]["prescription_review_status"]
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          updated_at?: string
+          uploaded_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          file_path?: string
+          id?: string
+          mime?: string | null
+          order_id?: string
+          review_notes?: string | null
+          review_status?: Database["public"]["Enums"]["prescription_review_status"]
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          updated_at?: string
+          uploaded_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_prescriptions_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          city_id: string | null
+          contact_phone: string | null
+          created_at: string
+          delivery_address: string | null
+          delivery_fee: number
+          discount: number
+          fulfillment: Database["public"]["Enums"]["order_fulfillment"]
+          id: string
+          metadata: Json
+          notes: string | null
+          order_number: string
+          payment_method: string
+          pharmacy_id: string
+          requires_prescription: boolean
+          status: Database["public"]["Enums"]["order_status"]
+          subtotal: number
+          total: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          city_id?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          delivery_address?: string | null
+          delivery_fee?: number
+          discount?: number
+          fulfillment?: Database["public"]["Enums"]["order_fulfillment"]
+          id?: string
+          metadata?: Json
+          notes?: string | null
+          order_number?: string
+          payment_method?: string
+          pharmacy_id: string
+          requires_prescription?: boolean
+          status?: Database["public"]["Enums"]["order_status"]
+          subtotal?: number
+          total?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          city_id?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          delivery_address?: string | null
+          delivery_fee?: number
+          discount?: number
+          fulfillment?: Database["public"]["Enums"]["order_fulfillment"]
+          id?: string
+          metadata?: Json
+          notes?: string | null
+          order_number?: string
+          payment_method?: string
+          pharmacy_id?: string
+          requires_prescription?: boolean
+          status?: Database["public"]["Enums"]["order_status"]
+          subtotal?: number
+          total?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_pharmacy_id_fkey"
+            columns: ["pharmacy_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       permissions: {
         Row: {
           category: string | null
@@ -2645,6 +2931,143 @@ export type Database = {
           sort_order?: number
         }
         Relationships: []
+      }
+      pharmacy_product_reviews: {
+        Row: {
+          comment: string | null
+          created_at: string
+          id: string
+          product_id: string
+          rating: number
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          comment?: string | null
+          created_at?: string
+          id?: string
+          product_id: string
+          rating: number
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          comment?: string | null
+          created_at?: string
+          id?: string
+          product_id?: string
+          rating?: number
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pharmacy_product_reviews_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "pharmacy_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pharmacy_products: {
+        Row: {
+          avg_rating: number
+          brand: string | null
+          category_id: string | null
+          compare_at_price_mad: number | null
+          created_at: string
+          description: string | null
+          dosage_form: string | null
+          id: string
+          images: Json
+          is_active: boolean
+          is_featured: boolean
+          metadata: Json
+          name: string
+          pharmacy_id: string
+          price_mad: number
+          promo_ends_at: string | null
+          promo_starts_at: string | null
+          requires_prescription: boolean
+          reviews_count: number
+          sku: string | null
+          slug: string
+          stock: number
+          updated_at: string
+          views_count: number
+        }
+        Insert: {
+          avg_rating?: number
+          brand?: string | null
+          category_id?: string | null
+          compare_at_price_mad?: number | null
+          created_at?: string
+          description?: string | null
+          dosage_form?: string | null
+          id?: string
+          images?: Json
+          is_active?: boolean
+          is_featured?: boolean
+          metadata?: Json
+          name: string
+          pharmacy_id: string
+          price_mad: number
+          promo_ends_at?: string | null
+          promo_starts_at?: string | null
+          requires_prescription?: boolean
+          reviews_count?: number
+          sku?: string | null
+          slug: string
+          stock?: number
+          updated_at?: string
+          views_count?: number
+        }
+        Update: {
+          avg_rating?: number
+          brand?: string | null
+          category_id?: string | null
+          compare_at_price_mad?: number | null
+          created_at?: string
+          description?: string | null
+          dosage_form?: string | null
+          id?: string
+          images?: Json
+          is_active?: boolean
+          is_featured?: boolean
+          metadata?: Json
+          name?: string
+          pharmacy_id?: string
+          price_mad?: number
+          promo_ends_at?: string | null
+          promo_starts_at?: string | null
+          requires_prescription?: boolean
+          reviews_count?: number
+          sku?: string | null
+          slug?: string
+          stock?: number
+          updated_at?: string
+          views_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pharmacy_products_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "product_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pharmacy_products_pharmacy_id_fkey"
+            columns: ["pharmacy_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       postal_codes: {
         Row: {
@@ -2806,6 +3229,56 @@ export type Database = {
             columns: ["provider_id"]
             isOneToOne: false
             referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_categories: {
+        Row: {
+          created_at: string
+          icon: string | null
+          id: string
+          is_active: boolean
+          name_ar: string | null
+          name_en: string | null
+          name_fr: string
+          parent_id: string | null
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr: string
+          parent_id?: string | null
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string | null
+          name_fr?: string
+          parent_id?: string | null
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_categories_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "product_categories"
             referencedColumns: ["id"]
           },
         ]
@@ -3865,6 +4338,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      can_access_order: { Args: { _order: string }; Returns: boolean }
       can_chat_on_request: {
         Args: { _request: string; _user: string }
         Returns: boolean
@@ -4014,11 +4488,19 @@ export type Database = {
         Args: { _provider_id: string; _user_id: string }
         Returns: boolean
       }
+      refresh_pharmacy_product_rating: {
+        Args: { _product: string }
+        Returns: undefined
+      }
       refresh_provider_rating: {
         Args: { _provider: string }
         Returns: undefined
       }
       slugify: { Args: { _input: string }; Returns: string }
+      storage_first_folder_order_access: {
+        Args: { _name: string }
+        Returns: boolean
+      }
       storage_first_folder_owns_provider: {
         Args: { _name: string; _uid: string }
         Returns: boolean
@@ -4109,6 +4591,18 @@ export type Database = {
         | "doctor_availability"
         | "lab_results"
         | "ai_suggestion"
+      order_fulfillment: "pickup" | "delivery"
+      order_status:
+        | "pending_prescription"
+        | "pending_review"
+        | "approved"
+        | "rejected"
+        | "preparing"
+        | "ready_for_pickup"
+        | "out_for_delivery"
+        | "delivered"
+        | "cancelled"
+      prescription_review_status: "pending" | "approved" | "rejected"
       provider_category:
         | "doctor"
         | "dentist"
@@ -4327,6 +4821,19 @@ export const Constants = {
         "lab_results",
         "ai_suggestion",
       ],
+      order_fulfillment: ["pickup", "delivery"],
+      order_status: [
+        "pending_prescription",
+        "pending_review",
+        "approved",
+        "rejected",
+        "preparing",
+        "ready_for_pickup",
+        "out_for_delivery",
+        "delivered",
+        "cancelled",
+      ],
+      prescription_review_status: ["pending", "approved", "rejected"],
       provider_category: [
         "doctor",
         "dentist",

@@ -20,6 +20,8 @@ import {
   ShieldCheck,
   Newspaper,
   HelpCircle,
+  ShoppingBag,
+  Package,
   type LucideIcon,
 } from "lucide-react";
 
@@ -41,11 +43,13 @@ export const primaryNav: NavItem[] = [
   { label: "Hôpitaux", to: "/hospitals", icon: Building2 },
   { label: "Laboratoires", to: "/laboratories", icon: FlaskConical },
   { label: "Médicaments", to: "/medicaments", icon: Tablets },
+  { label: "Boutique", to: "/products", icon: ShoppingBag },
   { label: "Don du sang", to: "/blood", icon: Droplet },
   { label: "Assistant IA", to: "/ai-assistant", icon: Sparkles },
   { label: "Santé & actualités", to: "/content", icon: Newspaper },
   { label: "FAQ", to: "/faq", icon: HelpCircle },
   { label: "RDV", to: "/appointments", icon: CalendarCheck },
+  { label: "Mes commandes", to: "/orders", icon: Package },
 ];
 
 export const secondaryNav: NavItem[] = [
