@@ -81,6 +81,7 @@ import { Route as AuthenticatedProviderReviewsRouteImport } from './routes/_auth
 import { Route as AuthenticatedProviderProfileRouteImport } from './routes/_authenticated/provider.profile'
 import { Route as AuthenticatedProviderProductsRouteImport } from './routes/_authenticated/provider.products'
 import { Route as AuthenticatedProviderPrescriptionsRouteImport } from './routes/_authenticated/provider.prescriptions'
+import { Route as AuthenticatedProviderOrdersRouteImport } from './routes/_authenticated/provider.orders'
 import { Route as AuthenticatedProviderNotificationsRouteImport } from './routes/_authenticated/provider.notifications'
 import { Route as AuthenticatedProviderMessagesRouteImport } from './routes/_authenticated/provider.messages'
 import { Route as AuthenticatedProviderHoursRouteImport } from './routes/_authenticated/provider.hours'
@@ -511,6 +512,12 @@ const AuthenticatedProviderPrescriptionsRoute =
     path: '/prescriptions',
     getParentRoute: () => AuthenticatedProviderRoute,
   } as any)
+const AuthenticatedProviderOrdersRoute =
+  AuthenticatedProviderOrdersRouteImport.update({
+    id: '/orders',
+    path: '/orders',
+    getParentRoute: () => AuthenticatedProviderRoute,
+  } as any)
 const AuthenticatedProviderNotificationsRoute =
   AuthenticatedProviderNotificationsRouteImport.update({
     id: '/notifications',
@@ -911,6 +918,7 @@ export interface FileRoutesByFullPath {
   '/provider/hours': typeof AuthenticatedProviderHoursRoute
   '/provider/messages': typeof AuthenticatedProviderMessagesRoute
   '/provider/notifications': typeof AuthenticatedProviderNotificationsRoute
+  '/provider/orders': typeof AuthenticatedProviderOrdersRoute
   '/provider/prescriptions': typeof AuthenticatedProviderPrescriptionsRouteWithChildren
   '/provider/products': typeof AuthenticatedProviderProductsRoute
   '/provider/profile': typeof AuthenticatedProviderProfileRoute
@@ -1034,6 +1042,7 @@ export interface FileRoutesByTo {
   '/provider/hours': typeof AuthenticatedProviderHoursRoute
   '/provider/messages': typeof AuthenticatedProviderMessagesRoute
   '/provider/notifications': typeof AuthenticatedProviderNotificationsRoute
+  '/provider/orders': typeof AuthenticatedProviderOrdersRoute
   '/provider/prescriptions': typeof AuthenticatedProviderPrescriptionsRouteWithChildren
   '/provider/products': typeof AuthenticatedProviderProductsRoute
   '/provider/profile': typeof AuthenticatedProviderProfileRoute
@@ -1161,6 +1170,7 @@ export interface FileRoutesById {
   '/_authenticated/provider/hours': typeof AuthenticatedProviderHoursRoute
   '/_authenticated/provider/messages': typeof AuthenticatedProviderMessagesRoute
   '/_authenticated/provider/notifications': typeof AuthenticatedProviderNotificationsRoute
+  '/_authenticated/provider/orders': typeof AuthenticatedProviderOrdersRoute
   '/_authenticated/provider/prescriptions': typeof AuthenticatedProviderPrescriptionsRouteWithChildren
   '/_authenticated/provider/products': typeof AuthenticatedProviderProductsRoute
   '/_authenticated/provider/profile': typeof AuthenticatedProviderProfileRoute
@@ -1288,6 +1298,7 @@ export interface FileRouteTypes {
     | '/provider/hours'
     | '/provider/messages'
     | '/provider/notifications'
+    | '/provider/orders'
     | '/provider/prescriptions'
     | '/provider/products'
     | '/provider/profile'
@@ -1411,6 +1422,7 @@ export interface FileRouteTypes {
     | '/provider/hours'
     | '/provider/messages'
     | '/provider/notifications'
+    | '/provider/orders'
     | '/provider/prescriptions'
     | '/provider/products'
     | '/provider/profile'
@@ -1537,6 +1549,7 @@ export interface FileRouteTypes {
     | '/_authenticated/provider/hours'
     | '/_authenticated/provider/messages'
     | '/_authenticated/provider/notifications'
+    | '/_authenticated/provider/orders'
     | '/_authenticated/provider/prescriptions'
     | '/_authenticated/provider/products'
     | '/_authenticated/provider/profile'
@@ -2128,6 +2141,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProviderPrescriptionsRouteImport
       parentRoute: typeof AuthenticatedProviderRoute
     }
+    '/_authenticated/provider/orders': {
+      id: '/_authenticated/provider/orders'
+      path: '/orders'
+      fullPath: '/provider/orders'
+      preLoaderRoute: typeof AuthenticatedProviderOrdersRouteImport
+      parentRoute: typeof AuthenticatedProviderRoute
+    }
     '/_authenticated/provider/notifications': {
       id: '/_authenticated/provider/notifications'
       path: '/notifications'
@@ -2603,6 +2623,7 @@ interface AuthenticatedProviderRouteChildren {
   AuthenticatedProviderHoursRoute: typeof AuthenticatedProviderHoursRoute
   AuthenticatedProviderMessagesRoute: typeof AuthenticatedProviderMessagesRoute
   AuthenticatedProviderNotificationsRoute: typeof AuthenticatedProviderNotificationsRoute
+  AuthenticatedProviderOrdersRoute: typeof AuthenticatedProviderOrdersRoute
   AuthenticatedProviderPrescriptionsRoute: typeof AuthenticatedProviderPrescriptionsRouteWithChildren
   AuthenticatedProviderProductsRoute: typeof AuthenticatedProviderProductsRoute
   AuthenticatedProviderProfileRoute: typeof AuthenticatedProviderProfileRoute
@@ -2624,6 +2645,7 @@ const AuthenticatedProviderRouteChildren: AuthenticatedProviderRouteChildren = {
   AuthenticatedProviderMessagesRoute: AuthenticatedProviderMessagesRoute,
   AuthenticatedProviderNotificationsRoute:
     AuthenticatedProviderNotificationsRoute,
+  AuthenticatedProviderOrdersRoute: AuthenticatedProviderOrdersRoute,
   AuthenticatedProviderPrescriptionsRoute:
     AuthenticatedProviderPrescriptionsRouteWithChildren,
   AuthenticatedProviderProductsRoute: AuthenticatedProviderProductsRoute,
