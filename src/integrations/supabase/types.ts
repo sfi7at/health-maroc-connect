@@ -4497,6 +4497,10 @@ export type Database = {
         Returns: undefined
       }
       slugify: { Args: { _input: string }; Returns: string }
+      storage_first_folder_order_access: {
+        Args: { _name: string }
+        Returns: boolean
+      }
       storage_first_folder_owns_provider: {
         Args: { _name: string; _uid: string }
         Returns: boolean
