@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -137,7 +137,7 @@ function ProviderProducts() {
         title="Produits"
         description="Publiez vos médicaments, parapharmacie et matériel médical."
         icon={<Package className="h-5 w-5" />}
-        action={
+        actions={
           <Button onClick={() => setDraft({ ...EMPTY })} className="gap-1.5">
             <Plus className="h-4 w-4" /> Nouveau produit
           </Button>
@@ -161,7 +161,7 @@ function ProviderProducts() {
           icon={Package}
           title={q ? "Aucun résultat" : "Aucun produit encore"}
           description={q ? "Essayez un autre mot-clé." : "Ajoutez votre premier produit pour commencer à vendre."}
-          action={
+          actions={
             !q ? (
               <Button onClick={() => setDraft({ ...EMPTY })} className="gap-1.5">
                 <Plus className="h-4 w-4" /> Ajouter un produit
@@ -227,9 +227,9 @@ function ProductRow({
 }) {
   const images = Array.isArray(product.images) ? (product.images as string[]) : [];
   const [thumb, setThumb] = useState<string | null>(null);
-  useState(() => {
+  useEffect(() => {
     if (images[0]) signProductImage(images[0]).then(setThumb);
-  });
+  }, [images]);
   return (
     <article className="flex gap-3 rounded-3xl border border-border bg-card p-3 shadow-soft">
       <div className="grid h-20 w-20 shrink-0 place-items-center overflow-hidden rounded-2xl bg-muted">
@@ -303,6 +303,7 @@ function ProductDialog({
       const payload = {
         pharmacy_id: pharmacyId,
         name: state.name.trim(),
+        slug: slugify(state.name),
         brand: state.brand.trim() || null,
         dosage_form: state.dosage_form.trim() || null,
         category_id: state.category_id || null,
@@ -494,9 +495,9 @@ function Toggle({
 
 function ImageThumb({ path, onRemove }: { path: string; onRemove: () => void }) {
   const [url, setUrl] = useState<string | null>(null);
-  useState(() => {
+  useEffect(() => {
     signProductImage(path).then(setUrl);
-  });
+  }, [path]);
   return (
     <div className="group relative h-20 w-20 overflow-hidden rounded-2xl border border-border">
       {url ? <img src={url} alt="" className="h-full w-full object-cover" /> : null}
@@ -508,5 +509,17 @@ function ImageThumb({ path, onRemove }: { path: string; onRemove: () => void }) 
         <Trash2 className="h-3 w-3" />
       </button>
     </div>
+  );
+}
+
+function slugify(input: string): string {
+  return (
+    input
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)+/g, "")
+      .slice(0, 80) || `product-${Date.now()}`
   );
 }
