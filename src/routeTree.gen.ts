@@ -62,6 +62,7 @@ import { Route as AuthenticatedLaboratoryDashboardRouteImport } from './routes/_
 import { Route as AuthenticatedHospitalDashboardRouteImport } from './routes/_authenticated/hospital-dashboard'
 import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
 import { Route as AuthenticatedDoctorDashboardRouteImport } from './routes/_authenticated/doctor-dashboard'
+import { Route as AuthenticatedCartRouteImport } from './routes/_authenticated/cart'
 import { Route as AuthenticatedAiAssistantRouteImport } from './routes/_authenticated/ai-assistant'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as BloodDonorsIndexRouteImport } from './routes/blood.donors.index'
@@ -407,6 +408,11 @@ const AuthenticatedDoctorDashboardRoute =
     path: '/doctor-dashboard',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedCartRoute = AuthenticatedCartRouteImport.update({
+  id: '/cart',
+  path: '/cart',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAiAssistantRoute =
   AuthenticatedAiAssistantRouteImport.update({
     id: '/ai-assistant',
@@ -857,6 +863,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/ai-assistant': typeof AuthenticatedAiAssistantRoute
+  '/cart': typeof AuthenticatedCartRoute
   '/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/favorites': typeof AuthenticatedFavoritesRoute
   '/hospital-dashboard': typeof AuthenticatedHospitalDashboardRoute
@@ -985,6 +992,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/ai-assistant': typeof AuthenticatedAiAssistantRoute
+  '/cart': typeof AuthenticatedCartRoute
   '/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/favorites': typeof AuthenticatedFavoritesRoute
   '/hospital-dashboard': typeof AuthenticatedHospitalDashboardRoute
@@ -1115,6 +1123,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/ai-assistant': typeof AuthenticatedAiAssistantRoute
+  '/_authenticated/cart': typeof AuthenticatedCartRoute
   '/_authenticated/doctor-dashboard': typeof AuthenticatedDoctorDashboardRoute
   '/_authenticated/favorites': typeof AuthenticatedFavoritesRoute
   '/_authenticated/hospital-dashboard': typeof AuthenticatedHospitalDashboardRoute
@@ -1246,6 +1255,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin'
     | '/ai-assistant'
+    | '/cart'
     | '/doctor-dashboard'
     | '/favorites'
     | '/hospital-dashboard'
@@ -1374,6 +1384,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/ai-assistant'
+    | '/cart'
     | '/doctor-dashboard'
     | '/favorites'
     | '/hospital-dashboard'
@@ -1503,6 +1514,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/_authenticated/admin'
     | '/_authenticated/ai-assistant'
+    | '/_authenticated/cart'
     | '/_authenticated/doctor-dashboard'
     | '/_authenticated/favorites'
     | '/_authenticated/hospital-dashboard'
@@ -2045,6 +2057,13 @@ declare module '@tanstack/react-router' {
       path: '/doctor-dashboard'
       fullPath: '/doctor-dashboard'
       preLoaderRoute: typeof AuthenticatedDoctorDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/cart': {
+      id: '/_authenticated/cart'
+      path: '/cart'
+      fullPath: '/cart'
+      preLoaderRoute: typeof AuthenticatedCartRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/ai-assistant': {
@@ -2744,6 +2763,7 @@ const AuthenticatedProviderRouteWithChildren =
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
   AuthenticatedAiAssistantRoute: typeof AuthenticatedAiAssistantRoute
+  AuthenticatedCartRoute: typeof AuthenticatedCartRoute
   AuthenticatedDoctorDashboardRoute: typeof AuthenticatedDoctorDashboardRoute
   AuthenticatedFavoritesRoute: typeof AuthenticatedFavoritesRoute
   AuthenticatedHospitalDashboardRoute: typeof AuthenticatedHospitalDashboardRoute
@@ -2767,6 +2787,7 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
   AuthenticatedAiAssistantRoute: AuthenticatedAiAssistantRoute,
+  AuthenticatedCartRoute: AuthenticatedCartRoute,
   AuthenticatedDoctorDashboardRoute: AuthenticatedDoctorDashboardRoute,
   AuthenticatedFavoritesRoute: AuthenticatedFavoritesRoute,
   AuthenticatedHospitalDashboardRoute: AuthenticatedHospitalDashboardRoute,
