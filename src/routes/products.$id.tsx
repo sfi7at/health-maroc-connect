@@ -21,7 +21,7 @@ import { useCart } from "@/lib/cart";
 import { buildHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/products/$id")({
-  head: ({ loaderData }) =>
+  head: ({ loaderData }: { loaderData?: { title: string; description: string } }) =>
     buildHead({
       title: loaderData?.title ?? "Produit — Vytalma",
       description: loaderData?.description ?? "Découvrez ce produit sur Vytalma.",
