@@ -355,7 +355,7 @@ function PharmacyProfilePage() {
                   <div className="flex items-center gap-2 text-sm">
                     <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
                     <span className="font-semibold">{r.rating}/5</span>
-                    {r.title ? <span className="text-muted-foreground">— {r.title}</span> : null}
+                    <span className="ml-auto text-xs text-muted-foreground">{new Date(r.created_at).toLocaleDateString("fr-FR")}</span>
                   </div>
                   {r.comment ? <p className="mt-1 text-sm text-muted-foreground">{r.comment}</p> : null}
                 </li>
