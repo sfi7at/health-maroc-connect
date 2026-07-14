@@ -8,7 +8,19 @@ export type ProductUpdate = Database["public"]["Tables"]["pharmacy_products"]["U
 export type ProductCategoryRow = Database["public"]["Tables"]["product_categories"]["Row"];
 
 export type ProductWithPharmacy = ProductRow & {
-  providers?: { id: string; name: string; slug: string | null; city_id: string | null; average_rating: number | null } | null;
+  providers?:
+    | {
+        id: string;
+        name: string;
+        slug: string | null;
+        city_id?: string | null;
+        average_rating?: number | null;
+        address?: string | null;
+        phone?: string | null;
+        is_verified?: boolean | null;
+        working_hours?: unknown;
+      }
+    | null;
   product_categories?: { id: string; slug: string; name_fr: string } | null;
 };
 

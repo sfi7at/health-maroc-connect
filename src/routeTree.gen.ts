@@ -30,6 +30,7 @@ import { Route as DoctorsIndexRouteImport } from './routes/doctors.index'
 import { Route as ContentIndexRouteImport } from './routes/content.index'
 import { Route as BloodIndexRouteImport } from './routes/blood.index'
 import { Route as ProvidersIdRouteImport } from './routes/providers.$id'
+import { Route as ProductsIdRouteImport } from './routes/products.$id'
 import { Route as PharmaciesSearchRouteImport } from './routes/pharmacies.search'
 import { Route as PharmaciesOpenRouteImport } from './routes/pharmacies.open'
 import { Route as PharmaciesOnDutyRouteImport } from './routes/pharmacies.on-duty'
@@ -239,6 +240,11 @@ const BloodIndexRoute = BloodIndexRouteImport.update({
 const ProvidersIdRoute = ProvidersIdRouteImport.update({
   id: '/providers/$id',
   path: '/providers/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsIdRoute = ProductsIdRouteImport.update({
+  id: '/products/$id',
+  path: '/products/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PharmaciesSearchRoute = PharmaciesSearchRouteImport.update({
@@ -882,6 +888,7 @@ export interface FileRoutesByFullPath {
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/pharmacies/open': typeof PharmaciesOpenRoute
   '/pharmacies/search': typeof PharmaciesSearchRoute
+  '/products/$id': typeof ProductsIdRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/blood/': typeof BloodIndexRoute
   '/content/': typeof ContentIndexRoute
@@ -1008,6 +1015,7 @@ export interface FileRoutesByTo {
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/pharmacies/open': typeof PharmaciesOpenRoute
   '/pharmacies/search': typeof PharmaciesSearchRoute
+  '/products/$id': typeof ProductsIdRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/blood': typeof BloodIndexRoute
   '/content': typeof ContentIndexRoute
@@ -1138,6 +1146,7 @@ export interface FileRoutesById {
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/pharmacies/open': typeof PharmaciesOpenRoute
   '/pharmacies/search': typeof PharmaciesSearchRoute
+  '/products/$id': typeof ProductsIdRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/blood/': typeof BloodIndexRoute
   '/content/': typeof ContentIndexRoute
@@ -1268,6 +1277,7 @@ export interface FileRouteTypes {
     | '/pharmacies/on-duty'
     | '/pharmacies/open'
     | '/pharmacies/search'
+    | '/products/$id'
     | '/providers/$id'
     | '/blood/'
     | '/content/'
@@ -1394,6 +1404,7 @@ export interface FileRouteTypes {
     | '/pharmacies/on-duty'
     | '/pharmacies/open'
     | '/pharmacies/search'
+    | '/products/$id'
     | '/providers/$id'
     | '/blood'
     | '/content'
@@ -1523,6 +1534,7 @@ export interface FileRouteTypes {
     | '/pharmacies/on-duty'
     | '/pharmacies/open'
     | '/pharmacies/search'
+    | '/products/$id'
     | '/providers/$id'
     | '/blood/'
     | '/content/'
@@ -1642,6 +1654,7 @@ export interface RootRouteChildren {
   PharmaciesOnDutyRoute: typeof PharmaciesOnDutyRoute
   PharmaciesOpenRoute: typeof PharmaciesOpenRoute
   PharmaciesSearchRoute: typeof PharmaciesSearchRoute
+  ProductsIdRoute: typeof ProductsIdRoute
   ProvidersIdRoute: typeof ProvidersIdRoute
   BloodIndexRoute: typeof BloodIndexRoute
   ContentIndexRoute: typeof ContentIndexRoute
@@ -1808,6 +1821,13 @@ declare module '@tanstack/react-router' {
       path: '/providers/$id'
       fullPath: '/providers/$id'
       preLoaderRoute: typeof ProvidersIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products/$id': {
+      id: '/products/$id'
+      path: '/products/$id'
+      fullPath: '/products/$id'
+      preLoaderRoute: typeof ProductsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pharmacies/search': {
@@ -2807,6 +2827,7 @@ const rootRouteChildren: RootRouteChildren = {
   PharmaciesOnDutyRoute: PharmaciesOnDutyRoute,
   PharmaciesOpenRoute: PharmaciesOpenRoute,
   PharmaciesSearchRoute: PharmaciesSearchRoute,
+  ProductsIdRoute: ProductsIdRoute,
   ProvidersIdRoute: ProvidersIdRoute,
   BloodIndexRoute: BloodIndexRoute,
   ContentIndexRoute: ContentIndexRoute,
