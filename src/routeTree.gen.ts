@@ -92,6 +92,7 @@ import { Route as AuthenticatedProviderHoursRouteImport } from './routes/_authen
 import { Route as AuthenticatedProviderGalleryRouteImport } from './routes/_authenticated/provider.gallery'
 import { Route as AuthenticatedProviderCalendarRouteImport } from './routes/_authenticated/provider.calendar'
 import { Route as AuthenticatedProviderAppointmentsRouteImport } from './routes/_authenticated/provider.appointments'
+import { Route as AuthenticatedOrdersIdRouteImport } from './routes/_authenticated/orders.$id'
 import { Route as AuthenticatedBloodMeRouteImport } from './routes/_authenticated/blood.me'
 import { Route as AuthenticatedBloodHistoryRouteImport } from './routes/_authenticated/blood.history'
 import { Route as AuthenticatedBloodBecomeDonorRouteImport } from './routes/_authenticated/blood.become-donor'
@@ -580,6 +581,11 @@ const AuthenticatedProviderAppointmentsRoute =
     path: '/appointments',
     getParentRoute: () => AuthenticatedProviderRoute,
   } as any)
+const AuthenticatedOrdersIdRoute = AuthenticatedOrdersIdRouteImport.update({
+  id: '/orders/$id',
+  path: '/orders/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedBloodMeRoute = AuthenticatedBloodMeRouteImport.update({
   id: '/blood/me',
   path: '/blood/me',
@@ -947,6 +953,7 @@ export interface FileRoutesByFullPath {
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/me': typeof AuthenticatedBloodMeRoute
+  '/orders/$id': typeof AuthenticatedOrdersIdRoute
   '/provider/appointments': typeof AuthenticatedProviderAppointmentsRoute
   '/provider/calendar': typeof AuthenticatedProviderCalendarRoute
   '/provider/gallery': typeof AuthenticatedProviderGalleryRoute
@@ -1076,6 +1083,7 @@ export interface FileRoutesByTo {
   '/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/blood/me': typeof AuthenticatedBloodMeRoute
+  '/orders/$id': typeof AuthenticatedOrdersIdRoute
   '/provider/appointments': typeof AuthenticatedProviderAppointmentsRoute
   '/provider/calendar': typeof AuthenticatedProviderCalendarRoute
   '/provider/gallery': typeof AuthenticatedProviderGalleryRoute
@@ -1209,6 +1217,7 @@ export interface FileRoutesById {
   '/_authenticated/blood/become-donor': typeof AuthenticatedBloodBecomeDonorRoute
   '/_authenticated/blood/history': typeof AuthenticatedBloodHistoryRoute
   '/_authenticated/blood/me': typeof AuthenticatedBloodMeRoute
+  '/_authenticated/orders/$id': typeof AuthenticatedOrdersIdRoute
   '/_authenticated/provider/appointments': typeof AuthenticatedProviderAppointmentsRoute
   '/_authenticated/provider/calendar': typeof AuthenticatedProviderCalendarRoute
   '/_authenticated/provider/gallery': typeof AuthenticatedProviderGalleryRoute
@@ -1342,6 +1351,7 @@ export interface FileRouteTypes {
     | '/blood/become-donor'
     | '/blood/history'
     | '/blood/me'
+    | '/orders/$id'
     | '/provider/appointments'
     | '/provider/calendar'
     | '/provider/gallery'
@@ -1471,6 +1481,7 @@ export interface FileRouteTypes {
     | '/blood/become-donor'
     | '/blood/history'
     | '/blood/me'
+    | '/orders/$id'
     | '/provider/appointments'
     | '/provider/calendar'
     | '/provider/gallery'
@@ -1603,6 +1614,7 @@ export interface FileRouteTypes {
     | '/_authenticated/blood/become-donor'
     | '/_authenticated/blood/history'
     | '/_authenticated/blood/me'
+    | '/_authenticated/orders/$id'
     | '/_authenticated/provider/appointments'
     | '/_authenticated/provider/calendar'
     | '/_authenticated/provider/gallery'
@@ -2282,6 +2294,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProviderAppointmentsRouteImport
       parentRoute: typeof AuthenticatedProviderRoute
     }
+    '/_authenticated/orders/$id': {
+      id: '/_authenticated/orders/$id'
+      path: '/orders/$id'
+      fullPath: '/orders/$id'
+      preLoaderRoute: typeof AuthenticatedOrdersIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/blood/me': {
       id: '/_authenticated/blood/me'
       path: '/blood/me'
@@ -2798,6 +2817,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedBloodBecomeDonorRoute: typeof AuthenticatedBloodBecomeDonorRoute
   AuthenticatedBloodHistoryRoute: typeof AuthenticatedBloodHistoryRoute
   AuthenticatedBloodMeRoute: typeof AuthenticatedBloodMeRoute
+  AuthenticatedOrdersIdRoute: typeof AuthenticatedOrdersIdRoute
   AuthenticatedAppointmentsIndexRoute: typeof AuthenticatedAppointmentsIndexRoute
   AuthenticatedOrdersIndexRoute: typeof AuthenticatedOrdersIndexRoute
   AuthenticatedAppointmentsNewProviderIdRoute: typeof AuthenticatedAppointmentsNewProviderIdRoute
@@ -2824,6 +2844,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBloodBecomeDonorRoute: AuthenticatedBloodBecomeDonorRoute,
   AuthenticatedBloodHistoryRoute: AuthenticatedBloodHistoryRoute,
   AuthenticatedBloodMeRoute: AuthenticatedBloodMeRoute,
+  AuthenticatedOrdersIdRoute: AuthenticatedOrdersIdRoute,
   AuthenticatedAppointmentsIndexRoute: AuthenticatedAppointmentsIndexRoute,
   AuthenticatedOrdersIndexRoute: AuthenticatedOrdersIndexRoute,
   AuthenticatedAppointmentsNewProviderIdRoute:
