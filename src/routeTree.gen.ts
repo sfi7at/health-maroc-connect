@@ -139,6 +139,7 @@ import { Route as AuthenticatedAppointmentsNewProviderIdRouteImport } from './ro
 import { Route as AuthenticatedAdminSecurityTrustRouteImport } from './routes/_authenticated/admin.security.trust'
 import { Route as AuthenticatedAdminSecurityEventsRouteImport } from './routes/_authenticated/admin.security.events'
 import { Route as AuthenticatedAdminSecurityBlockedRouteImport } from './routes/_authenticated/admin.security.blocked'
+import { Route as AuthenticatedAdminPharmaciesNewRouteImport } from './routes/_authenticated/admin.pharmacies.new'
 import { Route as AuthenticatedAdminDoctorsNewRouteImport } from './routes/_authenticated/admin.doctors.new'
 
 const TermsRoute = TermsRouteImport.update({
@@ -855,6 +856,12 @@ const AuthenticatedAdminSecurityBlockedRoute =
     path: '/security/blocked',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminPharmaciesNewRoute =
+  AuthenticatedAdminPharmaciesNewRouteImport.update({
+    id: '/pharmacies/new',
+    path: '/pharmacies/new',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminDoctorsNewRoute =
   AuthenticatedAdminDoctorsNewRouteImport.update({
     id: '/doctors/new',
@@ -982,6 +989,7 @@ export interface FileRoutesByFullPath {
   '/provider/': typeof AuthenticatedProviderIndexRoute
   '/blood/donors/': typeof BloodDonorsIndexRoute
   '/admin/doctors/new': typeof AuthenticatedAdminDoctorsNewRoute
+  '/admin/pharmacies/new': typeof AuthenticatedAdminPharmaciesNewRoute
   '/admin/security/blocked': typeof AuthenticatedAdminSecurityBlockedRoute
   '/admin/security/events': typeof AuthenticatedAdminSecurityEventsRoute
   '/admin/security/trust': typeof AuthenticatedAdminSecurityTrustRoute
@@ -1112,6 +1120,7 @@ export interface FileRoutesByTo {
   '/provider': typeof AuthenticatedProviderIndexRoute
   '/blood/donors': typeof BloodDonorsIndexRoute
   '/admin/doctors/new': typeof AuthenticatedAdminDoctorsNewRoute
+  '/admin/pharmacies/new': typeof AuthenticatedAdminPharmaciesNewRoute
   '/admin/security/blocked': typeof AuthenticatedAdminSecurityBlockedRoute
   '/admin/security/events': typeof AuthenticatedAdminSecurityEventsRoute
   '/admin/security/trust': typeof AuthenticatedAdminSecurityTrustRoute
@@ -1246,6 +1255,7 @@ export interface FileRoutesById {
   '/_authenticated/provider/': typeof AuthenticatedProviderIndexRoute
   '/blood/donors/': typeof BloodDonorsIndexRoute
   '/_authenticated/admin/doctors/new': typeof AuthenticatedAdminDoctorsNewRoute
+  '/_authenticated/admin/pharmacies/new': typeof AuthenticatedAdminPharmaciesNewRoute
   '/_authenticated/admin/security/blocked': typeof AuthenticatedAdminSecurityBlockedRoute
   '/_authenticated/admin/security/events': typeof AuthenticatedAdminSecurityEventsRoute
   '/_authenticated/admin/security/trust': typeof AuthenticatedAdminSecurityTrustRoute
@@ -1380,6 +1390,7 @@ export interface FileRouteTypes {
     | '/provider/'
     | '/blood/donors/'
     | '/admin/doctors/new'
+    | '/admin/pharmacies/new'
     | '/admin/security/blocked'
     | '/admin/security/events'
     | '/admin/security/trust'
@@ -1510,6 +1521,7 @@ export interface FileRouteTypes {
     | '/provider'
     | '/blood/donors'
     | '/admin/doctors/new'
+    | '/admin/pharmacies/new'
     | '/admin/security/blocked'
     | '/admin/security/events'
     | '/admin/security/trust'
@@ -1643,6 +1655,7 @@ export interface FileRouteTypes {
     | '/_authenticated/provider/'
     | '/blood/donors/'
     | '/_authenticated/admin/doctors/new'
+    | '/_authenticated/admin/pharmacies/new'
     | '/_authenticated/admin/security/blocked'
     | '/_authenticated/admin/security/events'
     | '/_authenticated/admin/security/trust'
@@ -2623,6 +2636,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminSecurityBlockedRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/pharmacies/new': {
+      id: '/_authenticated/admin/pharmacies/new'
+      path: '/pharmacies/new'
+      fullPath: '/admin/pharmacies/new'
+      preLoaderRoute: typeof AuthenticatedAdminPharmaciesNewRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/doctors/new': {
       id: '/_authenticated/admin/doctors/new'
       path: '/doctors/new'
@@ -2666,6 +2686,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminVersionsRoute: typeof AuthenticatedAdminVersionsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdminDoctorsNewRoute: typeof AuthenticatedAdminDoctorsNewRoute
+  AuthenticatedAdminPharmaciesNewRoute: typeof AuthenticatedAdminPharmaciesNewRoute
   AuthenticatedAdminSecurityBlockedRoute: typeof AuthenticatedAdminSecurityBlockedRoute
   AuthenticatedAdminSecurityEventsRoute: typeof AuthenticatedAdminSecurityEventsRoute
   AuthenticatedAdminSecurityTrustRoute: typeof AuthenticatedAdminSecurityTrustRoute
@@ -2706,6 +2727,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminVersionsRoute: AuthenticatedAdminVersionsRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAdminDoctorsNewRoute: AuthenticatedAdminDoctorsNewRoute,
+  AuthenticatedAdminPharmaciesNewRoute: AuthenticatedAdminPharmaciesNewRoute,
   AuthenticatedAdminSecurityBlockedRoute:
     AuthenticatedAdminSecurityBlockedRoute,
   AuthenticatedAdminSecurityEventsRoute: AuthenticatedAdminSecurityEventsRoute,
