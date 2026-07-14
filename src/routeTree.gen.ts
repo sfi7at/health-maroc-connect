@@ -21,6 +21,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as PharmaciesIndexRouteImport } from './routes/pharmacies.index'
 import { Route as MedicamentsIndexRouteImport } from './routes/medicaments.index'
 import { Route as LaboratoriesIndexRouteImport } from './routes/laboratories.index'
@@ -193,6 +194,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsIndexRoute = ProductsIndexRouteImport.update({
+  id: '/products/',
+  path: '/products/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PharmaciesIndexRoute = PharmaciesIndexRouteImport.update({
@@ -884,6 +890,7 @@ export interface FileRoutesByFullPath {
   '/laboratories/': typeof LaboratoriesIndexRoute
   '/medicaments/': typeof MedicamentsIndexRoute
   '/pharmacies/': typeof PharmaciesIndexRoute
+  '/products/': typeof ProductsIndexRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
   '/admin/articles': typeof AuthenticatedAdminArticlesRoute
@@ -1009,6 +1016,7 @@ export interface FileRoutesByTo {
   '/laboratories': typeof LaboratoriesIndexRoute
   '/medicaments': typeof MedicamentsIndexRoute
   '/pharmacies': typeof PharmaciesIndexRoute
+  '/products': typeof ProductsIndexRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
   '/admin/articles': typeof AuthenticatedAdminArticlesRoute
@@ -1138,6 +1146,7 @@ export interface FileRoutesById {
   '/laboratories/': typeof LaboratoriesIndexRoute
   '/medicaments/': typeof MedicamentsIndexRoute
   '/pharmacies/': typeof PharmaciesIndexRoute
+  '/products/': typeof ProductsIndexRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/_authenticated/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
   '/_authenticated/admin/articles': typeof AuthenticatedAdminArticlesRoute
@@ -1267,6 +1276,7 @@ export interface FileRouteTypes {
     | '/laboratories/'
     | '/medicaments/'
     | '/pharmacies/'
+    | '/products/'
     | '/admin/analytics'
     | '/admin/appointments'
     | '/admin/articles'
@@ -1392,6 +1402,7 @@ export interface FileRouteTypes {
     | '/laboratories'
     | '/medicaments'
     | '/pharmacies'
+    | '/products'
     | '/admin/analytics'
     | '/admin/appointments'
     | '/admin/articles'
@@ -1520,6 +1531,7 @@ export interface FileRouteTypes {
     | '/laboratories/'
     | '/medicaments/'
     | '/pharmacies/'
+    | '/products/'
     | '/_authenticated/admin/analytics'
     | '/_authenticated/admin/appointments'
     | '/_authenticated/admin/articles'
@@ -1638,6 +1650,7 @@ export interface RootRouteChildren {
   LaboratoriesIndexRoute: typeof LaboratoriesIndexRoute
   MedicamentsIndexRoute: typeof MedicamentsIndexRoute
   PharmaciesIndexRoute: typeof PharmaciesIndexRoute
+  ProductsIndexRoute: typeof ProductsIndexRoute
   ApiPublicHealthRoute: typeof ApiPublicHealthRoute
   ApiPublicNotifyPushRoute: typeof ApiPublicNotifyPushRoute
   ApiPublicProviderCalendarDoticsRoute: typeof ApiPublicProviderCalendarDoticsRoute
@@ -1732,6 +1745,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products/': {
+      id: '/products/'
+      path: '/products'
+      fullPath: '/products/'
+      preLoaderRoute: typeof ProductsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pharmacies/': {
@@ -2795,6 +2815,7 @@ const rootRouteChildren: RootRouteChildren = {
   LaboratoriesIndexRoute: LaboratoriesIndexRoute,
   MedicamentsIndexRoute: MedicamentsIndexRoute,
   PharmaciesIndexRoute: PharmaciesIndexRoute,
+  ProductsIndexRoute: ProductsIndexRoute,
   ApiPublicHealthRoute: ApiPublicHealthRoute,
   ApiPublicNotifyPushRoute: ApiPublicNotifyPushRoute,
   ApiPublicProviderCalendarDoticsRoute: ApiPublicProviderCalendarDoticsRoute,
