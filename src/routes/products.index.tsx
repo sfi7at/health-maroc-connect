@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Search, ShoppingBag } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { PageHero } from "@/components/layout/PageHero";
+import { PageHeader } from "@/components/common/PageHeader";
 import { EmptyState } from "@/components/common/EmptyState";
 import { ProductCard } from "@/components/products/ProductCard";
 import {
@@ -42,7 +42,7 @@ function ProductsIndex() {
 
   return (
     <div className="space-y-6">
-      <PageHero
+      <PageHeader
         eyebrow="Boutique"
         title="Produits & médicaments"
         description="Achetez auprès des pharmacies vérifiées du Maroc."
