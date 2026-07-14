@@ -66,10 +66,14 @@ function Sheet({ provider, userPosition, isFavorite, onToggleFavorite, onClose }
       : null;
   const bookable = isBookable(provider as never);
   const isDoctorLike = provider!.category === "doctor" || provider!.category === "dentist";
-  const profileTo = isDoctorLike ? "/doctors/$id" : "/providers/$id";
+  const isPharmacy = provider!.category === "pharmacy";
+  const providerSlug = (provider as unknown as { slug?: string | null }).slug ?? null;
+  const profileTo = isDoctorLike ? "/doctors/$id" : isPharmacy ? "/pharmacy/$slug" : "/providers/$id";
   const profileParams = isDoctorLike
     ? { id: doctorPathId(provider as never) }
-    : { id: provider!.id };
+    : isPharmacy
+      ? { slug: providerSlug ?? provider!.id }
+      : { id: provider!.id };
   const directions = providerDirectionsUrl(provider as never);
 
   async function share() {

@@ -31,6 +31,7 @@ import { Route as ContentIndexRouteImport } from './routes/content.index'
 import { Route as BloodIndexRouteImport } from './routes/blood.index'
 import { Route as ProvidersIdRouteImport } from './routes/providers.$id'
 import { Route as ProductsIdRouteImport } from './routes/products.$id'
+import { Route as PharmacySlugRouteImport } from './routes/pharmacy.$slug'
 import { Route as PharmaciesSearchRouteImport } from './routes/pharmacies.search'
 import { Route as PharmaciesOpenRouteImport } from './routes/pharmacies.open'
 import { Route as PharmaciesOnDutyRouteImport } from './routes/pharmacies.on-duty'
@@ -249,6 +250,11 @@ const ProvidersIdRoute = ProvidersIdRouteImport.update({
 const ProductsIdRoute = ProductsIdRouteImport.update({
   id: '/products/$id',
   path: '/products/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PharmacySlugRoute = PharmacySlugRouteImport.update({
+  id: '/pharmacy/$slug',
+  path: '/pharmacy/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PharmaciesSearchRoute = PharmaciesSearchRouteImport.update({
@@ -915,6 +921,7 @@ export interface FileRoutesByFullPath {
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/pharmacies/open': typeof PharmaciesOpenRoute
   '/pharmacies/search': typeof PharmaciesSearchRoute
+  '/pharmacy/$slug': typeof PharmacySlugRoute
   '/products/$id': typeof ProductsIdRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/blood/': typeof BloodIndexRoute
@@ -1046,6 +1053,7 @@ export interface FileRoutesByTo {
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/pharmacies/open': typeof PharmaciesOpenRoute
   '/pharmacies/search': typeof PharmaciesSearchRoute
+  '/pharmacy/$slug': typeof PharmacySlugRoute
   '/products/$id': typeof ProductsIdRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/blood': typeof BloodIndexRoute
@@ -1181,6 +1189,7 @@ export interface FileRoutesById {
   '/pharmacies/on-duty': typeof PharmaciesOnDutyRoute
   '/pharmacies/open': typeof PharmaciesOpenRoute
   '/pharmacies/search': typeof PharmaciesSearchRoute
+  '/pharmacy/$slug': typeof PharmacySlugRoute
   '/products/$id': typeof ProductsIdRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/blood/': typeof BloodIndexRoute
@@ -1316,6 +1325,7 @@ export interface FileRouteTypes {
     | '/pharmacies/on-duty'
     | '/pharmacies/open'
     | '/pharmacies/search'
+    | '/pharmacy/$slug'
     | '/products/$id'
     | '/providers/$id'
     | '/blood/'
@@ -1447,6 +1457,7 @@ export interface FileRouteTypes {
     | '/pharmacies/on-duty'
     | '/pharmacies/open'
     | '/pharmacies/search'
+    | '/pharmacy/$slug'
     | '/products/$id'
     | '/providers/$id'
     | '/blood'
@@ -1581,6 +1592,7 @@ export interface FileRouteTypes {
     | '/pharmacies/on-duty'
     | '/pharmacies/open'
     | '/pharmacies/search'
+    | '/pharmacy/$slug'
     | '/products/$id'
     | '/providers/$id'
     | '/blood/'
@@ -1704,6 +1716,7 @@ export interface RootRouteChildren {
   PharmaciesOnDutyRoute: typeof PharmaciesOnDutyRoute
   PharmaciesOpenRoute: typeof PharmaciesOpenRoute
   PharmaciesSearchRoute: typeof PharmaciesSearchRoute
+  PharmacySlugRoute: typeof PharmacySlugRoute
   ProductsIdRoute: typeof ProductsIdRoute
   ProvidersIdRoute: typeof ProvidersIdRoute
   BloodIndexRoute: typeof BloodIndexRoute
@@ -1878,6 +1891,13 @@ declare module '@tanstack/react-router' {
       path: '/products/$id'
       fullPath: '/products/$id'
       preLoaderRoute: typeof ProductsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pharmacy/$slug': {
+      id: '/pharmacy/$slug'
+      path: '/pharmacy/$slug'
+      fullPath: '/pharmacy/$slug'
+      preLoaderRoute: typeof PharmacySlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pharmacies/search': {
@@ -2913,6 +2933,7 @@ const rootRouteChildren: RootRouteChildren = {
   PharmaciesOnDutyRoute: PharmaciesOnDutyRoute,
   PharmaciesOpenRoute: PharmaciesOpenRoute,
   PharmaciesSearchRoute: PharmaciesSearchRoute,
+  PharmacySlugRoute: PharmacySlugRoute,
   ProductsIdRoute: ProductsIdRoute,
   ProvidersIdRoute: ProvidersIdRoute,
   BloodIndexRoute: BloodIndexRoute,

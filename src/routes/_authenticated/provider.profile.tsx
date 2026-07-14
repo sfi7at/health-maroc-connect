@@ -155,8 +155,10 @@ function ProviderProfile() {
   if (!provider) return null;
   if (isLoading) return <Skeleton className="h-96 rounded-3xl" />;
 
+  const isPharmacy = provider?.category === "pharmacy";
+  const publicBase = isPharmacy ? "/pharmacy" : "/doctors";
   const publicUrl = typeof window !== "undefined"
-    ? `${window.location.origin}/doctors/${form.slug || currentSlug || provider?.id}`
+    ? `${window.location.origin}${publicBase}/${form.slug || currentSlug || provider?.id}`
     : "";
 
   return (
@@ -192,11 +194,11 @@ function ProviderProfile() {
             <Link2 className="h-3.5 w-3.5" /> Lien public partageable
           </Label>
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs text-muted-foreground">/doctors/</span>
+            <span className="text-xs text-muted-foreground">{publicBase}/</span>
             <Input
               value={form.slug}
               onChange={(e) => setForm({ ...form, slug: e.target.value.toLowerCase() })}
-              placeholder="dr-ahmed-benali"
+              placeholder={isPharmacy ? "pharmacie-al-amal" : "dr-ahmed-benali"}
               className="max-w-xs"
             />
             {slugChecking ? (

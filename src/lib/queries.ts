@@ -190,7 +190,7 @@ export function pharmaciesOnDutyQuery(date: string) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("pharmacies_on_duty")
-        .select("*, providers ( id, name, address, phone, latitude, longitude ), cities ( id, name_fr )")
+        .select("*, providers ( id, name, slug, address, phone, latitude, longitude ), cities ( id, name_fr )")
         .eq("duty_date", date)
         .order("night_shift", { ascending: false });
       if (error) throw error;

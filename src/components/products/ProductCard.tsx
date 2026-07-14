@@ -44,8 +44,8 @@ export function ProductCard({ product }: { product: ProductWithPharmacy }) {
         {product.brand ? <p className="text-xs text-muted-foreground">{product.brand}</p> : null}
         {product.providers ? (
           <Link
-            to="/providers/$id"
-            params={{ id: product.providers.id }}
+            to="/pharmacy/$slug"
+            params={{ slug: product.providers.slug ?? product.providers.id }}
             className="text-[11px] text-muted-foreground hover:underline"
           >
             {product.providers.name}

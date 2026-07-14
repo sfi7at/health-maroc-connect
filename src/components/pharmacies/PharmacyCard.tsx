@@ -157,7 +157,7 @@ export function PharmacyCard({
 
         <div className="mt-auto flex items-center gap-2 pt-2">
           <Button asChild size="sm" className="flex-1">
-            <Link to="/providers/$id" params={{ id: pharmacy.id }}>
+            <Link to="/pharmacy/$slug" params={{ slug: pharmacy.slug ?? pharmacy.id }}>
               Voir la pharmacie
             </Link>
           </Button>

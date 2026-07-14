@@ -116,7 +116,7 @@ export function PharmacySearchBar({
                     onClick={() => {
                       pushRecent(s.name);
                       setFocused(false);
-                      navigate({ to: "/providers/$id", params: { id: s.id } });
+                      navigate({ to: "/pharmacy/$slug", params: { slug: (s as { slug?: string | null }).slug ?? s.id } });
                     }}
                     className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm hover:bg-muted"
                   >

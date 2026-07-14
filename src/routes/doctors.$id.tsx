@@ -269,6 +269,13 @@ function DoctorProfile() {
                   <ServiceRow ok={!!meta.home_visit} label="Visite à domicile" />
                   <ServiceRow ok={!!meta.online_appointment || true} label="Prise de RDV en ligne" />
                 </ul>
+                {meta.services?.length ? (
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {meta.services.map((s) => (
+                      <span key={s} className="rounded-full border border-border px-2.5 py-1 text-xs">{s}</span>
+                    ))}
+                  </div>
+                ) : null}
               </Card>
               {meta.insurance_accepted?.length ? (
                 <Card title="Assurances acceptées">
