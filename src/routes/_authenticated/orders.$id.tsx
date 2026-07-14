@@ -36,8 +36,8 @@ function OrderDetail() {
             </p>
             {order.providers ? (
               <Link
-                to="/providers/$id"
-                params={{ id: order.providers.id }}
+                to="/pharmacy/$slug"
+                params={{ slug: order.providers.slug ?? order.providers.id }}
                 className="text-sm text-primary hover:underline"
               >
                 {order.providers.name}
