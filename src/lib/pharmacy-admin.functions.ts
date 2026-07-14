@@ -80,7 +80,7 @@ export const adminCreatePharmacy = createServerFn({ method: "POST" })
     if (provErr) throw new Error(provErr.message);
 
     await supabaseAdmin.from("user_roles").insert([
-      { user_id: newUserId, role: "pharmacy" },
+      { user_id: newUserId, role: "pharmacist" },
       { user_id: newUserId, role: "user" },
     ]);
 
