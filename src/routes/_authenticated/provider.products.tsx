@@ -161,7 +161,7 @@ function ProviderProducts() {
           icon={Package}
           title={q ? "Aucun résultat" : "Aucun produit encore"}
           description={q ? "Essayez un autre mot-clé." : "Ajoutez votre premier produit pour commencer à vendre."}
-          actions={
+          action={
             !q ? (
               <Button onClick={() => setDraft({ ...EMPTY })} className="gap-1.5">
                 <Plus className="h-4 w-4" /> Ajouter un produit
