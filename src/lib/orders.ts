@@ -22,7 +22,7 @@ export function myOrdersQuery(userId: string | undefined) {
         .select(
           "*, order_items(*, pharmacy_products(name, images)), order_prescriptions(*), providers(id, name, slug, phone)",
         )
-        .eq("buyer_id", userId!)
+        .eq("user_id", userId!)
         .order("created_at", { ascending: false });
       if (error) throw error;
       return (data ?? []) as OrderWithRelations[];
