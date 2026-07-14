@@ -132,7 +132,7 @@ export function pharmacySuggestionsQuery(q: string) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("providers")
-        .select("id, name, address, cities ( name_fr )")
+        .select("id, name, slug, address, cities ( name_fr )")
         .eq("category", "pharmacy")
         .eq("is_active", true)
         .ilike("name", `%${q.trim()}%`)
