@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
-import { Briefcase, Plus, Trash2, Edit3, Save, X } from "lucide-react";
+import { Briefcase, Plus, Trash2, Edit3, Save, X, Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,8 +22,8 @@ export const Route = createFileRoute("/_authenticated/provider/services")({
   component: ProviderServices,
 });
 
-type Draft = { name: string; description: string; duration: number; price: string; preparation: string; category: string };
-const empty: Draft = { name: "", description: "", duration: 30, price: "", preparation: "", category: "" };
+type Draft = { name: string; description: string; duration: number; price: string; preparation: string; category: string; isOnlineEligible: boolean };
+const empty: Draft = { name: "", description: "", duration: 30, price: "", preparation: "", category: "", isOnlineEligible: false };
 
 function ProviderServices() {
   const { provider } = useSelectedProvider();
@@ -45,6 +45,7 @@ function ProviderServices() {
         price_mad: draft.price ? Number(draft.price) : null,
         preparation: draft.preparation.trim() || null,
         category: draft.category.trim() || null,
+        is_online_eligible: draft.isOnlineEligible,
       };
       if (editing) {
         const { error } = await supabase.from("provider_services").update(payload).eq("id", editing);
@@ -83,7 +84,7 @@ function ProviderServices() {
     setDraft({
       name: s.name, description: s.description ?? "",
       duration: s.duration_minutes, price: s.price_mad?.toString() ?? "",
-      preparation: s.preparation ?? "", category: s.category ?? "",
+      preparation: s.preparation ?? "", category: s.category ?? "", isOnlineEligible: s.is_online_eligible,
     });
   }
 
@@ -103,6 +104,7 @@ function ProviderServices() {
                   <div className="min-w-0">
                     <p className="font-semibold">{s.name}</p>
                     <p className="text-xs text-muted-foreground">{s.duration_minutes} min{s.price_mad != null ? ` · ${s.price_mad} MAD` : ""}{s.category ? ` · ${s.category}` : ""}</p>
+                    {s.is_online_eligible ? <p className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-info"><Video className="h-3 w-3" /> Vidéo et téléphone disponibles</p> : null}
                     {s.description ? <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{s.description}</p> : null}
                   </div>
                   <div className="flex items-center gap-1.5">
@@ -128,6 +130,10 @@ function ProviderServices() {
           <div><Label>Catégorie</Label><Input value={draft.category} onChange={(e) => setDraft({ ...draft, category: e.target.value })} placeholder="Consultation, Analyse…" /></div>
           <div><Label>Description</Label><Textarea rows={2} value={draft.description} onChange={(e) => setDraft({ ...draft, description: e.target.value })} /></div>
           <div><Label>Préparation</Label><Textarea rows={2} value={draft.preparation} onChange={(e) => setDraft({ ...draft, preparation: e.target.value })} placeholder="À jeun depuis 8h…" /></div>
+          <div className="flex items-center justify-between gap-4 rounded-2xl border border-border p-3">
+            <div><Label htmlFor="online-service">Téléconsultation</Label><p className="text-xs text-muted-foreground">Autoriser la vidéo et le téléphone</p></div>
+            <Switch id="online-service" checked={draft.isOnlineEligible} onCheckedChange={(value) => setDraft({ ...draft, isOnlineEligible: value })} />
+          </div>
           <Button className="w-full gap-2" onClick={() => upsert.mutate()} disabled={upsert.isPending}>
             {editing ? <><Save className="h-4 w-4" /> Enregistrer</> : <><Plus className="h-4 w-4" /> Ajouter</>}
           </Button>

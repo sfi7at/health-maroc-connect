@@ -16,6 +16,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { MapView } from "@/components/common/MapView";
 import { EmptyState } from "@/components/common/EmptyState";
 import { DoctorReviews } from "@/components/doctors/DoctorReviews";
+import { NfcProfileShare } from "@/components/doctors/NfcProfileShare";
 import { PageHero } from "@/components/layout/PageHero";
 import { ActionBar } from "@/components/layout/ActionBar";
 import { StickyMobileCTA } from "@/components/layout/StickyMobileCTA";
@@ -71,10 +72,17 @@ function DoctorProfile() {
   const price = priceLabel(meta);
   const hours = (doctor.working_hours ?? {}) as Record<string, { open?: string; close?: string } | null>;
 
-  function share() {
+  async function share() {
     const url = typeof window !== "undefined" ? window.location.href : "";
-    if (navigator.share) navigator.share({ title: doctor!.name, url }).catch(() => {});
-    else { navigator.clipboard.writeText(url); toast.success("Lien copié"); }
+    try {
+      if (navigator.share) await navigator.share({ title: doctor!.name, url });
+      else {
+        await navigator.clipboard.writeText(url);
+        toast.success("Lien copié");
+      }
+    } catch (error) {
+      if (!(error instanceof DOMException && error.name === "AbortError")) toast.error("Partage impossible");
+    }
   }
 
   return (
@@ -181,6 +189,7 @@ function DoctorProfile() {
                   >
                     <Share2 className="h-4 w-4" />
                   </Button>
+                  <NfcProfileShare doctorName={doctor.name} />
                 </>
               }
             />

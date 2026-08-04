@@ -14,10 +14,16 @@ export const Route = createFileRoute("/api/public/notify-push")({
     handlers: {
       POST: async ({ request }) => {
         const secret = process.env.PUSH_DISPATCH_SECRET;
-        const provided = request.headers.get("x-push-secret");
-        if (!secret || !provided || provided !== secret) {
+        const provided = request.headers.get("x-push-secret") ?? "";
+        if (!secret || provided.length !== secret.length) {
           return new Response("unauthorized", { status: 401 });
         }
+        let secretDiff = 0;
+        for (let i = 0; i < secret.length; i++) secretDiff |= provided.charCodeAt(i) ^ secret.charCodeAt(i);
+        if (secretDiff !== 0) return new Response("unauthorized", { status: 401 });
+
+        const contentLength = Number(request.headers.get("content-length") ?? 0);
+        if (contentLength > 16_384) return new Response("payload too large", { status: 413 });
 
         let payload: { notification_id?: string } | null = null;
         try {
@@ -26,7 +32,9 @@ export const Route = createFileRoute("/api/public/notify-push")({
           return new Response("bad request", { status: 400 });
         }
         const notificationId = payload?.notification_id;
-        if (!notificationId) return new Response("bad request", { status: 400 });
+        if (!notificationId || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(notificationId)) {
+          return new Response("bad request", { status: 400 });
+        }
 
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
         const { data: n, error } = await supabaseAdmin
@@ -34,7 +42,7 @@ export const Route = createFileRoute("/api/public/notify-push")({
           .select("id, user_id, title, body, action_url, priority, type, data, scheduled_for")
           .eq("id", notificationId)
           .maybeSingle();
-        if (error) return new Response(error.message, { status: 500 });
+        if (error) return new Response("internal error", { status: 500 });
         if (!n) return new Response("not found", { status: 404 });
 
         // Skip scheduled/future notifications — those are delivered by their own job.

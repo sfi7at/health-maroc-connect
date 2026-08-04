@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { CalendarRange, Search, MessageSquare, CheckCircle2, XCircle } from "lucide-react";
+import { CalendarRange, Search, MessageSquare, CheckCircle2, XCircle, Video, Phone } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -141,8 +141,8 @@ function ProviderAppointments() {
 
       <Dialog open={!!noteFor} onOpenChange={(o) => !o && setNoteFor(null)}>
         <DialogContent>
-          <DialogHeader><DialogTitle>Note interne</DialogTitle></DialogHeader>
-          <Textarea rows={5} value={note} onChange={(e) => setNote(e.target.value)} placeholder="Notes confidentielles sur ce rendez-vous…" />
+          <DialogHeader><DialogTitle>Note du rendez-vous</DialogTitle></DialogHeader>
+          <Textarea rows={5} value={note} onChange={(e) => setNote(e.target.value)} placeholder="Informations partagées avec le patient…" />
           <DialogFooter>
             <Button variant="ghost" onClick={() => setNoteFor(null)}>Annuler</Button>
             <Button onClick={() => saveNote.mutate()} disabled={saveNote.isPending}>Enregistrer</Button>
@@ -179,6 +179,8 @@ function ApptList({ items, onStatus, onNote, onReschedule }: {
             <div className="min-w-0">
               <p className="truncate font-semibold">{a.profiles?.full_name ?? "Patient"}</p>
               <p className="mt-0.5 text-xs text-muted-foreground">{formatDateTimeFr(a.scheduled_for)} · {a.provider_services?.name ?? a.reason ?? "Consultation"}</p>
+              {a.consultation_type === "video" ? <p className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-info"><Video className="h-3 w-3" /> Téléconsultation vidéo</p> : null}
+              {a.consultation_type === "phone" ? <p className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-info"><Phone className="h-3 w-3" /> Consultation téléphonique</p> : null}
             </div>
             <StatusBadge status={a.status} />
           </div>
@@ -198,7 +200,7 @@ function ApptList({ items, onStatus, onNote, onReschedule }: {
             {!["cancelled","completed"].includes(a.status) ? (
               <Button size="sm" variant="ghost" onClick={() => onStatus(a, "cancelled")}>Annuler</Button>
             ) : null}
-            <Button size="icon" variant="ghost" onClick={() => onNote(a)} aria-label="Note interne" className="ml-auto"><MessageSquare className="h-4 w-4" /></Button>
+            <Button size="icon" variant="ghost" onClick={() => onNote(a)} aria-label="Modifier la note" className="ml-auto"><MessageSquare className="h-4 w-4" /></Button>
           </div>
           {a.notes ? <p className="mt-2 rounded-xl bg-muted/50 p-2 text-xs text-muted-foreground"><strong>Note: </strong>{a.notes}</p> : null}
         </li>

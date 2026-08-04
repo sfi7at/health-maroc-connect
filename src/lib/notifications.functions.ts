@@ -17,7 +17,7 @@ const CreateInput = z.object({
   priority: PrioritySchema.optional().default("normal"),
   action_url: z.string().max(500).optional().nullable(),
   action_label: z.string().max(80).optional().nullable(),
-  data: z.record(z.string(), z.any()).optional().nullable(),
+  data: z.record(z.string(), z.unknown()).optional().nullable(),
   dedupe_key: z.string().max(200).optional().nullable(),
   expires_at: z.string().datetime().optional().nullable(),
   scheduled_for: z.string().datetime().optional().nullable(),
@@ -109,7 +109,7 @@ export const setNotificationArchived = createServerFn({ method: "POST" })
 const TrackInput = z.object({
   notification_id: z.string().uuid(),
   event_type: z.enum(["delivered","opened","clicked","dismissed","failed"]),
-  metadata: z.record(z.string(), z.any()).optional().nullable(),
+  metadata: z.record(z.string(), z.unknown()).optional().nullable(),
 });
 
 export const trackNotificationEvent = createServerFn({ method: "POST" })

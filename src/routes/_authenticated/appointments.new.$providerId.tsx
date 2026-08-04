@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, CalendarPlus, CheckCircle2, Loader2, Stethoscope, MapPin, ListPlus, Navigation } from "lucide-react";
+import { ArrowLeft, ArrowRight, Building2, CalendarPlus, CheckCircle2, Loader2, Stethoscope, MapPin, ListPlus, Navigation, PhoneCall, ShieldCheck, Video } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -50,22 +50,8 @@ function BookFlow() {
   const bookable = isBookable(provider as DoctorRow | null | undefined);
   const { data: services = [], isLoading: loadingServices } = useQuery(providerServicesQuery(providerId));
   const { data: schedulesRaw = [] } = useQuery(providerSchedulesQuery(providerId));
-  // Fallback schedule so bookings never dead-end when the doctor has no availability configured
-  const schedules = useMemo(() => {
-    if (schedulesRaw.length > 0) return schedulesRaw;
-    return [1, 2, 3, 4, 5, 6].map((weekday) => ({
-      id: `default-${weekday}`,
-      provider_id: providerId,
-      weekday,
-      start_time: "09:00",
-      end_time: "18:00",
-      slot_minutes: 30,
-      break_start: "13:00",
-      break_end: "14:00",
-      max_per_day: null,
-      is_active: true,
-    }));
-  }, [schedulesRaw, providerId]);
+  // Never invent availability: only slots explicitly configured by the provider are bookable.
+  const schedules = schedulesRaw;
   const { data: blocked = [] } = useQuery(blockedDatesQuery(providerId, new Date().toISOString()));
 
   const [step, setStep] = useState(0);
@@ -73,6 +59,7 @@ function BookFlow() {
   const [dateIso, setDateIso] = useState(dateToIsoDate(new Date()));
   const [slotIso, setSlotIso] = useState<string | null>(null);
   const [notes, setNotes] = useState("");
+  const [consultationType, setConsultationType] = useState<"in_person" | "video" | "phone">("in_person");
 
   const { data: booked = [], isFetching: loadingBookedSlots } = useQuery(bookedSlotsQuery(providerId, dateIso));
   const selectedService = useMemo(() => services.find((s) => s.id === serviceId) ?? null, [services, serviceId]);
@@ -101,7 +88,8 @@ function BookFlow() {
           service_id: serviceId,
           reason: selectedService?.name ?? null,
           notes: notes.trim() || null,
-          location_text: provider?.address ?? null,
+          consultation_type: consultationType,
+          location_text: consultationType === "in_person" ? provider?.address ?? null : null,
           status: "pending",
         })
         .select("id")
@@ -218,8 +206,19 @@ function BookFlow() {
             <div className="space-y-3">
               <h2 className="text-base font-semibold">Choisissez votre service</h2>
               {loadingServices ? <Skeleton className="h-32 rounded-2xl" /> : (
-                <ServicePicker services={services} value={serviceId} onChange={setServiceId} />
+                <ServicePicker services={services} value={serviceId} onChange={(id) => {
+                  setServiceId(id);
+                  if (!services.find((item) => item.id === id)?.is_online_eligible) setConsultationType("in_person");
+                }} />
               )}
+              <div className="space-y-2 pt-2">
+                <Label>Mode de consultation</Label>
+                <div className="grid gap-2 sm:grid-cols-3">
+                  <ConsultationModeButton icon={Building2} label="Au cabinet" description="Consultation sur place" active={consultationType === "in_person"} onClick={() => setConsultationType("in_person")} />
+                  <ConsultationModeButton icon={Video} label="En vidéo" description="Depuis votre appareil" active={consultationType === "video"} disabled={!selectedService?.is_online_eligible} onClick={() => setConsultationType("video")} />
+                  <ConsultationModeButton icon={PhoneCall} label="Par téléphone" description="Le médecin vous appelle" active={consultationType === "phone"} disabled={!selectedService?.is_online_eligible} onClick={() => setConsultationType("phone")} />
+                </div>
+              </div>
             </div>
           )}
 
@@ -237,9 +236,9 @@ function BookFlow() {
             <div className="space-y-4">
               <h2 className="text-base font-semibold">Choisissez un créneau</h2>
               {loadingBookedSlots ? <Skeleton className="h-32 rounded-2xl" /> : <SlotGrid slots={slots} selected={slotIso} onSelect={setSlotIso} />}
-              {slots.length > 0 && slots.every((s) => !s.available) ? (
+              {!loadingBookedSlots && (slots.length === 0 || slots.every((s) => !s.available)) ? (
                 <div className="flex flex-col items-start gap-2 rounded-2xl border border-warning/40 bg-warning/10 p-3 text-sm text-warning-foreground">
-                  <p>Tous les créneaux sont occupés. Rejoignez la liste d'attente pour être prévenu en cas de désistement.</p>
+                  <p>{slots.length === 0 ? "Aucun créneau n'est disponible à cette date." : "Tous les créneaux sont occupés."} Rejoignez la liste d'attente pour être prévenu en cas de disponibilité.</p>
                   <Button size="sm" variant="outline" className="gap-1" onClick={() => waitlist.mutate()} disabled={waitlist.isPending}>
                     <ListPlus className="h-3.5 w-3.5" /> Rejoindre la liste
                   </Button>
@@ -256,9 +255,16 @@ function BookFlow() {
                 <Row label="Service" value={selectedService?.name ?? "Consultation standard"} />
                 <Row label="Date" value={slotIso ? formatDateTimeFr(slotIso) : "—"} />
                 <Row label="Durée" value={`${selectedService?.duration_minutes ?? 30} min`} />
+                <Row label="Mode" value={consultationType === "video" ? "Téléconsultation vidéo" : consultationType === "phone" ? "Consultation téléphonique" : "Au cabinet"} />
                 {selectedService?.price_mad != null ? <Row label="Prix" value={`${selectedService.price_mad} MAD`} /> : null}
-                {provider?.address ? <Row label="Lieu" value={provider.address} /> : null}
+                {consultationType === "in_person" && provider?.address ? <Row label="Lieu" value={provider.address} /> : null}
               </dl>
+              {consultationType !== "in_person" ? (
+                <div className="flex gap-3 rounded-2xl border border-info/30 bg-info/10 p-3 text-sm">
+                  <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-info" />
+                  <p>Les instructions de connexion seront communiquées après confirmation du médecin. Ne partagez jamais de données médicales via un lien non vérifié.</p>
+                </div>
+              ) : null}
               <div className="space-y-2">
                 <Label htmlFor="notes">Notes (optionnel)</Label>
                 <Textarea id="notes" rows={3} maxLength={500} value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Symptômes, antécédents, demande particulière…" />
@@ -290,6 +296,16 @@ function BookFlow() {
       </>
       ) : null}
     </div>
+  );
+}
+
+function ConsultationModeButton({ icon: Icon, label, description, active, disabled, onClick }: { icon: React.ComponentType<{ className?: string }>; label: string; description: string; active: boolean; disabled?: boolean; onClick: () => void }) {
+  return (
+    <button type="button" disabled={disabled} aria-pressed={active} onClick={onClick} className={`rounded-2xl border p-3 text-left transition ${active ? "border-primary bg-primary/5 ring-2 ring-primary/20" : "border-border hover:border-primary/30"} disabled:cursor-not-allowed disabled:opacity-45`}>
+      <Icon className="mb-2 h-4 w-4 text-primary" />
+      <span className="block text-sm font-semibold">{label}</span>
+      <span className="block text-xs text-muted-foreground">{description}</span>
+    </button>
   );
 }
 

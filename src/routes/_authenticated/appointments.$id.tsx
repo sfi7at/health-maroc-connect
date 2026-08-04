@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { ArrowLeft, CalendarClock, MapPin, Navigation, Phone, RotateCcw, Trash2, Loader2 } from "lucide-react";
+import { ArrowLeft, CalendarClock, MapPin, Navigation, Phone, RotateCcw, Trash2, Loader2, Video, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -64,6 +64,7 @@ function AppointmentDetail() {
   const mapsUrl = lat && lng ? `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}` : null;
   const past = new Date(a.scheduled_for).getTime() < Date.now();
   const canModify = !past && !["cancelled", "completed", "rejected"].includes(a.status);
+  const isRemote = a.consultation_type === "video" || a.consultation_type === "phone";
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
@@ -84,7 +85,8 @@ function AppointmentDetail() {
         <dl className="mt-5 grid gap-3 sm:grid-cols-2">
           <Field icon={CalendarClock} label="Date & heure" value={formatDateTimeFr(a.scheduled_for)} />
           <Field icon={CalendarClock} label="Durée" value={`${a.duration_minutes} min`} />
-          {a.providers?.address || a.location_text ? (
+          <Field icon={a.consultation_type === "video" ? Video : a.consultation_type === "phone" ? Phone : MapPin} label="Mode" value={a.consultation_type === "video" ? "Téléconsultation vidéo" : a.consultation_type === "phone" ? "Consultation téléphonique" : "Au cabinet"} />
+          {!isRemote && (a.providers?.address || a.location_text) ? (
             <Field icon={MapPin} label="Lieu" value={a.location_text ?? a.providers?.address ?? "—"} />
           ) : null}
           {a.providers?.phone ? <Field icon={Phone} label="Téléphone" value={a.providers.phone} /> : null}
@@ -97,6 +99,13 @@ function AppointmentDetail() {
           </div>
         ) : null}
 
+        {isRemote ? (
+          <div className="mt-4 flex gap-3 rounded-2xl border border-info/30 bg-info/10 p-4 text-sm">
+            <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-info" />
+            <div><p className="font-semibold">Consultation à distance</p><p className="mt-1 text-muted-foreground">Installez-vous dans un endroit calme et confidentiel. Les instructions d'accès sont transmises par le prestataire après confirmation.</p></div>
+          </div>
+        ) : null}
+
         <div className="mt-5 flex flex-wrap gap-2">
           <CalendarExportMenu
             appointmentId={a.id}
@@ -106,7 +115,7 @@ function AppointmentDetail() {
             startIso={a.scheduled_for}
             durationMinutes={a.duration_minutes}
           />
-          {mapsUrl ? (
+          {mapsUrl && !isRemote ? (
             <Button asChild variant="outline" size="sm" className="gap-2">
               <a href={mapsUrl} target="_blank" rel="noreferrer"><Navigation className="h-4 w-4" /> Itinéraire</a>
             </Button>
@@ -142,7 +151,7 @@ function AppointmentDetail() {
         </div>
       </motion.section>
 
-      {lat && lng ? (
+      {lat && lng && !isRemote ? (
         <section className="overflow-hidden rounded-3xl border border-border bg-card shadow-soft">
           <iframe
             title="Carte du rendez-vous"
