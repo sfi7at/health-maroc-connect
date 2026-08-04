@@ -1,8 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { CalendarRange, Search, MessageSquare, CheckCircle2, XCircle, Video, Phone, Link2 } from "lucide-react";
+import { CalendarRange, Search, MessageSquare, CheckCircle2, XCircle, Video, Phone } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -48,8 +48,6 @@ function ProviderAppointments() {
   const [note, setNote] = useState("");
   const [reschFor, setReschFor] = useState<AppointmentRow | null>(null);
   const [reschTime, setReschTime] = useState("");
-  const [videoFor, setVideoFor] = useState<AppointmentRow | null>(null);
-  const [meetingUrl, setMeetingUrl] = useState("");
   const [chatFor, setChatFor] = useState<AppointmentRow | null>(null);
 
   const today = new Date(); today.setHours(0,0,0,0);
@@ -108,18 +106,6 @@ function ProviderAppointments() {
     onError: (e: Error) => toast.error(e.message),
   });
 
-  const saveMeeting = useMutation({
-    mutationFn: async () => {
-      if (!videoFor) return;
-      const parsed = new URL(meetingUrl);
-      if (parsed.protocol !== "https:") throw new Error("Le lien doit commencer par https://");
-      const { error } = await supabase.from("appointments").update({ meeting_url: parsed.toString(), meeting_provider: parsed.hostname }).eq("id", videoFor.id);
-      if (error) throw error;
-    },
-    onSuccess: () => { toast.success("Lien vidéo enregistré"); setVideoFor(null); setMeetingUrl(""); qc.invalidateQueries({ queryKey: ["provider_appointments"] }); },
-    onError: (error: Error) => toast.error(error.message),
-  });
-
   if (!provider) return null;
 
   return (
@@ -149,7 +135,6 @@ function ProviderAppointments() {
                 onStatus={(a, status) => setStatus.mutate({ id: a.id, status })}
                 onNote={(a) => { setNoteFor(a); setNote(a.notes ?? ""); }}
                 onReschedule={(a) => { setReschFor(a); setReschTime(a.scheduled_for.slice(0,16)); }}
-                onVideo={(a) => { setVideoFor(a); setMeetingUrl(a.meeting_url ?? ""); }}
                 onChat={setChatFor}
               />
             )}
@@ -179,14 +164,6 @@ function ProviderAppointments() {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={!!videoFor} onOpenChange={(open) => !open && setVideoFor(null)}>
-        <DialogContent>
-          <DialogHeader><DialogTitle>Lien sécurisé de téléconsultation</DialogTitle></DialogHeader>
-          <div className="space-y-2"><p className="text-sm text-muted-foreground">Collez le lien HTTPS de votre fournisseur vidéo professionnel. Le patient le verra après confirmation.</p><Input type="url" value={meetingUrl} onChange={(event) => setMeetingUrl(event.target.value)} placeholder="https://…" /></div>
-          <DialogFooter><Button variant="ghost" onClick={() => setVideoFor(null)}>Annuler</Button><Button onClick={() => saveMeeting.mutate()} disabled={!meetingUrl || saveMeeting.isPending}>Enregistrer</Button></DialogFooter>
-        </DialogContent>
-      </Dialog>
-
       <Dialog open={!!chatFor} onOpenChange={(open) => !open && setChatFor(null)}>
         <DialogContent><DialogHeader><DialogTitle>Messages avec {chatFor?.profiles?.full_name ?? "le patient"}</DialogTitle></DialogHeader>{chatFor ? <AppointmentChat appointmentId={chatFor.id} /> : null}</DialogContent>
       </Dialog>
@@ -194,12 +171,11 @@ function ProviderAppointments() {
   );
 }
 
-function ApptList({ items, onStatus, onNote, onReschedule, onVideo, onChat }: {
+function ApptList({ items, onStatus, onNote, onReschedule, onChat }: {
   items: AppointmentRow[];
   onStatus: (a: AppointmentRow, status: "approved" | "rejected" | "completed" | "cancelled" | "no_show") => void;
   onNote: (a: AppointmentRow) => void;
   onReschedule: (a: AppointmentRow) => void;
-  onVideo: (a: AppointmentRow) => void;
   onChat: (a: AppointmentRow) => void;
 }) {
   if (items.length === 0) return <div className="rounded-2xl border border-dashed border-border bg-card p-8 text-center text-sm text-muted-foreground">Aucun rendez-vous.</div>;
@@ -229,9 +205,7 @@ function ApptList({ items, onStatus, onNote, onReschedule, onVideo, onChat }: {
             {a.status === "approved" ? (
               <Button size="sm" variant="outline" onClick={() => onStatus(a, "completed")}>Terminer</Button>
             ) : null}
-            {a.consultation_type === "video" && ["pending", "approved"].includes(a.status) ? (
-              <Button size="sm" variant="outline" className="gap-1" onClick={() => onVideo(a)}><Link2 className="h-3.5 w-3.5" /> Lien vidéo</Button>
-            ) : null}
+            {a.consultation_type === "video" && a.status === "approved" ? <Button asChild size="sm" variant="outline" className="gap-1"><Link to="/teleconsultation/$id" params={{ id: a.id }}><Video className="h-3.5 w-3.5" /> Ouvrir la salle</Link></Button> : null}
             {!["cancelled","completed"].includes(a.status) ? (
               <Button size="sm" variant="ghost" onClick={() => onStatus(a, "cancelled")}>Annuler</Button>
             ) : null}

@@ -310,6 +310,7 @@ export type Database = {
           service_id: string | null
           status: Database["public"]["Enums"]["appointment_status"]
           updated_at: string
+          video_room_id: string | null
         }
         Insert: {
           cancelled_reason?: string | null
@@ -336,6 +337,7 @@ export type Database = {
           service_id?: string | null
           status?: Database["public"]["Enums"]["appointment_status"]
           updated_at?: string
+          video_room_id?: string | null
         }
         Update: {
           cancelled_reason?: string | null
@@ -362,6 +364,7 @@ export type Database = {
           service_id?: string | null
           status?: Database["public"]["Enums"]["appointment_status"]
           updated_at?: string
+          video_room_id?: string | null
         }
         Relationships: [
           {

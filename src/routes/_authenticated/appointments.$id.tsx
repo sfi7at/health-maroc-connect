@@ -108,9 +108,9 @@ function AppointmentDetail() {
         ) : null}
 
         <div className="mt-5 flex flex-wrap gap-2">
-          {a.consultation_type === "video" && a.status === "approved" && a.meeting_url ? (
+          {a.consultation_type === "video" && a.status === "approved" ? (
             <Button asChild size="sm" className="gap-2">
-              <a href={a.meeting_url} target="_blank" rel="noopener noreferrer"><Video className="h-4 w-4" /> Rejoindre l'appel vidéo <ExternalLink className="h-3.5 w-3.5" /></a>
+              <Link to="/teleconsultation/$id" params={{ id: a.id }}><Video className="h-4 w-4" /> Rejoindre l'appel vidéo <ExternalLink className="h-3.5 w-3.5" /></Link>
             </Button>
           ) : null}
           <CalendarExportMenu
