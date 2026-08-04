@@ -191,6 +191,38 @@ export type Database = {
         }
         Relationships: []
       }
+      appointment_messages: {
+        Row: {
+          appointment_id: string
+          body: string
+          created_at: string
+          id: string
+          sender_id: string
+        }
+        Insert: {
+          appointment_id: string
+          body: string
+          created_at?: string
+          id?: string
+          sender_id: string
+        }
+        Update: {
+          appointment_id?: string
+          body?: string
+          created_at?: string
+          id?: string
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "appointment_messages_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       appointment_waitlist: {
         Row: {
           created_at: string
@@ -275,6 +307,7 @@ export type Database = {
           service_id: string | null
           status: Database["public"]["Enums"]["appointment_status"]
           updated_at: string
+          video_room_id: string | null
         }
         Insert: {
           cancelled_reason?: string | null
@@ -298,6 +331,7 @@ export type Database = {
           service_id?: string | null
           status?: Database["public"]["Enums"]["appointment_status"]
           updated_at?: string
+          video_room_id?: string | null
         }
         Update: {
           cancelled_reason?: string | null
@@ -321,6 +355,7 @@ export type Database = {
           service_id?: string | null
           status?: Database["public"]["Enums"]["appointment_status"]
           updated_at?: string
+          video_room_id?: string | null
         }
         Relationships: [
           {
@@ -1569,6 +1604,36 @@ export type Database = {
           name_fr?: string
           slug?: string
           sort_order?: number
+        }
+        Relationships: []
+      }
+      family_members: {
+        Row: {
+          blood_group: Database["public"]["Enums"]["blood_group"] | null
+          created_at: string
+          date_of_birth: string | null
+          full_name: string
+          id: string
+          owner_id: string
+          relation: string
+        }
+        Insert: {
+          blood_group?: Database["public"]["Enums"]["blood_group"] | null
+          created_at?: string
+          date_of_birth?: string | null
+          full_name: string
+          id?: string
+          owner_id: string
+          relation: string
+        }
+        Update: {
+          blood_group?: Database["public"]["Enums"]["blood_group"] | null
+          created_at?: string
+          date_of_birth?: string | null
+          full_name?: string
+          id?: string
+          owner_id?: string
+          relation?: string
         }
         Relationships: []
       }
