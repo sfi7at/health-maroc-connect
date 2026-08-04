@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import type { Json } from "@/integrations/supabase/types";
 
 const NotificationTypes = [
   "push","email","blood_request","appointment","emergency","medical_tip","system",
@@ -55,7 +56,7 @@ export const createNotification = createServerFn({ method: "POST" })
         priority: data.priority ?? "normal",
         action_url: data.action_url ?? null,
         action_label: data.action_label ?? null,
-        data: data.data ?? null,
+        data: (data.data ?? null) as Json,
         dedupe_key: data.dedupe_key ?? null,
         expires_at: data.expires_at ?? null,
         scheduled_for: data.scheduled_for ?? null,
@@ -121,7 +122,7 @@ export const trackNotificationEvent = createServerFn({ method: "POST" })
       notification_id: data.notification_id,
       user_id: userId,
       event_type: data.event_type,
-      metadata: data.metadata ?? null,
+      metadata: (data.metadata ?? null) as Json,
     });
     const patch: {
       opened_at?: string;
