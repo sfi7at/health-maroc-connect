@@ -4,10 +4,9 @@ import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import {
   ArrowLeft, BadgeCheck, CalendarPlus, Crown, GraduationCap, Heart, Languages,
-  MapPin, MessageCircle, Navigation, Phone, Share2, Star, Stethoscope, Clock,
+  MapPin, MessageCircle, Navigation, Phone, Star, Stethoscope, Clock,
   Wallet, Award, Globe, CheckCircle2, Accessibility,
 } from "lucide-react";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -16,7 +15,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { MapView } from "@/components/common/MapView";
 import { EmptyState } from "@/components/common/EmptyState";
 import { DoctorReviews } from "@/components/doctors/DoctorReviews";
-import { NfcProfileShare } from "@/components/doctors/NfcProfileShare";
+import { PhoneProfileShare } from "@/components/doctors/PhoneProfileShare";
 import { PageHero } from "@/components/layout/PageHero";
 import { ActionBar } from "@/components/layout/ActionBar";
 import { StickyMobileCTA } from "@/components/layout/StickyMobileCTA";
@@ -71,19 +70,6 @@ function DoctorProfile() {
   const specialties = (doctor.provider_specialties ?? []).map((s) => s.specialties).filter(Boolean) as { id: string; slug: string; name_fr: string }[];
   const price = priceLabel(meta);
   const hours = (doctor.working_hours ?? {}) as Record<string, { open?: string; close?: string } | null>;
-
-  async function share() {
-    const url = typeof window !== "undefined" ? window.location.href : "";
-    try {
-      if (navigator.share) await navigator.share({ title: doctor!.name, url });
-      else {
-        await navigator.clipboard.writeText(url);
-        toast.success("Lien copié");
-      }
-    } catch (error) {
-      if (!(error instanceof DOMException && error.name === "AbortError")) toast.error("Partage impossible");
-    }
-  }
 
   return (
     <div className="space-y-8 pb-24 lg:pb-0">
@@ -180,16 +166,7 @@ function DoctorProfile() {
                   >
                     <Heart className={`h-4 w-4 ${isFav ? "fill-blood text-blood" : ""}`} />
                   </Button>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="min-h-11 min-w-11 px-3"
-                    aria-label="Partager"
-                    onClick={share}
-                  >
-                    <Share2 className="h-4 w-4" />
-                  </Button>
-                  <NfcProfileShare doctorName={doctor.name} />
+                  <PhoneProfileShare doctorName={doctor.name} />
                 </>
               }
             />

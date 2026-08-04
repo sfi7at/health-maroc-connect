@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import {
   Search, Sparkles, Droplet, Stethoscope, Pill, Building2, FlaskConical,
   CalendarCheck, Smile, HeartPulse, MoonStar, Heart, MapPin, Bell, ArrowRight,
-  Nfc, Video, Smartphone,
+  Share2, Video, Smartphone,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -52,7 +52,7 @@ function HomePage() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
-  const [nfcHelpOpen, setNfcHelpOpen] = useState(false);
+  const [shareHelpOpen, setShareHelpOpen] = useState(false);
 
   const { data: meta } = useQuery({
     queryKey: ["profile", "me-mini", user?.id],
@@ -132,24 +132,24 @@ function HomePage() {
         </Link>
         <button
           type="button"
-          onClick={() => setNfcHelpOpen(true)}
+          onClick={() => setShareHelpOpen(true)}
           className="group flex items-center gap-4 rounded-3xl border border-border bg-card p-5 text-left shadow-soft transition hover:-translate-y-0.5 hover:shadow-elevated"
         >
-          <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 text-white"><Nfc className="h-5 w-5" /></div>
-          <div className="min-w-0 flex-1"><p className="font-semibold">Comment utiliser le NFC ?</p><p className="text-xs text-muted-foreground">Partager facilement le profil d'un médecin</p></div>
+          <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 text-white"><Share2 className="h-5 w-5" /></div>
+          <div className="min-w-0 flex-1"><p className="font-semibold">Partager un médecin</p><p className="text-xs text-muted-foreground">WhatsApp, Messages, AirDrop ou Nearby</p></div>
           <ArrowRight className="h-4 w-4 text-muted-foreground" />
         </button>
       </section>
 
-      <Dialog open={nfcHelpOpen} onOpenChange={setNfcHelpOpen}>
+      <Dialog open={shareHelpOpen} onOpenChange={setShareHelpOpen}>
         <DialogContent>
-          <DialogHeader><DialogTitle className="flex items-center gap-2"><Nfc className="h-5 w-5 text-primary" /> Partager un médecin par NFC</DialogTitle><DialogDescription>Le NFC permet d'enregistrer le profil d'un médecin sur une carte ou un autocollant compatible.</DialogDescription></DialogHeader>
+          <DialogHeader><DialogTitle className="flex items-center gap-2"><Share2 className="h-5 w-5 text-primary" /> Partager un médecin avec un téléphone</DialogTitle><DialogDescription>Envoyez le profil directement vers le téléphone d'un proche.</DialogDescription></DialogHeader>
           <ol className="space-y-3 text-sm">
             <li className="flex gap-3"><span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-primary text-xs font-bold text-primary-foreground">1</span><p>Ouvrez la fiche du médecin que vous souhaitez partager.</p></li>
-            <li className="flex gap-3"><span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-primary text-xs font-bold text-primary-foreground">2</span><p>Appuyez sur le bouton <strong>NFC</strong> près du bouton Partager.</p></li>
-            <li className="flex gap-3"><span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-primary text-xs font-bold text-primary-foreground">3</span><p>Sur Android, activez le NFC puis approchez une carte ou un autocollant NFC du téléphone.</p></li>
+            <li className="flex gap-3"><span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-primary text-xs font-bold text-primary-foreground">2</span><p>Appuyez sur le bouton <strong>Partager</strong>.</p></li>
+            <li className="flex gap-3"><span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-primary text-xs font-bold text-primary-foreground">3</span><p>Choisissez WhatsApp, Messages, AirDrop ou Partage à proximité, puis sélectionnez la personne.</p></li>
           </ol>
-          <div className="flex gap-2 rounded-2xl bg-muted/50 p-3 text-xs text-muted-foreground"><Smartphone className="h-4 w-4 shrink-0" /><p>Si votre téléphone ne permet pas l'écriture NFC, utilisez simplement « Partager » ou « Copier le lien ».</p></div>
+          <div className="flex gap-2 rounded-2xl bg-muted/50 p-3 text-xs text-muted-foreground"><Smartphone className="h-4 w-4 shrink-0" /><p>Cette méthode fonctionne entre téléphones sans carte NFC. La copie du lien reste disponible sur tous les appareils.</p></div>
           <Button asChild className="w-full gap-2"><Link to="/doctors"><Stethoscope className="h-4 w-4" /> Choisir un médecin</Link></Button>
         </DialogContent>
       </Dialog>
