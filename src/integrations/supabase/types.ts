@@ -262,7 +262,10 @@ export type Database = {
           duration_minutes: number
           id: string
           location_text: string | null
+          meeting_provider: string | null
+          meeting_url: string | null
           notes: string | null
+          payment_status: string
           patient_id: string
           provider_id: string
           reason: string | null
@@ -285,7 +288,10 @@ export type Database = {
           duration_minutes?: number
           id?: string
           location_text?: string | null
+          meeting_provider?: string | null
+          meeting_url?: string | null
           notes?: string | null
+          payment_status?: string
           patient_id: string
           provider_id: string
           reason?: string | null
@@ -308,7 +314,10 @@ export type Database = {
           duration_minutes?: number
           id?: string
           location_text?: string | null
+          meeting_provider?: string | null
+          meeting_url?: string | null
           notes?: string | null
+          payment_status?: string
           patient_id?: string
           provider_id?: string
           reason?: string | null

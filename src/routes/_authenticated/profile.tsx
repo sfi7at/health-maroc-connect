@@ -21,6 +21,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { initialsOf } from "@/lib/format";
 import { BLOOD_GROUPS, type BloodGroup } from "@/lib/categories";
 import { buildHead } from "@/lib/seo";
+import { PatientCareHub } from "@/components/profile/PatientCareHub";
 
 export const Route = createFileRoute("/_authenticated/profile")({
   head: () =>
@@ -121,6 +122,7 @@ function ProfilePage() {
       </motion.section>
 
       <PersonalInfoSection profile={meta} userId={user.id} />
+      <PatientCareHub userId={user.id} />
       <VitalsSection profile={med?.profile} userId={user.id} />
 
       <ListSection
