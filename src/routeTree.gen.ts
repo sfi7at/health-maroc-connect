@@ -77,6 +77,7 @@ import { Route as ApiPublicSitemapDotxmlRouteImport } from './routes/api/public/
 import { Route as ApiPublicProviderCalendarDoticsRouteImport } from './routes/api/public/provider-calendar[.]ics'
 import { Route as ApiPublicNotifyPushRouteImport } from './routes/api/public/notify-push'
 import { Route as ApiPublicHealthRouteImport } from './routes/api/public/health'
+import { Route as AuthenticatedTeleconsultationIdRouteImport } from './routes/_authenticated/teleconsultation.$id'
 import { Route as AuthenticatedProviderVerificationRouteImport } from './routes/_authenticated/provider.verification'
 import { Route as AuthenticatedProviderSubscriptionRouteImport } from './routes/_authenticated/provider.subscription'
 import { Route as AuthenticatedProviderStatisticsRouteImport } from './routes/_authenticated/provider.statistics'
@@ -492,6 +493,12 @@ const ApiPublicHealthRoute = ApiPublicHealthRouteImport.update({
   path: '/api/public/health',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedTeleconsultationIdRoute =
+  AuthenticatedTeleconsultationIdRouteImport.update({
+    id: '/teleconsultation/$id',
+    path: '/teleconsultation/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedProviderVerificationRoute =
   AuthenticatedProviderVerificationRouteImport.update({
     id: '/verification',
@@ -984,6 +991,7 @@ export interface FileRoutesByFullPath {
   '/provider/statistics': typeof AuthenticatedProviderStatisticsRoute
   '/provider/subscription': typeof AuthenticatedProviderSubscriptionRoute
   '/provider/verification': typeof AuthenticatedProviderVerificationRoute
+  '/teleconsultation/$id': typeof AuthenticatedTeleconsultationIdRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/notify-push': typeof ApiPublicNotifyPushRoute
   '/api/public/provider-calendar.ics': typeof ApiPublicProviderCalendarDoticsRoute
@@ -1116,6 +1124,7 @@ export interface FileRoutesByTo {
   '/provider/statistics': typeof AuthenticatedProviderStatisticsRoute
   '/provider/subscription': typeof AuthenticatedProviderSubscriptionRoute
   '/provider/verification': typeof AuthenticatedProviderVerificationRoute
+  '/teleconsultation/$id': typeof AuthenticatedTeleconsultationIdRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/notify-push': typeof ApiPublicNotifyPushRoute
   '/api/public/provider-calendar.ics': typeof ApiPublicProviderCalendarDoticsRoute
@@ -1252,6 +1261,7 @@ export interface FileRoutesById {
   '/_authenticated/provider/statistics': typeof AuthenticatedProviderStatisticsRoute
   '/_authenticated/provider/subscription': typeof AuthenticatedProviderSubscriptionRoute
   '/_authenticated/provider/verification': typeof AuthenticatedProviderVerificationRoute
+  '/_authenticated/teleconsultation/$id': typeof AuthenticatedTeleconsultationIdRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/notify-push': typeof ApiPublicNotifyPushRoute
   '/api/public/provider-calendar.ics': typeof ApiPublicProviderCalendarDoticsRoute
@@ -1388,6 +1398,7 @@ export interface FileRouteTypes {
     | '/provider/statistics'
     | '/provider/subscription'
     | '/provider/verification'
+    | '/teleconsultation/$id'
     | '/api/public/health'
     | '/api/public/notify-push'
     | '/api/public/provider-calendar.ics'
@@ -1520,6 +1531,7 @@ export interface FileRouteTypes {
     | '/provider/statistics'
     | '/provider/subscription'
     | '/provider/verification'
+    | '/teleconsultation/$id'
     | '/api/public/health'
     | '/api/public/notify-push'
     | '/api/public/provider-calendar.ics'
@@ -1655,6 +1667,7 @@ export interface FileRouteTypes {
     | '/_authenticated/provider/statistics'
     | '/_authenticated/provider/subscription'
     | '/_authenticated/provider/verification'
+    | '/_authenticated/teleconsultation/$id'
     | '/api/public/health'
     | '/api/public/notify-push'
     | '/api/public/provider-calendar.ics'
@@ -2214,6 +2227,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/public/health'
       preLoaderRoute: typeof ApiPublicHealthRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/teleconsultation/$id': {
+      id: '/_authenticated/teleconsultation/$id'
+      path: '/teleconsultation/$id'
+      fullPath: '/teleconsultation/$id'
+      preLoaderRoute: typeof AuthenticatedTeleconsultationIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/provider/verification': {
       id: '/_authenticated/provider/verification'
@@ -2860,6 +2880,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedBloodHistoryRoute: typeof AuthenticatedBloodHistoryRoute
   AuthenticatedBloodMeRoute: typeof AuthenticatedBloodMeRoute
   AuthenticatedOrdersIdRoute: typeof AuthenticatedOrdersIdRoute
+  AuthenticatedTeleconsultationIdRoute: typeof AuthenticatedTeleconsultationIdRoute
   AuthenticatedAppointmentsIndexRoute: typeof AuthenticatedAppointmentsIndexRoute
   AuthenticatedOrdersIndexRoute: typeof AuthenticatedOrdersIndexRoute
   AuthenticatedAppointmentsNewProviderIdRoute: typeof AuthenticatedAppointmentsNewProviderIdRoute
@@ -2887,6 +2908,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBloodHistoryRoute: AuthenticatedBloodHistoryRoute,
   AuthenticatedBloodMeRoute: AuthenticatedBloodMeRoute,
   AuthenticatedOrdersIdRoute: AuthenticatedOrdersIdRoute,
+  AuthenticatedTeleconsultationIdRoute: AuthenticatedTeleconsultationIdRoute,
   AuthenticatedAppointmentsIndexRoute: AuthenticatedAppointmentsIndexRoute,
   AuthenticatedOrdersIndexRoute: AuthenticatedOrdersIndexRoute,
   AuthenticatedAppointmentsNewProviderIdRoute:
