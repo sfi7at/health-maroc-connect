@@ -72,7 +72,7 @@ export function NfcProfileShare({ doctorName }: { doctorName: string }) {
     <>
       <Button size="lg" variant="outline" className="min-h-11 gap-2 px-3" aria-label="Partager le profil par NFC" onClick={() => setOpen(true)}>
         <Nfc className="h-4 w-4" />
-        <span className="hidden sm:inline">NFC</span>
+        <span>NFC</span>
       </Button>
       <Dialog open={open} onOpenChange={(next) => next ? setOpen(true) : closeDialog()}>
         <DialogContent>
