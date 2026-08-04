@@ -10,6 +10,7 @@ import {
   Pill,
   Sparkles,
   Star,
+  Store,
   Truck,
   Zap,
 } from "lucide-react";
@@ -216,6 +217,15 @@ function Hero() {
           >
             <Link to="/pharmacies/map">
               <MapIcon className="mr-1 h-4 w-4" /> Voir sur la carte
+            </Link>
+          </Button>
+          <Button
+            asChild
+            variant="outline"
+            className="rounded-full border-white/40 bg-white/10 text-white hover:bg-white/20"
+          >
+            <Link to="/pharmacy-onboarding">
+              <Store className="mr-1 h-4 w-4" /> Ouvrir ma boutique
             </Link>
           </Button>
         </div>
