@@ -13,6 +13,7 @@ import { formatDateTimeFr } from "@/lib/format";
 import { buildHead } from "@/lib/seo";
 import { StatusBadge } from "@/components/appointments/StatusBadge";
 import { CalendarExportMenu } from "@/components/appointments/CalendarExportMenu";
+import { AppointmentChat } from "@/components/appointments/AppointmentChat";
 
 export const Route = createFileRoute("/_authenticated/appointments/$id")({
   head: () => buildHead({ title: "Détails du rendez-vous — Vytalma", description: "Détails de votre rendez-vous médical.", path: "/appointments" }),
@@ -155,6 +156,10 @@ function AppointmentDetail() {
           ) : null}
         </div>
       </motion.section>
+
+      {!['cancelled', 'rejected'].includes(a.status) ? (
+        <section className="rounded-3xl border border-border bg-card p-5 shadow-soft"><h2 className="mb-1 font-semibold">Messagerie du rendez-vous</h2><p className="mb-4 text-xs text-muted-foreground">Échange privé entre vous et le prestataire.</p><AppointmentChat appointmentId={a.id} /></section>
+      ) : null}
 
       {lat && lng && !isRemote ? (
         <section className="overflow-hidden rounded-3xl border border-border bg-card shadow-soft">

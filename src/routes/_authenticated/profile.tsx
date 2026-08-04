@@ -22,6 +22,7 @@ import { initialsOf } from "@/lib/format";
 import { BLOOD_GROUPS, type BloodGroup } from "@/lib/categories";
 import { buildHead } from "@/lib/seo";
 import { PatientCareHub } from "@/components/profile/PatientCareHub";
+import { FamilyProfiles } from "@/components/profile/FamilyProfiles";
 
 export const Route = createFileRoute("/_authenticated/profile")({
   head: () =>
@@ -123,6 +124,7 @@ function ProfilePage() {
 
       <PersonalInfoSection profile={meta} userId={user.id} />
       <PatientCareHub userId={user.id} />
+      <FamilyProfiles userId={user.id} />
       <VitalsSection profile={med?.profile} userId={user.id} />
 
       <ListSection

@@ -17,6 +17,7 @@ import { providerAppointmentsQuery, type AppointmentRow } from "@/lib/appointmen
 import { StatusBadge } from "@/components/appointments/StatusBadge";
 import { formatDateTimeFr } from "@/lib/format";
 import { buildHead } from "@/lib/seo";
+import { AppointmentChat } from "@/components/appointments/AppointmentChat";
 
 export const Route = createFileRoute("/_authenticated/provider/appointments")({
   head: () => buildHead({ title: "Rendez-vous — Espace prestataire", description: "Gérez les demandes patients.", path: "/provider/appointments" }),
@@ -49,6 +50,7 @@ function ProviderAppointments() {
   const [reschTime, setReschTime] = useState("");
   const [videoFor, setVideoFor] = useState<AppointmentRow | null>(null);
   const [meetingUrl, setMeetingUrl] = useState("");
+  const [chatFor, setChatFor] = useState<AppointmentRow | null>(null);
 
   const today = new Date(); today.setHours(0,0,0,0);
   const tomorrow = new Date(today); tomorrow.setDate(tomorrow.getDate() + 1);
@@ -148,6 +150,7 @@ function ProviderAppointments() {
                 onNote={(a) => { setNoteFor(a); setNote(a.notes ?? ""); }}
                 onReschedule={(a) => { setReschFor(a); setReschTime(a.scheduled_for.slice(0,16)); }}
                 onVideo={(a) => { setVideoFor(a); setMeetingUrl(a.meeting_url ?? ""); }}
+                onChat={setChatFor}
               />
             )}
           </TabsContent>
@@ -183,16 +186,21 @@ function ProviderAppointments() {
           <DialogFooter><Button variant="ghost" onClick={() => setVideoFor(null)}>Annuler</Button><Button onClick={() => saveMeeting.mutate()} disabled={!meetingUrl || saveMeeting.isPending}>Enregistrer</Button></DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <Dialog open={!!chatFor} onOpenChange={(open) => !open && setChatFor(null)}>
+        <DialogContent><DialogHeader><DialogTitle>Messages avec {chatFor?.profiles?.full_name ?? "le patient"}</DialogTitle></DialogHeader>{chatFor ? <AppointmentChat appointmentId={chatFor.id} /> : null}</DialogContent>
+      </Dialog>
     </div>
   );
 }
 
-function ApptList({ items, onStatus, onNote, onReschedule, onVideo }: {
+function ApptList({ items, onStatus, onNote, onReschedule, onVideo, onChat }: {
   items: AppointmentRow[];
   onStatus: (a: AppointmentRow, status: "approved" | "rejected" | "completed" | "cancelled" | "no_show") => void;
   onNote: (a: AppointmentRow) => void;
   onReschedule: (a: AppointmentRow) => void;
   onVideo: (a: AppointmentRow) => void;
+  onChat: (a: AppointmentRow) => void;
 }) {
   if (items.length === 0) return <div className="rounded-2xl border border-dashed border-border bg-card p-8 text-center text-sm text-muted-foreground">Aucun rendez-vous.</div>;
   return (
@@ -227,6 +235,7 @@ function ApptList({ items, onStatus, onNote, onReschedule, onVideo }: {
             {!["cancelled","completed"].includes(a.status) ? (
               <Button size="sm" variant="ghost" onClick={() => onStatus(a, "cancelled")}>Annuler</Button>
             ) : null}
+            {!['cancelled', 'rejected'].includes(a.status) ? <Button size="sm" variant="ghost" className="gap-1" onClick={() => onChat(a)}><MessageSquare className="h-4 w-4" /> Messages</Button> : null}
             <Button size="icon" variant="ghost" onClick={() => onNote(a)} aria-label="Modifier la note" className="ml-auto"><MessageSquare className="h-4 w-4" /></Button>
           </div>
           {a.notes ? <p className="mt-2 rounded-xl bg-muted/50 p-2 text-xs text-muted-foreground"><strong>Note: </strong>{a.notes}</p> : null}

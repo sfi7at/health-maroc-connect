@@ -252,6 +252,38 @@ export type Database = {
           },
         ]
       }
+      appointment_messages: {
+        Row: {
+          appointment_id: string
+          body: string
+          created_at: string
+          id: string
+          sender_id: string
+        }
+        Insert: {
+          appointment_id: string
+          body: string
+          created_at?: string
+          id?: string
+          sender_id: string
+        }
+        Update: {
+          appointment_id?: string
+          body?: string
+          created_at?: string
+          id?: string
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "appointment_messages_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       appointments: {
         Row: {
           cancelled_reason: string | null
@@ -1613,6 +1645,42 @@ export type Database = {
           language?: Database["public"]["Enums"]["article_language"]
           question?: string
           sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      family_members: {
+        Row: {
+          blood_group: Database["public"]["Enums"]["blood_group"] | null
+          created_at: string
+          date_of_birth: string | null
+          full_name: string
+          id: string
+          notes: string | null
+          owner_id: string
+          relation: string
+          updated_at: string
+        }
+        Insert: {
+          blood_group?: Database["public"]["Enums"]["blood_group"] | null
+          created_at?: string
+          date_of_birth?: string | null
+          full_name: string
+          id?: string
+          notes?: string | null
+          owner_id: string
+          relation: string
+          updated_at?: string
+        }
+        Update: {
+          blood_group?: Database["public"]["Enums"]["blood_group"] | null
+          created_at?: string
+          date_of_birth?: string | null
+          full_name?: string
+          id?: string
+          notes?: string | null
+          owner_id?: string
+          relation?: string
           updated_at?: string
         }
         Relationships: []
