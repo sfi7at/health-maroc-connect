@@ -29,9 +29,10 @@ function normalizePrivateKey(raw: string): string {
 
 async function signJaasToken(payload: Record<string, unknown>): Promise<string> {
   const appId = process.env.JAAS_APP_ID;
-  const keyId = process.env.JAAS_KEY_ID;
+  const configuredKeyId = process.env.JAAS_KEY_ID?.trim();
   const privateKeyRaw = process.env.JAAS_PRIVATE_KEY;
-  if (!appId || !keyId || !privateKeyRaw) throw new Error("La visioconférence sécurisée n'est pas encore configurée.");
+  if (!appId || !configuredKeyId || !privateKeyRaw) throw new Error("La visioconférence sécurisée n'est pas encore configurée.");
+  const keyId = configuredKeyId.includes("/") ? configuredKeyId : `${appId}/${configuredKeyId}`;
   const privateKeyPem = normalizePrivateKey(privateKeyRaw);
   const header = { alg: "RS256", kid: keyId, typ: "JWT" };
   const unsigned = `${base64Url(JSON.stringify(header))}.${base64Url(JSON.stringify(payload))}`;
