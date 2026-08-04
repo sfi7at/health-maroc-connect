@@ -201,7 +201,7 @@ export function PortalShell({ children }: { children: ReactNode }) {
           description="Votre compte n'est lié à aucun cabinet, pharmacie, laboratoire ou hôpital. Contactez notre équipe pour activer votre espace prestataire."
           action={
             <Button asChild>
-              <Link to="/contact">Nous contacter</Link>
+              <Link to="/pharmacy-onboarding">Créer mon espace pharmacie</Link>
             </Button>
           }
         />
@@ -465,7 +465,7 @@ function PortalTopBar({
             {kind === "pharmacy" ? (
               <>
                 <DropdownMenuItem asChild>
-                  <Link to="/provider/products/new">
+                  <Link to="/provider/products">
                     <Package className="mr-2 h-4 w-4" /> Nouveau produit
                   </Link>
                 </DropdownMenuItem>

@@ -76,7 +76,7 @@ function PharmacyDashboard() {
           description="Pour gérer une pharmacie, contactez notre équipe pour lier votre établissement à votre compte."
           action={
             <Button asChild>
-              <Link to="/contact">Demander la création</Link>
+              <Link to="/pharmacy-onboarding">Créer mon espace pharmacie</Link>
             </Button>
           }
         />
